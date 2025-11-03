@@ -3,14 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Online Services - Mithila College Help</title>
+  <title>Mithila College Help - Online Services</title>
   <style>
     body {
       font-family: "Poppins", sans-serif;
       margin: 0;
       background: linear-gradient(to bottom right, #e8f0ff, #ffffff);
       color: #333;
+      transition: background 0.5s ease;
     }
+
+    /* HEADER */
     header {
       background: linear-gradient(90deg, #007BFF, #00b3ff);
       color: white;
@@ -23,56 +26,92 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.3);
     }
+
     header img {
-      height: 55px;
-      width: 55px;
+      height: 60px;
+      width: 60px;
       border-radius: 50%;
       border: 2px solid white;
       background: white;
+      object-fit: cover;
     }
+
+    /* NAVIGATION */
     nav {
       background: #0056b3;
-      padding: 10px;
+      padding: 12px;
       text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
+
     nav a {
       color: white;
       margin: 0 15px;
       text-decoration: none;
-      font-weight: bold;
+      font-weight: 600;
+      transition: color 0.3s;
     }
+
     nav a:hover {
-      text-decoration: underline;
+      color: #ffd700;
     }
+
+    /* MAIN SECTION */
     section {
-      max-width: 900px;
+      max-width: 950px;
       margin: 30px auto;
       background: white;
       padding: 25px;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      animation: fadeIn 1s ease;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     h2 {
       color: #007BFF;
       border-bottom: 2px solid #007BFF;
       padding-bottom: 6px;
+      margin-top: 25px;
     }
+
     ul {
       list-style-type: none;
       padding: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 8px;
     }
+
     li {
-      margin: 8px 0;
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 8px;
+      transition: 0.3s;
+      border: 1px solid #ddd;
     }
+
+    li:hover {
+      background: #e3f2fd;
+      transform: translateY(-3px);
+    }
+
     a.link {
       color: #0056b3;
       text-decoration: none;
       font-weight: bold;
     }
+
     a.link:hover {
       text-decoration: underline;
     }
+
     .perm-btn {
       display: inline-block;
       margin: 10px 5px;
@@ -84,9 +123,11 @@
       font-size: 15px;
       cursor: pointer;
     }
+
     .perm-btn:hover {
       background: linear-gradient(90deg, #0056b3, #0098e0);
     }
+
     #searchBox {
       width: 100%;
       padding: 10px;
@@ -95,13 +136,23 @@
       border-radius: 8px;
       margin-bottom: 20px;
     }
+
+    footer {
+      text-align: center;
+      background: #007BFF;
+      color: white;
+      padding: 12px;
+      margin-top: 20px;
+      font-size: 14px;
+      border-top: 3px solid #0056b3;
+    }
   </style>
 </head>
 <body>
 
   <header>
-    <img src="https://i.ibb.co/0s1tLkr/gandhi-bharat-mahan.png" alt="Logo">
-    Mithila College Help
+    <img src="https://i.ibb.co/0s1tLkr/gandhi-bharat-mahan.png" alt="Gandhi Logo">
+    MITHILA COLLEGE HELP
   </header>
 
   <nav>
@@ -177,6 +228,10 @@
       <div id="id_preview" style="margin-top:14px;display:none;max-width:360px;"></div>
     </div>
   </section>
+
+  <footer>
+    © 2025 MITHILA COLLEGE HELP | Developed by Vikram Bhagat 🙌
+  </footer>
 
   <script>
     // permission access
