@@ -1,187 +1,162 @@
-/* ====== BASIC STYLING ====== */
+/* 🌐 General Styling */
 body {
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: "Poppins", sans-serif;
   margin: 0;
-  background: #f2f5f9;
-  color: #222;
+  background: linear-gradient(to bottom right, #e8f0ff, #ffffff);
+  color: #333;
 }
 
-/* ====== HEADER (TIRANGA STYLE) ====== */
+/* 🏛️ Header Section */
 header {
-  background: linear-gradient(to right, #FF9933, #FFFFFF, #138808);
-  color: #000;
+  background: linear-gradient(90deg, #007BFF, #00b3ff);
+  color: white;
   text-align: center;
-  padding: 15px 10px;
-  border-bottom: 3px solid #000;
-}
-
-.header-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
+  padding: 25px 10px;
+  border-bottom: 3px solid #004c99;
 }
 
 header img {
-  height: 90px;
-  width: 90px;
+  height: 80px;
+  width: 80px;
   border-radius: 50%;
-  border: 3px solid #fff;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  border: 3px solid white;
+  background: white;
+  display: block;
+  margin: 0 auto 10px auto;
 }
 
 header h1 {
-  font-size: 28px;
   margin: 0;
-  color: #000;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+  font-size: 34px;
+  letter-spacing: 1px;
+  font-weight: bold;
 }
 
-/* ====== NAVIGATION BAR ====== */
+/* 🧭 Navigation Bar (centered below heading) */
 nav {
-  background: rgba(0,0,0,0.8);
-  padding: 12px;
-  border-radius: 8px;
-  display: inline-block;
-  margin-top: 12px;
+  background: #004c99;
+  text-align: center;
+  padding: 12px 0;
+  margin-top: 10px;
 }
 
 nav a {
-  color: #fff;
-  margin: 0 10px;
+  color: white;
+  margin: 0 18px;
   text-decoration: none;
   font-weight: bold;
-  transition: color 0.3s;
+  font-size: 16px;
+  display: inline-block;
 }
 
 nav a:hover {
-  color: #FFD700;
+  text-decoration: underline;
 }
 
-/* ====== MAIN CONTENT ====== */
-main {
-  max-width: 960px;
+/* 📦 Main Content */
+section {
+  max-width: 900px;
   margin: 30px auto;
-  background: #fff;
+  background: white;
   padding: 25px;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
   color: #007BFF;
-  border-left: 5px solid #007BFF;
-  padding-left: 10px;
-  margin-top: 35px;
-  font-size: 22px;
+  border-bottom: 2px solid #007BFF;
+  padding-bottom: 6px;
 }
 
-/* ====== SERVICE LIST ====== */
+/* 📋 List Styling */
 ul {
-  list-style: none;
+  list-style-type: none;
   padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-  gap: 15px;
 }
 
 li {
-  background: #f8f9fa;
-  padding: 14px 16px;
-  border-radius: 10px;
-  transition: 0.3s;
-  border: 1px solid #ddd;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  margin: 8px 0;
 }
 
-li:hover {
-  background: #e3f2fd;
-  transform: translateY(-3px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-}
-
-.link {
+/* 🔗 Links */
+a.link {
   color: #0056b3;
   text-decoration: none;
   font-weight: bold;
 }
 
-.link:hover {
+a.link:hover {
   text-decoration: underline;
 }
 
-/* ====== SEARCH BOX ====== */
-#searchBox {
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  margin-bottom: 20px;
-  transition: 0.3s;
-}
-
-#searchBox:focus {
-  border-color: #007BFF;
-  outline: none;
-  box-shadow: 0 0 8px rgba(0,123,255,0.4);
-}
-
-/* ====== PERMISSION SECTION ====== */
-#permission-message {
-  text-align: center;
-  padding: 25px;
-  background: #fef9e7;
-  border: 1px solid #ffeb99;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-#permission-message button {
-  background: #007BFF;
+/* 🔘 Buttons */
+.perm-btn {
+  display: inline-block;
+  margin: 10px 5px;
+  background: linear-gradient(90deg, #007BFF, #00c3ff);
   color: white;
   border: none;
-  padding: 12px 25px;
+  padding: 10px 22px;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 15px;
   cursor: pointer;
   transition: 0.3s;
 }
 
-#permission-message button:hover {
-  background: #0056b3;
+.perm-btn:hover {
+  background: linear-gradient(90deg, #0056b3, #0098e0);
+  transform: scale(1.03);
 }
 
-/* ====== FOOTER ====== */
-footer {
-  text-align: center;
-  background: #007BFF;
-  color: white;
-  padding: 14px;
-  margin-top: 30px;
-  font-size: 14px;
-  border-top: 3px solid #0056b3;
+/* 🔍 Search Box */
+#searchBox {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  outline: none;
 }
 
-/* ====== RESPONSIVE ====== */
-@media (max-width: 768px) {
-  header img {
-    height: 70px;
-    width: 70px;
-  }
+#searchBox:focus {
+  border-color: #007BFF;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+}
 
+/* 🆔 ID Card Preview */
+#id_preview {
+  margin-top: 14px;
+  display: none;
+  max-width: 360px;
+}
+
+#id_preview #printArea {
+  width: 350px;
+  border: 2px solid #007BFF;
+  border-radius: 10px;
+  padding: 12px;
+  background: #fff;
+  font-family: Poppins, sans-serif;
+}
+
+#id_preview img {
+  border-radius: 8px;
+}
+
+/* 📱 Responsive */
+@media (max-width: 600px) {
   header h1 {
-    font-size: 22px;
+    font-size: 24px;
   }
-
-  nav {
-    display: block;
-    margin: 10px auto;
-    border-radius: 0;
+  nav a {
+    display: inline-block;
+    margin: 5px 10px;
+    font-size: 14px;
   }
-
-  li {
-    font-size: 15px;
+  section {
+    margin: 20px 10px;
+    padding: 15px;
   }
 }
