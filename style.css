@@ -1,18 +1,20 @@
+/* ==== General Body ==== */
 body {
   margin: 0;
-  font-family: "Poppins", sans-serif;
-  background: linear-gradient(to bottom right, #e8f0ff, #ffffff);
-  color: #333;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to right, #ff9933, #ffffff, #138808);
 }
 
-/* Header */
+/* ==== Header Section ==== */
 header {
-  background: linear-gradient(90deg, #ff9933, #ffffff, #138808);
   text-align: center;
-  padding: 25px 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  padding: 30px 0;
+  background: linear-gradient(to right, #ff9933, #ffffff, #138808);
+  border-bottom: 4px solid #222;
 }
 
+/* ==== Logo + Title Center ==== */
 .header-content {
   display: flex;
   flex-direction: column;
@@ -20,114 +22,79 @@ header {
   justify-content: center;
 }
 
+/* ==== Logo Image ==== */
 .header-content img {
-  height: 100px;
-  width: 100px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
-  border: 3px solid #fff;
-  background: #fff;
+  box-shadow: 0 0 15px rgba(0,0,0,0.4);
   margin-bottom: 10px;
 }
 
+/* ==== Title ==== */
 .header-content h1 {
-  font-size: 2.2rem;
-  font-weight: bold;
-  color: #00274d;
-  margin: 0;
+  font-size: 2.3rem;
+  color: #000;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
 }
 
+/* ==== Navigation Bar ==== */
 nav {
-  background: #003366;
+  background: #222;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
   padding: 12px 0;
-  margin-top: 15px;
-  border-radius: 10px;
+  border-radius: 0 0 15px 15px;
 }
 
+/* ==== Navigation Links ==== */
 nav a {
   color: white;
   text-decoration: none;
+  font-size: 1rem;
   font-weight: 600;
-  margin: 0 12px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background: white;
+  transition: 0.3s;
+}
+
+nav a:hover::after {
+  width: 100%;
 }
 
 nav a:hover {
-  color: #ffd700;
-  text-decoration: underline;
+  color: #ffcc33;
 }
 
-/* Section */
-.main-section {
-  max-width: 900px;
-  margin: 30px auto;
-  background: #fff;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+/* ==== Search Bar ==== */
+.search-container {
+  text-align: center;
+  margin: 40px 0;
 }
 
-h2 {
-  color: #007BFF;
-  border-bottom: 2px solid #007BFF;
-  padding-bottom: 6px;
-}
-
-#searchBox {
-  width: 100%;
+.search-container input {
+  width: 60%;
   padding: 10px;
-  border: 1px solid #ccc;
   border-radius: 8px;
-  margin-bottom: 20px;
-  font-size: 16px;
+  border: 1px solid #333;
+  font-size: 1rem;
+  outline: none;
 }
 
-.serviceList {
-  list-style: none;
-  padding: 0;
-}
-
-.serviceList li {
-  margin: 8px 0;
-}
-
-a.link {
-  color: #0056b3;
-  text-decoration: none;
-}
-
-a.link:hover {
-  text-decoration: underline;
-  color: #007BFF;
-}
-
-/* Buttons */
-.perm-btn {
-  display: inline-block;
-  margin: 10px 5px;
-  background: linear-gradient(90deg, #007BFF, #00c3ff);
-  color: white;
-  border: none;
-  padding: 10px 22px;
-  border-radius: 8px;
-  font-size: 15px;
-  cursor: pointer;
-}
-
-.perm-btn.green {
-  background: linear-gradient(90deg, #28a745, #20c997);
-}
-
-.perm-btn:hover {
-  opacity: 0.9;
-}
-
-/* ID card preview */
-.id-inputs {
-  display: grid;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-#id_preview {
-  display: none;
-  margin-top: 10px;
+.search-container input:focus {
+  border-color: #0077cc;
+  box-shadow: 0 0 5px #0077cc;
 }
