@@ -1,152 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MITHILA COLLEGE HELP - बिहार सेवा पोर्टल</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      margin: 0;
-      background: #f2f5f9;
-      color: #222;
-    }
-
-    header {
-      background: linear-gradient(to right, #FF9933, #FFFFFF, #138808);
-      color: #000;
-      text-align: center;
-      padding: 15px 10px;
-      border-bottom: 3px solid #000;
-    }
-
-    header div {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    header img {
-      height: 80px;
-      width: 80px;
-      border-radius: 50%;
-      box-shadow: 0 0 8px rgba(0,0,0,0.3);
-    }
-
-    nav {
-      background: rgba(0,0,0,0.75);
-      padding: 10px;
-      border-radius: 8px;
-      display: inline-block;
-      margin-top: 10px;
-    }
-
-    nav a {
-      color: #fff;
-      margin: 0 10px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
-    }
-
-    main {
-      max-width: 950px;
-      margin: 30px auto;
-      background: #fff;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    h2 {
-      color: #007BFF;
-      border-left: 5px solid #007BFF;
-      padding-left: 10px;
-      margin-top: 30px;
-    }
-
-    ul {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-      gap: 12px;
-    }
-
-    li {
-      background: #f8f9fa;
-      padding: 10px 15px;
-      border-radius: 10px;
-      transition: 0.3s;
-      border: 1px solid #ddd;
-    }
-
-    li:hover {
-      background: #e3f2fd;
-      transform: translateY(-3px);
-    }
-
-    a.link {
-      color: #0056b3;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    a.link:hover {
-      text-decoration: underline;
-    }
-
-    #permission-message {
-      text-align: center;
-      padding: 30px;
-    }
-
-    #permission-message button {
-      background: #007BFF;
-      color: white;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    #permission-message button:hover {
-      background: #0056b3;
-    }
-
-    #searchBox {
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
-
-    footer {
-      text-align: center;
-      background: #007BFF;
-      color: white;
-      padding: 12px;
-      margin-top: 20px;
-      font-size: 14px;
-      border-top: 3px solid #0056b3;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
   <header>
-    <div>
+    <div class="header-content">
+      <!-- ✅ Gandhi Mera Bharat Mahan Logo (Working Link) -->
       <img src="https://i.ibb.co/0s1tLkr/gandhi-bharat-mahan.png" alt="Gandhi Mera Bharat Mahan Logo">
       <h1>MITHILA COLLEGE HELP</h1>
     </div>
+
     <nav>
       <a href="index.html">Home</a> |
       <a href="about.html">About</a> |
@@ -168,14 +36,14 @@
 
       <h2>🎓 LNMU & Colleges</h2>
       <ul class="serviceList">
-        <li style="background:#e8f0fe;"><a class="link" href="https://lnmu.ac.in/" target="_blank">🌐 LNMU Official Website</a></li>
-        <li style="background:#e8f0fe;"><a class="link" href="https://lnmu.ucanapply.com/" target="_blank">📘 LNMU Student Portal (UG/PG)</a></li>
+        <li class="highlight-lnmu"><a class="link" href="https://lnmu.ac.in/" target="_blank">🌐 LNMU Official Website</a></li>
+        <li class="highlight-lnmu"><a class="link" href="https://lnmu.ucanapply.com/" target="_blank">📘 LNMU Student Portal (UG/PG)</a></li>
         <li><a class="link" href="https://lnmuniversity.com/" target="_blank">🧾 LNMU Online Exam / Admit Card</a></li>
         <li><a class="link" href="https://www.mithilacollege.in/" target="_blank">🏫 Mithila College, Darbhanga</a></li>
         <li><a class="link" href="https://www.cmclnmu.ac.in/" target="_blank">🏫 CM College, Darbhanga</a></li>
         <li><a class="link" href="https://mlscollege.in/" target="_blank">🏫 M.L.S.M College, Darbhanga</a></li>
         <li><a class="link" href="https://mahila-college-dbg.ac.in/" target="_blank">🏫 Mahila College, Darbhanga</a></li>
-        <li style="background:#fff3cd;"><a class="link" href="https://www.mmtmcollege.org/" target="_blank">🏫 M.M.T.M College, Darbhanga</a></li>
+        <li class="highlight-mmtm"><a class="link" href="https://www.mmtmcollege.org/" target="_blank">🏫 M.M.T.M College, Darbhanga</a></li>
       </ul>
 
       <h2>🌐 Bihar Government Services</h2>
@@ -194,8 +62,8 @@
         <li><a class="link" href="https://www.myvi.in/" target="_blank">📞 Vi Recharge</a></li>
         <li><a class="link" href="https://portal.bsnl.in/myportal/" target="_blank">📶 BSNL Recharge</a></li>
         <li><a class="link" href="https://fastag.ihmcl.com/" target="_blank">🚗 FASTag Recharge (NHAI)</a></li>
-        <li><a class="link" href="https://nbpdcl.co.in/" target="_blank">💡 NBPDCL Electricity Bill (North Bihar)</a></li>
-        <li><a class="link" href="https://sbpdcl.co.in/" target="_blank">💡 SBPDCL Electricity Bill (South Bihar)</a></li>
+        <li><a class="link" href="https://nbpdcl.co.in/" target="_blank">💡 NBPDCL Electricity Bill</a></li>
+        <li><a class="link" href="https://sbpdcl.co.in/" target="_blank">💡 SBPDCL Electricity Bill</a></li>
         <li><a class="link" href="https://www.digilocker.gov.in/" target="_blank">📂 DigiLocker - Documents</a></li>
       </ul>
     </div>
@@ -204,34 +72,5 @@
   <footer>
     <p>🇮🇳 &copy; 2025 Mithila College Help | Developed with Love for Bihar</p>
   </footer>
-
-  <script>
-    async function requestPermissions() {
-      try {
-        await navigator.mediaDevices.getUserMedia({ audio: true });
-        await navigator.mediaDevices.getUserMedia({ video: true });
-        if (navigator.geolocation) {
-          await new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, reject);
-          });
-        }
-        try { await window.showOpenFilePicker({ multiple: false }); } catch (e) {}
-
-        document.getElementById('permission-message').style.display = 'none';
-        document.getElementById('main-content').style.display = 'block';
-      } catch (e) {
-        alert("⚠️ Permission denied! कृपया अनुमति दें ताकि सेवाएँ खुल सकें।");
-      }
-    }
-
-    function filterLinks() {
-      const search = document.getElementById('searchBox').value.toLowerCase();
-      const lists = document.querySelectorAll('.serviceList li');
-      lists.forEach(li => {
-        const text = li.textContent.toLowerCase();
-        li.style.display = text.includes(search) ? '' : 'none';
-      });
-    }
-  </script>
 </body>
 </html>
