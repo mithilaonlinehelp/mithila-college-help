@@ -1,8 +1,14 @@
+/* ------------------------------
+   🌸 MITHILA COLLEGE HELP STYLE
+   Designed with Love for Bihar 🇮🇳
+-------------------------------- */
+
 body {
   font-family: 'Segoe UI', Arial, sans-serif;
   margin: 0;
-  background: #f2f5f9;
+  background: linear-gradient(to bottom right, #fff, #f2f5f9);
   color: #222;
+  animation: fadeIn 1s ease-in;
 }
 
 /* तिरंगा header */
@@ -12,6 +18,8 @@ header {
   text-align: center;
   padding: 15px 10px;
   border-bottom: 3px solid #000;
+  position: relative;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
 }
 
 .header-content {
@@ -27,11 +35,18 @@ header img {
   width: 90px;
   border-radius: 50%;
   border: 3px solid #fff;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+header img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(0,0,0,0.6);
+}
+
+/* Navigation Bar */
 nav {
-  background: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.85);
   padding: 10px;
   border-radius: 8px;
   display: inline-block;
@@ -40,23 +55,36 @@ nav {
 
 nav a {
   color: #fff;
-  margin: 0 10px;
+  margin: 0 12px;
   text-decoration: none;
   font-weight: bold;
+  position: relative;
 }
 
-nav a:hover {
-  text-decoration: underline;
+nav a::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: -3px;
+  left: 0;
+  background: #00c3ff;
+  transition: 0.3s;
 }
 
-/* Main content */
+nav a:hover::after {
+  width: 100%;
+}
+
+/* Main content box */
 main {
   max-width: 950px;
   margin: 30px auto;
   background: #fff;
   padding: 25px;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  animation: slideUp 1s ease;
 }
 
 h2 {
@@ -64,6 +92,7 @@ h2 {
   border-left: 5px solid #007BFF;
   padding-left: 10px;
   margin-top: 30px;
+  letter-spacing: 0.5px;
 }
 
 ul {
@@ -80,11 +109,13 @@ li {
   border-radius: 10px;
   transition: 0.3s;
   border: 1px solid #ddd;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 li:hover {
   background: #e3f2fd;
   transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 .link {
@@ -95,6 +126,7 @@ li:hover {
 
 .link:hover {
   text-decoration: underline;
+  color: #007BFF;
 }
 
 /* Highlights */
@@ -116,6 +148,13 @@ li:hover {
   border: 1px solid #ccc;
   border-radius: 10px;
   margin-bottom: 20px;
+  outline: none;
+  transition: 0.3s;
+}
+
+#searchBox:focus {
+  border-color: #007BFF;
+  box-shadow: 0 0 5px rgba(0,123,255,0.5);
 }
 
 /* Permission section */
@@ -132,10 +171,12 @@ li:hover {
   border-radius: 8px;
   font-size: 16px;
   cursor: pointer;
+  transition: 0.3s;
 }
 
 #permission-message button:hover {
   background: #0056b3;
+  transform: scale(1.05);
 }
 
 /* Footer */
@@ -144,7 +185,20 @@ footer {
   background: #007BFF;
   color: white;
   padding: 12px;
-  margin-top: 20px;
+  margin-top: 30px;
   font-size: 14px;
   border-top: 3px solid #0056b3;
+  letter-spacing: 0.5px;
 }
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
