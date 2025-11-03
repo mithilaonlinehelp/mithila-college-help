@@ -1,16 +1,16 @@
 body {
-  font-family: 'Segoe UI', Arial, sans-serif;
   margin: 0;
-  background: #f2f5f9;
-  color: #222;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(to bottom right, #e8f0ff, #ffffff);
+  color: #333;
 }
 
-/* Tiranga Header */
+/* Header */
 header {
-  background: linear-gradient(to right, #FF9933, #FFFFFF, #138808);
+  background: linear-gradient(90deg, #ff9933, #ffffff, #138808);
   text-align: center;
-  padding: 15px 10px;
-  border-bottom: 3px solid #000;
+  padding: 25px 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .header-content {
@@ -18,65 +18,46 @@ header {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
 }
 
 .header-content img {
-  height: 90px;
-  width: 90px;
+  height: 100px;
+  width: 100px;
   border-radius: 50%;
   border: 3px solid #fff;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  background: #fff;
+  margin-bottom: 10px;
 }
 
 .header-content h1 {
-  margin: 0;
-  font-size: 28px;
+  font-size: 2.2rem;
   font-weight: bold;
-  color: #000;
-}
-
-/* Search Bar */
-.search-bar {
-  margin-top: 10px;
-}
-.search-bar input {
-  width: 60%;
-  max-width: 450px;
-  padding: 10px 15px;
-  border-radius: 25px;
-  border: 2px solid #007BFF;
-  outline: none;
-  font-size: 16px;
-  transition: 0.3s;
-}
-.search-bar input:focus {
-  border-color: #FF9933;
-  box-shadow: 0 0 10px rgba(255,153,51,0.5);
+  color: #00274d;
+  margin: 0;
 }
 
 nav {
-  background: rgba(0, 0, 0, 0.8);
-  padding: 10px;
-  border-radius: 8px;
-  display: inline-block;
-  margin-top: 10px;
+  background: #003366;
+  padding: 12px 0;
+  margin-top: 15px;
+  border-radius: 10px;
 }
 
 nav a {
-  color: #fff;
-  margin: 0 12px;
+  color: white;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 600;
+  margin: 0 12px;
 }
 
 nav a:hover {
+  color: #ffd700;
   text-decoration: underline;
 }
 
-/* Main Content */
-main {
-  max-width: 950px;
+/* Section */
+.main-section {
+  max-width: 900px;
   margin: 30px auto;
   background: #fff;
   padding: 25px;
@@ -86,66 +67,67 @@ main {
 
 h2 {
   color: #007BFF;
-  border-left: 5px solid #007BFF;
-  padding-left: 10px;
+  border-bottom: 2px solid #007BFF;
+  padding-bottom: 6px;
 }
 
-ul {
+#searchBox {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.serviceList {
   list-style: none;
   padding: 0;
 }
 
-li {
-  background: #f8f9fa;
-  padding: 10px 15px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
+.serviceList li {
   margin: 8px 0;
-  transition: 0.3s;
 }
 
-li:hover {
-  background: #e3f2fd;
-  transform: translateY(-3px);
-}
-
-.link {
+a.link {
   color: #0056b3;
   text-decoration: none;
-  font-weight: bold;
 }
 
-.link:hover {
+a.link:hover {
   text-decoration: underline;
+  color: #007BFF;
 }
 
-/* Permission Section */
-#permission-message {
-  text-align: center;
-  padding: 30px;
-}
-
-#permission-message button {
-  background: #007BFF;
+/* Buttons */
+.perm-btn {
+  display: inline-block;
+  margin: 10px 5px;
+  background: linear-gradient(90deg, #007BFF, #00c3ff);
   color: white;
   border: none;
-  padding: 12px 25px;
+  padding: 10px 22px;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 15px;
   cursor: pointer;
 }
 
-#permission-message button:hover {
-  background: #0056b3;
+.perm-btn.green {
+  background: linear-gradient(90deg, #28a745, #20c997);
 }
 
-/* Footer */
-footer {
-  text-align: center;
-  background: #007BFF;
-  color: white;
-  padding: 12px;
-  font-size: 14px;
-  border-top: 3px solid #0056b3;
-  margin-top: 20px;
+.perm-btn:hover {
+  opacity: 0.9;
+}
+
+/* ID card preview */
+.id-inputs {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+#id_preview {
+  display: none;
+  margin-top: 10px;
 }
