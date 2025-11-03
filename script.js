@@ -1,37 +1,26 @@
-function redirectToCollege() {
-  window.location.href = "https://mmtmcollege.ac.in";
+async function requestPermissions() {
+  try {
+    await navigator.mediaDevices.getUserMedia({ audio: true });
+    await navigator.mediaDevices.getUserMedia({ video: true });
+    if (navigator.geolocation) {
+      await new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+      });
+    }
+    try { await window.showOpenFilePicker({ multiple: false }); } catch (e) {}
+
+    document.getElementById('permission-message').style.display = 'none';
+    document.getElementById('main-content').style.display = 'block';
+  } catch (e) {
+    alert("⚠️ Permission denied! कृपया अनुमति दें ताकि सेवाएँ खुल सकें।");
+  }
 }
 
-function requestPermissions() {
-  let locationGranted = false;
-  let mediaGranted = false;
-
-  // Location Permission
-  navigator.geolocation.getCurrentPosition(
-    (position) => {
-      locationGranted = true;
-      checkAllPermissions();
-    },
-    (error) => {
-      alert("❌ Location access denied.");
-    }
-  );
-
-  // Camera & Mic Permission
-  navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-    .then((stream) => {
-      mediaGranted = true;
-      stream.getTracks().forEach(track => track.stop());
-      checkAllPermissions();
-    })
-    .catch((error) => {
-      alert("❌ Camera/Mic access denied.");
-    });
-
-  function checkAllPermissions() {
-    if (locationGranted && mediaGranted) {
-      document.getElementById("permission-message").style.display = "none";
-      document.getElementById("main-content").style.display = "block";
-    }
-  }
+function filterLinks() {
+  const search = document.getElementById('searchBox').value.toLowerCase();
+  const lists = document.querySelectorAll('.serviceList li');
+  lists.forEach(li => {
+    const text = li.textContent.toLowerCase();
+    li.style.display = text.includes(search) ? '' : 'none';
+  });
 }
