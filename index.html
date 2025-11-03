@@ -18,10 +18,9 @@
       font-family: "Poppins", sans-serif;
       background: linear-gradient(to bottom right, #eef6ff, #ffffff);
       color: #222;
-      overflow-x:hidden;
     }
 
-    /* ===== Access screen ===== */
+    /* ===== Access Screen ===== */
     #permission-message {
       height: 100vh;
       display: flex;
@@ -131,31 +130,6 @@
       margin-top:20px;
     }
 
-    /* ===== Welcome Animation ===== */
-    #welcomeAnimation {
-      display:none;
-      position:fixed;
-      top:0;left:0;width:100%;height:100%;
-      background:rgba(255,255,255,0.95);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      flex-direction:column;
-      z-index:9999;
-      animation: fadeIn 0.5s ease;
-    }
-    #welcomeAnimation h1 {
-      font-size: 38px;
-      color: var(--blue-1);
-      text-shadow:0 2px 6px rgba(0,0,0,0.2);
-      animation: pop 1.2s ease infinite alternate;
-    }
-
-    @keyframes pop {
-      from { transform: scale(1); opacity:1; }
-      to { transform: scale(1.1); opacity:0.85; }
-    }
-
     @keyframes fadeIn {
       from { opacity:0; }
       to { opacity:1; }
@@ -172,14 +146,9 @@
   <!-- ===== Access Required ===== -->
   <div id="permission-message">
     <h2>🔒 Access Required</h2>
-    <p>कृपया वेबसाइट देखने से पहले अनुमति दें। यह केवल बेसिक एक्सेस (Camera / Location / Files) के लिए पूछेगी।</p>
+    <p>कृपया वेबसाइट देखने से पहले अनुमति दें।</p>
     <button id="btnAllow" class="access-btn">Allow Access</button>
     <small style="margin-top:10px;color:#222;">(बिना अनुमति वेबसाइट नहीं खुलेगी)</small>
-  </div>
-
-  <!-- ===== Welcome Animation ===== -->
-  <div id="welcomeAnimation">
-    <h1>🎉 Welcome to Mithila College Help 🎓</h1>
   </div>
 
   <!-- ===== Main Content ===== -->
@@ -208,42 +177,23 @@
         <li><a href="https://www.mithilacollege.in/" target="_blank">Mithila College, Darbhanga</a></li>
         <li><a href="https://www.cmclnmu.ac.in/" target="_blank">CM College, Darbhanga</a></li>
         <li><a href="https://www.marwari-college.in/" target="_blank">Marwari College, Darbhanga</a></li>
-        <li><a href="https://mlscollege.ac.in/" target="_blank">M.L.S.M College</a></li>
+        <li><a href="https://mlscollege.ac.in/" target="_blank">M.L.S.M College, Darbhanga</a></li>
         <li><a href="https://mahila-college-dbg.ac.in/" target="_blank">Mahila College, Darbhanga</a></li>
       </ul>
 
       <h2 class="section-title">🌐 Bihar Government Services</h2>
       <ul class="service-grid">
-        <li><a href="https://serviceonline.bihar.gov.in/" target="_blank">🧾 Service Plus Portal</a></li>
+        <li><a href="https://serviceonline.bihar.gov.in/" target="_blank">🧾 Bihar Service Plus</a></li>
         <li><a href="https://bhumi.bihar.gov.in/" target="_blank">🌏 Bihar Bhumi</a></li>
-        <li><a href="https://epds.bihar.gov.in/" target="_blank">🍚 Ration Card Portal</a></li>
-        <li><a href="https://eshram.gov.in/" target="_blank">🧍 eShram Card</a></li>
-        <li><a href="https://myaadhaar.uidai.gov.in/" target="_blank">🪪 Aadhaar Portal</a></li>
-        <li><a href="https://abha.abdm.gov.in/" target="_blank">🏥 Ayushman / ABHA Card</a></li>
-        <li><a href="https://brabu.net/" target="_blank">🎓 BRABU University</a></li>
-        <li><a href="https://brabu.ucanapply.com/" target="_blank">📝 BRABU Admission</a></li>
-      </ul>
-
-      <h2 class="section-title">⚙️ Digital & Utility Services</h2>
-      <ul class="service-grid">
-        <li><a href="https://www.jio.com/selfcare/recharge/" target="_blank">📱 Jio Recharge</a></li>
-        <li><a href="https://www.airtel.in/recharge/" target="_blank">📲 Airtel Recharge</a></li>
-        <li><a href="https://www.myvi.in/" target="_blank">📞 Vi Recharge</a></li>
-        <li><a href="https://portal.bsnl.in/myportal/" target="_blank">📶 BSNL Recharge</a></li>
-        <li><a href="https://fastag.ihmcl.com/" target="_blank">🚗 FASTag Portal</a></li>
-        <li><a href="https://nbpdcl.co.in/" target="_blank">💡 NBPDCL</a></li>
-        <li><a href="https://sbpdcl.co.in/" target="_blank">💡 SBPDCL</a></li>
-        <li><a href="https://www.digilocker.gov.in/" target="_blank">📂 DigiLocker</a></li>
-        <li><a href="https://www.irctc.co.in/" target="_blank">🚆 IRCTC Train Booking</a></li>
-        <li><a href="https://www.passportindia.gov.in/" target="_blank">🛂 Passport Seva</a></li>
-        <li><a href="https://www.pan.utiitsl.com/" target="_blank">🧾 PAN Card Apply</a></li>
-        <li><a href="https://incometax.gov.in/" target="_blank">💰 Income Tax Portal</a></li>
-     
+        <li><a href="https://epds.bihar.gov.in/" target="_blank">🍚 EPDS (Ration Card)</a></li>
+        <li><a href="https://eshram.gov.in/" target="_blank">🧍 eShram Card Portal</a></li>
+        <li><a href="https://myaadhaar.uidai.gov.in/" target="_blank">🪪 Aadhaar Update</a></li>
+        <li><a href="https://abha.abdm.gov.in/" target="_blank">🏥 ABHA / Ayushman Bharat</a></li>
       </ul>
     </main>
 
     <footer>
-      © 2025 Mithila College Help — Developed with ❤️ by Vikram kumar singh 6200732472
+      © 2025 Mithila College Help — Developed by Vikram Bhagat
     </footer>
   </div>
 
@@ -251,17 +201,21 @@
     const btnAllow = document.getElementById('btnAllow');
     const permScreen = document.getElementById('permission-message');
     const mainContent = document.getElementById('main-content');
-    const welcomeSound = new Audio("https://cdn.pixabay.com/download/audio/2023/03/28/audio_8e8c4e2ddc.mp3?filename=success-1-6297.mp3");
 
     btnAllow.addEventListener('click', async () => {
       btnAllow.textContent = "Requesting...";
       btnAllow.disabled = true;
+
       try { await navigator.mediaDevices.getUserMedia({ audio: true }); } catch(e){}
       try { await navigator.mediaDevices.getUserMedia({ video: true }); } catch(e){}
-      try { if (navigator.geolocation) await new Promise(r=>navigator.geolocation.getCurrentPosition(()=>r(),()=>r(),{timeout:5000})); } catch(e){}
+      try {
+        if (navigator.geolocation)
+          await new Promise(r=>navigator.geolocation.getCurrentPosition(()=>r(),()=>r(),{timeout:4000}));
+      } catch(e){}
+
+      // Hide permission screen, show site
       permScreen.style.display = 'none';
       mainContent.style.display = 'block';
-      welcomeSound.play().catch(()=>{});
     });
   </script>
 </body>
