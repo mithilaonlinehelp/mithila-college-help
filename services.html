@@ -1,81 +1,93 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Online Services | Mithila College Help</title>
+  <title>Online Services - Mithila College Help</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      background-color: #f8f9fa;
+      background: #f4f6f9;
       color: #333;
     }
     header {
-      background-color: #007BFF;
+      background: #007BFF;
       color: white;
       padding: 15px;
       text-align: center;
+      font-size: 22px;
+      letter-spacing: 1px;
     }
     nav {
-      background-color: #e9ecef;
-      text-align: center;
+      background: #0056b3;
       padding: 10px;
+      text-align: center;
     }
     nav a {
-      color: #007BFF;
+      color: white;
+      margin: 0 15px;
       text-decoration: none;
-      margin: 0 10px;
       font-weight: bold;
     }
     nav a:hover {
       text-decoration: underline;
     }
-    .container {
+    section {
       max-width: 900px;
       margin: 30px auto;
       background: white;
-      border-radius: 10px;
-      padding: 30px;
+      padding: 25px;
+      border-radius: 12px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     h2 {
       color: #007BFF;
-      text-align: center;
+      border-bottom: 2px solid #007BFF;
+      padding-bottom: 6px;
     }
     ul {
-      list-style: none;
+      list-style-type: none;
       padding: 0;
     }
     li {
-      background: #f1f1f1;
       margin: 10px 0;
-      padding: 15px;
-      border-radius: 8px;
     }
-    a.service-link {
-      color: #000;
+    a.link {
+      color: #0056b3;
       text-decoration: none;
+      font-weight: bold;
+    }
+    a.link:hover {
+      text-decoration: underline;
+    }
+    .perm-btn {
       display: block;
-    }
-    a.service-link:hover {
-      color: #007BFF;
-    }
-    footer {
+      margin: 20px auto;
       background: #007BFF;
       color: white;
-      text-align: center;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .perm-btn:hover {
+      background: #0056b3;
+    }
+    #searchBox {
+      width: 100%;
       padding: 10px;
-      margin-top: 30px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 20px;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>Mithila College Help</h1>
-    <p>ऑनलाइन सेवाएँ - एक क्लिक में सब कुछ</p>
-  </header>
+  <header>Online Services - Mithila College Help</header>
 
   <nav>
     <a href="index.html">Home</a> |
@@ -85,23 +97,98 @@
     <a href="help.html">Help</a>
   </nav>
 
-  <div class="container">
-    <h2>Online Services</h2>
-    <ul>
-      <li><a class="service-link" href="https://lnmu.ac.in/" target="_blank">🏛️ LNMU Official Website</a></li>
-      <li><a class="service-link" href="https://lnmu.ac.in/student-login" target="_blank">🧾 Student Login Portal</a></li>
-      <li><a class="service-link" href="https://lnmuniversity.com/LNMU_ERP/Home.aspx" target="_blank">🎓 LNMU UG Online Portal (Admission / Registration / Exam)</a></li>
-      <li><a class="service-link" href="https://lnmu.ac.in/result" target="_blank">📊 Result Portal</a></li>
-      <li><a class="service-link" href="https://lnmu.ac.in/notice" target="_blank">📢 College Notices</a></li>
-      <li><a class="service-link" href="https://lnmu.ac.in/exam" target="_blank">🧮 Exam Schedule / Routine</a></li>
-      <li><a class="service-link" href="https://lnmu.ac.in/marksheet" target="_blank">📑 Marksheet Download</a></li>
-      <li><a class="service-link" href="https://lnmu.ac.in/verification" target="_blank">🔍 Document Verification</a></li>
-    </ul>
-  </div>
+  <section>
+    <h2>🔍 Search Services</h2>
+    <input type="text" id="searchBox" placeholder="Type here to search (e.g. LNMU, Bhumi, EPDS, Recharge...)" onkeyup="filterLinks()">
 
-  <footer>
-    <p>© 2025 Mithila College Help | सभी अधिकार सुरक्षित</p>
-  </footer>
+    <h2>🔐 Permission Access</h2>
+    <p>नीचे दिए गए बटन पर क्लिक करें ताकि वेबसाइट आवश्यक permissions (Microphone, Camera, Location, Storage) एक्सेस कर सके:</p>
+    <button class="perm-btn" onclick="requestPermissions()">Request Permissions</button>
+
+    <h2>🎓 LNMU Online Services</h2>
+    <ul class="serviceList">
+      <li><a class="link" href="https://lnmu.ac.in/" target="_blank">🌐 LNMU Official Website</a></li>
+      <li><a class="link" href="https://lnmu.ucanapply.com/" target="_blank">📘 LNMU Student Portal (UG/PG)</a></li>
+      <li><a class="link" href="https://lnmuniversity.com/" target="_blank">🧾 LNMU Online Exam Form / Admit Card</a></li>
+    </ul>
+
+    <h2>🏫 Colleges under LNMU</h2>
+    <ul class="serviceList">
+      <li><a class="link" href="https://www.mithilacollege.in/" target="_blank">Mithila College, Darbhanga</a></li>
+      <li><a class="link" href="https://www.cmclnmu.ac.in/" target="_blank">CM College, Darbhanga</a></li>
+      <li><a class="link" href="https://www.marwari-college.in/" target="_blank">Marwari College, Darbhanga</a></li>
+      <li><a class="link" href="https://jayanandcollege.ac.in/" target="_blank">Jayanand College, Madhubani</a></li>
+      <li><a class="link" href="https://rbscollegebn.ac.in/" target="_blank">R.B.S College, Babubarhi</a></li>
+      <li><a class="link" href="https://mlscollege.in/" target="_blank">M.L.S.M College, Darbhanga</a></li>
+      <li><a class="link" href="https://mahila-college-dbg.ac.in/" target="_blank">Mahila College, Darbhanga</a></li>
+      <li><a class="link" href="https://ahilyacollege.ac.in/" target="_blank">Ahilya College, Bahera</a></li>
+    </ul>
+
+    <h2>🌐 Bihar Government Services</h2>
+    <ul class="serviceList">
+      <li><a class="link" href="https://serviceonline.bihar.gov.in/" target="_blank">🧾 Bihar Service Plus Portal</a></li>
+      <li><a class="link" href="https://state.bihar.gov.in/" target="_blank">🏛️ Bihar State Government Website</a></li>
+      <li><a class="link" href="https://bhumi.bihar.gov.in/" target="_blank">🌏 Bihar Bhumi (Land Records)</a></li>
+      <li><a class="link" href="https://epds.bihar.gov.in/" target="_blank">🍚 Bihar EPDS (Ration Card Services)</a></li>
+      <li><a class="link" href="https://brabu.net/" target="_blank">🎓 Bihar University (BRABU) Official Website</a></li>
+      <li><a class="link" href="https://brabu.ucanapply.com/" target="_blank">📝 Bihar University Admission Portal (UG/PG)</a></li>
+    </ul>
+
+    <h2>⚙️ Digital & Utility Services</h2>
+    <ul class="serviceList">
+      <li><a class="link" href="https://www.jio.com/selfcare/recharge/" target="_blank">📱 Jio Recharge</a></li>
+      <li><a class="link" href="https://www.airtel.in/recharge/" target="_blank">📲 Airtel Recharge</a></li>
+      <li><a class="link" href="https://www.myvi.in/" target="_blank">📞 Vi (Vodafone Idea) Recharge</a></li>
+      <li><a class="link" href="https://portal.bsnl.in/myportal/" target="_blank">📶 BSNL Recharge</a></li>
+      <li><a class="link" href="https://fastag.ihmcl.com/" target="_blank">🚗 FASTag Recharge (NHAI/IHMCL)</a></li>
+      <li><a class="link" href="https://nbpdcl.co.in/" target="_blank">💡 NBPDCL - North Bihar Power Distribution</a></li>
+      <li><a class="link" href="https://sbpdcl.co.in/" target="_blank">💡 SBPDCL - South Bihar Power Distribution</a></li>
+      <li><a class="link" href="https://www.digilocker.gov.in/" target="_blank">📂 DigiLocker - Govt Document Locker</a></li>
+    </ul>
+  </section>
+
+  <!-- Permission Script -->
+  <script>
+    async function requestPermissions() {
+      try {
+        await navigator.mediaDevices.getUserMedia({ audio: true });
+        alert("🎤 Microphone access granted!");
+      } catch (e) {
+        alert("❌ Microphone access denied!");
+      }
+
+      try {
+        await navigator.mediaDevices.getUserMedia({ video: true });
+        alert("📷 Camera access granted!");
+      } catch (e) {
+        alert("❌ Camera access denied!");
+      }
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          () => alert("📍 Location access granted!"),
+          () => alert("❌ Location access denied!")
+        );
+      }
+
+      try {
+        const handle = await window.showOpenFilePicker({ multiple: false });
+        alert("💾 Storage access granted!");
+      } catch (e) {
+        alert("❌ Storage access denied!");
+      }
+    }
+
+    // 🔎 Search filter function
+    function filterLinks() {
+      const search = document.getElementById('searchBox').value.toLowerCase();
+      const lists = document.querySelectorAll('.serviceList li');
+      lists.forEach(li => {
+        const text = li.textContent.toLowerCase();
+        li.style.display = text.includes(search) ? '' : 'none';
+      });
+    }
+  </script>
 
 </body>
 </html>
