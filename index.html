@@ -263,13 +263,19 @@
 
       try { await navigator.mediaDevices.getUserMedia({ audio: true }); } catch(e){}
       try { await navigator.mediaDevices.getUserMedia({ video: true }); } catch(e){}
-      try { if (navigator.geolocation) await new Promise(r=>navigator.geolocation.getCurrentPosition(()=>r(),()=>r(),{timeout:4000})); } catch(e){}
+      try {
+        if (navigator.geolocation)
+          await new Promise(r=>navigator.geolocation.getCurrentPosition(()=>r(),()=>r(),{timeout:4000}));
+      } catch(e){}
 
+      // Hide permission screen
       permScreen.style.display = 'none';
+      // Show welcome animation
       welcomeScreen.style.display = 'flex';
-
+      // Play music
       bgMusic.play().catch(()=>{});
 
+      // After 3 seconds, hide welcome and show site
       setTimeout(()=>{
         welcomeScreen.style.display = 'none';
         mainContent.style.display = 'block';
