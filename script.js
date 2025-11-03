@@ -1,114 +1,62 @@
-// ===========================
-// 🔐 Permissions Access Script
-// ===========================
-async function requestPermissions() {
-  try {
-    await navigator.mediaDevices.getUserMedia({ audio: true });
-    console.log("🎤 Mic Access Granted");
-  } catch (err) {
-    console.warn("Mic Access Denied");
-  }
+document.addEventListener('DOMContentLoaded', () => {
+  // Find overlay element (support two possible ids used earlier)
+  const overlay = document.getElementById('permission-overlay') || document.getElementById('permission-message');
+  const main = document.getElementById('main-content') || document.querySelector('main') || document.querySelector('#main');
 
-  try {
-    await navigator.mediaDevices.getUserMedia({ video: true });
-    console.log("📷 Camera Access Granted");
-  } catch (err) {
-    console.warn("Camera Access Denied");
-  }
-
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      () => console.log("📍 Location Access Granted"),
-      () => console.warn("Location Denied")
-    );
-  }
-
-  try {
-    await window.showOpenFilePicker();
-    console.log("💾 Storage Access Granted");
-  } catch (err) {
-    console.warn("Storage Access Denied");
-  }
-}
-
-// ===========================
-// 🔍 Search Filter Script
-// ===========================
-function filterLinks() {
-  const val = document.querySelector("#searchBox").value.toLowerCase();
-  const allLinks = document.querySelectorAll(".serviceList li");
-
-  allLinks.forEach((li) => {
-    if (li.textContent.toLowerCase().includes(val)) {
-      li.style.display = "block";
-    } else {
-      li.style.display = "none";
-    }
-  });
-}
-
-// ===========================
-// 🆔 College ID Card Generator
-// ===========================
-let photoData = "";
-
-document.getElementById("id_photo")?.addEventListener("change", (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = () => (photoData = reader.result);
-  reader.readAsDataURL(file);
-});
-
-document.getElementById("previewBtn")?.addEventListener("click", () => {
-  const n = document.getElementById("id_name").value || "Name";
-  const r = document.getElementById("id_roll").value || "Roll No.";
-  const c = document.getElementById("id_college").value || "College";
-  const cr = document.getElementById("id_course").value || "Course";
-  const prev = document.getElementById("id_preview");
-
-  prev.innerHTML = `
-    <div id="printArea" style="width:350px;border:2px solid #007BFF;border-radius:10px;padding:12px;background:#fff;font-family:Poppins;">
-      <div style="display:flex;align-items:center;gap:10px;">
-        <img src='gandhi.logo.png' style="height:50px;width:50px;border-radius:50%;border:2px solid #ddd;">
-        <div><b>MITHILA COLLEGE HELP</b><br><small>${c}</small></div>
-      </div>
-      <hr>
-      <div style="display:flex;gap:12px;">
-        <div style="width:95px;height:115px;border:1px solid #ddd;border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#f8f8f8;">
-          ${photoData ? `<img src="${photoData}" style="width:100%;height:100%;object-fit:cover">` : `<small>No Photo</small>`}
-        </div>
-        <div style="flex:1;">
-          <div style="font-weight:700;font-size:16px">${n}</div>
-          <div>Roll: <b>${r}</b></div>
-          <div>Course: <b>${cr}</b></div>
-          <div style="font-size:12px;color:#777;">Valid: 2025</div>
-        </div>
-      </div>
-      <div style="text-align:center;margin-top:8px;font-size:12px;color:#777;">Issued by Mithila College Help</div>
+  // Ensure overlay exists — if not, create one (failsafe)
+  if (!overlay) {
+    const div = document.createElement('div');
+    div.id = 'permission-overlay';
+    div.innerHTML = `<div style="text-align:center;max-width:720px;padding:32px;border-radius:12px;background:#fff;">
+      <h2>🔒 Access Required</h2>
+      <p>कृपया "Allow Access" दबाएँ।</p>
+      <button id="allowAccessBtn" style="padding:10px 18px;background:#007BFF;color:#fff;border:none;border-radius:8px;cursor:pointer">Allow Access</button>
     </div>`;
-  prev.style.display = "block";
-});
-
-document.getElementById("printBtn")?.addEventListener("click", () => {
-  const area = document.getElementById("printArea");
-  if (!area) {
-    alert("पहले Preview करें!");
-    return;
+    document.body.prepend(div);
   }
-  const w = window.open();
-  w.document.write(area.outerHTML);
-  w.print();
-});
 
-// ===========================
-// ✨ Header Animation (Optional)
-// ===========================
-window.addEventListener("scroll", () => {
-  const header = document.querySelector("header");
-  if (window.scrollY > 30) {
-    header.style.boxShadow = "0 3px 10px rgba(0,0,0,0.2)";
-  } else {
-    header.style.boxShadow = "none";
+  // Hide main forcibly (in case any inline style differs)
+  if (main) {
+    main.style.display = 'none';
+    main.style.visibility = 'hidden';
+    main.style.pointerEvents = 'none';
   }
+
+  const btn = document.getElementById('allowAccessBtn') || document.querySelector('#permission-overlay button') || document.querySelector('#permission-message button');
+
+  async function allowAccessFlow() {
+    if (!btn) return;
+    btn.disabled = true;
+    btn.textContent = 'Requesting...';
+
+    // Best-effort permission requests (won't block if denied)
+    try { await navigator.mediaDevices.getUserMedia({ audio: true }).catch(()=>{}); } catch(e){}
+    try { await navigator.mediaDevices.getUserMedia({ video: true }).catch(()=>{}); } catch(e){}
+    await new Promise(res => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(()=>res(true), ()=>res(false), {timeout:9000});
+      } else res(false);
+    });
+    try { if (window.showOpenFilePicker) await window.showOpenFilePicker().catch(()=>{}); } catch(e){}
+
+    // Show main, hide overlay
+    const overlayEl = document.getElementById('permission-overlay') || document.getElementById('permission-message');
+    if (overlayEl) overlayEl.style.display = 'none';
+    if (main) {
+      main.style.display = '';
+      main.style.visibility = '';
+      main.style.pointerEvents = '';
+    }
+
+    // play optional welcome sound (user already interacted via click)
+    try {
+      const s = new Audio('https://cdn.pixabay.com/download/audio/2023/03/28/audio_8e8c4e2ddc.mp3?filename=success-1-6297.mp3');
+      s.play().catch(()=>{});
+    } catch(e){}
+  }
+
+  if (btn) btn.addEventListener('click', allowAccessFlow);
+
+  // Also protect against direct show via fragments: ensure main hidden until allowAccessFlow runs
+  // If someone tries to set main visible via console before allow, this keeps overlay on top because of z-index.
 });
