@@ -1,3 +1,4 @@
+/* ====== BASIC STYLING ====== */
 body {
   font-family: 'Segoe UI', Arial, sans-serif;
   margin: 0;
@@ -5,12 +6,12 @@ body {
   color: #222;
 }
 
-/* Header with Tiranga */
+/* ====== HEADER (TIRANGA STYLE) ====== */
 header {
   background: linear-gradient(to right, #FF9933, #FFFFFF, #138808);
   color: #000;
   text-align: center;
-  padding: 20px 10px;
+  padding: 15px 10px;
   border-bottom: 3px solid #000;
 }
 
@@ -18,7 +19,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 15px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
@@ -27,33 +28,40 @@ header img {
   width: 90px;
   border-radius: 50%;
   border: 3px solid #fff;
-  box-shadow: 0 0 12px rgba(0,0,0,0.3);
-  background-color: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
 }
 
+header h1 {
+  font-size: 28px;
+  margin: 0;
+  color: #000;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+/* ====== NAVIGATION BAR ====== */
 nav {
-  background: rgba(0,0,0,0.85);
+  background: rgba(0,0,0,0.8);
   padding: 12px;
   border-radius: 8px;
   display: inline-block;
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
 nav a {
   color: #fff;
-  margin: 0 12px;
+  margin: 0 10px;
   text-decoration: none;
   font-weight: bold;
+  transition: color 0.3s;
 }
 
 nav a:hover {
-  color: #00BFFF;
-  text-decoration: underline;
+  color: #FFD700;
 }
 
-/* Main section */
+/* ====== MAIN CONTENT ====== */
 main {
-  max-width: 950px;
+  max-width: 960px;
   margin: 30px auto;
   background: #fff;
   padding: 25px;
@@ -65,9 +73,11 @@ h2 {
   color: #007BFF;
   border-left: 5px solid #007BFF;
   padding-left: 10px;
-  margin-bottom: 20px;
+  margin-top: 35px;
+  font-size: 22px;
 }
 
+/* ====== SERVICE LIST ====== */
 ul {
   list-style: none;
   padding: 0;
@@ -78,15 +88,17 @@ ul {
 
 li {
   background: #f8f9fa;
-  padding: 14px;
+  padding: 14px 16px;
   border-radius: 10px;
   transition: 0.3s;
   border: 1px solid #ddd;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
 }
 
 li:hover {
   background: #e3f2fd;
   transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
 .link {
@@ -99,24 +111,77 @@ li:hover {
   text-decoration: underline;
 }
 
-/* Highlights */
-.highlight-lnmu {
-  background: #e8f0fe;
-  border-left: 4px solid #007BFF;
+/* ====== SEARCH BOX ====== */
+#searchBox {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  transition: 0.3s;
 }
 
-.highlight-mmtm {
-  background: #fff3cd;
-  border-left: 4px solid #ffc107;
+#searchBox:focus {
+  border-color: #007BFF;
+  outline: none;
+  box-shadow: 0 0 8px rgba(0,123,255,0.4);
 }
 
-/* Footer */
+/* ====== PERMISSION SECTION ====== */
+#permission-message {
+  text-align: center;
+  padding: 25px;
+  background: #fef9e7;
+  border: 1px solid #ffeb99;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+#permission-message button {
+  background: #007BFF;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#permission-message button:hover {
+  background: #0056b3;
+}
+
+/* ====== FOOTER ====== */
 footer {
   text-align: center;
   background: #007BFF;
   color: white;
-  padding: 12px;
-  margin-top: 20px;
+  padding: 14px;
+  margin-top: 30px;
   font-size: 14px;
   border-top: 3px solid #0056b3;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 768px) {
+  header img {
+    height: 70px;
+    width: 70px;
+  }
+
+  header h1 {
+    font-size: 22px;
+  }
+
+  nav {
+    display: block;
+    margin: 10px auto;
+    border-radius: 0;
+  }
+
+  li {
+    font-size: 15px;
+  }
 }
