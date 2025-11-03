@@ -1,186 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- 🔸 Website Title -->
-  <title>Mithila College Help | LNMU & Bihar Online Portal</title>
-
-  <!-- 🔸 SEO Meta Tags -->
-  <meta name="description" content="Mithila College Help - LNMU, MMTM College, Bihar Bhumi, eShram, Aadhaar, DigiLocker और अन्य सरकारी सेवाओं के लिए एक आसान पोर्टल।">
-  <meta name="keywords" content="Mithila College Help, LNMU, MMTM College, Bihar Bhumi, eShram, DigiLocker, Mithila University, Darbhanga, Bihar Portal, Online Services">
-  <meta name="author" content="Mithila College Help">
-
-  <!-- 🔸 Favicon (Logo in Browser Tab) -->
-  <link rel="icon" type="image/png" href="gandhi.logo.png">
-
-  <!-- 🔸 Page Styling -->
-  <style>
-    body {
-      font-family: "Poppins", sans-serif;
-      margin: 0;
-      background: linear-gradient(to bottom right, #e8f0ff, #ffffff);
-      color: #333;
-    }
-    header {
-      background: linear-gradient(90deg, #007BFF, #00b3ff);
-      color: white;
-      padding: 18px;
-      text-align: center;
-      font-size: 26px;
-      letter-spacing: 1px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-    header img {
-      height: 55px;
-      width: 55px;
-      border-radius: 50%;
-      border: 2px solid white;
-      background: white;
-    }
-    nav {
-      background: #0056b3;
-      padding: 10px;
-      text-align: center;
-    }
-    nav a {
-      color: white;
-      margin: 0 15px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-    section {
-      max-width: 900px;
-      margin: 30px auto;
-      background: white;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    h2 {
-      color: #007BFF;
-      border-bottom: 2px solid #007BFF;
-      padding-bottom: 6px;
-    }
-    ul {
-      list-style-type: none;
-      padding: 0;
-    }
-    li {
-      margin: 8px 0;
-    }
-    a.link {
-      color: #0056b3;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    a.link:hover {
-      text-decoration: underline;
-    }
-    .perm-btn {
-      display: inline-block;
-      margin: 10px 5px;
-      background: linear-gradient(90deg, #007BFF, #00c3ff);
-      color: white;
-      border: none;
-      padding: 10px 22px;
-      border-radius: 8px;
-      font-size: 15px;
-      cursor: pointer;
-    }
-    .perm-btn:hover {
-      background: linear-gradient(90deg, #0056b3, #0098e0);
-    }
-    #searchBox {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      margin-bottom: 20px;
-    }
-  </style>
+  <title>MITHILA COLLEGE HELP</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <!-- Header -->
+  <!-- HEADER -->
   <header>
-  <div class="header-content">
-    <img src="logo/gandhi.logo.png" alt="Bharat Mahan Logo" />
-    <h1>Mithila College Help</h1>
-  </div>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="services.html">Online Services</a>
-    <a href="contact.html">Contact</a>
-    <a href="help.html">Help</a>
-  </nav>
-</header>
+    <div class="header-content">
+      <img src="logo/gandhi.logo.png" alt="Bharat Mahan Logo">
+      <h1>MITHILA COLLEGE HELP</h1>
+    </div>
 
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="🔍 Search your service or college..." onkeyup="searchLinks()">
+    </div>
 
+    <nav>
+      <a href="index.html">Home</a> |
+      <a href="about.html">About</a> |
+      <a href="services.html">Online Services</a> |
+      <a href="contact.html">Contact</a> |
+      <a href="help.html">Help</a>
+    </nav>
+  </header>
+
+  <!-- PERMISSION SECTION -->
   <main>
-    <h2>🔐 कृपया आवश्यक अनुमति दें</h2>
     <div id="permission-message">
-      <p>Camera, Mic, Location और Storage की अनुमति देने के बाद सेवाएँ दिखाई देंगी।</p>
+      <h2>🔒 कृपया आगे बढ़ने के लिए Access Allow करें</h2>
       <button onclick="requestPermissions()">Allow Access</button>
     </div>
 
-    <h2>🔍 Search Services</h2>
-    <input type="text" id="searchBox" placeholder="Type here to search..." onkeyup="filterLinks()">
+    <!-- CONTENT (Hidden until permission granted) -->
+    <div id="main-content" style="display:none;">
+      <section>
+        <h2>🎓 Welcome to Mithila College Help</h2>
+        <p>यह वेबसाइट कॉलेज और बिहार की सभी ऑनलाइन सेवाओं का एक आसान पोर्टल है।</p>
 
-    <h2>🎓 LNMU & College Services</h2>
-    <ul class="serviceList">
-      <li><a class="link" href="https://lnmu.ac.in/" target="_blank">🌐 LNMU Official Website</a></li>
-      <li><a class="link" href="https://lnmu.ucanapply.com/" target="_blank">📘 LNMU Student Portal</a></li>
-      <li><a class="link" href="https://lnmuniversity.com/" target="_blank">🧾 LNMU Exam Form / Admit Card</a></li>
-      <li><a class="link" href="https://www.mithilacollege.in/" target="_blank">🏫 Mithila College, Darbhanga</a></li>
-      <li><a class="link" href="https://mmtmcollege.org.in/" target="_blank">🏛️ M.M.T.M. College, Darbhanga</a></li>
-      <li><a class="link" href="https://cmclnmu.ac.in/" target="_blank">🎓 C.M. College, Darbhanga</a></li>
-      <li><a class="link" href="https://marwari-college.in/" target="_blank">🏫 Marwari College, Darbhanga</a></li>
-    </ul>
+        <h2>📚 LNMU Services</h2>
+        <ul class="searchable">
+          <li><a class="link" href="https://lnmu.ac.in/" target="_blank">LNMU Official Website</a></li>
+          <li><a class="link" href="https://lnmu.ucanapply.com/" target="_blank">LNMU Student Portal (UG/PG)</a></li>
+          <li><a class="link" href="https://lnmuniversity.com/" target="_blank">Exam Form / Admit Card</a></li>
+          <li><a class="link" href="https://mmtmcollege.org/" target="_blank">M.M.T.M. College Official Website</a></li>
+        </ul>
 
-    <h2>🆔 Government ID & Utility Services</h2>
-    <ul class="serviceList">
-      <li><a class="link" href="https://uidai.gov.in/" target="_blank">🪪 Aadhaar Card Download</a></li>
-      <li><a class="link" href="https://eshram.gov.in/" target="_blank">💼 eShram Card</a></li>
-      <li><a class="link" href="https://pmjay.gov.in/" target="_blank">🏥 Ayushman Bharat Card</a></li>
-      <li><a class="link" href="https://abha.abdm.gov.in/" target="_blank">💊 ABHA Health ID</a></li>
-      <li><a class="link" href="https://www.pan.utiitsl.com/" target="_blank">🧾 PAN Card Services</a></li>
-      <li><a class="link" href="https://voterportal.eci.gov.in/" target="_blank">🗳️ Voter ID Portal</a></li>
-    </ul>
+        <h2>🌐 Bihar Government Services</h2>
+        <ul class="searchable">
+          <li><a class="link" href="https://serviceonline.bihar.gov.in/" target="_blank">Bihar Service Plus Portal</a></li>
+          <li><a class="link" href="https://bhumi.bihar.gov.in/" target="_blank">Bihar Bhumi (Land Records)</a></li>
+          <li><a class="link" href="https://epds.bihar.gov.in/" target="_blank">EPDS Bihar (Ration Card)</a></li>
+          <li><a class="link" href="https://eshram.gov.in/" target="_blank">eShram Card Portal</a></li>
+          <li><a class="link" href="https://myaadhaar.uidai.gov.in/" target="_blank">Aadhaar Download / Update</a></li>
+          <li><a class="link" href="https://abha.abdm.gov.in/" target="_blank">ABHA / Ayushman Bharat Card</a></li>
+        </ul>
 
-    <h2>📚 College ID & Admission Links</h2>
-    <ul class="serviceList">
-      <li><a class="link" href="https://lnmu.ucanapply.com/student/login" target="_blank">🎓 LNMU Student ID Card</a></li>
-      <li><a class="link" href="https://www.mithilacollege.in/" target="_blank">🏫 Mithila College ID Card</a></li>
-      <li><a class="link" href="https://mmtmcollege.org.in/" target="_blank">🏛️ MMTM College ID Card</a></li>
-      <li><a class="link" href="https://cmclnmu.ac.in/" target="_blank">🎓 CM College ID Card</a></li>
-    </ul>
-
-    <h2>🌐 Bihar Government & Utility Links</h2>
-    <ul class="serviceList">
-      <li><a class="link" href="https://serviceonline.bihar.gov.in/" target="_blank">🧾 Bihar Service Plus Portal</a></li>
-      <li><a class="link" href="https://bhumi.bihar.gov.in/" target="_blank">🌏 Bihar Bhumi (Land Records)</a></li>
-      <li><a class="link" href="https://epds.bihar.gov.in/" target="_blank">🍚 Ration Card Portal</a></li>
-      <li><a class="link" href="https://www.digilocker.gov.in/" target="_blank">📂 DigiLocker</a></li>
-      <li><a class="link" href="https://www.jio.com/selfcare/recharge/" target="_blank">📱 Jio Recharge</a></li>
-      <li><a class="link" href="https://fastag.ihmcl.com/" target="_blank">🚗 FASTag Recharge</a></li>
-      <li><a class="link" href="https://nbpdcl.co.in/" target="_blank">💡 NBPDCL Electricity Bill</a></li>
-      <li><a class="link" href="https://sbpdcl.co.in/" target="_blank">⚡ SBPDCL Electricity Bill</a></li>
-    </ul>
+        <h2>⚙️ Utility & Digital Services</h2>
+        <ul class="searchable">
+          <li><a class="link" href="https://www.jio.com/selfcare/recharge/" target="_blank">Jio Recharge</a></li>
+          <li><a class="link" href="https://www.airtel.in/recharge/" target="_blank">Airtel Recharge</a></li>
+          <li><a class="link" href="https://www.myvi.in/" target="_blank">Vi Recharge</a></li>
+          <li><a class="link" href="https://portal.bsnl.in/myportal/" target="_blank">BSNL Recharge</a></li>
+          <li><a class="link" href="https://fastag.ihmcl.com/" target="_blank">FASTag (IHMCL)</a></li>
+          <li><a class="link" href="https://nbpdcl.co.in/" target="_blank">NBPDCL</a></li>
+          <li><a class="link" href="https://sbpdcl.co.in/" target="_blank">SBPDCL</a></li>
+          <li><a class="link" href="https://www.digilocker.gov.in/" target="_blank">DigiLocker</a></li>
+        </ul>
+      </section>
+    </div>
   </main>
 
+  <!-- FOOTER -->
   <footer>
-    © 2025 Mithila College Help | Developed with ❤️ for Bihar
+    <p>&copy; 2025 Mithila College Help | All Rights Reserved</p>
   </footer>
 
   <script src="script.js"></script>
