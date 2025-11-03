@@ -2,70 +2,45 @@
 <html lang="hi">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MITHILA COLLEGE HELP</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+  <!-- Header Section -->
   <header>
     <div class="header-content">
-      <!-- गांधी लोगो (यह 100% काम करेगा) -->
-      <img src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Mahatma-Gandhi-portrait.jpg" 
-           alt="Mahatma Gandhi Logo">
+      <img src="gandhi-logo.png" alt="Mahatma Gandhi Logo">
       <h1>MITHILA COLLEGE HELP</h1>
     </div>
-
     <nav>
-      <a href="index.html">Home</a> |
-      <a href="about.html">About</a> |
-      <a href="services.html">Online Services</a> |
-      <a href="contact.html">Contact</a> |
-      <a href="help.html">Help</a>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Online Services</a>
+      <a href="contact.html">Contact</a>
+      <a href="#">Help</a>
     </nav>
   </header>
 
+  <!-- Main Section -->
   <main>
-    <div id="permission-message">
-      <h2>🔒 कृपया आवश्यक अनुमति दें</h2>
-      <p>Camera, Mic, Location और Storage की अनुमति देने के बाद सेवाएँ दिखाई देंगी।</p>
-      <button onclick="requestPermissions()">Allow Access</button>
-    </div>
-
-    <div id="main-content" style="display:none;">
-      <h2>ऑनलाइन सेवाएँ</h2>
-      <input type="text" id="searchBox" placeholder="Search Services...">
-
-      <ul>
-        <!-- कॉलेज संबंधित -->
-        <li class="highlight-lnmu"><a href="https://lnmu.ac.in" target="_blank" class="link">LNMU Official Website</a></li>
-        <li class="highlight-mmtm"><a href="https://mmtm.ac.in" target="_blank" class="link">MMTM College Darbhanga</a></li>
-        <li><a href="https://lnmuniversity.com" target="_blank" class="link">LNMU Admission Portal</a></li>
-        <li><a href="https://lnmuniversity.com/student/idcard" target="_blank" class="link">College ID Card</a></li>
-
-        <!-- सरकारी सेवाएँ -->
-        <li><a href="https://serviceonline.bihar.gov.in" target="_blank" class="link">Bihar Service Plus</a></li>
-        <li><a href="https://bhumi.bihar.gov.in" target="_blank" class="link">Bihar Bhumi (Land Records)</a></li>
-        <li><a href="https://epds.bihar.gov.in" target="_blank" class="link">EPDS Bihar (Ration Card)</a></li>
-        <li><a href="https://parivahan.gov.in" target="_blank" class="link">FASTag / Vehicle Services</a></li>
-        <li><a href="https://digilocker.gov.in" target="_blank" class="link">DigiLocker</a></li>
-        <li><a href="https://npci.org.in/what-we-do/upi/live-members" target="_blank" class="link">Mobile Recharge / UPI</a></li>
-        <li><a href="https://www.nbpdcl.co.in/" target="_blank" class="link">NBPDCL Bihar</a></li>
-        <li><a href="https://www.sbpdcl.co.in/" target="_blank" class="link">SBPDCL Bihar</a></li>
-        <li><a href="https://eshram.gov.in" target="_blank" class="link">eShram Card</a></li>
-        <li><a href="https://uidai.gov.in" target="_blank" class="link">Aadhaar Card Download</a></li>
-        <li><a href="https://resident.uidai.gov.in/offline-kyc" target="_blank" class="link">Aadhaar e-KYC</a></li>
-      </ul>
-    </div>
+    <h2>ऑनलाइन सेवाएँ (Online Services)</h2>
+    <ul>
+      <li><a href="https://uidai.gov.in" target="_blank" class="link">आधार कार्ड डाउनलोड</a></li>
+      <li><a href="https://www.onlineservices.nsdl.com/paam/requestAndDownloadEPAN.html" target="_blank" class="link">PAN कार्ड डाउनलोड</a></li>
+      <li><a href="https://register.eshram.gov.in/#/user/self" target="_blank" class="link">eShram कार्ड</a></li>
+      <li><a href="#" class="link">ABC कार्ड (DigiLocker)</a></li>
+      <li><a href="#" class="link">कॉलेज ID कार्ड</a></li>
+      <li><a href="https://lnmu.ac.in" target="_blank" class="link highlight-lnmu">LNMU विश्वविद्यालय साइट</a></li>
+      <li><a href="https://mmtm.ac.in" target="_blank" class="link highlight-mmtm">MMTM कॉलेज साइट</a></li>
+    </ul>
   </main>
 
+  <!-- Footer -->
   <footer>
-    <p>© 2025 Mithila College Help | Developed with ❤️ for Bihar</p>
+    © 2025 Mithila College Help | Developed with ❤️ for Bihar
   </footer>
 
-  <script>
-    function requestPermissions() {
-      document.getElementById('permission-message').style.display = 'none';
-      document.getElementById('main-content').style.display = 'block';
-    }
-  </script>
 </body>
 </html>
