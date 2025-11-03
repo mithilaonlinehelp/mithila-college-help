@@ -8,7 +8,9 @@
 <body>
   <header>
     <div class="header-content">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Mahatma-Gandhi%2C_studio%2C_1931.jpg" alt="Mahatma Gandhi Logo">
+      <!-- गांधी लोगो (यह 100% काम करेगा) -->
+      <img src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Mahatma-Gandhi-portrait.jpg" 
+           alt="Mahatma Gandhi Logo">
       <h1>MITHILA COLLEGE HELP</h1>
     </div>
 
@@ -28,33 +30,30 @@
       <button onclick="requestPermissions()">Allow Access</button>
     </div>
 
-    <div id="main-content" style="display: none;">
-      <section>
-        <h2>स्वागत है Mithila College Help में</h2>
-        <p>यह वेबसाइट आपको कॉलेज और सरकारी सेवाओं से जोड़ने में मदद करती है।</p>
-      </section>
+    <div id="main-content" style="display:none;">
+      <h2>ऑनलाइन सेवाएँ</h2>
+      <input type="text" id="searchBox" placeholder="Search Services...">
 
-      <section>
-        <h2>🎓 Online Services</h2>
-        <input type="text" id="searchBox" placeholder="Search services...">
+      <ul>
+        <!-- कॉलेज संबंधित -->
+        <li class="highlight-lnmu"><a href="https://lnmu.ac.in" target="_blank" class="link">LNMU Official Website</a></li>
+        <li class="highlight-mmtm"><a href="https://mmtm.ac.in" target="_blank" class="link">MMTM College Darbhanga</a></li>
+        <li><a href="https://lnmuniversity.com" target="_blank" class="link">LNMU Admission Portal</a></li>
+        <li><a href="https://lnmuniversity.com/student/idcard" target="_blank" class="link">College ID Card</a></li>
 
-        <ul>
-          <li class="highlight-lnmu"><a class="link" href="https://lnmu.ac.in" target="_blank">LNMU University Website</a></li>
-          <li class="highlight-mmtm"><a class="link" href="https://mmtmcollege.org" target="_blank">MMTM College Darbhanga</a></li>
-          <li><a class="link" href="https://uidai.gov.in" target="_blank">Aadhaar Card Download</a></li>
-          <li><a class="link" href="https://eshram.gov.in" target="_blank">E-Shram Card</a></li>
-          <li><a class="link" href="https://abha.abdm.gov.in/" target="_blank">ABHA Health Card</a></li>
-          <li><a class="link" href="https://serviceonline.bihar.gov.in" target="_blank">Bihar Service Plus</a></li>
-          <li><a class="link" href="https://bhunaksha.bihar.gov.in/" target="_blank">Bihar Bhumi (Land Record)</a></li>
-          <li><a class="link" href="https://epds.bihar.gov.in/" target="_blank">EPDS Bihar Ration Card</a></li>
-          <li><a class="link" href="https://digilocker.gov.in" target="_blank">Digilocker</a></li>
-          <li><a class="link" href="https://www.bsnl.co.in/mybsnlapp" target="_blank">Mobile Recharge</a></li>
-          <li><a class="link" href="https://fastag.nhai.org/" target="_blank">FASTag Recharge</a></li>
-          <li><a class="link" href="https://www.nbpdcl.co.in/" target="_blank">NBPDCL Bill Pay</a></li>
-          <li><a class="link" href="https://www.sbpdcl.co.in/" target="_blank">SBPDCL Bill Pay</a></li>
-          <li><a class="link" href="https://mithilacollegeidcard.lnmu.ac.in" target="_blank">College ID Card (LNMU)</a></li>
-        </ul>
-      </section>
+        <!-- सरकारी सेवाएँ -->
+        <li><a href="https://serviceonline.bihar.gov.in" target="_blank" class="link">Bihar Service Plus</a></li>
+        <li><a href="https://bhumi.bihar.gov.in" target="_blank" class="link">Bihar Bhumi (Land Records)</a></li>
+        <li><a href="https://epds.bihar.gov.in" target="_blank" class="link">EPDS Bihar (Ration Card)</a></li>
+        <li><a href="https://parivahan.gov.in" target="_blank" class="link">FASTag / Vehicle Services</a></li>
+        <li><a href="https://digilocker.gov.in" target="_blank" class="link">DigiLocker</a></li>
+        <li><a href="https://npci.org.in/what-we-do/upi/live-members" target="_blank" class="link">Mobile Recharge / UPI</a></li>
+        <li><a href="https://www.nbpdcl.co.in/" target="_blank" class="link">NBPDCL Bihar</a></li>
+        <li><a href="https://www.sbpdcl.co.in/" target="_blank" class="link">SBPDCL Bihar</a></li>
+        <li><a href="https://eshram.gov.in" target="_blank" class="link">eShram Card</a></li>
+        <li><a href="https://uidai.gov.in" target="_blank" class="link">Aadhaar Card Download</a></li>
+        <li><a href="https://resident.uidai.gov.in/offline-kyc" target="_blank" class="link">Aadhaar e-KYC</a></li>
+      </ul>
     </div>
   </main>
 
