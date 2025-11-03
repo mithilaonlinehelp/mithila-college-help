@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,39 +8,78 @@
 </head>
 <body>
 
-  <!-- Header Section -->
+  <!-- Header -->
   <header>
     <div class="header-content">
       <img src="gandhi-logo.png" alt="Mahatma Gandhi Logo">
       <h1>MITHILA COLLEGE HELP</h1>
     </div>
+
     <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="services.html">Online Services</a>
-      <a href="contact.html">Contact</a>
-      <a href="#">Help</a>
+      <a href="index.html">Home</a> |
+      <a href="about.html">About</a> |
+      <a href="services.html">Online Services</a> |
+      <a href="contact.html">Contact</a> |
+      <a href="help.html">Help</a>
     </nav>
   </header>
 
-  <!-- Main Section -->
   <main>
-    <h2>ऑनलाइन सेवाएँ (Online Services)</h2>
-    <ul>
-      <li><a href="https://uidai.gov.in" target="_blank" class="link">आधार कार्ड डाउनलोड</a></li>
-      <li><a href="https://www.onlineservices.nsdl.com/paam/requestAndDownloadEPAN.html" target="_blank" class="link">PAN कार्ड डाउनलोड</a></li>
-      <li><a href="https://register.eshram.gov.in/#/user/self" target="_blank" class="link">eShram कार्ड</a></li>
-      <li><a href="#" class="link">ABC कार्ड (DigiLocker)</a></li>
-      <li><a href="#" class="link">कॉलेज ID कार्ड</a></li>
-      <li><a href="https://lnmu.ac.in" target="_blank" class="link highlight-lnmu">LNMU विश्वविद्यालय साइट</a></li>
-      <li><a href="https://mmtm.ac.in" target="_blank" class="link highlight-mmtm">MMTM कॉलेज साइट</a></li>
+    <h2>🔐 कृपया आवश्यक अनुमति दें</h2>
+    <div id="permission-message">
+      <p>Camera, Mic, Location और Storage की अनुमति देने के बाद सेवाएँ दिखाई देंगी।</p>
+      <button onclick="requestPermissions()">Allow Access</button>
+    </div>
+
+    <h2>🔍 Search Services</h2>
+    <input type="text" id="searchBox" placeholder="Type here to search..." onkeyup="filterLinks()">
+
+    <h2>🎓 LNMU & College Services</h2>
+    <ul class="serviceList">
+      <li><a class="link" href="https://lnmu.ac.in/" target="_blank">🌐 LNMU Official Website</a></li>
+      <li><a class="link" href="https://lnmu.ucanapply.com/" target="_blank">📘 LNMU Student Portal</a></li>
+      <li><a class="link" href="https://lnmuniversity.com/" target="_blank">🧾 LNMU Exam Form / Admit Card</a></li>
+      <li><a class="link" href="https://www.mithilacollege.in/" target="_blank">🏫 Mithila College, Darbhanga</a></li>
+      <li><a class="link" href="https://mmtmcollege.org.in/" target="_blank">🏛️ M.M.T.M. College, Darbhanga</a></li>
+      <li><a class="link" href="https://cmclnmu.ac.in/" target="_blank">🎓 C.M. College, Darbhanga</a></li>
+      <li><a class="link" href="https://marwari-college.in/" target="_blank">🏫 Marwari College, Darbhanga</a></li>
+    </ul>
+
+    <h2>🆔 Government ID & Utility Services</h2>
+    <ul class="serviceList">
+      <li><a class="link" href="https://uidai.gov.in/" target="_blank">🪪 Aadhaar Card Download</a></li>
+      <li><a class="link" href="https://eshram.gov.in/" target="_blank">💼 eShram Card</a></li>
+      <li><a class="link" href="https://pmjay.gov.in/" target="_blank">🏥 Ayushman Bharat Card</a></li>
+      <li><a class="link" href="https://abha.abdm.gov.in/" target="_blank">💊 ABHA Health ID</a></li>
+      <li><a class="link" href="https://www.pan.utiitsl.com/" target="_blank">🧾 PAN Card Services</a></li>
+      <li><a class="link" href="https://voterportal.eci.gov.in/" target="_blank">🗳️ Voter ID Portal</a></li>
+    </ul>
+
+    <h2>📚 College ID & Admission Links</h2>
+    <ul class="serviceList">
+      <li><a class="link" href="https://lnmu.ucanapply.com/student/login" target="_blank">🎓 LNMU Student ID Card</a></li>
+      <li><a class="link" href="https://www.mithilacollege.in/" target="_blank">🏫 Mithila College ID Card</a></li>
+      <li><a class="link" href="https://mmtmcollege.org.in/" target="_blank">🏛️ MMTM College ID Card</a></li>
+      <li><a class="link" href="https://cmclnmu.ac.in/" target="_blank">🎓 CM College ID Card</a></li>
+    </ul>
+
+    <h2>🌐 Bihar Government & Utility Links</h2>
+    <ul class="serviceList">
+      <li><a class="link" href="https://serviceonline.bihar.gov.in/" target="_blank">🧾 Bihar Service Plus Portal</a></li>
+      <li><a class="link" href="https://bhumi.bihar.gov.in/" target="_blank">🌏 Bihar Bhumi (Land Records)</a></li>
+      <li><a class="link" href="https://epds.bihar.gov.in/" target="_blank">🍚 Ration Card Portal</a></li>
+      <li><a class="link" href="https://www.digilocker.gov.in/" target="_blank">📂 DigiLocker</a></li>
+      <li><a class="link" href="https://www.jio.com/selfcare/recharge/" target="_blank">📱 Jio Recharge</a></li>
+      <li><a class="link" href="https://fastag.ihmcl.com/" target="_blank">🚗 FASTag Recharge</a></li>
+      <li><a class="link" href="https://nbpdcl.co.in/" target="_blank">💡 NBPDCL Electricity Bill</a></li>
+      <li><a class="link" href="https://sbpdcl.co.in/" target="_blank">⚡ SBPDCL Electricity Bill</a></li>
     </ul>
   </main>
 
-  <!-- Footer -->
   <footer>
     © 2025 Mithila College Help | Developed with ❤️ for Bihar
   </footer>
 
+  <script src="script.js"></script>
 </body>
 </html>
