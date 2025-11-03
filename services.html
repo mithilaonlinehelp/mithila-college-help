@@ -1,23 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Online Services - Mithila College Help</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: "Poppins", sans-serif;
       margin: 0;
-      background: #f4f6f9;
+      background: linear-gradient(to bottom right, #e8f0ff, #ffffff);
       color: #333;
     }
     header {
-      background: #007BFF;
+      background: linear-gradient(90deg, #007BFF, #00b3ff);
       color: white;
-      padding: 15px;
+      padding: 18px;
       text-align: center;
-      font-size: 22px;
+      font-size: 26px;
       letter-spacing: 1px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    header img {
+      height: 55px;
+      width: 55px;
+      border-radius: 50%;
+      border: 2px solid white;
+      background: white;
     }
     nav {
       background: #0056b3;
@@ -39,7 +51,7 @@
       background: white;
       padding: 25px;
       border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
     h2 {
       color: #007BFF;
@@ -51,7 +63,7 @@
       padding: 0;
     }
     li {
-      margin: 10px 0;
+      margin: 8px 0;
     }
     a.link {
       color: #0056b3;
@@ -62,18 +74,18 @@
       text-decoration: underline;
     }
     .perm-btn {
-      display: block;
-      margin: 20px auto;
-      background: #007BFF;
+      display: inline-block;
+      margin: 10px 5px;
+      background: linear-gradient(90deg, #007BFF, #00c3ff);
       color: white;
       border: none;
-      padding: 12px 25px;
+      padding: 10px 22px;
       border-radius: 8px;
-      font-size: 16px;
+      font-size: 15px;
       cursor: pointer;
     }
     .perm-btn:hover {
-      background: #0056b3;
+      background: linear-gradient(90deg, #0056b3, #0098e0);
     }
     #searchBox {
       width: 100%;
@@ -87,7 +99,10 @@
 </head>
 <body>
 
-  <header>Online Services - Mithila College Help</header>
+  <header>
+    <img src="https://i.ibb.co/0s1tLkr/gandhi-bharat-mahan.png" alt="Logo">
+    Mithila College Help
+  </header>
 
   <nav>
     <a href="index.html">Home</a> |
@@ -99,17 +114,18 @@
 
   <section>
     <h2>🔍 Search Services</h2>
-    <input type="text" id="searchBox" placeholder="Type here to search (e.g. LNMU, Bhumi, EPDS, Recharge...)" onkeyup="filterLinks()">
+    <input type="text" id="searchBox" placeholder="Type to search (LNMU, Bhumi, eShram, Recharge...)" onkeyup="filterLinks()">
 
     <h2>🔐 Permission Access</h2>
-    <p>नीचे दिए गए बटन पर क्लिक करें ताकि वेबसाइट आवश्यक permissions (Microphone, Camera, Location, Storage) एक्सेस कर सके:</p>
-    <button class="perm-btn" onclick="requestPermissions()">Request Permissions</button>
+    <p>नीचे दिए गए बटन से वेबसाइट को Mic, Camera, Location और Storage की permission दें:</p>
+    <button class="perm-btn" onclick="requestPermissions()">Allow Access</button>
 
     <h2>🎓 LNMU Online Services</h2>
     <ul class="serviceList">
       <li><a class="link" href="https://lnmu.ac.in/" target="_blank">🌐 LNMU Official Website</a></li>
       <li><a class="link" href="https://lnmu.ucanapply.com/" target="_blank">📘 LNMU Student Portal (UG/PG)</a></li>
-      <li><a class="link" href="https://lnmuniversity.com/" target="_blank">🧾 LNMU Online Exam Form / Admit Card</a></li>
+      <li><a class="link" href="https://lnmuniversity.com/" target="_blank">🧾 LNMU Exam Form / Admit Card</a></li>
+      <li><a class="link" href="https://mmtmcollege.org/" target="_blank">🏫 M.M.T.M. College Official Site</a></li>
     </ul>
 
     <h2>🏫 Colleges under LNMU</h2>
@@ -117,78 +133,112 @@
       <li><a class="link" href="https://www.mithilacollege.in/" target="_blank">Mithila College, Darbhanga</a></li>
       <li><a class="link" href="https://www.cmclnmu.ac.in/" target="_blank">CM College, Darbhanga</a></li>
       <li><a class="link" href="https://www.marwari-college.in/" target="_blank">Marwari College, Darbhanga</a></li>
-      <li><a class="link" href="https://jayanandcollege.ac.in/" target="_blank">Jayanand College, Madhubani</a></li>
-      <li><a class="link" href="https://rbscollegebn.ac.in/" target="_blank">R.B.S College, Babubarhi</a></li>
       <li><a class="link" href="https://mlscollege.in/" target="_blank">M.L.S.M College, Darbhanga</a></li>
       <li><a class="link" href="https://mahila-college-dbg.ac.in/" target="_blank">Mahila College, Darbhanga</a></li>
-      <li><a class="link" href="https://ahilyacollege.ac.in/" target="_blank">Ahilya College, Bahera</a></li>
     </ul>
 
     <h2>🌐 Bihar Government Services</h2>
     <ul class="serviceList">
       <li><a class="link" href="https://serviceonline.bihar.gov.in/" target="_blank">🧾 Bihar Service Plus Portal</a></li>
-      <li><a class="link" href="https://state.bihar.gov.in/" target="_blank">🏛️ Bihar State Government Website</a></li>
       <li><a class="link" href="https://bhumi.bihar.gov.in/" target="_blank">🌏 Bihar Bhumi (Land Records)</a></li>
-      <li><a class="link" href="https://epds.bihar.gov.in/" target="_blank">🍚 Bihar EPDS (Ration Card Services)</a></li>
-      <li><a class="link" href="https://brabu.net/" target="_blank">🎓 Bihar University (BRABU) Official Website</a></li>
-      <li><a class="link" href="https://brabu.ucanapply.com/" target="_blank">📝 Bihar University Admission Portal (UG/PG)</a></li>
+      <li><a class="link" href="https://epds.bihar.gov.in/" target="_blank">🍚 EPDS (Ration Card)</a></li>
+      <li><a class="link" href="https://eshram.gov.in/" target="_blank">🧍 eShram Card Portal</a></li>
+      <li><a class="link" href="https://myaadhaar.uidai.gov.in/" target="_blank">🪪 Aadhaar Download / Update</a></li>
+      <li><a class="link" href="https://abha.abdm.gov.in/" target="_blank">🏥 ABHA / Ayushman Bharat Card</a></li>
     </ul>
 
     <h2>⚙️ Digital & Utility Services</h2>
     <ul class="serviceList">
       <li><a class="link" href="https://www.jio.com/selfcare/recharge/" target="_blank">📱 Jio Recharge</a></li>
       <li><a class="link" href="https://www.airtel.in/recharge/" target="_blank">📲 Airtel Recharge</a></li>
-      <li><a class="link" href="https://www.myvi.in/" target="_blank">📞 Vi (Vodafone Idea) Recharge</a></li>
+      <li><a class="link" href="https://www.myvi.in/" target="_blank">📞 Vi Recharge</a></li>
       <li><a class="link" href="https://portal.bsnl.in/myportal/" target="_blank">📶 BSNL Recharge</a></li>
-      <li><a class="link" href="https://fastag.ihmcl.com/" target="_blank">🚗 FASTag Recharge (NHAI/IHMCL)</a></li>
-      <li><a class="link" href="https://nbpdcl.co.in/" target="_blank">💡 NBPDCL - North Bihar Power Distribution</a></li>
-      <li><a class="link" href="https://sbpdcl.co.in/" target="_blank">💡 SBPDCL - South Bihar Power Distribution</a></li>
-      <li><a class="link" href="https://www.digilocker.gov.in/" target="_blank">📂 DigiLocker - Govt Document Locker</a></li>
+      <li><a class="link" href="https://fastag.ihmcl.com/" target="_blank">🚗 FASTag (IHMCL)</a></li>
+      <li><a class="link" href="https://nbpdcl.co.in/" target="_blank">💡 NBPDCL</a></li>
+      <li><a class="link" href="https://sbpdcl.co.in/" target="_blank">💡 SBPDCL</a></li>
+      <li><a class="link" href="https://www.digilocker.gov.in/" target="_blank">📂 DigiLocker</a></li>
     </ul>
+
+    <h2>🆔 College ID Card Generator</h2>
+    <div style="display:grid;gap:10px;max-width:700px;">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <input id="id_name" placeholder="Name" style="flex:1;padding:8px;border-radius:6px;border:1px solid #ccc">
+        <input id="id_roll" placeholder="Roll No." style="width:180px;padding:8px;border-radius:6px;border:1px solid #ccc">
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <input id="id_college" placeholder="College Name" style="flex:1;padding:8px;border-radius:6px;border:1px solid #ccc">
+        <input id="id_course" placeholder="Course / Dept" style="width:180px;padding:8px;border-radius:6px;border:1px solid #ccc">
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <input type="file" id="id_photo" accept="image/*" style="padding:6px">
+        <button id="previewBtn" class="perm-btn" style="background:linear-gradient(90deg,#28a745,#20c997);">Preview ID</button>
+        <button id="printBtn" class="perm-btn">Print / Save</button>
+      </div>
+      <div id="id_preview" style="margin-top:14px;display:none;max-width:360px;"></div>
+    </div>
   </section>
 
-  <!-- Permission Script -->
   <script>
+    // permission access
     async function requestPermissions() {
-      try {
-        await navigator.mediaDevices.getUserMedia({ audio: true });
-        alert("🎤 Microphone access granted!");
-      } catch (e) {
-        alert("❌ Microphone access denied!");
-      }
-
-      try {
-        await navigator.mediaDevices.getUserMedia({ video: true });
-        alert("📷 Camera access granted!");
-      } catch (e) {
-        alert("❌ Camera access denied!");
-      }
-
+      try { await navigator.mediaDevices.getUserMedia({ audio: true }); alert("🎤 Mic Access Granted!"); } catch {}
+      try { await navigator.mediaDevices.getUserMedia({ video: true }); alert("📷 Camera Access Granted!"); } catch {}
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          () => alert("📍 Location access granted!"),
-          () => alert("❌ Location access denied!")
-        );
+        navigator.geolocation.getCurrentPosition(()=>alert("📍 Location Access Granted!"));
       }
-
-      try {
-        const handle = await window.showOpenFilePicker({ multiple: false });
-        alert("💾 Storage access granted!");
-      } catch (e) {
-        alert("❌ Storage access denied!");
-      }
+      try { await window.showOpenFilePicker(); alert("💾 Storage Access Granted!"); } catch {}
     }
 
-    // 🔎 Search filter function
+    // search filter
     function filterLinks() {
-      const search = document.getElementById('searchBox').value.toLowerCase();
-      const lists = document.querySelectorAll('.serviceList li');
-      lists.forEach(li => {
-        const text = li.textContent.toLowerCase();
-        li.style.display = text.includes(search) ? '' : 'none';
+      const val = document.getElementById('searchBox').value.toLowerCase();
+      document.querySelectorAll('.serviceList li').forEach(li=>{
+        li.style.display = li.textContent.toLowerCase().includes(val)?'':'none';
       });
     }
-  </script>
 
+    // ID card generator
+    let photoData = '';
+    document.getElementById('id_photo').addEventListener('change', e=>{
+      const file = e.target.files[0]; if(!file) return;
+      const reader = new FileReader(); reader.onload = ()=> photoData = reader.result;
+      reader.readAsDataURL(file);
+    });
+
+    document.getElementById('previewBtn').addEventListener('click', ()=>{
+      const n=document.getElementById('id_name').value||'Name';
+      const r=document.getElementById('id_roll').value||'Roll';
+      const c=document.getElementById('id_college').value||'College';
+      const cr=document.getElementById('id_course').value||'Course';
+      const prev=document.getElementById('id_preview');
+      prev.innerHTML=`
+        <div id="printArea" style="width:350px;border:2px solid #007BFF;border-radius:10px;padding:12px;background:#fff;font-family:Poppins;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <img src='https://i.ibb.co/0s1tLkr/gandhi-bharat-mahan.png' style="height:50px;width:50px;border-radius:50%;border:2px solid #ddd;">
+            <div><b>MITHILA COLLEGE HELP</b><br><small>${c}</small></div>
+          </div><hr>
+          <div style="display:flex;gap:12px;">
+            <div style="width:95px;height:115px;border:1px solid #ddd;border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#f8f8f8;">
+              ${photoData?`<img src="${photoData}" style="width:100%;height:100%;object-fit:cover">`:`<small>No Photo</small>`}
+            </div>
+            <div style="flex:1;">
+              <div style="font-weight:700;font-size:16px">${n}</div>
+              <div>Roll: <b>${r}</b></div>
+              <div>Course: <b>${cr}</b></div>
+              <div style="font-size:12px;color:#777;">Valid: 2025</div>
+            </div>
+          </div>
+          <div style="text-align:center;margin-top:8px;font-size:12px;color:#777;">Issued by Mithila College Help</div>
+        </div>`;
+      prev.style.display='block';
+    });
+
+    document.getElementById('printBtn').addEventListener('click', ()=>{
+      const area=document.getElementById('printArea');
+      if(!area){alert('पहले Preview करें');return;}
+      const w=window.open(); w.document.write(area.outerHTML);
+      w.print();
+    });
+  </script>
 </body>
 </html>
