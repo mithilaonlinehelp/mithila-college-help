@@ -5,7 +5,7 @@ body {
   color: #222;
 }
 
-/* 🇮🇳 तिरंगा Header */
+/* तिरंगा header */
 header {
   background: linear-gradient(to right, #FF9933, #FFFFFF, #138808);
   color: #000;
@@ -18,7 +18,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 15px;
   flex-wrap: wrap;
 }
 
@@ -32,8 +32,8 @@ header img {
 }
 
 nav {
-  background: rgba(0,0,0,0.85);
-  padding: 10px 15px;
+  background: rgba(0,0,0,0.9);
+  padding: 10px;
   border-radius: 8px;
   display: inline-block;
   margin-top: 10px;
@@ -41,7 +41,7 @@ nav {
 
 nav a {
   color: #fff;
-  margin: 0 12px;
+  margin: 0 10px;
   text-decoration: none;
   font-weight: bold;
 }
@@ -50,7 +50,7 @@ nav a:hover {
   text-decoration: underline;
 }
 
-/* मुख्य सामग्री */
+/* Main content */
 main {
   max-width: 950px;
   margin: 30px auto;
