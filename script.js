@@ -1,81 +1,43 @@
 <script>
+    // Sound and Non-blocking Permission Logic
+    const welcomeSound = new Audio("https://cdn.pixabay.com/download/audio/2023/03/28/audio_8e8c4e2ddc.mp3?filename=success-1-6297.mp3");
+    try { welcomeSound.play().catch(()=>{}); } catch(e){};
+
     // =================================================================
-    // 1. PERMISSION OVERLAY LOGIC (Main Access Control) - FIXED
+    // 1. NON-BLOCKING PERMISSION LOGIC (अब कोई ब्लॉकिंग ओवरले नहीं है)
     // =================================================================
-    document.addEventListener('DOMContentLoaded', () => {
-        // ID को 'permission-message' में बदला गया (आपके HTML के अनुसार)
-        const permScreen = document.getElementById('permission-message'); 
-        const main = document.getElementById('main-content');
-        const btn = document.getElementById('btnAllow'); // बटन ID 'btnAllow' में बदला गया
-        const welcomeSound = new Audio("https://cdn.pixabay.com/download/audio/2023/03/28/audio_8e8c4e2ddc.mp3?filename=success-1-6297.mp3");
-
-
-        // Hide main content initially (आपके HTML में display:none सेट है, लेकिन JS से पुष्टि कर रहे हैं)
-        if (main) {
-            main.style.display = 'none';
-        }
-
-        async function allowAccessFlow() {
-            if (!btn) return;
-            btn.textContent = 'Requesting...';
+    const btn = document.getElementById('requestPermBtn');
+    if(btn) {
+        btn.addEventListener('click', async () => {
+            btn.textContent = "Requesting...";
             btn.disabled = true;
-
+            
             // Request permissions (non-blocking)
-            try { await navigator.mediaDevices.getUserMedia({ audio: true }).catch(()=>{}); } catch(e){ console.error(e); }
-            try { await navigator.mediaDevices.getUserMedia({ video: true }).catch(()=>{}); } catch(e){ console.error(e); }
+            try { await navigator.mediaDevices.getUserMedia({ audio: true }).catch(()=>{}); alert("🎤 Mic Access Status: Requested"); } catch(e){}
+            try { await navigator.mediaDevices.getUserMedia({ video: true }).catch(()=>{}); alert("📷 Camera Access Status: Requested"); } catch(e){}
+            try { await new Promise(r => navigator.geolocation.getCurrentPosition(()=>r(), ()=>r(), {timeout:5000})); alert("📍 Location Access Status: Requested"); } catch(e){}
             
-            // Geolocation request
-            await new Promise(res => {
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(()=>res(true), ()=>res(false), {timeout:9000});
-                } else res(false);
-            });
-            
-            // File Picker (Storage access)
-            try { if (window.showOpenFilePicker) await window.showOpenFilePicker().catch(()=>{}); } catch(e){ console.error(e); }                                                   
-            
-            if (permScreen) {
-                permScreen.remove(); 
-            }
-            
-            // Show main content (Clicks should now work as nothing is blocking them)
-            if (main) {
-                main.style.display = 'block'; 
-                main.style.visibility = 'visible';
-                main.style.pointerEvents = 'auto'; // सुरक्षा के लिए सुनिश्चित किया गया
-            }
-
-            // Play optional welcome sound
-            welcomeSound.play().catch(()=>{});
-        }
-
-        if (btn) btn.addEventListener('click', allowAccessFlow);
-    });
-
+            btn.textContent = "Access Requested (Green)";
+            btn.style.background = 'linear-gradient(to right, #138808, #28a745)';
+        });
+    }
+    
     // =================================================================
-    // 2. SEARCH FILTER LOGIC (No Change)
+    // 2. SEARCH FILTER LOGIC (Corrected to use .service-grid)
     // =================================================================
-
     function filterLinks() {
         const val = document.getElementById('searchBox').value.toLowerCase();
-        // Filters all <li> elements within .serviceList classes
-        document.querySelectorAll('.serviceList li').forEach(li => {
+        // FIX: .service-grid का उपयोग करें
+        document.querySelectorAll('.service-grid li').forEach(li => { 
             li.style.display = li.textContent.toLowerCase().includes(val) ? '' : 'none';
         });
     }
 
-    // This function is for the button inside the 'Permission Access' section (now mostly inactive)
-    async function requestPermissions() {
-        alert("Access is now primarily managed by the overlay. Your permissions are already requested or granted.");
-        // If you want this button to actively request permissions again, add the logic here.
-    }
-
     // =================================================================
-    // 3. ID CARD GENERATOR LOGIC (No Change)
+    // 3. ID CARD GENERATOR LOGIC
     // =================================================================
     let photoData = '';
     
-    // Read uploaded photo data
     document.getElementById('id_photo').addEventListener('change', e => {
         const file = e.target.files[0]; 
         if (!file) return;
@@ -84,9 +46,7 @@
         reader.readAsDataURL(file);
     });
 
-    // Generate/Preview ID Card
     document.getElementById('previewBtn').addEventListener('click', () => {
-        // Get Input Values
         const n = document.getElementById('id_name').value || 'Student Name';
         const r = document.getElementById('id_roll').value || 'Roll No.';
         const fn = document.getElementById('id_father').value || 'Father Name';
@@ -97,50 +57,46 @@
         
         const prev = document.getElementById('id_preview');
         
-        // ID Card HTML Structure (Using styles defined in CSS)
+        // ID Card HTML Structure 
+        // Note: Styles are kept inline for safety, but CSS variables are referenced.
         prev.innerHTML = `
-          <div id="printArea" class="id-card-preview">
-            <div class="id-header">
+          <div id="printArea" style="width:350px;border:4px solid var(--tiranga-green);border-radius:10px;padding:10px;background:#fff;box-shadow:0 4px 10px rgba(0, 0, 0, 0.2);">
+            <div style="text-align:center;padding-bottom:5px;border-bottom:2px solid var(--tiranga-orange);margin-bottom:8px;">
                 <div style="display:flex;align-items:center;justify-content:center;gap:8px;">
                     <img src="https://mmtmcollege.ac.in/assets/img/logo.png" style="height:35px;width:35px;">
                     <div>
-                        <h4 style="color:#c00;">MAHARAJ MAHESH THAKUR MITHILA COLLEGE</h4>
-                        <small>Darbhanga, Bihar - 846004 | Affiliated to L.N.M.U.</small>
+                        <h4 style="color:#c00;margin:0;">MAHARAJ MAHESH THAKUR MITHILA COLLEGE</h4>
+                        <small style="display:block;font-size:11px;color:#555;">Darbhanga, Bihar - 846004 | Affiliated to L.N.M.U.</small>
                     </div>
                 </div>
-                <h4 style="margin-top:5px;font-size:16px;background:#ff9933;color:white;padding:3px 0;border-radius:4px;">IDENTITY CARD</h4>
+                <h4 style="margin-top:5px;font-size:16px;background:var(--tiranga-orange);color:white;padding:3px 0;border-radius:4px;">IDENTITY CARD</h4>
             </div>
             
-            <div class="id-details">
-                <div class="id-photo-frame">
+            <div style="display:flex;gap:15px;align-items:flex-start;font-size:13px;">
+                <div style="width:85px;height:100px;border:1px solid var(--tiranga-orange);border-radius:5px;overflow:hidden;flex-shrink:0;">
                     ${photoData ? `<img src="${photoData}" style="width:100%;height:100%;object-fit:cover">` : `<small style="font-size:10px;">Paste Photo</small>`}
                 </div>
                 
-                <div style="flex:1;" class="id-details-text">
-                    <div><strong>Name:</strong> ${n}</div>
-                    <div><strong>Father's Name:</strong> ${fn}</div>
-                    <div><strong>Roll No:</strong> ${r}</div>
-                    <div><strong>Course:</strong> ${cr}</div>
-                    <div><strong>Session:</strong> ${s}</div>
-                    <div><strong>Mobile:</strong> ${m}</div>
-                    <div><strong>Address:</strong> ${a}</div>
+                <div style="flex:1;">
+                    <div style="margin-bottom:4px;"><strong>Name:</strong> ${n}</div>
+                    <div style="margin-bottom:4px;"><strong>Father's Name:</strong> ${fn}</div>
+                    <div style="margin-bottom:4px;"><strong>Roll No:</strong> ${r}</div>
+                    <div style="margin-bottom:4px;"><strong>Course:</strong> ${cr}</div>
+                    <div style="margin-bottom:4px;"><strong>Session:</strong> ${s}</div>
+                    <div style="margin-bottom:4px;"><strong>Mobile:</strong> ${m}</div>
+                    <div style="margin-bottom:4px;"><strong>Address:</strong> ${a}</div>
                 </div>
             </div>
             
-            <div class="id-signature">
-                <div class="id-signature-area">
-                    <br><small>Student's Signature</small>
-                </div>
-                <div class="id-signature-area" style="text-align:right;">
-                    <br><small>Principal's Signature & Seal</small>
-                </div>
+            <div style="display:flex;justify-content:space-between;margin-top:15px;padding-top:8px;border-top:1px dotted #ccc;font-size:11px;">
+                <div style="width:100px;text-align:center;"><br><small style="border-top:1px solid #333;padding-top:2px;display:block;">Student's Signature</small></div>
+                <div style="width:100px;text-align:right;"><br><small style="border-top:1px solid #333;padding-top:2px;display:block;">Principal's Signature & Seal</small></div>
             </div>
 
           </div>`;
         prev.style.display='block';
     });
 
-    // Print/Save ID Card
     document.getElementById('printBtn').addEventListener('click', () => {
         const area = document.getElementById('printArea');
         if (!area) {
@@ -150,7 +106,7 @@
 
         const w = window.open();
         
-        // This includes all necessary CSS for printing the card correctly
+        // Print Logic
         const printContent = `
             <!DOCTYPE html>
             <html>
@@ -159,14 +115,7 @@
               <style>
                 @page { margin: 10mm; }
                 body { font-family: Poppins, sans-serif; display: flex; justify-content: center; align-items: center; height: 95vh; }
-                .id-card-preview {
-                  width: 350px;
-                  border: 4px solid #138808; 
-                  border-radius: 10px;
-                  padding: 10px;
-                  background: #fff;
-                  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-                }
+                .id-card-preview { width: 350px; border: 4px solid #138808; border-radius: 10px; padding: 10px; background: #fff; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); }
                 .id-header { text-align: center; padding-bottom: 5px; border-bottom: 2px solid #ff9933; margin-bottom: 8px; }
                 .id-header h4 { margin: 0; color: #138808; font-size: 18px; font-weight: 800; text-transform: uppercase; }
                 .id-header small { display: block; font-size: 11px; color: #555; }
