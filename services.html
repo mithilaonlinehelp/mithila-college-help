@@ -1,310 +1,453 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mithila College Help - Online Services</title>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-2G01CRRFP1"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mithila College Help - Online Services</title>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2G01CRRFP1"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-  gtag('config', 'G-2G01CRRFP1');
+  gtag('config', 'G-2G01CRRFP1');
 </script>
 
-  <style>
-    body {
-      font-family: "Poppins", sans-serif;
-      margin: 0;
-      background: linear-gradient(to bottom right, #e8f0ff, #ffffff);
-      color: #333;
-      transition: background 0.5s ease;
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      background: linear-gradient(to bottom right, #e8f0ff, #ffffff);
+      color: #333;
+      transition: background 0.5s ease;
+    }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(90deg, #007BFF, #00b3ff);
+      color: white;
+      padding: 18px;
+      text-align: center;
+      font-size: 26px;
+      letter-spacing: 1px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+    }
+
+    header img {
+      height: 60px;
+      width: 60px;
+      border-radius: 50%;
+      border: 2px solid white;
+      background: white;
+      object-fit: cover;
+    }
+
+    /* NAVIGATION */
+    nav {
+      background: #0056b3;
+      padding: 12px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #ffd700;
+    }
+
+    /* MAIN SECTION */
+    section {
+      max-width: 950px;
+      margin: 30px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      color: #007BFF;
+      border-bottom: 2px solid #007BFF;
+      padding-bottom: 6px;
+      margin-top: 25px;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 8px;
+    }
+
+    li {
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 8px;
+      transition: 0.3s;
+      border: 1px solid #ddd;
+    }
+
+    li:hover {
+      background: #e3f2fd;
+      transform: translateY(-3px);
+    }
+
+    a.link {
+      color: #0056b3;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a.link:hover {
+      text-decoration: underline;
+    }
+
+    .perm-btn {
+      display: inline-block;
+      margin: 10px 5px;
+      background: linear-gradient(90deg, #007BFF, #00c3ff);
+      color: white;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .perm-btn:hover {
+      background: linear-gradient(90deg, #0056b3, #0098e0);
+    }
+
+    #searchBox {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    
+    /* ID Card Generator Inputs Styling */
+    .id-input-group input {
+        flex: 1;
+        padding: 8px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+    
+    /* ID Card Preview Styling */
+    .id-card-preview {
+        width: 350px;
+        border: 4px solid #0056b3; /* Darker border */
+        border-radius: 10px;
+        padding: 10px;
+        background: #fff;
+        font-family: Poppins, sans-serif;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    .id-header {
+        text-align: center;
+        padding-bottom: 5px;
+        border-bottom: 2px solid #007BFF;
+        margin-bottom: 8px;
+    }
+    .id-header h4 {
+        margin: 0;
+        color: #0056b3;
+        font-size: 18px;
+        font-weight: 800;
+        text-transform: uppercase;
+    }
+    .id-header small {
+        display: block;
+        font-size: 11px;
+        color: #555;
+    }
+    .id-details {
+        display: flex;
+        gap: 15px;
+        align-items: flex-start;
+        font-size: 13px;
+    }
+    .id-photo-frame {
+        width: 85px;
+        height: 100px;
+        border: 1px solid #007BFF;
+        border-radius: 5px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f8f8f8;
+        flex-shrink: 0;
+    }
+    .id-details-text div {
+        margin-bottom: 4px;
+    }
+    .id-signature {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+        padding-top: 8px;
+        border-top: 1px dotted #ccc;
+        font-size: 11px;
+    }
+    .id-signature-area {
+        width: 100px;
+        text-align: center;
+    }
+    .id-signature-area small {
+        border-top: 1px solid #333;
+        padding-top: 2px;
+        display: block;
     }
 
-    /* HEADER */
-    header {
-      background: linear-gradient(90deg, #007BFF, #00b3ff);
-      color: white;
-      padding: 18px;
-      text-align: center;
-      font-size: 26px;
-      letter-spacing: 1px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.3);
-    }
-
-    header img {
-      height: 60px;
-      width: 60px;
-      border-radius: 50%;
-      border: 2px solid white;
-      background: white;
-      object-fit: cover;
-    }
-
-    /* NAVIGATION */
-    nav {
-      background: #0056b3;
-      padding: 12px;
-      text-align: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-    }
-
-    nav a {
-      color: white;
-      margin: 0 15px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: color 0.3s;
-    }
-
-    nav a:hover {
-      color: #ffd700;
-    }
-
-    /* MAIN SECTION */
-    section {
-      max-width: 950px;
-      margin: 30px auto;
-      background: white;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      animation: fadeIn 1s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    h2 {
-      color: #007BFF;
-      border-bottom: 2px solid #007BFF;
-      padding-bottom: 6px;
-      margin-top: 25px;
-    }
-
-    ul {
-      list-style-type: none;
-      padding: 0;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 8px;
-    }
-
-    li {
-      background: #f8f9fa;
-      padding: 10px;
-      border-radius: 8px;
-      transition: 0.3s;
-      border: 1px solid #ddd;
-    }
-
-    li:hover {
-      background: #e3f2fd;
-      transform: translateY(-3px);
-    }
-
-    a.link {
-      color: #0056b3;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    a.link:hover {
-      text-decoration: underline;
-    }
-
-    .perm-btn {
-      display: inline-block;
-      margin: 10px 5px;
-      background: linear-gradient(90deg, #007BFF, #00c3ff);
-      color: white;
-      border: none;
-      padding: 10px 22px;
-      border-radius: 8px;
-      font-size: 15px;
-      cursor: pointer;
-    }
-
-    .perm-btn:hover {
-      background: linear-gradient(90deg, #0056b3, #0098e0);
-    }
-
-    #searchBox {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      margin-bottom: 20px;
-    }
-
-    footer {
-      text-align: center;
-      background: #007BFF;
-      color: pink;
-      padding: 12px;
-      margin-top: 20px;
-      font-size: 14px;
-      border-top: 3px solid #0056b3;
-    }
-  </style>
+    footer {
+      text-align: center;
+      background: #007BFF;
+      color: pink;
+      padding: 12px;
+      margin-top: 20px;
+      font-size: 14px;
+      border-top: 3px solid #0056b3;
+    }
+  </style>
 </head>
 <body>
 
-  <header>
-    <img src="https://mithilaonlinehelp.kesug.com/gandhi.logo.png" alt="Logo">
-    
-    MITHILA COLLEGE HELP
-  </header>
+  <header>
+    <img src="https://mithilaonlinehelp.kesug.com/gandhi.logo.png" alt="Logo">
+    MITHILA COLLEGE HELP
+  </header>
 
-  <nav>
-    <a href="index.html">Home</a> |
-    <a href="about.html">About</a> |
-    <a href="services.html">Online Services</a> |
-    <a href="contact.html">Contact</a> |
-    <a href="help.html">Help</a>
-  </nav>
+  <nav>
+    <a href="index.html">Home</a> |
+    <a href="about.html">About</a> |
+    <a href="services.html">Online Services</a> |
+    <a href="contact.html">Contact</a> |
+    <a href="help.html">Help</a>
+  </nav>
 
-  <section>
-    <h2>🔍 Search Services</h2>
-    <input type="text" id="searchBox" placeholder="Type to search (LNMU, Bhumi, eShram, Recharge...)" onkeyup="filterLinks()">
+  <section>
+    <h2>🔍 Search Services</h2>
+    <input type="text" id="searchBox" placeholder="Type to search (LNMU, Bhumi, eShram, Recharge...)" onkeyup="filterLinks()">
 
-    <h2>🔐 Permission Access</h2>
-    <p>नीचे दिए गए बटन से वेबसाइट को Mic, Camera, Location और Storage की permission दें:</p>
-    <button class="perm-btn" onclick="requestPermissions()">Allow Access</button>
+    <h2>🔐 Permission Access</h2>
+    <p>नीचे दिए गए बटन से वेबसाइट को Mic, Camera, Location और Storage की permission दें:</p>
+    <button class="perm-btn" onclick="requestPermissions()">Allow Access</button>
 
-    <h2>🎓 LNMU Online Services</h2>
-    <ul class="serviceList">
-      <li><a class="link" href="https://lnmu.ac.in/" target="_blank">🌐 LNMU Official Website</a></li>
-      <li><a class="link" href="https://lnmu.ucanapply.com/" target="_blank">📘 LNMU Student Portal (UG/PG)</a></li>
-      <li><a class="link" href="https://lnmuniversity.com/" target="_blank">🧾 LNMU Exam Form / Admit Card</a></li>
-      <li><a class="link" href="https://mmtmcollege.ac.in/" target="_blank">🏫 M.M.T.M. College Official Site</a></li>
-    </ul>
+    <h2>🎓 LNMU Online Services</h2>
+    <ul class="serviceList">
+      <li><a class="link" href="https://lnmu.ac.in/" target="_blank">🌐 LNMU Official Website</a></li>
+      <li><a class="link" href="https://lnmu.ucanapply.com/" target="_blank">📘 LNMU Student Portal (UG/PG)</a></li>
+      <li><a class="link" href="https://lnmuniversity.com/" target="_blank">🧾 LNMU Exam Form / Admit Card</a></li>
+      <li><a class="link" href="https://mmtmcollege.ac.in/" target="_blank">🏫 M.M.T.M. College Official Site</a></li>
+    </ul>
 
-    <h2>🏫 Colleges under LNMU</h2>
-    <ul class="serviceList">
-      <li><a class="link" href="https://www.mithilacollege.in/" target="_blank">Mithila College, Darbhanga</a></li>
-      <li><a class="link" href="https://www.cmclnmu.ac.in/" target="_blank">CM College, Darbhanga</a></li>
-      <li><a class="link" href="https://www.marwari-college.in/" target="_blank">Marwari College, Darbhanga</a></li>
-      <li><a class="link" href="https://mlscollege.ac.in/" target="_blank">M.L.S.M College, Darbhanga</a></li>
-      <li><a class="link" href="https://mahila-college-dbg.ac.in/" target="_blank">Mahila College, Darbhanga</a></li>
-    </ul>
+    <h2>🏫 Colleges under LNMU</h2>
+    <ul class="serviceList">
+      <li><a class="link" href="https://www.mithilacollege.in/" target="_blank">Mithila College, Darbhanga</a></li>
+      <li><a class="link" href="https://www.cmclnmu.ac.in/" target="_blank">CM College, Darbhanga</a></li>
+      <li><a class="link" href="https://www.marwari-college.in/" target="_blank">Marwari College, Darbhanga</a></li>
+      <li><a class="link" href="https://mlscollege.ac.in/" target="_blank">M.L.S.M College, Darbhanga</a></li>
+      <li><a class="link" href="https://mahila-college-dbg.ac.in/" target="_blank">Mahila College, Darbhanga</a></li>
+    </ul>
 
-    <h2>🌐 Bihar Government Services</h2>
-    <ul class="serviceList">
-      <li><a class="link" href="https://serviceonline.bihar.gov.in/" target="_blank">🧾 Bihar Service Plus Portal</a></li>
-      <li><a class="link" href="https://biharbhumi.bihar.gov.in/" target="_blank">🌏 Bihar Bhumi (Land Records)</a></li>
-      <li><a class="link" href="https://epds.bihar.gov.in/" target="_blank">🍚 EPDS (Ration Card)</a></li>
-      <li><a class="link" href="https://eshram.gov.in/" target="_blank">🧍 eShram Card Portal</a></li>
-      <li><a class="link" href="https://myaadhaar.uidai.gov.in/" target="_blank">🪪 Aadhaar Download / Update</a></li>
-      <li><a class="link" href="https://abha.abdm.gov.in/" target="_blank">🏥 ABHA / Ayushman Bharat Card</a></li>
-    </ul>
+    <h2>🌐 Bihar Government Services</h2>
+    <ul class="serviceList">
+      <li><a class="link" href="https://serviceonline.bihar.gov.in/" target="_blank">🧾 Bihar Service Plus Portal</a></li>
+      <li><a class="link" href="https://biharbhumi.bihar.gov.in/" target="_blank">🌏 Bihar Bhumi (Land Records)</a></li>
+      <li><a class="link" href="https://epds.bihar.gov.in/" target="_blank">🍚 EPDS (Ration Card)</a></li>
+      <li><a class="link" href="https://eshram.gov.in/" target="_blank">🧍 eShram Card Portal</a></li>
+      <li><a class="link" href="https://myaadhaar.uidai.gov.in/" target="_blank">🪪 Aadhaar Download / Update</a></li>
+      <li><a class="link" href="https://abha.abdm.gov.in/" target="_blank">🏥 ABHA / Ayushman Bharat Card</a></li>
+    </ul>
 
-    <h2>⚙️ Digital & Utility Services</h2>
-    <ul class="serviceList">
-      <li><a class="link" href="https://www.jio.com/selfcare/recharge/" target="_blank">📱 Jio Recharge</a></li>
-      <li><a class="link" href="https://www.airtel.in/recharge/" target="_blank">📲 Airtel Recharge</a></li>
-      <li><a class="link" href="https://www.myvi.in/" target="_blank">📞 Vi Recharge</a></li>
-      <li><a class="link" href="https://portal.bsnl.in/myportal/" target="_blank">📶 BSNL Recharge</a></li>
-      <li><a class="link" href="https://fastag.ihmcl.com/" target="_blank">🚗 FASTag (IHMCL)</a></li>
-      <li><a class="link" href="https://nbpdcl.co.in/" target="_blank">💡 NBPDCL</a></li>
-      <li><a class="link" href="https://sbpdcl.co.in/" target="_blank">💡 SBPDCL</a></li>
-      <li><a class="link" href="https://www.digilocker.gov.in/" target="_blank">📂 DigiLocker</a></li>
-    </ul>
+    <h2>⚙️ Digital & Utility Services</h2>
+    <ul class="serviceList">
+      <li><a class="link" href="https://www.jio.com/selfcare/recharge/" target="_blank">📱 Jio Recharge</a></li>
+      <li><a class="link" href="https://www.airtel.in/recharge/" target="_blank">📲 Airtel Recharge</a></li>
+      <li><a class="link" href="https://www.myvi.in/" target="_blank">📞 Vi Recharge</a></li>
+      <li><a class="link" href="https://portal.bsnl.in/myportal/" target="_blank">📶 BSNL Recharge</a></li>
+      <li><a class="link" href="https://fastag.ihmcl.com/" target="_blank">🚗 FASTag (IHMCL)</a></li>
+      <li><a class="link" href="https://nbpdcl.co.in/" target="_blank">💡 NBPDCL</a></li>
+      <li><a class="link" href="https://sbpdcl.co.in/" target="_blank">💡 SBPDCL</a></li>
+      <li><a class="link" href="https://www.digilocker.gov.in/" target="_blank">📂 DigiLocker</a></li>
+    </ul>
 
-    <h2>🆔 College ID Card Generator</h2>
-    <div style="display:grid;gap:10px;max-width:700px;">
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <input id="id_name" placeholder="Name" style="flex:1;padding:8px;border-radius:6px;border:1px solid #ccc">
-        <input id="id_roll" placeholder="Roll No." style="width:180px;padding:8px;border-radius:6px;border:1px solid #ccc">
-      </div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <input id="id_college" placeholder="College Name" style="flex:1;padding:8px;border-radius:6px;border:1px solid #ccc">
-        <input id="id_course" placeholder="Course / Dept" style="width:180px;padding:8px;border-radius:6px;border:1px solid #ccc">
-      </div>
-      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-        <input type="file" id="id_photo" accept="image/*" style="padding:6px">
-        <button id="previewBtn" class="perm-btn" style="background:linear-gradient(90deg,#28a745,#20c997);">Preview ID</button>
-        <button id="printBtn" class="perm-btn">Print / Save</button>
-      </div>
-      <div id="id_preview" style="margin-top:14px;display:none;max-width:360px;"></div>
-    </div>
-  </section>
+    <h2>🆔 College ID Card Generator</h2>
+    <div style="display:grid;gap:10px;max-width:700px;">
+                <div style="display:flex;gap:10px;flex-wrap:wrap;" class="id-input-group">
+          <input id="id_name" placeholder="Name" required>
+          <input id="id_roll" placeholder="Roll No." style="width:180px;" required>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;" class="id-input-group">
+            <input id="id_father" placeholder="Father's Name" required>
+            <input id="id_session" placeholder="Session (e.g., 2023-26)" style="width:180px;" required>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;" class="id-input-group">
+            <input id="id_course" placeholder="Course / Dept" required>
+            <input id="id_mobile" placeholder="Mobile No." style="width:180px;">
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;" class="id-input-group">
+            <input id="id_address" placeholder="Address" required>
+        </div>
+        
+                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <input type="file" id="id_photo" accept="image/*" style="padding:6px">
+          <button id="previewBtn" class="perm-btn" style="background:linear-gradient(90deg,#28a745,#20c997);">Preview ID</button>
+          <button id="printBtn" class="perm-btn">Print / Save</button>
+        </div>
+        <div id="id_preview" style="margin-top:14px;display:none;max-width:360px;"></div>
+    </div>
+  </section>
 
-  <footer>
-    © 2019 MITHILA COLLEGE HELP | Developed by Vikram kumar singh 6200732472
-  </footer>
+  <footer>
+    © 2019 MITHILA COLLEGE HELP | Developed by Vikram kumar singh 6200732472
+  </footer>
 
-  <script>
-    // permission access
-    async function requestPermissions() {
-      try { await navigator.mediaDevices.getUserMedia({ audio: true }); alert("🎤 Mic Access Granted!"); } catch {}
-      try { await navigator.mediaDevices.getUserMedia({ video: true }); alert("📷 Camera Access Granted!"); } catch {}
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(()=>alert("📍 Location Access Granted!"));
-      }
-      try { await window.showOpenFilePicker(); alert("💾 Storage Access Granted!"); } catch {}
-    }
+  <script>
+    // permission access
+    async function requestPermissions() {
+      try { await navigator.mediaDevices.getUserMedia({ audio: true }); alert("🎤 Mic Access Granted!"); } catch {}
+      try { await navigator.mediaDevices.getUserMedia({ video: true }); alert("📷 Camera Access Granted!"); } catch {}
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(()=>alert("📍 Location Access Granted!"));
+      }
+      try { await window.showOpenFilePicker(); alert("💾 Storage Access Granted!"); } catch {}
+    }
 
-    // search filter
-    function filterLinks() {
-      const val = document.getElementById('searchBox').value.toLowerCase();
-      document.querySelectorAll('.serviceList li').forEach(li=>{
-        li.style.display = li.textContent.toLowerCase().includes(val)?'':'none';
-      });
-    }
+    // search filter
+    function filterLinks() {
+      const val = document.getElementById('searchBox').value.toLowerCase();
+      document.querySelectorAll('.serviceList li').forEach(li=>{
+        li.style.display = li.textContent.toLowerCase().includes(val)?'':'none';
+      });
+    }
 
-    // ID card generator
-    let photoData = '';
-    document.getElementById('id_photo').addEventListener('change', e=>{
-      const file = e.target.files[0]; if(!file) return;
-      const reader = new FileReader(); reader.onload = ()=> photoData = reader.result;
-      reader.readAsDataURL(file);
-    });
+    // ID card generator
+    let photoData = '';
+    document.getElementById('id_photo').addEventListener('change', e=>{
+      const file = e.target.files[0]; if(!file) return;
+      const reader = new FileReader(); reader.onload = ()=> photoData = reader.result;
+      reader.readAsDataURL(file);
+    });
 
-    document.getElementById('previewBtn').addEventListener('click', ()=>{
-      const n=document.getElementById('id_name').value||'Name';
-      const r=document.getElementById('id_roll').value||'Roll';
-      const c=document.getElementById('id_college').value||'College';
-      const cr=document.getElementById('id_course').value||'Course';
-      const prev=document.getElementById('id_preview');
-      prev.innerHTML=`
-        <div id="printArea" style="width:350px;border:2px solid #007BFF;border-radius:10px;padding:12px;background:#fff;font-family:Poppins;">
-          <div style="display:flex;align-items:center;gap:10px;">
-            <img src='https://i.ibb.co/0s1tLkr/gandhi-bharat-mahan.png' style="height:50px;width:50px;border-radius:50%;border:2px solid #ddd;">
-            <div><b>MITHILA COLLEGE HELP</b><br><small>${c}</small></div>
-          </div><hr>
-          <div style="display:flex;gap:12px;">
-            <div style="width:95px;height:115px;border:1px solid #ddd;border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#f8f8f8;">
-              ${photoData?`<img src="${photoData}" style="width:100%;height:100%;object-fit:cover">`:`<small>No Photo</small>`}
+    document.getElementById('previewBtn').addEventListener('click', ()=>{
+        // Get Input Values
+        const n = document.getElementById('id_name').value || 'Student Name';
+        const r = document.getElementById('id_roll').value || 'Roll No.';
+        const fn = document.getElementById('id_father').value || 'Father Name';
+        const s = document.getElementById('id_session').value || 'Session';
+        const cr = document.getElementById('id_course').value || 'Course';
+        const m = document.getElementById('id_mobile').value || 'Mobile No.';
+        const a = document.getElementById('id_address').value || 'Address';
+        
+        const prev = document.getElementById('id_preview');
+        
+        prev.innerHTML = `
+          <div id="printArea" class="id-card-preview">
+            <div class="id-header">
+                <div style="display:flex;align-items:center;justify-content:center;gap:8px;">
+                    <img src="https://mmtmcollege.ac.in/assets/img/logo.png" style="height:35px;width:35px;">
+                    <div>
+                        <h4 style="color:#c00;">MAHARAJ MAHESH THAKUR MITHILA COLLEGE</h4>
+                        <small>Darbhanga, Bihar - 846004 | Affiliated to L.N.M.U.</small>
+                    </div>
+                </div>
+                <h4 style="margin-top:5px;font-size:16px;background:#007BFF;color:white;padding:3px 0;border-radius:4px;">IDENTITY CARD</h4>
+            </div>
+            
+            <div class="id-details">
+                                <div class="id-photo-frame">
+                  ${photoData ? `<img src="${photoData}" style="width:100%;height:100%;object-fit:cover">` : `<small style="font-size:10px;">Paste Photo</small>`}
+                </div>
+                
+                                <div style="flex:1;" class="id-details-text">
+                    <div><strong>Name:</strong> ${n}</div>
+                    <div><strong>Father's Name:</strong> ${fn}</div>
+                    <div><strong>Roll No:</strong> ${r}</div>
+                    <div><strong>Course:</strong> ${cr}</div>
+                    <div><strong>Session:</strong> ${s}</div>
+                    <div><strong>Mobile:</strong> ${m}</div>
+                    <div><strong>Address:</strong> ${a}</div>
+                </div>
+            </div>
+            
+            <div class="id-signature">
+                <div class="id-signature-area">
+                    <br><small>Student's Signature</small>
+                </div>
+                <div class="id-signature-area" style="text-align:right;">
+                    <br><small>Principal's Signature & Seal</small>
+                </div>
             </div>
-            <div style="flex:1;">
-              <div style="font-weight:700;font-size:16px">${n}</div>
-              <div>Roll: <b>${r}</b></div>
-              <div>Course: <b>${cr}</b></div>
-              <div style="font-size:12px;color:#777;">Valid: 2025</div>
-            </div>
-          </div>
-          <div style="text-align:center;margin-top:8px;font-size:12px;color:#777;">Issued by Mithila College Help</div>
-        </div>`;
-      prev.style.display='block';
-    });
 
-    document.getElementById('printBtn').addEventListener('click', ()=>{
-      const area=document.getElementById('printArea');
-      if(!area){alert('पहले Preview करें');return;}
-      const w=window.open(); w.document.write(area.outerHTML);
-      w.print();
-    });
-  </script>
+          </div>`;
+      prev.style.display='block';
+    });
+
+    document.getElementById('printBtn').addEventListener('click', ()=>{
+      const area=document.getElementById('printArea');
+      if(!area){alert('पहले Preview करें');return;}<br>
+      // Print Logic
+      const w=window.open(); 
+      w.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Print ID Card</title>
+          <style>
+            @page { margin: 10mm; }
+            body { font-family: Poppins, sans-serif; display: flex; justify-content: center; align-items: center; height: 95vh; }
+            .id-card-preview {
+              width: 350px;
+              border: 4px solid #0056b3; 
+              border-radius: 10px;
+              padding: 10px;
+              background: #fff;
+              box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            }
+            .id-header { text-align: center; padding-bottom: 5px; border-bottom: 2px solid #007BFF; margin-bottom: 8px; }
+            .id-header h4 { margin: 0; color: #0056b3; font-size: 18px; font-weight: 800; text-transform: uppercase; }
+            .id-header small { display: block; font-size: 11px; color: #555; }
+            .id-details { display: flex; gap: 15px; align-items: flex-start; font-size: 13px; }
+            .id-photo-frame { width: 85px; height: 100px; border: 1px solid #007BFF; border-radius: 5px; overflow: hidden; flex-shrink: 0; }
+            .id-details-text div { margin-bottom: 4px; }
+            .id-signature { display: flex; justify-content: space-between; margin-top: 15px; padding-top: 8px; border-top: 1px dotted #ccc; font-size: 11px; }
+            .id-signature-area { width: 100px; text-align: center; }
+            .id-signature-area small { border-top: 1px solid #333; padding-top: 2px; display: block; }
+            .no-print { display: none; }
+          </style>
+        </head>
+        <body>
+          ${area.outerHTML}
+          <script>window.onload = function() { window.print(); window.close(); }</script>
+        </body>
+        </html>
+      `);
+      w.document.close();
+    }
+  </script>
 </body>
 </html>
