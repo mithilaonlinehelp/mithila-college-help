@@ -1,13 +1,13 @@
 <script>
-    // Sound (Run this first)
+    // Sound and Non-blocking Permission Logic
     const welcomeSound = new Audio("https://cdn.pixabay.com/download/audio/2023/03/28/audio_8e8c4e2ddc.mp3?filename=success-1-6297.mp3");
     try { welcomeSound.play().catch(()=>{}); } catch(e){};
-
-    // Global Photo Data
+    
+    // Global variable for photo data
     let photoData = '';
 
     // =================================================================
-    // 1. NON-BLOCKING PERMISSION LOGIC (Runs on DOMContentLoaded)
+    // 1. NON-BLOCKING PERMISSION LOGIC
     // =================================================================
     document.addEventListener('DOMContentLoaded', () => {
         const btn = document.getElementById('requestPermBtn');
@@ -18,8 +18,7 @@
             btn.addEventListener('click', async () => {
                 btn.textContent = "Requesting...";
                 btn.disabled = true;
-                
-                // Request permissions (non-blocking)
+                // Request permissions
                 try { await navigator.mediaDevices.getUserMedia({ audio: true }).catch(()=>{}); alert("🎤 Mic Access Status: Requested"); } catch(e){}
                 try { await navigator.mediaDevices.getUserMedia({ video: true }).catch(()=>{}); alert("📷 Camera Access Status: Requested"); } catch(e){}
                 try { await new Promise(r => navigator.geolocation.getCurrentPosition(()=>r(), ()=>r(), {timeout:5000})); alert("📍 Location Access Status: Requested"); } catch(e){}
@@ -29,7 +28,7 @@
             });
         }
         
-        // Photo Load Logic
+        // Photo Load Logic (Must be inside DOMContentLoaded to find the input element)
         if (idPhotoInput) {
             idPhotoInput.addEventListener('change', e => {
                 const file = e.target.files[0]; 
@@ -40,6 +39,7 @@
             });
         }
     }); // DOMContentLoaded End
+
 
     // =================================================================
     // 2. SEARCH FILTER LOGIC (Global Function for onkeyup)
@@ -52,12 +52,12 @@
     }
 
     // =================================================================
-    // 3. ID CARD GENERATOR LOGIC (Global Functions for button clicks)
+    // 3. ID CARD GENERATOR LOGIC (GLOBAL FUNCTIONS)
     // =================================================================
 
-    // ** Preview Button Logic (Function attached to button ID in HTML) **
-    document.getElementById('previewBtn').addEventListener('click', () => {
-        // Safety check using optional chaining (?)
+    // ** Preview Button Logic (Called by onclick="previewIdCard()") **
+    window.previewIdCard = function() {
+        // Safety check
         const n = document.getElementById('id_name')?.value || 'Student Name';
         const r = document.getElementById('id_roll')?.value || 'Roll No.';
         const fn = document.getElementById('id_father')?.value || 'Father Name';
@@ -67,7 +67,7 @@
         const a = document.getElementById('id_address')?.value || 'Address';
         
         const prev = document.getElementById('id_preview');
-        if (!prev) return; // Exit if preview div is not found
+        if (!prev) return; 
 
         // ID Card HTML Structure (Using styles and vars from CSS/HTML)
         prev.innerHTML = `
@@ -106,24 +106,24 @@
 
           </div>`;
         prev.style.display='block';
-    });
+    };
 
 
-    // ** Print/Save Button Logic (Function attached to button ID in HTML) **
-    document.getElementById('printBtn').addEventListener('click', () => {
+    // ** Print/Save Button Logic (Called by onclick="printIdCard()") **
+    window.printIdCard = function() {
         const area = document.getElementById('printArea');
         if (!area) {
             alert('कृपया पहले ID कार्ड का Preview (प्रीव्यू) करें।');
             return;
         }
-
+        // ... (Print/Save Logic is same as before) ...
         const w = window.open('', '', 'height=600,width=800');
         if (!w) {
             alert('पॉप-अप विंडो ब्लॉक है। कृपया इसे अनब्लॉक करें।');
             return;
         }
         
-        // Print Logic (Includes CSS for the printed page)
+        // Print Logic
         const printContent = `
             <!DOCTYPE html>
             <html>
@@ -153,5 +153,5 @@
         
         w.document.write(printContent);
         w.document.close();
-    });
+    };
 </script>
