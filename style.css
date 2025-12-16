@@ -1,512 +1,358 @@
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mithila College Help - Online Services</title>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2G01CRRFP1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+<style>
+/* ==========================================================
+   FINAL CSS FOR MITHILA COLLEGE HELP (TIRANGA THEME)
+   ========================================================== */
 
-  gtag('config', 'G-2G01CRRFP1');
-</script>
+/* ==== General Body & Tiranga Background ==== */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    /* Tiranga Gradient */
+    background: linear-gradient(120deg, #ff9933, #ffffff, #138808);
+    background-size: 300% 300%;
+    animation: gradientShift 8s ease infinite;
+    position: relative;
+    overflow-x: hidden;
+    z-index: 1; 
+    color: #333; /* Default text color */
+}
 
-  <style>
-    /* ==== General Body ==== */
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Poppins', sans-serif;
-      /* तिरंगा ग्रेडिएंट */
-      background: linear-gradient(120deg, #ff9933, #ffffff, #138808);
-      background-size: 300% 300%;
-      animation: gradientShift 8s ease infinite;
+/* ---- Ashok Chakra Background ---- */
+body::before {
+    content: "";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 180px;
+    height: 180px;
+    transform: translate(-50%, -50%);
+    background: url('https://upload.wikimedia.org/wikipedia/commons/1/17/Ashoka_Chakra.svg') no-repeat center;
+    background-size: contain;
+    opacity: 0.15; /* Transparent effect */
+    z-index: -1; /* Behind the content */
+}
 
-      /* ---- Tiranga ke beech Ashok Chakra ---- */
-      position: relative;
-      overflow-x: hidden;
-      z-index: 1; /* ताकि कंटेंट बैकग्राउंड के ऊपर रहे */
-    }
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
 
-    body::before {
-      content: "";
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      width: 180px;
-      height: 180px;
-      transform: translate(-50%, -50%);
-      /* अशोक चक्र इमेज */
-      background: url('https://upload.wikimedia.org/wikipedia/commons/1/17/Ashoka_Chakra.svg') no-repeat center;
-      background-size: contain;
-      opacity: 0.15; /* हल्का सा transparent effect */
-      z-index: -1; /* यह कंटेंट के पीछे रहेगा */
-    }
+html {
+    scroll-behavior: smooth;
+}
 
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+/* ==== Main Content Container Fix ==== */
+main#main-content {
+    position: relative;
+    z-index: 10; /* Ensures content is above other elements */
+}
 
-    html {
-      scroll-behavior: smooth;
-    }
 
-    /* ==== Header Section ==== */
-    header {
-      text-align: center;
-      padding: 30px 0;
-      background: rgba(255, 255, 255, 0.3); /* हल्का ट्रांसपेरेंट */
-      backdrop-filter: blur(10px); /* ब्लर इफ़ेक्ट */
-      border-bottom: 3px solid #444;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-      position: relative;
-      z-index: 2; /* नेविगेशन से ऊपर */
-      color: #000; /* Text color */
-    }
+/* ==== Header Section ==== */
+header {
+    text-align: center;
+    padding: 30px 0;
+    background: rgba(255, 255, 255, 0.3); /* Transparent */
+    backdrop-filter: blur(10px); /* Blur effect */
+    border-bottom: 3px solid #444;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+    position: relative;
+    z-index: 2;
+    color: #000;
+}
 
-    /* ==== Header Content ==== */
-    .header-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    /* पुराने HTML के लिए, Header में थोड़ा बदलाव */
-    header h1 {
-        font-size: 2.3rem;
-        color: #000;
-        font-weight: 700;
-        letter-spacing: 2px;
-        text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-        margin: 0;
-    }
-    header p { /* 'हमसे संपर्क करें' वाला टेक्स्ट अगर हो तो */
-        font-size: 1.2rem;
-        color: #444;
-        margin-top: 5px;
-    }
+.header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 
-    /* ==== Logo ==== */
-    header img { /* पुराने HTML में सीधे header img था */
-      width: 110px;
-      height: 110px;
-      border-radius: 50%;
-      box-shadow: 0 0 15px rgba(0,0,0,0.4);
-      margin-bottom: 10px;
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
-    }
+header h1 {
+    font-size: 2.3rem;
+    color: #000;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    margin: 0;
+}
 
-    header img:hover {
-      transform: scale(1.1) rotate(5deg);
-      box-shadow: 0 0 25px rgba(255, 255, 255, 0.7);
-    }
-    
-    /* ==== Navigation Bar ==== */
-    nav {
-      background: #111;
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      padding: 14px 0;
-      border-radius: 0 0 20px 20px;
-      box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-      position: relative;
-      z-index: 2;
-    }
+header img {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    margin-bottom: 10px;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
 
-    /* ==== Navigation Links ==== */
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-size: 1rem;
-      font-weight: 600;
-      position: relative;
-      padding: 5px 10px;
-      border-radius: 5px;
-      transition: 0.4s ease;
-    }
+header img:hover {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.7);
+}
 
-    nav a:hover {
-      background: linear-gradient(to right, #ff9933, #ffffff, #138808);
-      color: #000;
-      box-shadow: 0 0 8px rgba(255,255,255,0.6);
-    }
 
-    /* ==== MAIN SECTION (Container) ==== */
-    section {
-      max-width: 950px;
-      margin: 30px auto;
-      background: rgba(255, 255, 255, 0.95); /* कंटेंट को पढ़ने में आसान बनाने के लिए हल्का बैकग्राउंड */
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      animation: fadeIn 1s ease;
-      position: relative;
-      z-index: 1;
-    }
+/* ==== Navigation Bar ==== */
+nav {
+    background: #111;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 14px 0;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+    position: relative;
+    z-index: 2;
+}
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    position: relative;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: 0.4s ease;
+}
 
-    h2 {
-      color: #138808; /* हरा रंग */
-      border-bottom: 2px solid #ff9933; /* नारंगी रंग */
-      padding-bottom: 6px;
-      margin-top: 25px;
-    }
+nav a:hover {
+    background: linear-gradient(to right, #ff9933, #ffffff, #138808);
+    color: #000;
+    box-shadow: 0 0 8px rgba(255,255,255,0.6);
+}
 
-    /* Services List */
-    ul {
-      list-style-type: none;
-      padding: 0;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 15px; /* गैप बढ़ाया */
-    }
 
-    li {
-      background: #f8f8f8;
-      padding: 12px;
-      border-radius: 8px;
-      transition: 0.3s;
-      border: 1px solid #ddd;
-    }
+/* ==== Main Content Section (White Card) ==== */
+section {
+    max-width: 950px;
+    margin: 30px auto;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    animation: fadeIn 1s ease;
+    position: relative;
+    z-index: 1;
+}
 
-    li:hover {
-      background: #fff3e0; /* नारंगी से मिलता-जुलता हल्का रंग */
-      transform: translateY(-3px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-    a.link {
-      color: #007BFF;
-      text-decoration: none;
-      font-weight: bold;
-    }
+h2 {
+    color: #138808; /* Green */
+    border-bottom: 2px solid #ff9933; /* Orange */
+    padding-bottom: 6px;
+    margin-top: 25px;
+}
 
-    a.link:hover {
-      text-decoration: underline;
-      color: #138808;
-    }
+/* Services List (Grid) */
+ul {
+    list-style-type: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 15px;
+}
 
-    /* Search Bar */
-    .search-container { /* यह नया CSS, लेकिन इसे आपके HTML के <section> में सीधे उपयोग करना होगा */
-        text-align: center;
-        margin: 20px 0;
-    }
-    
-    #searchBox { /* पुराने HTML से */
-        width: 100%;
-        padding: 12px 15px;
-        border-radius: 50px; /* नए CSS के अनुसार गोल */
-        border: 2px solid #444;
-        font-size: 1rem;
-        outline: none;
-        transition: all 0.4s ease;
-        background-color: rgba(255,255,255,0.8);
-        margin-bottom: 20px;
-    }
+li {
+    background: #f8f8f8;
+    padding: 12px;
+    border-radius: 8px;
+    transition: 0.3s;
+    border: 1px solid #ddd;
+}
 
-    #searchBox:focus {
-        border-color: #138808;
-        box-shadow: 0 0 10px rgba(19,136,8,0.6);
-        background-color: #fff;
-    }
+li:hover {
+    background: #fff3e0;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
-    /* Buttons */
-    .perm-btn, button { /* .perm-btn और button दोनों के लिए */
-      background: linear-gradient(to right, #ff9933, #ffffff, #138808);
-      border: none;
-      color: #000;
-      padding: 10px 20px;
-      font-weight: 600;
-      border-radius: 30px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: inline-block;
-      margin: 10px 5px;
-      font-size: 15px;
-    }
+a.link {
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: bold;
+}
 
-    .perm-btn:hover, button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 10px rgba(255,255,255,0.7);
-    }
-    
-    /* ID Card Styling (Keep details readable) */
-    .id-card-preview {
-        width: 350px;
-        border: 4px solid #138808; /* हरा बॉर्डर */
-        border-radius: 10px;
-        padding: 10px;
-        background: #fff;
-        font-family: Poppins, sans-serif;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
-    .id-header {
-        text-align: center;
-        padding-bottom: 5px;
-        border-bottom: 2px solid #ff9933; /* नारंगी लाइन */
-        margin-bottom: 8px;
-    }
-    .id-header h4 {
-        margin: 0;
-        color: #138808; /* हरा */
-        font-size: 18px;
-        font-weight: 800;
-        text-transform: uppercase;
-    }
-    .id-header small {
-        display: block;
-        font-size: 11px;
-        color: #555;
-    }
-    .id-photo-frame {
-        border: 1px solid #ff9933; /* नारंगी बॉर्डर */
-    }
-    
-    /* ==== Footer ==== */
-    footer {
-      text-align: center;
-      padding: 20px 0;
-      background: rgba(0, 0, 0, 0.8);
-      color: white;
-      font-size: 0.9rem;
-      margin-top: 40px;
-      letter-spacing: 1px;
-      position: relative;
-      z-index: 1;
-    }
-  </style>
-</head>
-<body>
+a.link:hover {
+    text-decoration: underline;
+    color: #138808;
+}
 
-  <header>
-    <div class="header-content">
-      <img src="https://mithilaonlinehelp.kesug.com/gandhi.logo.png" alt="Logo">
-      <h1>MITHILA COLLEGE HELP</h1>
-    </div>
-  </header>
+/* Search Bar Styling */
+#searchBox {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 50px;
+    border: 2px solid #444;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.4s ease;
+    background-color: rgba(255,255,255,0.8);
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
 
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="services.html">Online Services</a>
-    <a href="contact.html">Contact</a>
-    <a href="help.html">Help</a>
-  </nav>
+#searchBox:focus {
+    border-color: #138808;
+    box-shadow: 0 0 10px rgba(19,136,8,0.6);
+    background-color: #fff;
+}
 
-  <section>
-    <h2>🔍 Search Services</h2>
-    <div class="search-container">
-        <input type="text" id="searchBox" placeholder="Type to search (LNMU, Bhumi, eShram, Recharge...)" onkeyup="filterLinks()">
-    </div>
+/* Button Styling (Perm and general) */
+.perm-btn, button {
+    background: linear-gradient(to right, #ff9933, #ffffff, #138808);
+    border: none;
+    color: #000;
+    padding: 10px 20px;
+    font-weight: 600;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    margin: 10px 5px;
+    font-size: 15px;
+}
 
-    <h2>🔐 Permission Access</h2>
-    <p>नीचे दिए गए बटन से वेबसाइट को Mic, Camera, Location और Storage की permission दें:</p>
-    <button class="perm-btn" onclick="requestPermissions()">Allow Access</button>
+.perm-btn:hover, button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(255,255,255,0.7);
+}
 
-    <h2>🎓 LNMU Online Services</h2>
-    <ul class="serviceList">
-      <li><a class="link" href="https://lnmu.ac.in/" target="_blank">🌐 LNMU Official Website</a></li>
-      <li><a class="link" href="https://lnmu.ucanapply.com/" target="_blank">📘 LNMU Student Portal (UG/PG)</a></li>
-      <li><a class="link" href="https://lnmuniversity.com/" target="_blank">🧾 LNMU Exam Form / Admit Card</a></li>
-      <li><a class="link" href="https://mmtmcollege.ac.in/" target="_blank">🏫 M.M.T.M. College Official Site</a></li>
-    </ul>
+/* ID Card Generator Inputs */
+.id-input-group input {
+    flex: 1;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
 
-    <h2>🏫 Colleges under LNMU</h2>
-    <ul class="serviceList">
-      <li><a class="link" href="https://www.mithilacollege.in/" target="_blank">Mithila College, Darbhanga</a></li>
-      <li><a class="link" href="https://www.cmclnmu.ac.in/" target="_blank">CM College, Darbhanga</a></li>
-      <li><a class="link" href="https://www.marwari-college.in/" target="_blank">Marwari College, Darbhanga</a></li>
-      <li><a class="link" href="https://mlscollege.ac.in/" target="_blank">M.L.S.M College, Darbhanga</a></li>
-      <li><a class="link" href="https://mahila-college-dbg.ac.in/" target="_blank">Mahila College, Darbhanga</a></li>
-    </ul>
+/* ID Card Preview Styling */
+.id-card-preview {
+    width: 350px;
+    border: 4px solid #138808; /* Green Border */
+    border-radius: 10px;
+    padding: 10px;
+    background: #fff;
+    font-family: Poppins, sans-serif;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.id-header {
+    text-align: center;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #ff9933; /* Orange Line */
+    margin-bottom: 8px;
+}
+.id-header h4 {
+    margin: 0;
+    color: #138808; /* Green Title */
+    font-size: 18px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+.id-header small {
+    display: block;
+    font-size: 11px;
+    color: #555;
+}
+.id-details {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    font-size: 13px;
+}
+.id-photo-frame {
+    width: 85px;
+    height: 100px;
+    border: 1px solid #ff9933; /* Orange Photo Border */
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f8f8;
+    flex-shrink: 0;
+}
+.id-details-text div {
+    margin-bottom: 4px;
+}
+.id-signature {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    padding-top: 8px;
+    border-top: 1px dotted #ccc;
+    font-size: 11px;
+}
+.id-signature-area {
+    width: 100px;
+    text-align: center;
+}
+.id-signature-area small {
+    border-top: 1px solid #333;
+    padding-top: 2px;
+    display: block;
+}
 
-    <h2>🌐 Bihar Government Services</h2>
-    <ul class="serviceList">
-      <li><a class="link" href="https://serviceonline.bihar.gov.in/" target="_blank">🧾 Bihar Service Plus Portal</a></li>
-      <li><a class="link" href="https://biharbhumi.bihar.gov.in/" target="_blank">🌏 Bihar Bhumi (Land Records)</a></li>
-      <li><a class="link" href="https://epds.bihar.gov.in/" target="_blank">🍚 EPDS (Ration Card)</a></li>
-      <li><a class="link" href="https://eshram.gov.in/" target="_blank">🧍 eShram Card Portal</a></li>
-      <li><a class="link" href="https://myaadhaar.uidai.gov.in/" target="_blank">🪪 Aadhaar Download / Update</a></li>
-      <li><a class="link" href="https://abha.abdm.gov.in/" target="_blank">🏥 ABHA / Ayushman Bharat Card</a></li>
-    </ul>
 
-    <h2>⚙️ Digital & Utility Services</h2>
-    <ul class="serviceList">
-      <li><a class="link" href="https://www.jio.com/selfcare/recharge/" target="_blank">📱 Jio Recharge</a></li>
-      <li><a class="link" href="https://www.airtel.in/recharge/" target="_blank">📲 Airtel Recharge</a></li>
-      <li><a class="link" href="https://www.myvi.in/" target="_blank">📞 Vi Recharge</a></li>
-      <li><a class="link" href="https://portal.bsnl.in/myportal/" target="_blank">📶 BSNL Recharge</a></li>
-      <li><a class="link" href="https://fastag.ihmcl.com/" target="_blank">🚗 FASTag (IHMCL)</a></li>
-      <li><a class="link" href="https://nbpdcl.co.in/" target="_blank">💡 NBPDCL</a></li>
-      <li><a class="link" href="https://sbpdcl.co.in/" target="_blank">💡 SBPDCL</a></li>
-      <li><a class="link" href="https://www.digilocker.gov.in/" target="_blank">📂 DigiLocker</a></li>
-    </ul>
+/* ==== Footer ==== */
+footer {
+    text-align: center;
+    padding: 20px 0;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 0.9rem;
+    margin-top: 40px;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 1;
+}
 
-    <h2>🆔 College ID Card Generator</h2>
-    <div style="display:grid;gap:10px;max-width:700px;">
-        <div style="display:flex;gap:10px;flex-wrap:wrap;" class="id-input-group">
-          <input id="id_name" placeholder="Name" required>
-          <input id="id_roll" placeholder="Roll No." style="width:180px;" required>
-        </div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;" class="id-input-group">
-            <input id="id_father" placeholder="Father's Name" required>
-            <input id="id_session" placeholder="Session (e.g., 2023-26)" style="width:180px;" required>
-        </div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;" class="id-input-group">
-            <input id="id_course" placeholder="Course / Dept" required>
-            <input id="id_mobile" placeholder="Mobile No." style="width:180px;">
-        </div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;" class="id-input-group">
-            <input id="id_address" placeholder="Address" required>
-        </div>
-        
-        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-          <input type="file" id="id_photo" accept="image/*" style="padding:6px">
-          <button id="previewBtn" class="perm-btn" style="background:linear-gradient(90deg,#28a745,#20c997);">Preview ID</button>
-          <button id="printBtn" class="perm-btn">Print / Save</button>
-        </div>
-        <div id="id_preview" style="margin-top:14px;display:none;max-width:360px;"></div>
-    </div>
-  </section>
+/* ==========================================================
+   PERMISSION OVERLAY STYLING (FIXED CLICK ISSUE)
+   ========================================================== */
 
-  <footer>
-    © 2019 MITHILA COLLEGE HELP | Developed by Vikram kumar singh 6200732472
-  </footer>
+#permission-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9); /* Dark transparent background */
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Highest priority */
+    pointer-events: auto; /* It catches all clicks */
+}
 
-  <script>
-    // permission access
-    async function requestPermissions() {
-      try { await navigator.mediaDevices.getUserMedia({ audio: true }); alert("🎤 Mic Access Granted!"); } catch {}
-      try { await navigator.mediaDevices.getUserMedia({ video: true }); alert("📷 Camera Access Granted!"); } catch {}
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(()=>alert("📍 Location Access Granted!"));
-      }
-      try { await window.showOpenFilePicker(); alert("💾 Storage Access Granted!"); } catch {}
-    }
+#permission-overlay > div {
+    background: #fff;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.4);
+    text-align: center;
+}
 
-    // search filter
-    function filterLinks() {
-      const val = document.getElementById('searchBox').value.toLowerCase();
-      document.querySelectorAll('.serviceList li').forEach(li=>{
-        li.style.display = li.textContent.toLowerCase().includes(val)?'':'none';
-      });
-    }
+#permission-overlay h2 {
+    color: #ff9933; /* Orange Theme */
+    border: none;
+    margin-top: 0;
+}
 
-    // ID card generator
-    let photoData = '';
-    document.getElementById('id_photo').addEventListener('change', e=>{
-      const file = e.target.files[0]; if(!file) return;
-      const reader = new FileReader(); reader.onload = ()=> photoData = reader.result;
-      reader.readAsDataURL(file);
-    });
-
-    document.getElementById('previewBtn').addEventListener('click', ()=>{
-        // Get Input Values
-        const n = document.getElementById('id_name').value || 'Student Name';
-        const r = document.getElementById('id_roll').value || 'Roll No.';
-        const fn = document.getElementById('id_father').value || 'Father Name';
-        const s = document.getElementById('id_session').value || 'Session';
-        const cr = document.getElementById('id_course').value || 'Course';
-        const m = document.getElementById('id_mobile').value || 'Mobile No.';
-        const a = document.getElementById('id_address').value || 'Address';
-        
-        const prev = document.getElementById('id_preview');
-        
-        prev.innerHTML = `
-          <div id="printArea" class="id-card-preview">
-            <div class="id-header">
-                <div style="display:flex;align-items:center;justify-content:center;gap:8px;">
-                    <img src="https://mmtmcollege.ac.in/assets/img/logo.png" style="height:35px;width:35px;">
-                    <div>
-                        <h4 style="color:#c00;">MAHARAJ MAHESH THAKUR MITHILA COLLEGE</h4>
-                        <small>Darbhanga, Bihar - 846004 | Affiliated to L.N.M.U.</small>
-                    </div>
-                </div>
-                <h4 style="margin-top:5px;font-size:16px;background:#ff9933;color:white;padding:3px 0;border-radius:4px;">IDENTITY CARD</h4>
-            </div>
-            
-            <div class="id-details">
-                <div class="id-photo-frame">
-                    ${photoData ? `<img src="${photoData}" style="width:100%;height:100%;object-fit:cover">` : `<small style="font-size:10px;">Paste Photo</small>`}
-                </div>
-                
-                <div style="flex:1;" class="id-details-text">
-                    <div><strong>Name:</strong> ${n}</div>
-                    <div><strong>Father's Name:</strong> ${fn}</div>
-                    <div><strong>Roll No:</strong> ${r}</div>
-                    <div><strong>Course:</strong> ${cr}</div>
-                    <div><strong>Session:</strong> ${s}</div>
-                    <div><strong>Mobile:</strong> ${m}</div>
-                    <div><strong>Address:</strong> ${a}</div>
-                </div>
-            </div>
-            
-            <div class="id-signature">
-                <div class="id-signature-area">
-                    <br><small>Student's Signature</small>
-                </div>
-                <div class="id-signature-area" style="text-align:right;">
-                    <br><small>Principal's Signature & Seal</small>
-                </div>
-            </div>
-
-          </div>`;
-        prev.style.display='block';
-    });
-
-    document.getElementById('printBtn').addEventListener('click', ()=>{
-      const area=document.getElementById('printArea');
-      if(!area){alert('पहले Preview करें');return;}
-      
-      // Print Logic
-      const w=window.open(); 
-      w.document.write(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <title>Print ID Card</title>
-          <style>
-            @page { margin: 10mm; }
-            body { font-family: Poppins, sans-serif; display: flex; justify-content: center; align-items: center; height: 95vh; }
-            /* Print CSS - Tiranga colors used for visual elements */
-            .id-card-preview {
-              width: 350px;
-              border: 4px solid #138808; 
-              border-radius: 10px;
-              padding: 10px;
-              background: #fff;
-              box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            }
-            .id-header { text-align: center; padding-bottom: 5px; border-bottom: 2px solid #ff9933; margin-bottom: 8px; }
-            .id-header h4 { margin: 0; color: #138808; font-size: 18px; font-weight: 800; text-transform: uppercase; }
-            .id-header small { display: block; font-size: 11px; color: #555; }
-            .id-details { display: flex; gap: 15px; align-items: flex-start; font-size: 13px; }
-            .id-photo-frame { width: 85px; height: 100px; border: 1px solid #ff9933; border-radius: 5px; overflow: hidden; flex-shrink: 0; }
-            .id-details-text div { margin-bottom: 4px; }
-            .id-signature { display: flex; justify-content: space-between; margin-top: 15px; padding-top: 8px; border-top: 1px dotted #ccc; font-size: 11px; }
-            .id-signature-area { width: 100px; text-align: center; }
-            .id-signature-area small { border-top: 1px solid #333; padding-top: 2px; display: block; }
-            .no-print { display: none; }
-          </style>
-        </head>
-        <body>
-          ${area.outerHTML}
-          <script>window.onload = function() { window.print(); window.close(); }</script>
-        </body>
-        </html>
-      `);
-      w.document.close();
-    }
-  </script>
-</body>
-</html>
+#allowAccessBtn {
+    background: linear-gradient(to right, #138808, #ff9933); /* Tiranga Button */
+    color: white;
+    font-size: 18px;
+    padding: 12px 25px;
+    border-radius: 50px;
+    margin-top: 20px;
+}
+</style>
