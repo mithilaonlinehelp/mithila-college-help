@@ -1,24 +1,24 @@
 <script>
     // =================================================================
-    // 1. PERMISSION OVERLAY LOGIC (Main Access Control)
-    //    यह सुनिश्चित करता है कि Allow Access पर क्लिक किए बिना कोई क्लिक काम न करे।
+    // 1. PERMISSION OVERLAY LOGIC (Main Access Control) - FIXED
     // =================================================================
     document.addEventListener('DOMContentLoaded', () => {
-        const overlay = document.getElementById('permission-overlay');
+        // ID को 'permission-message' में बदला गया (आपके HTML के अनुसार)
+        const permScreen = document.getElementById('permission-message'); 
         const main = document.getElementById('main-content');
-        const btn = document.getElementById('allowAccessBtn');
+        const btn = document.getElementById('btnAllow'); // बटन ID 'btnAllow' में बदला गया
+        const welcomeSound = new Audio("https://cdn.pixabay.com/download/audio/2023/03/28/audio_8e8c4e2ddc.mp3?filename=success-1-6297.mp3");
 
-        // Hide main content initially and disable clicks
+
+        // Hide main content initially (आपके HTML में display:none सेट है, लेकिन JS से पुष्टि कर रहे हैं)
         if (main) {
             main.style.display = 'none';
-            main.style.visibility = 'hidden';
-            main.style.pointerEvents = 'none'; // Clicks disabled
         }
 
         async function allowAccessFlow() {
             if (!btn) return;
+            btn.textContent = 'Requesting...';
             btn.disabled = true;
-            btn.textContent = 'Access Granted! (Loading...)';
 
             // Request permissions (non-blocking)
             try { await navigator.mediaDevices.getUserMedia({ audio: true }).catch(()=>{}); } catch(e){ console.error(e); }
@@ -32,30 +32,28 @@
             });
             
             // File Picker (Storage access)
-            try { if (window.showOpenFilePicker) await window.showOpenFilePicker().catch(()=>{}); } catch(e){ console.error(e); }
-
-            // Show main content and hide overlay
-            if (overlay) overlay.style.display = 'none';
+            try { if (window.showOpenFilePicker) await window.showOpenFilePicker().catch(()=>{}); } catch(e){ console.error(e); }                                                   
             
+            if (permScreen) {
+                permScreen.remove(); 
+            }
+            
+            // Show main content (Clicks should now work as nothing is blocking them)
             if (main) {
-                // Showing main content and enabling clicks (Crucial Fix)
-                main.style.display = '';
+                main.style.display = 'block'; 
                 main.style.visibility = 'visible';
-                main.style.pointerEvents = 'auto'; // Clicks ENabled here!
+                main.style.pointerEvents = 'auto'; // सुरक्षा के लिए सुनिश्चित किया गया
             }
 
             // Play optional welcome sound
-            try {
-                const s = new Audio('https://cdn.pixabay.com/download/audio/2023/03/28/audio_8e8c4e2ddc.mp3?filename=success-1-6297.mp3');
-                s.play().catch(()=>{});
-            } catch(e){}
+            welcomeSound.play().catch(()=>{});
         }
 
         if (btn) btn.addEventListener('click', allowAccessFlow);
     });
 
     // =================================================================
-    // 2. SEARCH FILTER LOGIC
+    // 2. SEARCH FILTER LOGIC (No Change)
     // =================================================================
 
     function filterLinks() {
@@ -73,7 +71,7 @@
     }
 
     // =================================================================
-    // 3. ID CARD GENERATOR LOGIC
+    // 3. ID CARD GENERATOR LOGIC (No Change)
     // =================================================================
     let photoData = '';
     
