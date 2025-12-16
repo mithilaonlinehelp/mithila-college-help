@@ -147,11 +147,18 @@
             </ul>
 
             <h2 class="section-title">🆔 College ID Card Generator</h2>
-            <div style="display:grid;gap:10px;max-width:700px;">
-                <div class="id-input-group">
-                    <input id="id_name" placeholder="Name" required>
-                    <input id="id_roll" placeholder="Roll No." style="width:180px;" required>
-                </div>
+<div style="display:grid;gap:10px;max-width:700px;">
+    <div class="id-input-group">
+        <input id="id_address" placeholder="Address" required>
+    </div>
+    
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <input type="file" id="id_photo" accept="image/*" style="padding:6px">
+        <button onclick="previewIdCard()" class="perm-btn" style="background:linear-gradient(90deg,#28a745,#20c997);">Preview ID</button>
+        <button onclick="printIdCard()" class="perm-btn">Print / Save</button>
+    </div>
+    <div id="id_preview" style="margin-top:14px;display:none;max-width:360px;"></div>
+</div>
                 <div class="id-input-group">
                     <input id="id_father" placeholder="Father's Name" required>
                     <input id="id_session" placeholder="Session (e.g., 2023-26)" style="width:180px;" required>
