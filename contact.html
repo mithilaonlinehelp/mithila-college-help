@@ -1,111 +1,148 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Us | Mithila College Help</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background-color: #f8f9fa;
-      color: #333;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | Mithila College Help</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+    header {
+      background-color: #007BFF;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+    nav {
+      background-color: #e9ecef;
+      text-align: center;
+      padding: 10px;
+    }
+    nav a {
+      color: #007BFF;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      background: white;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #007BFF;
+      text-align: center;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    input, textarea {
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      width: 100%;
+      box-sizing: border-box; 
+    }
+    button {
+      background-color: #007BFF;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    /* संपर्क विवरण सेक्शन के लिए स्टाइल */
+    .address-info {
+      text-align: center;
+      margin-top: 30px;
+      padding: 20px 0;
+      border-top: 1px solid #dee2e6;
+    }
+    .address-info h3 {
+      color: #007BFF;
+      margin-bottom: 10px;
+    }
+    .address-info p {
+        line-height: 1.6;
+        margin: 5px 0;
     }
-    header {
-      background-color: #007BFF;
-      color: white;
-      padding: 15px;
-      text-align: center;
+    .address-info a {
+        color: #007BFF; 
+        text-decoration: none;
     }
-    nav {
-      background-color: #e9ecef;
-      text-align: center;
-      padding: 10px;
-    }
-    nav a {
-      color: #007BFF;
-      text-decoration: none;
-      margin: 0 10px;
-      font-weight: bold;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-    .container {
-      max-width: 600px;
-      margin: 30px auto;
-      background: white;
-      border-radius: 10px;
-      padding: 30px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h2 {
-      color: #007BFF;
-      text-align: center;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-    input, textarea {
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
-      width: 100%;
-    }
-    button {
-      background-color: #007BFF;
-      color: white;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: bold;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    footer {
-      background: #007BFF;
-      color: white;
-      text-align: center;
-      padding: 10px;
-      margin-top: 30px;
-    }
-  </style>
+    footer {
+      background: #007BFF;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      margin-top: 30px;
+    }
+  </style>
 </head>
 <body>
 
-  <header>
-    <h1>Mithila College Help</h1>
-    <p>हमसे संपर्क करें</p>
-  </header>
+  <header>
+    <h1>Mithila College Help</h1>
+    <p>हमसे संपर्क करें</p>
+  </header>
 
-  <nav>
-    <a href="index.html">Home</a> |
-    <a href="about.html">About</a> |
-    <a href="services.html">Online Services</a> |
-    <a href="contact.html">Contact</a> |
-    <a href="help.html">Help</a>
-  </nav>
+  <nav>
+    <a href="index.html">Home</a> |
+    <a href="about.html">About</a> |
+    <a href="services.html">Online Services</a> |
+    <a href="contact.html">Contact</a> |
+    <a href="help.html">Help</a>
+  </nav>
 
-  <div class="container">
-    <h2>Contact Us</h2>
-    <p style="text-align:center;">अगर आपको कोई सवाल, सुझाव या सहायता चाहिए — नीचे लिखें 👇</p>
-    <form action="#" method="post">
-      <input type="text" name="name" placeholder="आपका नाम" required>
-      <input type="email" name="email" placeholder="आपका ईमेल" required>
-      <textarea name="message" rows="5" placeholder="आपका संदेश..." required></textarea>
-      <button type="submit">संदेश भेजें</button>
-    </form>
-  </div>
+  <div class="container">
+    <h2>संदेश भेजें</h2>
+    <p style="text-align:center;">अपना विवरण भरें और कोई भी प्रश्न या सुझाव हमें भेजें।</p>
+    
+        <form action="https://formspree.io/f/movgowob" method="POST"> 
 
-  <footer>
-    <p>© 2025 Mithila College Help | सभी अधिकार सुरक्षित</p>
-  </footer>
+      <input type="text" name="name" placeholder="आपका पूरा नाम (Your Name)" required>
+            <input type="email" name="_replyto" placeholder="आपका ईमेल (Your Email)" required> 
+      <input type="hidden" name="_subject" value="Mithila College Help से नया संदेश">
+
+      <textarea name="message" rows="5" placeholder="आपका संदेश / टिप्पणी (Your Message / Comment)..." required></textarea>
+
+      <button type="submit">संदेश भेजें</button>
+    </form>
+    
+    <div class="address-info">
+        <h3>हमारा संपर्क विवरण</h3>
+        <p><strong>ईमेल:</strong> <a href="mailto:vb703357@gmail.com">vb703357@gmail.com</a></p>
+        <p><strong>फ़ोन:</strong> <a href="tel:+916200732472">+91 62007 32472</a></p>
+        <p>
+            Mithila College Help (Virtual Office)<br>
+            College Road, Near Bus Stand<br>
+            Sitamarhi, Bihar - 843301, India
+        </p>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>© 2025 Mithila College Help | सभी अधिकार सुरक्षित</p>
+  </footer>
 
 </body>
 </html>
