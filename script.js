@@ -1,140 +1,333 @@
-<script>
-    // Sound and Non-blocking Permission Logic
-    const welcomeSound = new Audio("https://cdn.pixabay.com/download/audio/2023/03/28/audio_8e8c4e2ddc.mp3?filename=success-1-6297.mp3");
-    try { welcomeSound.play().catch(()=>{}); } catch(e){};
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Mithila College Help - Online Services</title>
 
-    // =================================================================
-    // 1. NON-BLOCKING PERMISSION LOGIC (अब कोई ब्लॉकिंग ओवरले नहीं है)
-    // =================================================================
-    const btn = document.getElementById('requestPermBtn');
-    if(btn) {
-        btn.addEventListener('click', async () => {
-            btn.textContent = "Requesting...";
-            btn.disabled = true;
-            
-            // Request permissions (non-blocking)
-            try { await navigator.mediaDevices.getUserMedia({ audio: true }).catch(()=>{}); alert("🎤 Mic Access Status: Requested"); } catch(e){}
-            try { await navigator.mediaDevices.getUserMedia({ video: true }).catch(()=>{}); alert("📷 Camera Access Status: Requested"); } catch(e){}
-            try { await new Promise(r => navigator.geolocation.getCurrentPosition(()=>r(), ()=>r(), {timeout:5000})); alert("📍 Location Access Status: Requested"); } catch(e){}
-            
-            btn.textContent = "Access Requested (Green)";
-            btn.style.background = 'linear-gradient(to right, #138808, #28a745)';
-        });
-    }
-    
-    // =================================================================
-    // 2. SEARCH FILTER LOGIC (Corrected to use .service-grid)
-    // =================================================================
-    function filterLinks() {
-        const val = document.getElementById('searchBox').value.toLowerCase();
-        // FIX: .service-grid का उपयोग करें
-        document.querySelectorAll('.service-grid li').forEach(li => { 
-            li.style.display = li.textContent.toLowerCase().includes(val) ? '' : 'none';
-        });
-    }
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2G01CRRFP1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-2G01CRRFP1');
+    </script>
 
-    // =================================================================
-    // 3. ID CARD GENERATOR LOGIC
-    // =================================================================
-    let photoData = '';
-    
-    document.getElementById('id_photo').addEventListener('change', e => {
-        const file = e.target.files[0]; 
-        if (!file) return;
-        const reader = new FileReader(); 
-        reader.onload = () => photoData = reader.result;
-        reader.readAsDataURL(file);
-    });
-
-    document.getElementById('previewBtn').addEventListener('click', () => {
-        const n = document.getElementById('id_name').value || 'Student Name';
-        const r = document.getElementById('id_roll').value || 'Roll No.';
-        const fn = document.getElementById('id_father').value || 'Father Name';
-        const s = document.getElementById('id_session').value || 'Session';
-        const cr = document.getElementById('id_course').value || 'Course';
-        const m = document.getElementById('id_mobile').value || 'Mobile No.';
-        const a = document.getElementById('id_address').value || 'Address';
-        
-        const prev = document.getElementById('id_preview');
-        
-        // ID Card HTML Structure 
-        // Note: Styles are kept inline for safety, but CSS variables are referenced.
-        prev.innerHTML = `
-          <div id="printArea" style="width:350px;border:4px solid var(--tiranga-green);border-radius:10px;padding:10px;background:#fff;box-shadow:0 4px 10px rgba(0, 0, 0, 0.2);">
-            <div style="text-align:center;padding-bottom:5px;border-bottom:2px solid var(--tiranga-orange);margin-bottom:8px;">
-                <div style="display:flex;align-items:center;justify-content:center;gap:8px;">
-                    <img src="https://mmtmcollege.ac.in/assets/img/logo.png" style="height:35px;width:35px;">
-                    <div>
-                        <h4 style="color:#c00;margin:0;">MAHARAJ MAHESH THAKUR MITHILA COLLEGE</h4>
-                        <small style="display:block;font-size:11px;color:#555;">Darbhanga, Bihar - 846004 | Affiliated to L.N.M.U.</small>
-                    </div>
-                </div>
-                <h4 style="margin-top:5px;font-size:16px;background:var(--tiranga-orange);color:white;padding:3px 0;border-radius:4px;">IDENTITY CARD</h4>
-            </div>
-            
-            <div style="display:flex;gap:15px;align-items:flex-start;font-size:13px;">
-                <div style="width:85px;height:100px;border:1px solid var(--tiranga-orange);border-radius:5px;overflow:hidden;flex-shrink:0;">
-                    ${photoData ? `<img src="${photoData}" style="width:100%;height:100%;object-fit:cover">` : `<small style="font-size:10px;">Paste Photo</small>`}
-                </div>
-                
-                <div style="flex:1;">
-                    <div style="margin-bottom:4px;"><strong>Name:</strong> ${n}</div>
-                    <div style="margin-bottom:4px;"><strong>Father's Name:</strong> ${fn}</div>
-                    <div style="margin-bottom:4px;"><strong>Roll No:</strong> ${r}</div>
-                    <div style="margin-bottom:4px;"><strong>Course:</strong> ${cr}</div>
-                    <div style="margin-bottom:4px;"><strong>Session:</strong> ${s}</div>
-                    <div style="margin-bottom:4px;"><strong>Mobile:</strong> ${m}</div>
-                    <div style="margin-bottom:4px;"><strong>Address:</strong> ${a}</div>
-                </div>
-            </div>
-            
-            <div style="display:flex;justify-content:space-between;margin-top:15px;padding-top:8px;border-top:1px dotted #ccc;font-size:11px;">
-                <div style="width:100px;text-align:center;"><br><small style="border-top:1px solid #333;padding-top:2px;display:block;">Student's Signature</small></div>
-                <div style="width:100px;text-align:right;"><br><small style="border-top:1px solid #333;padding-top:2px;display:block;">Principal's Signature & Seal</small></div>
-            </div>
-
-          </div>`;
-        prev.style.display='block';
-    });
-
-    document.getElementById('printBtn').addEventListener('click', () => {
-        const area = document.getElementById('printArea');
-        if (!area) {
-            alert('पहले Preview करें (Preview the ID first)');
-            return;
+    <style>
+        /* CSS Variables */
+        :root {
+            --tiranga-orange: #FF9933;
+            --tiranga-green: #138808;
+            --blue-highlight: #007BFF;
         }
 
-        const w = window.open();
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        // Print Logic
-        const printContent = `
-            <!DOCTYPE html>
-            <html>
-            <head>
-              <title>Print ID Card</title>
-              <style>
-                @page { margin: 10mm; }
-                body { font-family: Poppins, sans-serif; display: flex; justify-content: center; align-items: center; height: 95vh; }
-                .id-card-preview { width: 350px; border: 4px solid #138808; border-radius: 10px; padding: 10px; background: #fff; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); }
-                .id-header { text-align: center; padding-bottom: 5px; border-bottom: 2px solid #ff9933; margin-bottom: 8px; }
-                .id-header h4 { margin: 0; color: #138808; font-size: 18px; font-weight: 800; text-transform: uppercase; }
-                .id-header small { display: block; font-size: 11px; color: #555; }
-                .id-details { display: flex; gap: 15px; align-items: flex-start; font-size: 13px; }
-                .id-photo-frame { width: 85px; height: 100px; border: 1px solid #ff9933; border-radius: 5px; overflow: hidden; flex-shrink: 0; }
-                .id-details-text div { margin-bottom: 4px; }
-                .id-signature { display: flex; justify-content: space-between; margin-top: 15px; padding-top: 8px; border-top: 1px dotted #ccc; font-size: 11px; }
-                .id-signature-area { width: 100px; text-align: center; }
-                .id-signature-area small { border-top: 1px solid #333; padding-top: 2px; display: block; }
-              </style>
-            </head>
-            <body>
-              ${area.outerHTML}
-              <script>window.onload = function() { window.print(); window.close(); }</script>
-            </body>
-            </html>
-        `;
+        /* ==== Background and Chakra Animation ==== */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(120deg, var(--tiranga-orange), #ffffff, var(--tiranga-green));
+            background-size: 300% 300%;
+            animation: gradientShift 10s ease infinite;
+            position: relative;
+            overflow-x: hidden;
+            color: #111;
+        }
+        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        body::before {
+            content: ""; position: fixed; top: 50%; left: 50%; width: 260px; height: 260px;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/1/17/Ashoka_Chakra.svg') no-repeat center;
+            background-size: contain; opacity: 0.12; transform: translate(-50%, -50%) rotate(0deg);
+            animation: chakraRotate 25s linear infinite; pointer-events: none; z-index: 0;
+        }
+        @keyframes chakraRotate { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
 
-        w.document.write(printContent);
-        w.document.close();
-    });
-</script>
+        html { scroll-behavior: smooth; }
+
+        /* ==== Main Content and Header ==== */
+        #main-content { min-height: 100vh; position: relative; z-index: 2; }
+        header { padding: 25px 0; background: rgba(255,255,255,0.75); backdrop-filter: blur(6px); border-bottom: 3px solid rgba(0,0,0,0.2); box-shadow: 0 4px 10px rgba(0,0,0,0.2); text-align: center; }
+        .header-content { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .header-content img { width: 100px; height: 100px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.3); object-fit: cover; }
+        .site-title { font-size: 28px; font-weight: 700; color: #000; }
+        nav { background: rgba(0,0,0,0.8); padding: 12px 0; border-radius: 0 0 15px 15px; text-align: center; }
+        nav a { color: white; text-decoration: none; margin: 0 14px; font-weight: 600; transition: 0.3s; }
+        nav a:hover { color: var(--tiranga-orange); text-shadow: 0 0 10px rgba(255,255,255,0.7); }
+        
+        /* ==== Main Body (White Card) ==== */
+        main { max-width: 1000px; margin: 30px auto; background: rgba(255,255,255,0.9); padding: 25px; border-radius: 15px; box-shadow: 0 6px 25px rgba(0,0,0,0.15); }
+        h2.section-title { margin-top: 20px; font-size: 20px; color: var(--tiranga-green); border-left: 5px solid var(--tiranga-orange); padding-left: 10px; }
+        
+        /* ==== Services Grid & List Styling ==== */
+        .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; margin-top: 10px; list-style: none; padding: 0;}
+        .service-grid li { background: #f8fafc; padding: 12px; border-radius: 10px; border: 1px solid #e3e9f3; transition: 0.3s; }
+        .service-grid li:hover { transform: translateY(-4px); box-shadow: 0 6px 14px rgba(0,0,0,0.12); }
+        .service-grid a { color: var(--blue-highlight); font-weight: 600; text-decoration: none; }
+        .service-grid a:hover { text-decoration: underline; }
+        
+        /* ==== Search Bar ==== */
+        #searchBox { width: 100%; padding: 12px 15px; border-radius: 30px; border: 2px solid #444; font-size: 1rem; outline: none; margin-top: 10px; margin-bottom: 20px; box-sizing: border-box; }
+        #searchBox:focus { border-color: var(--tiranga-green); box-shadow: 0 0 10px rgba(19,136,8,0.6); }
+
+        /* ==== Buttons ==== */
+        .perm-btn, button { background: linear-gradient(to right, var(--tiranga-orange), var(--tiranga-green)); border: none; color: #000; font-weight: 600; padding: 10px 20px; border-radius: 30px; cursor: pointer; transition: 0.3s; margin: 10px 5px; display: inline-block; }
+        .perm-btn:hover, button:hover { transform: scale(1.05); }
+
+        /* ==== ID Card Styling (Inputs) ==== */
+        .id-input-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;}
+        .id-input-group input, #id_photo { flex: 1; padding: 8px; border-radius: 6px; border: 1px solid #ccc; box-sizing: border-box; }
+        .id-card-preview { width: 350px; border: 4px solid var(--tiranga-green); border-radius: 10px; padding: 10px; background: #fff; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); }
+        .id-card-preview h4 { color: #c00; margin: 0; }
+        
+        /* ==== Footer ==== */
+        footer { background: rgba(0,0,0,0.85); color: #fff; text-align: center; padding: 12px; margin-top: 20px; border-top: 3px solid var(--tiranga-green); border-radius: 0 0 10px 10px; }
+        
+        @media (max-width:700px){ .header-content img { width:80px; height:80px; } nav a { display:inline-block; margin:5px 8px; } }
+    </style>
+</head>
+
+<body>
+    <div id="main-content">
+        <header>
+            <div class="header-content">
+                <img src="gandhi.logo.png" alt="Mithila College Logo">
+                <div class="site-title">MITHILA COLLEGE HELP</div>
+            </div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="services.html">Online Services</a>
+                <a href="contact.html">Contact</a>
+                <a href="help.html">Help</a>
+            </nav>
+        </header>
+
+        <main>
+            <h2 class="section-title">🔍 Search Services</h2>
+            <input type="text" id="searchBox" placeholder="सेवाएँ खोजें (LNMU, Bhumi, eShram, Recharge...)" onkeyup="filterLinks()">
+            
+            <h2 class="section-title">🔐 Permission Access</h2>
+            <p>वेबसाइट की विशिष्ट सेवाओं (जैसे फोटो अपलोड) का उपयोग करने से पहले परमिशन दें।</p>
+            <button id="requestPermBtn" class="perm-btn">Allow Access Now</button>
+            <hr style="margin:20px 0; border:1px solid #e0e0e0;">
+
+            <h2 class="section-title">🎓 LNMU & Colleges</h2>
+            <ul class="service-grid">
+                <li><a href="https://lnmu.ac.in/" target="_blank">🌐 LNMU Official Website</a></li>
+                <li><a href="https://lnmuniversity.com/LNMU_ERP/Home.aspx/" target="_blank">📘 LNMU Student Portal UG</a></li>
+                <li><a href="https://lnmuniversity.com/" target="_blank">🧾 Exam Form / Admit Card</a></li>
+                <li><a href="https://mmtmcollege.ac.in/" target="_blank">🏫 M.M.T.M College</a></li>
+                <li><a href="https://www.mithilacollege.in/" target="_blank">Mithila College, Darbhanga</a></li>
+                <li><a href="https://www.cmclnmu.ac.in/" target="_blank">CM College, Darbhanga</a></li>
+                <li><a href="https://www.marwari-college.in/" target="_blank">Marwari College, Darbhanga</a></li>
+                <li><a href="https://mlscollege.ac.in/" target="_blank">M.L.S.M College</a></li>
+                <li><a href="https://mahila-college-dbg.ac.in/" target="_blank">Mahila College, Darbhanga</a></li>
+            </ul>
+
+            <h2 class="section-title">🌐 Bihar Government Services</h2>
+            <ul class="service-grid">
+                <li><a href="https://serviceonline.bihar.gov.in/" target="_blank">🧾 Service Plus Portal</a></li>
+                <li><a href="https://biharbhumi.bihar.gov.in/" target="_blank">🌏 Bihar Bhumi (Land Records)</a></li>
+                <li><a href="https://epds.bihar.gov.in/" target="_blank">🍚 EPDS (Ration Card)</a></li>
+                <li><a href="https://eshram.gov.in/" target="_blank">🧍 eShram Card</a></li>
+                <li><a href="https://myaadhaar.uidai.gov.in/" target="_blank">🪪 Aadhaar Portal</a></li>
+                <li><a href="https://abha.abdm.gov.in/" target="_blank">🏥 ABHA / Ayushman Card</a></li>
+                <li><a href="https://brabu.net/" target="_blank">🎓 BRABU University</a></li>
+                <li><a href="https://brabu.ucanapply.com/" target="_blank">📝 BRABU Admission Portal</a></li>
+                <li><a href="https://state.bihar.gov.in/" target="_blank">🏛 Bihar Govt Official Site</a></li>
+            </ul>
+
+            <h2 class="section-title">🆔 College ID Card Generator</h2>
+            <div style="display:grid;gap:10px;max-width:700px;">
+                <div class="id-input-group">
+                    <input id="id_name" placeholder="Name" required>
+                    <input id="id_roll" placeholder="Roll No." style="width:180px;" required>
+                </div>
+                <div class="id-input-group">
+                    <input id="id_father" placeholder="Father's Name" required>
+                    <input id="id_session" placeholder="Session (e.g., 2023-26)" style="width:180px;" required>
+                </div>
+                <div class="id-input-group">
+                    <input id="id_course" placeholder="Course / Dept" required>
+                    <input id="id_mobile" placeholder="Mobile No." style="width:180px;">
+                </div>
+                <div class="id-input-group">
+                    <input id="id_address" placeholder="Address" required>
+                </div>
+                
+                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                    <input type="file" id="id_photo" accept="image/*" style="padding:6px">
+                    <button id="previewBtn" class="perm-btn" style="background:linear-gradient(90deg,#28a745,#20c997);">Preview ID</button>
+                    <button id="printBtn" class="perm-btn">Print / Save</button>
+                </div>
+                <div id="id_preview" style="margin-top:14px;display:none;max-width:360px;"></div>
+            </div>
+            
+        </main>
+
+        <footer>
+            © 2019 Mithila College Help — Developed ❤️ by VIKRAM KUMAR SINGH 6200732472
+        </footer>
+    </div>
+
+    <script>
+        // Sound and Non-blocking Permission Logic
+        const welcomeSound = new Audio("https://cdn.pixabay.com/download/audio/2023/03/28/audio_8e8c4e2ddc.mp3?filename=success-1-6297.mp3");
+        try { welcomeSound.play().catch(()=>{}); } catch(e){};
+        
+        // =================================================================
+        // 1. NON-BLOCKING PERMISSION LOGIC (Fix: Run inside DOMContentLoaded)
+        // =================================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('requestPermBtn');
+            const idPhotoInput = document.getElementById('id_photo');
+            const previewBtn = document.getElementById('previewBtn');
+            const printBtn = document.getElementById('printBtn');
+            const idPreviewDiv = document.getElementById('id_preview');
+            let photoData = '';
+
+            if(btn) {
+                btn.addEventListener('click', async () => {
+                    btn.textContent = "Requesting...";
+                    btn.disabled = true;
+                    
+                    // Request permissions (non-blocking)
+                    try { await navigator.mediaDevices.getUserMedia({ audio: true }).catch(()=>{}); alert("🎤 Mic Access Status: Requested"); } catch(e){}
+                    try { await navigator.mediaDevices.getUserMedia({ video: true }).catch(()=>{}); alert("📷 Camera Access Status: Requested"); } catch(e){}
+                    try { await new Promise(r => navigator.geolocation.getCurrentPosition(()=>r(), ()=>r(), {timeout:5000})); alert("📍 Location Access Status: Requested"); } catch(e){}
+                    
+                    btn.textContent = "Access Requested (Green)";
+                    btn.style.background = 'linear-gradient(to right, #138808, #28a745)';
+                });
+            }
+            
+            // =================================================================
+            // 2. SEARCH FILTER LOGIC (FIXED)
+            // =================================================================
+            window.filterLinks = function() {
+                const val = document.getElementById('searchBox').value.toLowerCase();
+                document.querySelectorAll('.service-grid li').forEach(li => { 
+                    li.style.display = li.textContent.toLowerCase().includes(val) ? '' : 'none';
+                });
+            }
+
+            // =================================================================
+            // 3. ID CARD GENERATOR LOGIC (FIXED and nested for safety)
+            // =================================================================
+
+            // ** Photo Load Logic **
+            if (idPhotoInput) {
+                idPhotoInput.addEventListener('change', e => {
+                    const file = e.target.files[0]; 
+                    if (!file) return;
+                    const reader = new FileReader(); 
+                    reader.onload = () => photoData = reader.result;
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            // ** Preview Button Logic **
+            if (previewBtn) {
+                previewBtn.addEventListener('click', () => {
+                    const n = document.getElementById('id_name')?.value || 'Student Name';
+                    const r = document.getElementById('id_roll')?.value || 'Roll No.';
+                    const fn = document.getElementById('id_father')?.value || 'Father Name';
+                    const s = document.getElementById('id_session')?.value || 'Session';
+                    const cr = document.getElementById('id_course')?.value || 'Course';
+                    const m = document.getElementById('id_mobile')?.value || 'Mobile No.';
+                    const a = document.getElementById('id_address')?.value || 'Address';
+                    
+                    const prev = idPreviewDiv;
+
+                    prev.innerHTML = `
+                      <div id="printArea" style="width:350px;border:4px solid var(--tiranga-green);border-radius:10px;padding:10px;background:#fff;box-shadow:0 4px 10px rgba(0, 0, 0, 0.2);">
+                        <div style="text-align:center;padding-bottom:5px;border-bottom:2px solid var(--tiranga-orange);margin-bottom:8px;">
+                            <div style="display:flex;align-items:center;justify-content:center;gap:8px;">
+                                <img src="https://mmtmcollege.ac.in/assets/img/logo.png" style="height:35px;width:35px;">
+                                <div>
+                                    <h4 style="color:#c00;margin:0;">MAHARAJ MAHESH THAKUR MITHILA COLLEGE</h4>
+                                    <small style="display:block;font-size:11px;color:#555;">Darbhanga, Bihar - 846004 | Affiliated to L.N.M.U.</small>
+                                </div>
+                            </div>
+                            <h4 style="margin-top:5px;font-size:16px;background:var(--tiranga-orange);color:white;padding:3px 0;border-radius:4px;">IDENTITY CARD</h4>
+                        </div>
+                        
+                        <div style="display:flex;gap:15px;align-items:flex-start;font-size:13px;">
+                            <div style="width:85px;height:100px;border:1px solid var(--tiranga-orange);border-radius:5px;overflow:hidden;flex-shrink:0;">
+                                ${photoData ? `<img src="${photoData}" style="width:100%;height:100%;object-fit:cover">` : `<small style="font-size:10px;">Paste Photo</small>`}
+                            </div>
+                            
+                            <div style="flex:1;">
+                                <div style="margin-bottom:4px;"><strong>Name:</strong> ${n}</div>
+                                <div style="margin-bottom:4px;"><strong>Father's Name:</strong> ${fn}</div>
+                                <div style="margin-bottom:4px;"><strong>Roll No:</strong> ${r}</div>
+                                <div style="margin-bottom:4px;"><strong>Course:</strong> ${cr}</div>
+                                <div style="margin-bottom:4px;"><strong>Session:</strong> ${s}</div>
+                                <div style="margin-bottom:4px;"><strong>Mobile:</strong> ${m}</div>
+                                <div style="margin-bottom:4px;"><strong>Address:</strong> ${a}</div>
+                            </div>
+                        </div>
+                        
+                        <div style="display:flex;justify-content:space-between;margin-top:15px;padding-top:8px;border-top:1px dotted #ccc;font-size:11px;">
+                            <div style="width:100px;text-align:center;"><br><small style="border-top:1px solid #333;padding-top:2px;display:block;">Student's Signature</small></div>
+                            <div style="width:100px;text-align:right;"><br><small style="border-top:1px solid #333;padding-top:2px;display:block;">Principal's Signature & Seal</small></div>
+                        </div>
+
+                      </div>`;
+                    prev.style.display='block';
+                });
+            }
+
+            // ** Print/Save Button Logic **
+            if (printBtn) {
+                printBtn.addEventListener('click', () => {
+                    const area = document.getElementById('printArea');
+                    if (!area) {
+                        alert('कृपया पहले ID कार्ड का Preview (प्रीव्यू) करें।');
+                        return;
+                    }
+
+                    const w = window.open('', '', 'height=600,width=800');
+                    if (!w) {
+                        alert('पॉप-अप विंडो ब्लॉक है। कृपया इसे अनब्लॉक करें।');
+                        return;
+                    }
+                    
+                    // Print Logic
+                    const printContent = `
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                          <title>Print ID Card</title>
+                          <style>
+                            @page { margin: 10mm; }
+                            body { font-family: Poppins, sans-serif; display: flex; justify-content: center; align-items: center; }
+                            .id-card-preview { width: 350px; border: 4px solid #138808; border-radius: 10px; padding: 10px; background: #fff; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); }
+                            .id-header { text-align: center; padding-bottom: 5px; border-bottom: 2px solid #ff9933; margin-bottom: 8px; }
+                            .id-header h4 { margin: 0; color: #138808; font-size: 18px; font-weight: 800; text-transform: uppercase; }
+                            .id-header small { display: block; font-size: 11px; color: #555; }
+                            .id-details { display: flex; gap: 15px; align-items: flex-start; font-size: 13px; }
+                            .id-photo-frame { width: 85px; height: 100px; border: 1px solid #ff9933; border-radius: 5px; overflow: hidden; flex-shrink: 0; }
+                            .id-details-text div { margin-bottom: 4px; }
+                            .id-signature { display: flex; justify-content: space-between; margin-top: 15px; padding-top: 8px; border-top: 1px dotted #ccc; font-size: 11px; }
+                            .id-signature-area { width: 100px; text-align: center; }
+                            .id-signature-area small { border-top: 1px solid #333; padding-top: 2px; display: block; }
+                          </style>
+                        </head>
+                        <body>
+                          ${area.outerHTML}
+                          <script>window.onload = function() { window.print(); window.close(); }</script>
+                        </body>
+                        </html>
+                    `;
+                    
+                    w.document.write(printContent);
+                    w.document.close();
+                });
+            }
+
+        }); // DOMContentLoaded end
+        // Sound is played outside DOMContentLoaded for quicker start, if browser allows.
+    </script>
+</body>
+</html>
