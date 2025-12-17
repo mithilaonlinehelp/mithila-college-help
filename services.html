@@ -5,120 +5,145 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Mithila College Help - Online Services</title>
     <style>
-        :root {
-            --tiranga-orange: #FF9933;
-            --tiranga-green: #138808;
-        }
-
+        :root { --tiranga-orange: #FF9933; --tiranga-green: #138808; --blue: #007BFF; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        /* 🇮🇳 तिरंगा बैकग्राउंड और घूमता अशोक चक्र */
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(120deg, var(--tiranga-orange), #ffffff, var(--tiranga-green));
             background-size: 300% 300%;
             animation: gradientShift 10s ease infinite;
-            position: relative;
-            overflow-x: hidden;
+            position: relative; overflow-x: hidden;
         }
         @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
         body::before {
-            content: ""; position: fixed; top: 50%; left: 50%; width: 260px; height: 260px;
+            content: ""; position: fixed; top: 50%; left: 50%; width: 280px; height: 280px;
             background: url('https://upload.wikimedia.org/wikipedia/commons/1/17/Ashoka_Chakra.svg') no-repeat center;
-            background-size: contain; opacity: 0.12; transform: translate(-50%, -50%) rotate(0deg);
+            background-size: contain; opacity: 0.1; transform: translate(-50%, -50%);
             animation: chakraRotate 25s linear infinite; pointer-events: none; z-index: 0;
         }
-        @keyframes chakraRotate { 0% { transform: translate(-50%, -50%) rotate(360deg); } }
+        @keyframes chakraRotate { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
 
-        main { max-width: 900px; margin: 30px auto; background: rgba(255,255,255,0.95); padding: 25px; border-radius: 15px; box-shadow: 0 6px 25px rgba(0,0,0,0.15); position: relative; z-index: 2; }
-        h2.section-title { color: var(--tiranga-green); border-left: 5px solid var(--tiranga-orange); padding-left: 10px; margin-bottom: 20px; }
+        header { padding: 20px; background: rgba(255,255,255,0.8); text-align: center; border-bottom: 3px solid rgba(0,0,0,0.1); }
+        nav { background: rgba(0,0,0,0.85); padding: 12px; text-align: center; position: sticky; top: 0; z-index: 100; }
+        nav a { color: white; text-decoration: none; margin: 0 10px; font-weight: 600; font-size: 14px; }
 
-        .input-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
-        input, select { flex: 1; padding: 12px; border-radius: 6px; border: 1px solid #ccc; outline: none; font-size: 15px; }
+        main { max-width: 950px; margin: 25px auto; background: rgba(255,255,255,0.95); padding: 25px; border-radius: 15px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); position: relative; z-index: 2; }
+        h2 { color: var(--tiranga-green); border-left: 5px solid var(--tiranga-orange); padding-left: 10px; margin: 20px 0 15px; }
+
+        .input-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+        input, select { flex: 1; padding: 12px; border-radius: 8px; border: 1px solid #ccc; outline: none; }
         
-        .btn { background: linear-gradient(to right, var(--tiranga-orange), var(--tiranga-green)); border: none; color: #000; font-weight: 700; padding: 15px; border-radius: 30px; cursor: pointer; width: 100%; font-size: 16px; transition: 0.3s; }
+        .btn { background: linear-gradient(to right, var(--tiranga-orange), var(--tiranga-green)); border: none; color: white; font-weight: 700; padding: 12px 20px; border-radius: 30px; cursor: pointer; transition: 0.3s; width: 100%; }
         .btn:hover { transform: scale(1.02); }
 
-        .price-tag { background: #fff3cd; color: #856404; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 15px; border: 1px solid #ffeeba; }
+        .price-box { background: #fff3cd; color: #856404; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 15px; border: 1px solid #ffeeba; }
+        
+        .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; list-style: none; }
+        .service-grid li { background: #f8fafc; padding: 12px; border-radius: 10px; border: 1px solid #e3e9f3; }
+        .service-grid a { color: var(--blue); font-weight: 600; text-decoration: none; }
+
+        #id_preview { margin-top: 15px; }
     </style>
 </head>
 <body>
 
+    <header><h1>MITHILA COLLEGE HELP</h1></header>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="#order-section">Order Now</a>
+        <a href="#college-section">Colleges</a>
+        <a href="#id-section">ID Card</a>
+    </nav>
+
     <main>
-        <h2 id="order-section" class="section-title">🛒 Online Order (Gram Based)</h2>
-        
+        <h2 id="order-section">🛒 Online Order (Min 100g)</h2>
         <div class="input-group">
-            <select id="order_item" onchange="calculatePrice()">
+            <select id="order_item" onchange="updateCalc()">
                 <option value="">-- पैकेट चुनें --</option>
                 <option value="Packet A" data-rate="9300">Packet A (₹9300/kg)</option>
                 <option value="Packet B" data-rate="11700">Packet B (₹11700/kg)</option>
                 <option value="Packet C" data-rate="5500">Packet C (₹5500/kg)</option>
             </select>
-            <input id="order_grams" type="number" placeholder="कितना ग्राम? (Min 100)" min="100" oninput="calculatePrice()">
+            <input id="order_grams" type="number" placeholder="ग्राम (Min 100)" min="100" oninput="updateCalc()">
         </div>
 
-        <div id="final_price_display" class="price-tag">कुल कीमत: ₹0.00</div>
+        <div id="price_display" class="price-box">कुल कीमत: ₹0.00</div>
 
         <div class="input-group">
-            <input id="order_cust_name" placeholder="आपका नाम">
+            <input id="order_name" placeholder="आपका नाम">
             <input id="order_mobile" placeholder="मोबाइल नंबर">
         </div>
+        <input id="order_addr" placeholder="पूरा पता (Address)" style="width: 100%; margin-bottom: 10px;">
 
+        <button class="btn" onclick="payNow()">Pay & Order</button>
+        <p id="pay_status" style="text-align:center; margin-top:10px; font-weight:bold;"></p>
+
+        <hr style="margin: 30px 0;">
+
+        <h2 id="college-section">🎓 LNMU & Colleges</h2>
+        <ul class="service-grid">
+            <li><a href="https://lnmu.ac.in/" target="_blank">LNMU Official</a></li>
+            <li><a href="https://mmtmcollege.ac.in/" target="_blank">MMTM College</a></li>
+            <li><a href="https://serviceonline.bihar.gov.in/" target="_blank">Service Plus</a></li>
+        </ul>
+
+        <hr style="margin: 30px 0;">
+
+        <h2 id="id-section">🆔 ID Card Generator</h2>
         <div class="input-group">
-            <input id="order_address" placeholder="डिलीवरी का पता">
+            <input id="id_name" placeholder="Student Name">
+            <input id="id_roll" placeholder="Roll No.">
         </div>
-
-        <button class="btn" onclick="processPayment()">Pay & Place Order</button>
-        
-        <div id="order_status" style="margin-top:15px; display:none; text-align: center; font-weight: bold;"></div>
+        <input type="file" id="id_photo" accept="image/*" style="margin-bottom: 10px;">
+        <button class="btn" onclick="genID()">Preview ID Card</button>
+        <div id="id_preview"></div>
     </main>
 
     <script>
-        let finalAmount = 0;
+        let totalVal = 0;
 
-        function calculatePrice() {
-            const select = document.getElementById('order_item');
-            const gramsInput = document.getElementById('order_grams');
-            const display = document.getElementById('final_price_display');
-            
-            const selectedOption = select.options[select.selectedIndex];
-            const ratePerKg = parseFloat(selectedOption.getAttribute('data-rate'));
-            const grams = parseFloat(gramsInput.value);
-
-            if (ratePerKg && grams >= 100) {
-                // Calculation: (Rate / 1000) * Grams
-                finalAmount = (ratePerKg / 1000) * grams;
-                display.innerHTML = `कुल कीमत: ₹${finalAmount.toFixed(2)} (${grams} ग्राम के लिए)`;
-            } else {
-                finalAmount = 0;
-                display.innerHTML = `कुल कीमत: ₹0.00 (न्यूनतम 100 ग्राम)`;
+        function updateCalc() {
+            const sel = document.getElementById('order_item');
+            const g = document.getElementById('order_grams').value;
+            const rate = sel.options[sel.selectedIndex].getAttribute('data-rate');
+            if(rate && g >= 100) {
+                totalVal = (rate / 1000) * g;
+                document.getElementById('price_display').innerText = `कुल कीमत: ₹${totalVal.toFixed(2)} (${g} ग्राम)`;
             }
         }
 
-        function processPayment() {
-            const name = document.getElementById('order_cust_name').value;
-            const item = document.getElementById('order_item').value;
-            const grams = document.getElementById('order_grams').value;
-            const status = document.getElementById('order_status');
+        function payNow() {
+            const name = document.getElementById('order_name').value;
+            if(!name || totalVal === 0) return alert("जानकारी सही भरें!");
 
-            if(!item || !grams || !name || finalAmount === 0) {
-                alert("कृपया सही पैकेट, ग्राम और अपना नाम भरें!");
-                return;
-            }
+            // UPI ID: 7033578145@sbi पर पेमेंट (सुरक्षित लिंक)
+            const upi = `upi://pay?pa=7033578145@sbi&pn=MithilaHelp&am=${totalVal.toFixed(2)}&cu=INR&tn=Order_From_${name}`;
+            window.location.href = upi;
+            
+            document.getElementById('pay_status').innerText = "✅ पेमेंट ऐप खुल रहा है... भुगतान के बाद संपर्क करें।";
+        }
 
-            // UPI Link - 7033578145@sbi
-            const upiUrl = `upi://pay?pa=7033578145@sbi&pn=MithilaCollegeHelp&am=${finalAmount.toFixed(2)}&cu=INR&tn=Order_${item}_${grams}g`;
+        let pic = "";
+        document.getElementById('id_photo').onchange = e => {
+            const r = new FileReader();
+            r.onload = () => pic = r.result;
+            r.readAsDataURL(e.target.files[0]);
+        };
 
-            status.style.display = 'block';
-            status.style.color = '#0c5460';
-            status.innerHTML = `पेमेंट ऐप खुल रहा है...`;
-
-            // Redirect to UPI App
-            window.location.href = upiUrl;
-
-            setTimeout(() => {
-                status.innerHTML = `✅ ऑर्डर सबमिट कर दिया गया है! भुगतान के बाद हम संपर्क करेंगे।`;
-            }, 3000);
+        function genID() {
+            const n = document.getElementById('id_name').value || "Name";
+            document.getElementById('id_preview').innerHTML = `
+                <div style="width:320px; border:3px solid #138808; padding:10px; background:#fff; border-radius:10px;">
+                    <h3 style="text-align:center; color:#c00;">MITHILA COLLEGE</h3>
+                    <div style="display:flex; gap:10px; margin-top:10px;">
+                        <img src="${pic}" style="width:80px; height:90px; border:1px solid #ccc;">
+                        <p><b>Name:</b> ${n}</p>
+                    </div>
+                </div>`;
         }
     </script>
 </body>
