@@ -3,217 +3,151 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Mithila Help - Ultimate Controller</title>
+    <title>Mithila Help - Live Cloud Control</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+
     <style>
         :root { --orange: #FF9933; --green: #138808; --blue: #007BFF; --red: #dc3545; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background: #f4f7f6; padding: 10px; }
         .box { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); max-width: 450px; margin: 15px auto; display: none; }
-        .admin-wide { max-width: 1100px; background: white; padding: 20px; border-radius: 12px; margin: auto; display: none; overflow-x: auto; border-top: 5px solid var(--orange); }
-        h2 { text-align: center; color: var(--green); margin-bottom: 15px; border-bottom: 2px solid var(--orange); }
-        input, select { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 25px; color: white; font-weight: bold; cursor: pointer; margin-top: 8px; }
+        .admin-wide { max-width: 1100px; background: white; padding: 20px; border-radius: 12px; margin: auto; display: none; border-top: 5px solid var(--orange); }
+        h2 { text-align: center; color: var(--green); margin-bottom: 15px; }
+        input, select { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 6px; }
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 25px; color: white; font-weight: bold; cursor: pointer; }
         .btn-blue { background: var(--blue); } .btn-green { background: var(--green); } .btn-red { background: var(--red); }
-        .captcha { background: #eee; text-align: center; font-size: 20px; font-weight: bold; padding: 8px; border-radius: 6px; letter-spacing: 4px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 12px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 13px; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background: #f1f1f1; }
-        .small-txt { font-size: 11px; color: #666; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div id="box-login" class="box" style="display:block;">
-        <h2>🔐 लॉगिन</h2>
-        <input type="text" id="l_phone" placeholder="Mobile / Admin Name">
+        <h2>🔐 Mithila लॉगिन</h2>
+        <input type="text" id="l_phone" placeholder="Mobile Number">
         <input type="password" id="l_pass" placeholder="Password">
-        <div id="cap_text" class="captcha"></div>
-        <input type="number" id="l_cap_in" placeholder="Captcha Answer">
         <button class="btn btn-blue" onclick="doLogin()">Login</button>
-        <p style="text-align:center; margin-top:10px; font-size:13px;">
-            <span onclick="go('box-reg')" style="color:var(--blue); cursor:pointer;">Register</span> | 
-            <span onclick="go('box-forget')" style="color:var(--blue); cursor:pointer;">Forgot Password?</span>
+        <p style="text-align:center; margin-top:10px;">
+            <span onclick="go('box-reg')" style="color:var(--blue); cursor:pointer;">Naya Account Banayein</span>
         </p>
     </div>
 
     <div id="box-reg" class="box">
         <h2>📝 Registration</h2>
-        <input type="text" id="r_name" placeholder="Full Name">
-        <input type="text" id="r_phone" placeholder="Mobile">
-        <input type="date" id="r_dob" title="DOB for Recovery">
-        <input type="password" id="r_pass" placeholder="Create Password">
-        <button class="btn btn-blue" onclick="doReg()">Sign Up</button>
-        <button class="btn" style="background:#666;" onclick="go('box-login')">Back</button>
+        <input type="text" id="r_name" placeholder="Pura Naam">
+        <input type="text" id="r_phone" placeholder="Mobile Number">
+        <input type="password" id="r_pass" placeholder="Password Banayein">
+        <button class="btn btn-blue" onclick="doReg()">Register Karein</button>
+        <button class="btn" style="background:#666; margin-top:5px;" onclick="go('box-login')">Piche Jayein</button>
     </div>
 
     <div id="box-order" class="box">
-        <h3 id="wel_user">Welcome</h3>
-        <div id="track_box" style="background:#fff3cd; padding:8px; border-radius:6px; margin:10px 0; font-size:12px; border:1px solid #ffeeba; display:none;"></div>
-        
-        <label class="small-txt">Select Product:</label>
-        <select id="sel_p" onchange="updateProductUI()"></select>
-        
-        <div id="qty_area" style="display:none;">
-            <label id="lbl_qty" class="small-txt">Quantity:</label>
-            <input type="number" id="sel_qty" placeholder="Enter quantity" oninput="calc()">
-            <p id="min_msg" style="color:red; font-size:11px; margin-top:-5px;"></p>
-        </div>
-
-        <p id="total_p" style="text-align:center; font-weight:bold; font-size:22px; color:var(--green); margin:10px 0;">₹0.00</p>
-        <input type="text" id="sel_ad" placeholder="Full Delivery Address">
-        
-        <select id="sel_m">
-            <option value="Online">Online Payment</option>
-            <option value="COD">Cash on Delivery (COD)</option>
-        </select>
-
-        <button class="btn btn-green" onclick="placeOrder()">Confirm Order</button>
-        <div id="qr_box" style="display:flex; justify-content:center; margin-top:10px;"></div>
-        <button class="btn btn-red" onclick="location.reload()">Logout</button>
+        <h3 id="wel_user">Namaste</h3>
+        <label>Item Chunnein:</label>
+        <select id="sel_p"></select>
+        <input type="number" id="sel_qty" placeholder="Kitna chahiye (Quantity)">
+        <input type="text" id="sel_ad" placeholder="Pura Pata (Address)">
+        <button class="btn btn-green" onclick="placeOrder()">Order Confirm Karein</button>
+        <button class="btn btn-red" style="margin-top:10px;" onclick="location.reload()">Logout</button>
     </div>
 
     <div id="box-admin" class="admin-wide">
-        <h2>🛠️ Admin: Shreya Rani</h2>
-        
-        <div style="background:#eef; padding:15px; border-radius:10px; margin-bottom:20px;">
-            <h3>📦 Add/Update Product</h3>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                <input type="text" id="adm_pn" placeholder="Product Name">
-                <input type="number" id="adm_pr" placeholder="Rate (per Unit)">
-                <select id="adm_unit">
-                    <option value="kg">Kilo (kg)</option>
-                    <option value="gm">Gram (gm)</option>
-                    <option value="pc">Piece (pc)</option>
-                    <option value="mtr">Meter (mtr)</option>
-                </select>
-                <input type="number" id="adm_min" placeholder="Min Quantity">
-            </div>
-            <button class="btn btn-blue" onclick="admAddP()">Save Product</button>
-            <table id="tbl_p"><thead><tr><th>Name</th><th>Rate</th><th>Unit</th><th>Min</th><th>Action</th></tr></thead><tbody></tbody></table>
+        <h2>🛠️ Admin: Shreya Rani Control</h2>
+        <div style="background:#f9f9f9; padding:15px; border-radius:8px;">
+            <h3>📦 Naya Product Dalein</h3>
+            <input type="text" id="adm_pn" placeholder="Product ka Naam">
+            <input type="number" id="adm_pr" placeholder="Rate (Price)">
+            <button class="btn btn-blue" onclick="admAddP()">Global Update Karein</button>
         </div>
-
-        <h3>📋 Order Control & User Block</h3>
-        <table id="tbl_o">
-            <thead>
-                <tr><th>ID</th><th>User/Phone</th><th>Order Details</th><th>Status</th><th>Delivery/Delay</th><th>Action</th></tr>
-            </thead>
-            <tbody></tbody>
+        <table>
+            <thead><tr><th>Product</th><th>Price</th><th>Action</th></tr></thead>
+            <tbody id="p_list_body"></tbody>
         </table>
-        <button class="btn btn-red" onclick="location.reload()" style="max-width:200px; display:block; margin:20px auto;">Admin Logout</button>
+        <button class="btn btn-red" style="width:150px; margin:20px auto; display:block;" onclick="location.reload()">Logout</button>
     </div>
 
     <script>
-        let capAns = 0, user = null;
-        let db = JSON.parse(localStorage.getItem('mch_v30')) || {
-            users: [], products: [], orders: [], blocked: []
+        // Aapke screenshot se li gayi configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBtLLOyVgt5hQwxokdsSRkeArZab5kyr_Q",
+            authDomain: "mithilahelp-4107d.firebaseapp.com",
+            databaseURL: "https://mithilahelp-4107d-default-rtdb.firebaseio.com",
+            projectId: "mithilahelp-4107d",
+            storageBucket: "mithilahelp-4107d.firebasestorage.app",
+            messagingSenderId: "525345376934",
+            appId: "1:525345376934:web:7083c7cecccd26a4a78267"
         };
 
-        function save() { localStorage.setItem('mch_v30', JSON.stringify(db)); }
+        firebase.initializeApp(firebaseConfig);
+        const rdb = firebase.database();
+        let currentUser = null;
+
         function go(id) {
             document.querySelectorAll('.box, .admin-wide').forEach(b => b.style.display = 'none');
             document.getElementById(id).style.display = 'block';
-            if(id === 'box-login') genCap();
         }
 
-        function genCap() {
-            let a = Math.floor(Math.random()*10), b = Math.floor(Math.random()*10);
-            capAns = a + b; document.getElementById('cap_text').innerText = `${a} + ${b} = ?`;
+        // --- Live Cloud Functions ---
+
+        function doReg() {
+            let n = document.getElementById('r_name').value, ph = document.getElementById('r_phone').value, ps = document.getElementById('r_pass').value;
+            if(!n || !ph || !ps) return alert("Sab bharen!");
+            rdb.ref('users/' + ph).set({ name: n, phone: ph, pass: ps });
+            alert("Account ban gaya! Ab login karein."); go('box-login');
         }
 
         function doLogin() {
-            let u = document.getElementById('l_phone').value, p = document.getElementById('l_pass').value, c = document.getElementById('l_cap_in').value;
-            if(c != capAns) return alert("Wrong Captcha");
-            if(u === "shreya rani" && p === "mydearshreya@#") { loadAdmin(); go('box-admin'); return; }
-            if(db.blocked.includes(u)) return alert("❌ User Blocked!");
-            let find = db.users.find(x => x.phone === u && x.pass === p);
-            if(find) { user = find; loadUser(); go('box-order'); } else alert("Login Failed!");
-        }
-
-        function loadUser() {
-            document.getElementById('wel_user').innerText = "Namaste, " + user.name;
-            let s = document.getElementById('sel_p'); s.innerHTML = "<option value=''>Choose Item</option>";
-            db.products.forEach((p, i) => s.innerHTML += `<option value="${i}">${p.name} (₹${p.rate}/${p.unit})</option>`);
-            let last = db.orders.slice().reverse().find(o => o.phone === user.phone);
-            if(last) {
-                document.getElementById('track_box').style.display = 'block';
-                document.getElementById('track_box').innerHTML = `📌 Status: <b>${last.status}</b> | ⏳ ETA: <b>${last.eta || 'Wait'}</b>`;
-            }
-        }
-
-        function updateProductUI() {
-            let idx = document.getElementById('sel_p').value;
-            if(idx === "") { document.getElementById('qty_area').style.display = 'none'; return; }
-            let p = db.products[idx];
-            document.getElementById('qty_area').style.display = 'block';
-            document.getElementById('lbl_qty').innerText = `Enter Quantity in ${p.unit}:`;
-            document.getElementById('min_msg').innerText = `Min Order: ${p.min} ${p.unit}`;
-            document.getElementById('sel_qty').value = p.min;
-            calc();
-        }
-
-        function calc() {
-            let idx = document.getElementById('sel_p').value;
-            let q = document.getElementById('sel_qty').value;
-            if(idx !== "" && q > 0) {
-                let p = db.products[idx];
-                let total = p.rate * q;
-                document.getElementById('total_p').innerText = `₹${total.toFixed(2)}`;
-            }
-        }
-
-        function placeOrder() {
-            let idx = document.getElementById('sel_p').value;
-            let q = document.getElementById('sel_qty').value;
-            let m = document.getElementById('sel_m').value;
-            let ad = document.getElementById('sel_ad').value;
-            if(idx === "" || !ad || q <= 0) return alert("Details bharen!");
+            let u = document.getElementById('l_phone').value, p = document.getElementById('l_pass').value;
+            if(u === "shreya rani" && p === "mydearshreya@#") { loadAdminData(); go('box-admin'); return; }
             
-            let p = db.products[idx];
-            if(parseFloat(q) < parseFloat(p.min)) return alert(`Minimum ${p.min} ${p.unit} order karna hoga!`);
-
-            let id = "MCH" + Math.floor(Math.random()*9999);
-            let finalPrice = (p.rate * q).toFixed(2);
-            db.orders.push({id:id, name:user.name, phone:user.phone, item:p.name, qty:q, unit:p.unit, price:finalPrice, method:m, status:"Pending", eta:""});
-            save();
-            if(m === "Online") {
-                let upi = `upi://pay?pa=7033578145@sbi&pn=Mithila&am=${finalPrice}&cu=INR&tn=${id}`;
-                document.getElementById('qr_box').innerHTML = ""; new QRCode(document.getElementById('qr_box'),{text:upi,width:120,height:120});
-            } else { document.getElementById('qr_box').innerHTML = "<h3 style='color:green'>✅ COD Success</h3>"; }
-            loadUser(); alert("Order Placed!");
-        }
-
-        // --- ADMIN ---
-        function loadAdmin() {
-            let pl = document.getElementById('tbl_p').querySelector('tbody'); pl.innerHTML = "";
-            db.products.forEach((p, i) => { 
-                pl.innerHTML += `<tr><td>${p.name}</td><td>${p.rate}</td><td>${p.unit}</td><td>${p.min}</td><td><button onclick="admDelP(${i})">Del</button></td></tr>`; 
-            });
-            let ol = document.getElementById('tbl_o').querySelector('tbody'); ol.innerHTML = "";
-            db.orders.forEach((o, i) => {
-                let isBlocked = db.blocked.includes(o.phone);
-                ol.innerHTML += `<tr><td>${o.id}</td><td>${o.name}<br>${o.phone}</td><td>${o.item}<br>${o.qty} ${o.unit} - ₹${o.price}</td>
-                <td><select onchange="db.orders[${i}].status=this.value; save();"><option ${o.status=='Pending'?'selected':''}>Pending</option><option ${o.status=='Delivered'?'selected':''}>Delivered</option><option ${o.status=='Cancelled'?'selected':''}>Cancelled</option></select></td>
-                <td><input value="${o.eta}" onchange="db.orders[${i}].eta=this.value; save();" placeholder="Time"></td>
-                <td><button onclick="toggleB('${o.phone}')" style="background:${isBlocked?'green':'red'};color:white;border:none;padding:3px;">${isBlocked?'Unblock':'Block'}</button>
-                <button onclick="db.orders.splice(${i},1); save(); loadAdmin();">Del</button></td></tr>`;
+            rdb.ref('users/' + u).once('value', (s) => {
+                let user = s.val();
+                if(user && user.pass === p) { currentUser = user; go('box-order'); loadUserPanel(); }
+                else alert("Galat detail! Sahi number aur password dalein.");
             });
         }
 
         function admAddP() {
-            let n = document.getElementById('adm_pn').value, r = document.getElementById('adm_pr').value,
-                u = document.getElementById('adm_unit').value, m = document.getElementById('adm_min').value;
-            if(!n || !r || !m) return alert("Pura bharen!");
-            db.products.push({name:n, rate:r, unit:u, min:m});
-            save(); loadAdmin();
+            let n = document.getElementById('adm_pn').value, r = document.getElementById('adm_pr').value;
+            if(!n || !r) return alert("Naam aur Rate dalein!");
+            rdb.ref('products/').push({ name: n, rate: r });
+            alert("Product har phone mein update ho gaya!");
+            document.getElementById('adm_pn').value = ""; document.getElementById('adm_pr').value = "";
         }
-        function admDelP(i) { db.products.splice(i,1); save(); loadAdmin(); }
-        function toggleB(ph) { if(db.blocked.includes(ph)) db.blocked = db.blocked.filter(x => x !== ph); else db.blocked.push(ph); save(); loadAdmin(); }
-        function doReg() {
-            let n = document.getElementById('r_name').value, ph = document.getElementById('r_phone').value, d = document.getElementById('r_dob').value, ps = document.getElementById('r_pass').value;
-            db.users.push({name:n, phone:ph, dob:d, pass:ps}); save(); alert("Registered!"); go('box-login');
+
+        function loadAdminData() {
+            rdb.ref('products/').on('value', (s) => {
+                let data = s.val(), html = "";
+                for(let id in data) {
+                    html += `<tr><td>${data[id].name}</td><td>₹${data[id].rate}</td>
+                    <td><button onclick="rdb.ref('products/${id}').remove()" style="color:red; cursor:pointer;">Delete</button></td></tr>`;
+                }
+                document.getElementById('p_list_body').innerHTML = html;
+            });
         }
-        window.onload = genCap;
+
+        function loadUserPanel() {
+            document.getElementById('wel_user').innerText = "Namaste, " + currentUser.name;
+            rdb.ref('products/').on('value', (s) => {
+                let data = s.val(), html = "<option value=''>Chunnein...</option>";
+                for(let id in data) html += `<option value="${id}">${data[id].name} - ₹${data[id].rate}</option>`;
+                document.getElementById('sel_p').innerHTML = html;
+            });
+        }
+
+        function placeOrder() {
+            let pid = document.getElementById('sel_p').value, q = document.getElementById('sel_qty').value, ad = document.getElementById('sel_ad').value;
+            if(!pid || !q || !ad) return alert("Pura detail bharen!");
+            
+            rdb.ref('products/' + pid).once('value', (s) => {
+                let p = s.val();
+                rdb.ref('orders/').push({ userName: currentUser.name, phone: currentUser.phone, item: p.name, qty: q, address: ad, status: "Pending" });
+                alert("Order Safalta-purvak bhej diya gaya!");
+            });
+        }
     </script>
 </body>
 </html>
