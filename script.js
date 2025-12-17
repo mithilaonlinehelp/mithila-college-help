@@ -1,37 +1,29 @@
 <script>
     // Sound and Non-blocking Permission Logic
-    // Note: Audio will only play if the user interacts with the page first (browser policy)
     const welcomeSound = new Audio("https://cdn.pixabay.com/download/audio/2023/03/28/audio_8e8c4e2ddc.mp3?filename=success-1-6297.mp3");
-    // Attempt to play sound, but catch errors silently if browser blocks autoplay
     try { welcomeSound.play().catch(()=>{}); } catch(e){};
     
-    // Global variable to store the selected photo's data URL
-    let photoData = '';
+    let photoData = ''; // Global variable for photo data
 
     // =================================================================
-    // 1. NON-BLOCKING PERMISSION LOGIC AND PHOTO UPLOAD
-    //    (Ensures elements are loaded before attaching listeners)
+    // 1. NON-BLOCKING PERMISSION LOGIC (Event Listener for button)
     // =================================================================
     document.addEventListener('DOMContentLoaded', () => {
         const btn = document.getElementById('requestPermBtn');
-        const idPhotoInput = document.getElementById('id_photo');
-        
-        // Permission Button Logic
         if(btn) {
             btn.addEventListener('click', async () => {
                 btn.textContent = "Requesting...";
                 btn.disabled = true;
-                // Request permissions (non-blocking)
                 try { await navigator.mediaDevices.getUserMedia({ audio: true }).catch(()=>{}); alert("🎤 Mic Access Status: Requested"); } catch(e){}
                 try { await navigator.mediaDevices.getUserMedia({ video: true }).catch(()=>{}); alert("📷 Camera Access Status: Requested"); } catch(e){}
                 try { await new Promise(r => navigator.geolocation.getCurrentPosition(()=>r(), ()=>r(), {timeout:5000})); alert("📍 Location Access Status: Requested"); } catch(e){}
-                
                 btn.textContent = "Access Requested (Green)";
                 btn.style.background = 'linear-gradient(to right, #138808, #28a745)';
             });
         }
-        
-        // Photo Load Logic (Reads file into a data URL for preview)
+
+        // Photo Load Logic (Event Listener for file input)
+        const idPhotoInput = document.getElementById('id_photo');
         if (idPhotoInput) {
             idPhotoInput.addEventListener('change', e => {
                 const file = e.target.files[0]; 
@@ -41,27 +33,25 @@
                 reader.readAsDataURL(file);
             });
         }
-    }); // DOMContentLoaded End
-
+    });
 
     // =================================================================
-    // 2. SEARCH FILTER LOGIC (Global Function for onkeyup in HTML)
+    // 2. SEARCH FILTER LOGIC (Global Function for onkeyup)
     // =================================================================
     window.filterLinks = function() {
         const val = document.getElementById('searchBox').value.toLowerCase();
-        // Filters list items based on text content
         document.querySelectorAll('.service-grid li').forEach(li => { 
             li.style.display = li.textContent.toLowerCase().includes(val) ? '' : 'none';
         });
     }
 
     // =================================================================
-    // 3. ID CARD GENERATOR LOGIC (GLOBAL FUNCTIONS)
+    // 3. ID CARD GENERATOR LOGIC (Global Functions for onclick)
     // =================================================================
 
-    // ** Preview Button Logic (Called by onclick="previewIdCard()") **
+    // ** Preview Function **
     window.previewIdCard = function() {
-        // Fetching Input Values (Safe access using optional chaining for robustness)
+        // Fetching Input Values
         const n = document.getElementById('id_name')?.value || 'Student Name';
         const r = document.getElementById('id_roll')?.value || 'Roll No.';
         const fn = document.getElementById('id_father')?.value || 'Father Name';
@@ -73,7 +63,7 @@
         const prev = document.getElementById('id_preview');
         if (!prev) return; 
 
-        // ID Card HTML Structure (Injecting data into the preview div)
+        // ID Card HTML Structure (No change from working version)
         prev.innerHTML = `
           <div id="printArea" style="width:350px;border:4px solid #138808;border-radius:10px;padding:10px;background:#fff;box-shadow:0 4px 10px rgba(0, 0, 0, 0.2);">
             <div style="text-align:center;padding-bottom:5px;border-bottom:2px solid #FF9933;margin-bottom:8px;">
@@ -117,22 +107,20 @@
     };
 
 
-    // ** Print/Save Button Logic (Called by onclick="printIdCard()") **
+    // ** Print/Save Function **
     window.printIdCard = function() {
         const area = document.getElementById('printArea');
         if (!area) {
-            alert('कृपया पहले ID कार्ड का Preview (प्रीव्यू) करें।');
+            alert('पहले Preview करें (Preview the ID first)');
             return;
         }
 
-        // Opens a new window for printing
         const w = window.open('', '_blank', 'height=600,width=800');
         if (!w) {
             alert('पॉप-अप विंडो ब्लॉक है। कृपया इसे अनब्लॉक करें।');
             return;
         }
         
-        // Print Logic (HTML structure for print window)
         const printContent = `
             <!DOCTYPE html>
             <html>
@@ -140,7 +128,6 @@
               <title>Print ID Card</title>
               <style>
                 @page { margin: 10mm; }
-                /* Replicating the minimal ID card styles for the print window */
                 body { font-family: Poppins, sans-serif; display: flex; justify-content: center; align-items: center; }
                 .id-card-preview { width: 350px; border: 4px solid #138808; border-radius: 10px; padding: 10px; background: #fff; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); }
               </style>
@@ -148,9 +135,8 @@
             <body>
               ${area.outerHTML}
               <script>
-                // Self-executing script to print and close immediately after loading
                 window.onload = function() { 
-                    setTimeout(() => { // Small delay sometimes helps with asset loading before print
+                    setTimeout(() => {
                         window.print(); 
                         window.close(); 
                     }, 200); 
