@@ -3,107 +3,109 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Mithila Help - Super Admin System</title>
+    <title>Mithila Help - Super Admin Pro</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         :root { --orange: #FF9933; --green: #138808; --blue: #007BFF; --red: #dc3545; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background: #f0f2f5; min-height: 100vh; padding: 20px; }
-        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); max-width: 600px; margin: auto; }
-        .admin-card { max-width: 900px; background: #fff; padding: 20px; border-radius: 10px; margin: auto; }
-        h2 { text-align: center; color: var(--green); margin-bottom: 20px; border-bottom: 2px solid var(--orange); padding-bottom: 10px; }
-        input, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; }
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 30px; color: white; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #f0f2f5; padding: 10px; }
+        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); max-width: 500px; margin: 20px auto; }
+        .admin-card { max-width: 950px; background: #fff; padding: 20px; border-radius: 10px; margin: auto; }
+        h2, h3 { text-align: center; color: var(--green); margin-bottom: 15px; border-bottom: 2px solid var(--orange); padding-bottom: 5px; }
+        input, select { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 8px; }
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 25px; color: white; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.3s; }
         .btn-blue { background: var(--blue); }
         .btn-red { background: var(--red); }
         .btn-green { background: var(--green); }
-        .captcha { background: #eee; text-align: center; font-size: 20px; font-weight: bold; padding: 10px; border-radius: 8px; margin: 10px 0; letter-spacing: 3px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px; }
-        table, th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-        th { background: #f8f9fa; }
-        .badge { padding: 4px 8px; border-radius: 5px; color: white; font-size: 11px; }
-        .status-box { background: #fff3cd; padding: 10px; border-radius: 8px; margin-top: 10px; border: 1px solid #ffeeba; }
+        .captcha { background: #eee; text-align: center; font-size: 22px; font-weight: bold; padding: 10px; border-radius: 8px; margin: 10px 0; letter-spacing: 5px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 12px; background: white; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background: #f4f4f4; }
+        .status-box { background: #fff3cd; padding: 10px; border-radius: 8px; margin: 10px 0; border: 1px solid #ffeeba; font-size: 14px; }
         #login-page, #register-page, #order-page, #admin-page { display: none; }
     </style>
 </head>
 <body>
 
     <div id="login-page" class="card" style="display:block;">
-        <h2>🔐 Secure Login</h2>
-        <input type="text" id="l_user" placeholder="Mobile Number or Admin Username">
-        <input type="password" id="l_pass" placeholder="Password">
+        <h2>🔐 सुरक्षित लॉगिन</h2>
+        <input type="text" id="l_user" placeholder="मोबाइल नंबर या एडमिन नाम">
+        <input type="password" id="l_pass" placeholder="पासवर्ड">
         <div class="captcha" id="cap_box"></div>
-        <input type="text" id="l_cap" placeholder="Enter Captcha Answer">
-        <button class="btn btn-blue" onclick="handleLogin()">Login</button>
-        <p style="text-align:center; margin-top:15px; font-size:14px;">Naye hain? <a href="#" onclick="showPage('register-page')">Register Karein</a></p>
+        <input type="text" id="l_cap" placeholder="कैप्चा का उत्तर दें">
+        <button class="btn btn-blue" onclick="handleLogin()">लॉगिन करें</button>
+        <p style="text-align:center; margin-top:10px;">नये यूजर? <a href="#" onclick="showPage('register-page')">यहाँ रजिस्टर करें</a></p>
     </div>
 
     <div id="register-page" class="card">
-        <h2>📝 User Registration</h2>
-        <input type="text" id="r_name" placeholder="Full Name">
-        <input type="text" id="r_phone" placeholder="Mobile Number">
-        <label style="font-size:12px;">Date of Birth:</label>
-        <input type="date" id="r_dob">
-        <input type="password" id="r_pass" placeholder="Create Password">
-        <button class="btn btn-blue" onclick="handleRegister()">Register Now</button>
-        <button class="btn" onclick="showPage('login-page')">Back to Login</button>
+        <h2>📝 नया रजिस्ट्रेशन</h2>
+        <input type="text" id="r_name" placeholder="पूरा नाम">
+        <input type="text" id="r_phone" placeholder="मोबाइल नंबर">
+        <input type="date" id="r_dob" title="जन्म तिथि">
+        <input type="password" id="r_pass" placeholder="पासवर्ड बनाएं">
+        <button class="btn btn-blue" onclick="handleRegister()">रजिस्टर करें</button>
+        <button class="btn" style="background:#666;" onclick="showPage('login-page')">वापस लॉगिन</button>
     </div>
 
     <div id="order-page" class="card">
-        <h2 id="u_welcome">Welcome User</h2>
+        <h2 id="u_welcome">स्वागत है</h2>
         <div id="tracking-info" class="status-box" style="display:none;"></div>
         <select id="o_prod" onchange="updateTotal()"></select>
-        <input type="number" id="o_gram" placeholder="Quantity in Grams (Min 100)" oninput="updateTotal()">
-        <p id="o_price" style="text-align:center; font-weight:bold; margin:10px 0;">Total: ₹0.00</p>
-        <input type="text" id="o_addr" placeholder="Full Delivery Address">
-        <button class="btn btn-green" onclick="submitOrder()">Place Order & Pay</button>
+        <input type="number" id="o_gram" placeholder="ग्राम (न्यूनतम 100)" oninput="updateTotal()">
+        <p id="o_price" style="text-align:center; font-weight:bold; font-size:18px; color:var(--green);">कीमत: ₹0.00</p>
+        <input type="text" id="o_addr" placeholder="डिलीवरी का पूरा पता">
+        <button class="btn btn-green" onclick="submitOrder()">ऑर्डर और पेमेंट करें</button>
         <div id="qrcode" style="display:flex; justify-content:center; margin-top:15px;"></div>
-        <button class="btn btn-blue" onclick="location.reload()">Logout</button>
+        <button class="btn btn-red" onclick="location.reload()">लॉगआउट</button>
     </div>
 
     <div id="admin-page" class="admin-card">
-        <h2>🛠️ Super Admin: Shreya Rani</h2>
+        <h2>🛠️ कंट्रोल पैनल: Shreya Rani</h2>
         
-        <div style="background:#f8f9fa; padding:15px; border-radius:10px;">
-            <h4>Add/Update Product</h4>
-            <input type="text" id="p_name" placeholder="Product Name">
-            <input type="number" id="p_rate" placeholder="Rate per KG">
-            <button class="btn btn-blue" onclick="addUpdateProduct()">Save Product</button>
-            <div id="prod_list" style="margin-top:10px;"></div>
+        <div style="background:#eef; padding:15px; border-radius:10px; margin-bottom:20px;">
+            <h3>📦 प्रोडक्ट मैनेजमेंट</h3>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <input type="text" id="p_name" placeholder="प्रोडक्ट का नाम" style="flex:2;">
+                <input type="number" id="p_rate" placeholder="रेट (प्रति किलो)" style="flex:1;">
+                <button class="btn btn-blue" onclick="addUpdateProduct()" style="flex:1; margin-top:5px;">सेव करें</button>
+            </div>
+            <table>
+                <thead><tr><th>नाम</th><th>रेट (₹/kg)</th><th>एक्शन</th></tr></thead>
+                <tbody id="admin_prod_list"></tbody>
+            </table>
         </div>
 
-        <h3>👥 Registered Users</h3>
-        <table id="user_table">
-            <thead><tr><th>Name</th><th>Phone</th><th>DOB</th><th>Password</th><th>Action</th></tr></thead>
-            <tbody></tbody>
-        </table>
+        <h3>👥 रजिस्टर्ड यूजर</h3>
+        <div style="overflow-x:auto;">
+            <table id="user_table">
+                <thead><tr><th>नाम</th><th>फोन</th><th>पासवर्ड</th><th>एक्शन</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
 
-        <h3>📦 Orders & Tracking</h3>
-        <table id="order_table">
-            <thead><tr><th>Order ID</th><th>Customer</th><th>Item</th><th>Status</th><th>Delivery Time</th><th>Update</th></tr></thead>
-            <tbody></tbody>
-        </table>
+        <h3>📦 ऑर्डर्स और ट्रैकिंग</h3>
+        <div style="overflow-x:auto;">
+            <table id="order_table">
+                <thead><tr><th>ID</th><th>नाम</th><th>आइटम</th><th>स्टेटस</th><th>समय</th><th>एक्शन</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
 
-        <button class="btn btn-red" onclick="location.reload()">Logout Admin</button>
+        <button class="btn btn-red" onclick="location.reload()" style="max-width:200px; margin:20px auto; display:block;">एडमिन लॉगआउट</button>
     </div>
 
     <script>
-        let correctCap = 0;
-        let currentUser = null;
+        let correctCap = 0, currentUser = null;
         
-        // Database Initialization
-        let db = JSON.parse(localStorage.getItem('mch_db')) || {
+        // डेटाबेस लोड करना
+        let db = JSON.parse(localStorage.getItem('mch_db_v2')) || {
             users: [],
-            products: [
-                {name: "Packet A", rate: 9300},
-                {name: "Packet B", rate: 11700},
-                {name: "Packet C", rate: 5500}
-            ],
+            products: [{name:"Packet A", rate:9300},{name:"Packet B", rate:11700},{name:"Packet C", rate:5500}],
             orders: [],
             blocked: []
         };
 
-        function saveDB() { localStorage.setItem('mch_db', JSON.stringify(db)); }
+        function saveDB() { localStorage.setItem('mch_db_v2', JSON.stringify(db)); }
 
         function genCap() {
             let a = Math.floor(Math.random()*10), b = Math.floor(Math.random()*10);
@@ -118,51 +120,36 @@
         }
 
         function handleLogin() {
-            let u = document.getElementById('l_user').value;
-            let p = document.getElementById('l_pass').value;
-            let c = document.getElementById('l_cap').value;
+            let u = document.getElementById('l_user').value, p = document.getElementById('l_pass').value, c = document.getElementById('l_cap').value;
+            if(c != correctCap) return alert("गलत कैप्चा!");
+            
+            if(u === "shreya rani" && p === "mydearshreya@#") { loadAdmin(); showPage('admin-page'); return; }
 
-            if(c != correctCap) return alert("Captcha Galat Hai!");
-
-            // Admin Login
-            if(u === "shreya rani" && p === "mydearshreya@#") {
-                loadAdmin();
-                showPage('admin-page');
-                return;
-            }
-
-            // User Login
-            if(db.blocked.includes(u)) return alert("Aapka account block kar diya gaya hai!");
+            if(db.blocked.includes(u)) return alert("आपका अकाउंट ब्लॉक है!");
             let user = db.users.find(x => x.phone === u && x.pass === p);
-            if(user) {
-                currentUser = user;
-                loadUserOrderPage();
-                showPage('order-page');
-            } else alert("Invalid Details!");
+            if(user) { currentUser = user; loadUserOrderPage(); showPage('order-page'); } 
+            else alert("गलत विवरण!");
         }
 
         function handleRegister() {
             let n = document.getElementById('r_name').value, ph = document.getElementById('r_phone').value,
-                d = document.getElementById('r_dob').value, ps = document.getElementById('r_pass').value;
-            if(!n || ph.length < 10 || !d || !ps) return alert("Sari jankari bharen!");
-            db.users.push({name: n, phone: ph, dob: d, pass: ps});
-            saveDB();
-            alert("Registration Success!");
-            showPage('login-page');
+                ps = document.getElementById('r_pass').value, d = document.getElementById('r_dob').value;
+            if(!n || ph.length < 10 || !ps) return alert("पूरी जानकारी भरें!");
+            db.users.push({name: n, phone: ph, dob: d, pass: ps}); saveDB();
+            alert("रजिस्ट्रेशन सफल!"); showPage('login-page');
         }
 
         // --- USER FUNCTIONS ---
         function loadUserOrderPage() {
-            document.getElementById('u_welcome').innerText = `Namaste, ${currentUser.name}`;
+            document.getElementById('u_welcome').innerText = `नमस्ते, ${currentUser.name}`;
             let sel = document.getElementById('o_prod');
-            sel.innerHTML = `<option value="">-- Choose Product --</option>`;
+            sel.innerHTML = `<option value="">-- सामान चुनें --</option>`;
             db.products.forEach(p => sel.innerHTML += `<option value="${p.rate}">${p.name} (₹${p.rate}/kg)</option>`);
             
-            // Show Tracking if order exists
-            let myOrder = db.orders.reverse().find(o => o.phone === currentUser.phone);
+            let myOrder = db.orders.slice().reverse().find(o => o.phone === currentUser.phone);
             if(myOrder) {
                 document.getElementById('tracking-info').style.display = 'block';
-                document.getElementById('tracking-info').innerHTML = `<b>Order Status:</b> ${myOrder.status}<br><b>Delivery Time:</b> ${myOrder.eta || 'Calculating...'}`;
+                document.getElementById('tracking-info').innerHTML = `📌 <b>स्टेटस:</b> ${myOrder.status} | ⏳ <b>समय:</b> ${myOrder.eta || 'जल्द ही'}`;
             }
         }
 
@@ -170,7 +157,7 @@
             let rate = document.getElementById('o_prod').value, gram = document.getElementById('o_gram').value;
             if(rate && gram >= 100) {
                 let total = (rate / 1000) * gram;
-                document.getElementById('o_price').innerText = `Total: ₹${total.toFixed(2)}`;
+                document.getElementById('o_price').innerText = `कीमत: ₹${total.toFixed(2)}`;
             }
         }
 
@@ -178,53 +165,67 @@
             let prodName = document.getElementById('o_prod').options[document.getElementById('o_prod').selectedIndex].text;
             let gram = document.getElementById('o_gram').value, addr = document.getElementById('o_addr').value;
             let price = document.getElementById('o_price').innerText.split('₹')[1];
-            if(!gram || !addr) return alert("Details bharen!");
+            if(!gram || !addr || !price) return alert("विवरण भरें!");
 
             let orderID = "ORD" + Math.floor(Math.random()*9000);
-            db.orders.push({id: orderID, name: currentUser.name, phone: currentUser.phone, item: prodName, gram: gram, price: price, addr: addr, status: 'Pending', eta: ''});
+            db.orders.push({id:orderID, name:currentUser.name, phone:currentUser.phone, item:prodName, price:price, status:'Pending', eta:''});
             saveDB();
 
             let upi = `upi://pay?pa=7033578145@sbi&pn=MithilaHelp&am=${price}&cu=INR&tn=${orderID}`;
             document.getElementById('qrcode').innerHTML = "";
-            new QRCode(document.getElementById('qrcode'), {text: upi, width:150, height:150});
-            alert("Order Placed! Please Pay.");
+            new QRCode(document.getElementById('qrcode'), {text:upi, width:150, height:150});
+            alert("ऑर्डर सफल! कृपया पेमेंट करें।");
         }
 
         // --- ADMIN FUNCTIONS ---
         function loadAdmin() {
-            // Load Users
+            // प्रोडक्ट्स लोड करें
+            let pl = document.getElementById('admin_prod_list'); pl.innerHTML = "";
+            db.products.forEach((p, i) => {
+                pl.innerHTML += `<tr><td>${p.name}</td><td>${p.rate}</td>
+                <td><button onclick="editProduct(${i})" style="color:blue;">Edit</button> | 
+                <button onclick="deleteProduct(${i})" style="color:red;">Del</button></td></tr>`;
+            });
+
+            // यूजर लोड करें
             let ut = document.querySelector('#user_table tbody'); ut.innerHTML = "";
             db.users.forEach(u => {
                 let isBlocked = db.blocked.includes(u.phone);
-                ut.innerHTML += `<tr><td>${u.name}</td><td>${u.phone}</td><td>${u.dob}</td><td>${u.pass}</td>
-                <td><button onclick="toggleBlock('${u.phone}')" class="btn" style="background:${isBlocked?'green':'red'}; padding:5px; font-size:10px;">${isBlocked?'Unblock':'Block'}</button></td></tr>`;
+                ut.innerHTML += `<tr><td>${u.name}</td><td>${u.phone}</td><td>${u.pass}</td>
+                <td><button onclick="toggleBlock('${u.phone}')" style="background:${isBlocked?'green':'red'}; color:white; border:none; padding:4px; border-radius:4px;">${isBlocked?'Unblock':'Block'}</button></td></tr>`;
             });
 
-            // Load Orders
+            // ऑर्डर लोड करें
             let ot = document.querySelector('#order_table tbody'); ot.innerHTML = "";
             db.orders.forEach((o, i) => {
-                ot.innerHTML += `<tr><td>${o.id}</td><td>${o.name} (${o.phone})</td><td>${o.item}</td>
-                <td><select onchange="updateStatus(${i}, this.value)"><option ${o.status=='Pending'?'selected':''}>Pending</option><option ${o.status=='Packing'?'selected':''}>Packing</option><option ${o.status=='On the way'?'selected':''}>On the way</option><option ${o.status=='Delivered'?'selected':''}>Delivered</option></select></td>
-                <td><input type="text" placeholder="e.g. 2 Hours" value="${o.eta}" onchange="updateETA(${i}, this.value)"></td>
-                <td><button onclick="saveAdminChanges()">Save</button></td></tr>`;
+                ot.innerHTML += `<tr><td>${o.id}</td><td>${o.name}</td><td>${o.item}</td>
+                <td><select onchange="db.orders[${i}].status=this.value; saveDB();"><option ${o.status=='Pending'?'selected':''}>Pending</option><option ${o.status=='Packing'?'selected':''}>Packing</option><option ${o.status=='On way'?'selected':''}>On way</option><option ${o.status=='Delivered'?'selected':''}>Delivered</option></select></td>
+                <td><input type="text" value="${o.eta}" onchange="db.orders[${i}].eta=this.value; saveDB();" placeholder="2 hours"></td>
+                <td><button onclick="saveDB(); alert('Updated!')">Save</button></td></tr>`;
             });
         }
+
+        function addUpdateProduct() {
+            let n = document.getElementById('p_name').value, r = document.getElementById('p_rate').value;
+            if(!n || !r) return alert("नाम और रेट भरें!");
+            let index = db.products.findIndex(x => x.name === n);
+            if(index > -1) db.products[index].rate = r; 
+            else db.products.push({name: n, rate: r});
+            saveDB(); loadAdmin(); alert("Product Saved!");
+            document.getElementById('p_name').value = ""; document.getElementById('p_rate').value = "";
+        }
+
+        function editProduct(i) {
+            document.getElementById('p_name').value = db.products[i].name;
+            document.getElementById('p_rate').value = db.products[i].rate;
+        }
+
+        function deleteProduct(i) { if(confirm("Delete Product?")) { db.products.splice(i, 1); saveDB(); loadAdmin(); } }
 
         function toggleBlock(ph) {
             if(db.blocked.includes(ph)) db.blocked = db.blocked.filter(x => x !== ph);
             else db.blocked.push(ph);
             saveDB(); loadAdmin();
-        }
-
-        function updateStatus(i, val) { db.orders[i].status = val; }
-        function updateETA(i, val) { db.orders[i].eta = val; }
-        function saveAdminChanges() { saveDB(); alert("Data Updated!"); }
-
-        function addUpdateProduct() {
-            let n = document.getElementById('p_name').value, r = document.getElementById('p_rate').value;
-            if(!n || !r) return;
-            db.products.push({name: n, rate: r});
-            saveDB(); loadAdmin(); alert("Product Added!");
         }
 
         window.onload = genCap;
