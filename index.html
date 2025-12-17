@@ -50,7 +50,7 @@
 
         /* ==== Main Content and Header ==== */
         #main-content {
-            position: relative; z-index: 2; /* हमेशा क्लिकेबल रहेगा */
+            position: relative; z-index: 2;
             min-height: 100vh;
         }
         header { padding: 25px 0; background: rgba(255,255,255,0.75); backdrop-filter: blur(6px); border-bottom: 3px solid rgba(0,0,0,0.2); box-shadow: 0 4px 10px rgba(0,0,0,0.2); text-align: center; }
@@ -85,8 +85,6 @@
         /* ==== ID Card Styling (using previous variables) ==== */
         .id-input-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;}
         .id-input-group input, #id_photo { flex: 1; padding: 8px; border-radius: 6px; border: 1px solid #ccc; box-sizing: border-box; }
-        .id-card-preview { width: 350px; border: 4px solid var(--tiranga-green); border-radius: 10px; padding: 10px; background: #fff; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); }
-        .id-card-preview h4 { color: #c00; margin: 0; }
         
         /* ==== Footer ==== */
         footer { background: rgba(0,0,0,0.85); color: #fff; text-align: center; padding: 12px; margin-top: 20px; border-top: 3px solid var(--tiranga-green); border-radius: 0 0 10px 10px; }
@@ -114,6 +112,7 @@
         <main>
             <h2 class="section-title">🔍 Search Services</h2>
             <input type="text" id="searchBox" placeholder="सेवाएँ खोजें (LNMU, Bhumi, eShram, Recharge...)" onkeyup="filterLinks()">
+            <br>
             
             <h2 class="section-title">🔐 Permission Access</h2>
             <p>वेबसाइट की विशिष्ट सेवाओं (जैसे फोटो अपलोड) का उपयोग करने से पहले परमिशन दें।</p>
@@ -147,18 +146,11 @@
             </ul>
 
             <h2 class="section-title">🆔 College ID Card Generator</h2>
-<div style="display:grid;gap:10px;max-width:700px;">
-    <div class="id-input-group">
-        <input id="id_address" placeholder="Address" required>
-    </div>
-    
-    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-        <input type="file" id="id_photo" accept="image/*" style="padding:6px">
-        <button onclick="previewIdCard()" class="perm-btn" style="background:linear-gradient(90deg,#28a745,#20c997);">Preview ID</button>
-        <button onclick="printIdCard()" class="perm-btn">Print / Save</button>
-    </div>
-    <div id="id_preview" style="margin-top:14px;display:none;max-width:360px;"></div>
-</div>
+            <div style="max-width:700px;">
+                <div class="id-input-group">
+                    <input id="id_name" placeholder="Student's Name" required>
+                    <input id="id_roll" placeholder="Roll Number" required>
+                </div>
                 <div class="id-input-group">
                     <input id="id_father" placeholder="Father's Name" required>
                     <input id="id_session" placeholder="Session (e.g., 2023-26)" style="width:180px;" required>
@@ -171,14 +163,14 @@
                     <input id="id_address" placeholder="Address" required>
                 </div>
                 
-                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-                    <input type="file" id="id_photo" accept="image/*" style="padding:6px">
+                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px;">
+                    <input type="file" id="id_photo" accept="image/*" style="padding:6px; flex: 1;">
                     <button id="previewBtn" class="perm-btn" style="background:linear-gradient(90deg,#28a745,#20c997);">Preview ID</button>
                     <button id="printBtn" class="perm-btn">Print / Save</button>
                 </div>
                 <div id="id_preview" style="margin-top:14px;display:none;max-width:360px;"></div>
-            </div>
-            
+                </div>
+            <br>
         </main>
 
         <footer>
@@ -222,7 +214,7 @@
         }
 
         // =================================================================
-        // 3. ID CARD GENERATOR LOGIC
+        // 3. ID CARD GENERATOR LOGIC (UPDATED)
         // =================================================================
         let photoData = '';
         
@@ -235,7 +227,7 @@
         });
 
         document.getElementById('previewBtn').addEventListener('click', () => {
-            // Get Input Values
+            // Get Input Values (Now including Name and Roll)
             const n = document.getElementById('id_name').value || 'Student Name';
             const r = document.getElementById('id_roll').value || 'Roll No.';
             const fn = document.getElementById('id_father').value || 'Father Name';
@@ -262,7 +254,7 @@
                 
                 <div style="display:flex;gap:15px;align-items:flex-start;font-size:13px;">
                     <div style="width:85px;height:100px;border:1px solid var(--tiranga-orange);border-radius:5px;overflow:hidden;flex-shrink:0;">
-                        ${photoData ? `<img src="${photoData}" style="width:100%;height:100%;object-fit:cover">` : `<small style="font-size:10px;">Paste Photo</small>`}
+                        ${photoData ? `<img src="${photoData}" style="width:100%;height:100%;object-fit:cover">` : `<div style="text-align:center;padding:10px;font-size:10px;color:#888;">No Photo Selected</div>`}
                     </div>
                     
                     <div style="flex:1;">
@@ -277,15 +269,19 @@
                 </div>
                 
                 <div style="display:flex;justify-content:space-between;margin-top:15px;padding-top:8px;border-top:1px dotted #ccc;font-size:11px;">
-                    <div style="width:100px;text-align:center;"><br><small style="border-top:1px solid #333;padding-top:2px;display:block;">Student's Signature</small></div>
-                    <div style="width:100px;text-align:right;"><br><small style="border-top:1px solid #333;padding-top:2px;display:block;">Principal's Signature & Seal</small></div>
+                    <div style="width:100px;text-align:center;">
+                        <small style="border-top:1px solid #333;padding-top:2px;display:block;">Student's Signature</small>
+                    </div>
+                    <div style="width:100px;text-align:right;">
+                        <small style="border-top:1px solid #333;padding-top:2px;display:block;">Principal's Signature & Seal</small>
+                    </div>
                 </div>
 
               </div>`;
             prev.style.display='block';
         });
 
-        // Print/Save ID Card (Logic as before)
+        // Print/Save ID Card
         document.getElementById('printBtn').addEventListener('click', () => {
             const area = document.getElementById('printArea');
             if (!area) {
@@ -302,7 +298,7 @@
                 <head>
                   <title>Print ID Card</title>
                   <style>
-                    /* Print styles are the same as before */
+                    /* Print styles */
                     @page { margin: 10mm; }
                     body { font-family: Poppins, sans-serif; display: flex; justify-content: center; align-items: center; height: 95vh; }
                     .id-card-preview { width: 350px; border: 4px solid #138808; border-radius: 10px; padding: 10px; background: #fff; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); }
