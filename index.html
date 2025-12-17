@@ -1,227 +1,330 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8">
-<title>Mithila College Help</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Mithila College Help - Online Services</title>
 
-<style>
-body{
-    font-family:Poppins, Arial, sans-serif;
-    background:linear-gradient(120deg,#ff9933,#fff,#138808);
-    margin:0;
-}
-header{
-    background:#fff;
-    text-align:center;
-    padding:15px;
-    box-shadow:0 4px 10px rgba(0,0,0,.2);
-}
-nav{
-    background:#000;
-    padding:10px;
-    text-align:center;
-}
-nav a{
-    color:#fff;
-    text-decoration:none;
-    margin:0 10px;
-    font-weight:600;
-}
-nav a:hover{color:#ffcc33}
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2G01CRRFP1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-2G01CRRFP1');
+    </script>
 
-main{
-    max-width:1000px;
-    margin:20px auto;
-    background:#fff;
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 0 15px rgba(0,0,0,.2);
-}
+    <style>
+        /* CSS Variables */
+        :root {
+            --tiranga-orange: #FF9933;
+            --tiranga-green: #138808;
+            --blue-highlight: #007BFF;
+        }
 
-h2{
-    color:#138808;
-    border-left:5px solid #ff9933;
-    padding-left:8px;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-input{
-    width:100%;
-    padding:8px;
-    margin:6px 0;
-    border-radius:6px;
-    border:1px solid #ccc;
-}
+        /* ==== Background and Chakra Animation ==== */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(120deg, var(--tiranga-orange), #ffffff, var(--tiranga-green));
+            background-size: 300% 300%;
+            animation: gradientShift 10s ease infinite;
+            position: relative;
+            overflow-x: hidden;
+            color: #111;
+        }
+        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        body::before {
+            content: ""; position: fixed; top: 50%; left: 50%; width: 260px; height: 260px;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/1/17/Ashoka_Chakra.svg') no-repeat center;
+            background-size: contain; opacity: 0.12; transform: translate(-50%, -50%) rotate(0deg);
+            animation: chakraRotate 25s linear infinite; pointer-events: none; z-index: 0;
+        }
+        @keyframes chakraRotate { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
 
-button{
-    background:linear-gradient(90deg,#ff9933,#138808);
-    border:none;
-    padding:10px 18px;
-    border-radius:30px;
-    cursor:pointer;
-    font-weight:600;
-}
+        html { scroll-behavior: smooth; }
 
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:10px;
-    list-style:none;
-    padding:0;
-}
-.grid li{
-    background:#f8f9fa;
-    padding:10px;
-    border-radius:8px;
-}
-.grid a{
-    text-decoration:none;
-    font-weight:600;
-    color:#0d6efd;
-}
+        /* ==== Main Content and Header ==== */
+        #main-content {
+            position: relative; z-index: 2;
+            min-height: 100vh;
+        }
+        header { padding: 25px 0; background: rgba(255,255,255,0.75); backdrop-filter: blur(6px); border-bottom: 3px solid rgba(0,0,0,0.2); box-shadow: 0 4px 10px rgba(0,0,0,0.2); text-align: center; }
+        .header-content { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .header-content img { width: 100px; height: 100px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.3); object-fit: cover; }
+        .site-title { font-size: 28px; font-weight: 700; color: #000; }
+        nav { background: rgba(0,0,0,0.8); padding: 12px 0; border-radius: 0 0 15px 15px; text-align: center; }
+        nav a { color: white; text-decoration: none; margin: 0 14px; font-weight: 600; transition: 0.3s; }
+        nav a:hover { color: #ffcc33; text-shadow: 0 0 10px rgba(255,255,255,0.7); }
+        
+        /* ==== Main Body (White Card) ==== */
+        main {
+            max-width: 1000px; margin: 30px auto; background: rgba(255,255,255,0.9); padding: 25px; border-radius: 15px; box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+        }
+        h2.section-title { margin-top: 20px; font-size: 20px; color: var(--tiranga-green); border-left: 5px solid var(--tiranga-orange); padding-left: 10px; }
+        
+        /* ==== Services Grid & List Styling ==== */
+        .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; margin-top: 10px; list-style: none; padding: 0;}
+        .service-grid li { background: #f8fafc; padding: 12px; border-radius: 10px; border: 1px solid #e3e9f3; transition: 0.3s; }
+        .service-grid li:hover { transform: translateY(-4px); box-shadow: 0 6px 14px rgba(0,0,0,0.12); }
+        .service-grid a { color: var(--blue-highlight); font-weight: 600; text-decoration: none; }
+        .service-grid a:hover { text-decoration: underline; }
+        
+        /* ==== Search Bar ==== */
+        #searchBox { width: 100%; padding: 12px 15px; border-radius: 30px; border: 2px solid #444; font-size: 1rem; outline: none; margin-top: 10px; margin-bottom: 20px; box-sizing: border-box; }
+        #searchBox:focus { border-color: var(--tiranga-green); box-shadow: 0 0 10px rgba(19,136,8,0.6); }
 
-footer{
-    background:#000;
-    color:#fff;
-    text-align:center;
-    padding:10px;
-}
-</style>
+        /* ==== Buttons ==== */
+        .perm-btn, button { background: linear-gradient(to right, var(--tiranga-orange), var(--tiranga-green)); border: none; color: #000; font-weight: 600; padding: 10px 20px; border-radius: 30px; cursor: pointer; transition: 0.3s; margin: 10px 5px; display: inline-block; }
+        .perm-btn:hover, button:hover { transform: scale(1.05); }
+
+        /* ==== ID Card Styling (using previous variables) ==== */
+        .id-input-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;}
+        .id-input-group input, #id_photo { flex: 1; padding: 8px; border-radius: 6px; border: 1px solid #ccc; box-sizing: border-box; }
+        
+        /* ==== Footer ==== */
+        footer { background: rgba(0,0,0,0.85); color: #fff; text-align: center; padding: 12px; margin-top: 20px; border-top: 3px solid var(--tiranga-green); border-radius: 0 0 10px 10px; }
+        
+        @media (max-width:700px){ .header-content img { width:80px; height:80px; } nav a { display:inline-block; margin:5px 8px; } }
+    </style>
 </head>
 
 <body>
+    <div id="main-content">
+        <header>
+            <div class="header-content">
+                <img src="gandhi.logo.png" alt="Mithila College Logo">
+                <div class="site-title">MITHILA COLLEGE HELP</div>
+            </div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="services.html">Online Services</a>
+                <a href="contact.html">Contact</a>
+                <a href="help.html">Help</a>
+            </nav>
+        </header>
 
-<header>
-<h1>MITHILA COLLEGE HELP</h1>
-<p>Online Services & ID Card</p>
-</header>
+        <main>
+            <h2 class="section-title">🔍 Search Services</h2>
+            <input type="text" id="searchBox" placeholder="सेवाएँ खोजें (LNMU, Bhumi, eShram, Recharge...)" onkeyup="filterLinks()">
+            <br>
+            
+            <h2 class="section-title">🔐 Permission Access</h2>
+            <p>वेबसाइट की विशिष्ट सेवाओं (जैसे फोटो अपलोड) का उपयोग करने से पहले परमिशन दें।</p>
+            <button id="requestPermBtn" class="perm-btn">Allow Access Now</button>
+            <hr style="margin:20px 0; border:1px solid #e0e0e0;">
 
-<nav>
-<a href="#">Home</a>
-<a href="#services">Services</a>
-<a href="#idcard">ID Card</a>
-<a href="#contact">Contact</a>
-</nav>
+            <h2 class="section-title">🎓 LNMU & Colleges</h2>
+            <ul class="service-grid">
+                <li><a href="https://lnmu.ac.in/" target="_blank">🌐 LNMU Official Website</a></li>
+                <li><a href="https://lnmuniversity.com/LNMU_ERP/Home.aspx/" target="_blank">📘 LNMU Student Portal UG</a></li>
+                <li><a href="https://lnmuniversity.com/" target="_blank">🧾 Exam Form / Admit Card</a></li>
+                <li><a href="https://mmtmcollege.ac.in/" target="_blank">🏫 M.M.T.M College</a></li>
+                <li><a href="https://www.mithilacollege.in/" target="_blank">Mithila College, Darbhanga</a></li>
+                <li><a href="https://www.cmclnmu.ac.in/" target="_blank">CM College, Darbhanga</a></li>
+                <li><a href="https://www.marwari-college.in/" target="_blank">Marwari College, Darbhanga</a></li>
+                <li><a href="https://mlscollege.ac.in/" target="_blank">M.L.S.M College</a></li>
+                <li><a href="https://mahila-college-dbg.ac.in/" target="_blank">Mahila College, Darbhanga</a></li>
+            </ul>
 
-<main>
+            <h2 class="section-title">🌐 Bihar Government Services</h2>
+            <ul class="service-grid">
+                <li><a href="https://serviceonline.bihar.gov.in/" target="_blank">🧾 Service Plus Portal</a></li>
+                <li><a href="https://biharbhumi.bihar.gov.in/" target="_blank">🌏 Bihar Bhumi (Land Records)</a></li>
+                <li><a href="https://epds.bihar.gov.in/" target="_blank">🍚 EPDS (Ration Card)</a></li>
+                <li><a href="https://eshram.gov.in/" target="_blank">🧍 eShram Card</a></li>
+                <li><a href="https://myaadhaar.uidai.gov.in/" target="_blank">🪪 Aadhaar Portal</a></li>
+                <li><a href="https://abha.abdm.gov.in/" target="_blank">🏥 ABHA / Ayushman Card</a></li>
+                <li><a href="https://brabu.net/" target="_blank">🎓 BRABU University</a></li>
+                <li><a href="https://brabu.ucanapply.com/" target="_blank">📝 BRABU Admission Portal</a></li>
+                <li><a href="https://state.bihar.gov.in/" target="_blank">🏛 Bihar Govt Official Site</a></li>
+            </ul>
 
-<h2>🔍 Search</h2>
-<input type="text" id="searchBox" placeholder="Search services..." onkeyup="filterLinks()">
+            <h2 class="section-title">🆔 College ID Card Generator</h2>
+            <div style="max-width:700px;">
+                <div class="id-input-group">
+                    <input id="id_name" placeholder="Student's Name" value="विक्रम भगत" required>
+                    <input id="id_univroll" placeholder="University Roll" value="8989" required>
+                </div>
+                <div class="id-input-group">
+                    <input id="id_father" placeholder="Father's Name" value="पी.के. सिंह" required>
+                    <input id="id_session" placeholder="Session (e.g., 2023-26)" style="width:180px;" value="2023-27" required>
+                </div>
+                <div class="id-input-group">
+                    <input id="id_course" placeholder="Course / Dept" value="B.Sc (Physics Hons.)" required>
+                    <input id="id_mobile" placeholder="Mobile No." style="width:180px;" value="65256699995">
+                </div>
+                <div class="id-input-group">
+                    <input id="id_address" placeholder="Address" value="दरभंगा, बिहार" required>
+                </div>
+                
+                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px;">
+                    <input type="file" id="id_photo" accept="image/*" style="padding:6px; flex: 1;">
+                    <button id="previewBtn" class="perm-btn" style="background:linear-gradient(90deg,#28a745,#20c997);">Preview ID</button>
+                    <button id="downloadPDFBtn" class="perm-btn">Download PDF</button>
+                </div>
+                
+                <div id="id_preview" style="margin-top:14px;display:none;max-width:800px;"></div>
+            </div>
+            <br>
+        </main>
 
-<h2 id="services">🎓 College & University Links</h2>
-<ul class="grid service-grid">
-<li><a href="https://lnmu.ac.in/" target="_blank">LNMU Official</a></li>
-<li><a href="https://lnmuniversity.com/" target="_blank">LNMU Exam / Admit</a></li>
-<li><a href="https://mmtmcollege.ac.in/" target="_blank">MMTM College</a></li>
-<li><a href="https://www.mithilacollege.in/" target="_blank">Mithila College</a></li>
-<li><a href="https://cmclnmu.ac.in/" target="_blank">CM College</a></li>
-</ul>
+        <footer>
+            © 2019 Mithila College Help — Developed ❤️ by VIKRAM KUMAR SINGH 6200732472
+        </footer>
+    </div>
 
-<h2>🏛 Bihar Government Services</h2>
-<ul class="grid service-grid">
-<li><a href="https://serviceonline.bihar.gov.in/" target="_blank">Service Plus</a></li>
-<li><a href="https://biharbhumi.bihar.gov.in/" target="_blank">Bihar Bhumi</a></li>
-<li><a href="https://epds.bihar.gov.in/" target="_blank">Ration Card</a></li>
-<li><a href="https://eshram.gov.in/" target="_blank">e-Shram</a></li>
-<li><a href="https://myaadhaar.uidai.gov.in/" target="_blank">Aadhaar</a></li>
-<li><a href="https://abha.abdm.gov.in/" target="_blank">Ayushman / ABHA</a></li>
-</ul>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <script>
+        // Global Photo Variable and Sound
+        let photoData = '';
+        const welcomeSound = new Audio("https://cdn.pixabay.com/download/audio/2023/03/28/audio_8e8c4e2ddc.mp3?filename=success-1-6297.mp3");
+        try { welcomeSound.play().catch(()=>{}); } catch(e){};
+        
+        // =================================================================
+        // 2. SEARCH FILTER LOGIC (Global Function for onkeyup in HTML)
+        // =================================================================
+        window.filterLinks = function() {
+            const val = document.getElementById('searchBox').value.toLowerCase();
+            document.querySelectorAll('.service-grid li').forEach(li => { 
+                li.style.display = li.textContent.toLowerCase().includes(val) ? '' : 'none';
+            });
+        }
+        
+        // =================================================================
+        // 3. ID CARD GENERATOR LOGIC (Defined inside DOMContentLoaded for strict scoping)
+        // =================================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('requestPermBtn');
+            const idPhotoInput = document.getElementById('id_photo');
+            const previewBtn = document.getElementById('previewBtn');
+            const downloadPDFBtn = document.getElementById('downloadPDFBtn'); // Updated ID
+            
+            // Helper function to get input values
+            const v = id => document.getElementById(id)?.value || "";
 
-<hr>
+            // ** QR Code Generator **
+            const generateQR = (text) => {
+                const box = document.getElementById("qrBox");
+                if (!box) return;
+                box.innerHTML = "";
+                new QRCode(box, {
+                    text: text,
+                    width: 120,
+                    height: 120
+                });
+            }
 
-<h2 id="idcard">🆔 College ID Card Generator</h2>
+            // ** Preview Function Definition **
+            const previewIdCard = () => {
+                const roll = v("id_univroll");
+                const sessionStart = v("id_session").split('-')[0];
+                const cardNo = `MC-${roll}-${sessionStart || '2023'}`;
+                
+                const prev = document.getElementById('id_preview');
+                if (!prev) return; 
 
-<input id="id_name" placeholder="Student Name">
-<input id="id_father" placeholder="Father Name">
-<input id="id_course" placeholder="Course">
-<input id="id_session" placeholder="Session">
-<input id="id_mobile" placeholder="Mobile">
-<input id="id_univroll" placeholder="University Roll">
-<input id="id_address" placeholder="Address">
-<input type="file" id="id_photo" accept="image/*">
+                prev.style.display='block';
+                prev.innerHTML = `
+                  <div id="printArea" style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap">
+                    
+                    <div style="width:360px;border:4px solid var(--tiranga-green);border-radius:14px;padding:12px;background:#fff;font-family:Poppins">
+                        <h4 style="text-align:center;margin:0;color:#c00">MAHARAJ MAHESH THAKUR MITHILA COLLEGE</h4>
+                        <small style="display:block;text-align:center">Darbhanga, Bihar</small>
+                        <hr>
+                        <div style="display:flex;gap:10px;font-size:13px">
+                            <div style="width:95px;height:120px;border:1px solid var(--tiranga-orange)">
+                            ${photoData
+                                ? `<img src="${photoData}" style="width:100%;height:100%;object-fit:cover">`
+                                : `<small style="display:block;text-align:center;margin-top:50px">Photo</small>`}
+                            </div>
+                            <div>
+                                <div><b>Name:</b> ${v("id_name")}</div>
+                                <div><b>Father:</b> ${v("id_father")}</div>
+                                <div><b>Course:</b> ${v("id_course")}</div>
+                                <div><b>Session:</b> ${v("id_session")}</div>
+                                <div><b>Mobile:</b> ${v("id_mobile")}</div>
+                                <div><b>Univ Roll:</b> ${roll}</div>
+                                <div><b>Card No:</b> ${cardNo}</div>
+                            </div>
+                        </div>
+                    </div>
 
-<br><br>
-<button onclick="previewIdCard()">Preview ID</button>
-<button onclick="downloadPDF()">Download PDF</button>
+                    <div style="width:360px;border:4px solid var(--blue-highlight);border-radius:14px;padding:12px;background:#f8f9fa;font-family:Poppins">
+                        <h4 style="text-align:center;margin:0">OFFICIAL INFO</h4>
+                        <hr>
+                        <p style="font-size:13px"><b>Address:</b><br>${v("id_address")}</p>
+                        <div id="qrBox" style="width:120px;height:120px;margin:auto"></div>
+                        <small style="display:block;text-align:center">Scan QR Code</small>
+                    </div>
+                  </div>`;
+                
+                // QR Code Generation
+                setTimeout(() => generateQR(cardNo), 200);
+            };
 
-<div id="id_preview"></div>
 
-</main>
+            // ** Print/Save (Download PDF) Function Definition **
+            const downloadPDF = () => {
+                const area = document.getElementById("printArea");
+                if (!area) return alert("पहले Preview करें");
 
-<footer id="contact">
-© 2019 Mithila College Help | Developed by Vikram
-</footer>
+                html2pdf().from(area).set({
+                    filename: `MMTM_College_ID_Card_${v("id_name")}.pdf`,
+                    html2canvas: { scale: 3 }
+                }).save();
+            };
 
-<!-- ================= SCRIPTS ================= -->
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+            // =================================================================
+            // 1. EVENT LISTENERS (Attaching functions to buttons)
+            // =================================================================
+            
+            // Photo Load Listener
+            if (idPhotoInput) {
+                idPhotoInput.addEventListener('change', e => {
+                    const file = e.target.files[0]; 
+                    if (!file) return;
+                    const reader = new FileReader(); 
+                    reader.onload = () => {
+                        photoData = reader.result;
+                        previewIdCard(); // Auto-preview after photo load
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
 
-<script>
-let photoData="";
+            // Preview Button Listener
+            if (previewBtn) {
+                previewBtn.addEventListener('click', previewIdCard);
+            }
 
-/* SEARCH */
-function filterLinks(){
-let v=document.getElementById("searchBox").value.toLowerCase();
-document.querySelectorAll(".service-grid li").forEach(li=>{
-li.style.display=li.innerText.toLowerCase().includes(v)?"":"none";
-});
-}
+            // Download PDF Button Listener
+            if (downloadPDFBtn) {
+                downloadPDFBtn.addEventListener('click', downloadPDF);
+            }
 
-/* PHOTO */
-id_photo.onchange=e=>{
-let f=e.target.files[0];
-if(!f)return;
-let r=new FileReader();
-r.onload=()=>{photoData=r.result;previewIdCard();}
-r.readAsDataURL(f);
-};
+            // Permission Button Logic (unchanged)
+            if(btn) {
+                btn.addEventListener('click', async () => {
+                    btn.textContent = "Requesting...";
+                    btn.disabled = true;
+                    try { await navigator.mediaDevices.getUserMedia({ audio: true }).catch(()=>{}); alert("🎤 Mic Access Status: Requested"); } catch(e){}
+                    try { await navigator.mediaDevices.getUserMedia({ video: true }).catch(()=>{}); alert("📷 Camera Access Status: Requested"); } catch(e){}
+                    try { await new Promise(r => navigator.geolocation.getCurrentPosition(()=>r(), ()=>r(), {timeout:5000})); alert("📍 Location Access Status: Requested"); } catch(e){}
+                    btn.textContent = "Access Requested (Green)";
+                    btn.style.background = 'linear-gradient(to right, #138808, #28a745)';
+                });
+            }
+        });
 
-/* PREVIEW */
-function previewIdCard(){
-let v=id=>document.getElementById(id).value||"";
-let cardNo="MMTM-"+v("id_univroll");
-
-id_preview.innerHTML=`
-<div id="printArea" style="display:flex;gap:20px;flex-wrap:wrap">
-
-<div style="width:360px;border:4px solid #198754;border-radius:12px;padding:10px">
-<b>MITHILA COLLEGE, DARBHANGA</b><hr>
-<div style="display:flex;gap:10px;font-size:13px">
-<div style="width:90px;height:110px;border:1px solid #ff9933">
-${photoData?`<img src="${photoData}" style="width:100%;height:100%">`:"Photo"}
-</div>
-<div>
-<b>Name:</b> ${v("id_name")}<br>
-<b>Father:</b> ${v("id_father")}<br>
-<b>Course:</b> ${v("id_course")}<br>
-<b>Session:</b> ${v("id_session")}<br>
-<b>Mobile:</b> ${v("id_mobile")}<br>
-<b>Roll:</b> ${v("id_univroll")}<br>
-<b>Card:</b> ${cardNo}
-</div>
-</div>
-</div>
-
-<div style="width:360px;border:4px solid #0d6efd;border-radius:12px;padding:10px">
-<b>Address</b><p>${v("id_address")}</p>
-<div id="qrBox" style="width:120px;height:120px;margin:auto"></div>
-</div>
-</div>
-`;
-setTimeout(()=>{
-qrBox.innerHTML="";
-new QRCode(qrBox,{text:cardNo,width:120,height:120});
-},200);
-}
-
-/* PDF */
-function downloadPDF(){
-let p=document.getElementById("printArea");
-if(!p)return alert("पहले Preview करें");
-html2pdf().from(p).set({filename:"College_ID.pdf",html2canvas:{scale:3}}).save();
-}
-</script>
-
+    </script>
 </body>
 </html>
