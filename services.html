@@ -3,12 +3,11 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Mithila College Help - Online Order</title>
+    <title>Mithila College Help - Order System</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         :root { --tiranga-orange: #FF9933; --tiranga-green: #138808; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(120deg, var(--tiranga-orange), #ffffff, var(--tiranga-green));
@@ -18,34 +17,21 @@
         }
         @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
-        body::before {
-            content: ""; position: fixed; top: 50%; left: 50%; width: 280px; height: 280px;
-            background: url('https://upload.wikimedia.org/wikipedia/commons/1/17/Ashoka_Chakra.svg') no-repeat center;
-            background-size: contain; opacity: 0.1; transform: translate(-50%, -50%);
-            animation: chakraRotate 25s linear infinite; pointer-events: none; z-index: 0;
-        }
-        @keyframes chakraRotate { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
-
         main { max-width: 900px; margin: 30px auto; background: rgba(255,255,255,0.95); padding: 25px; border-radius: 15px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); position: relative; z-index: 2; }
         h2 { color: var(--tiranga-green); border-left: 5px solid var(--tiranga-orange); padding-left: 10px; margin-bottom: 20px; }
-
         .input-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
         input, select { flex: 1; padding: 12px; border-radius: 8px; border: 1px solid #ccc; outline: none; }
-        
-        .btn { background: linear-gradient(to right, var(--tiranga-orange), var(--tiranga-green)); border: none; color: white; font-weight: 700; padding: 15px; border-radius: 30px; cursor: pointer; transition: 0.3s; width: 100%; font-size: 16px; }
-        .btn:hover { transform: scale(1.02); }
-
+        .btn { background: linear-gradient(to right, var(--tiranga-orange), var(--tiranga-green)); border: none; color: white; font-weight: 700; padding: 15px; border-radius: 30px; cursor: pointer; width: 100%; font-size: 16px; margin-top: 10px; }
         .price-box { background: #fff3cd; color: #856404; padding: 15px; border-radius: 10px; text-align: center; font-weight: bold; margin-bottom: 15px; border: 1px solid #ffeeba; font-size: 18px; }
-
-        /* QR Code Container */
-        #qr-container { display: none; margin-top: 20px; text-align: center; padding: 15px; background: #fff; border-radius: 10px; border: 2px solid var(--tiranga-orange); }
-        #qrcode { display: inline-block; margin-top: 10px; }
+        #qr-container { display: none; margin-top: 20px; text-align: center; padding: 20px; background: #fff; border-radius: 10px; border: 2px solid var(--tiranga-orange); }
+        #qrcode { display: inline-block; margin: 15px 0; }
+        .success-card { background: #d4edda; color: #155724; padding: 20px; border-radius: 10px; margin-top: 20px; display: none; text-align: center; border: 1px solid #c3e6cb; }
     </style>
 </head>
 <body>
 
     <main>
-        <h2>🛒 Online Order & Payment</h2>
+        <h2>🛒 Online Order & Secure Payment</h2>
         
         <div class="input-group">
             <select id="order_item" onchange="updateCalc()">
@@ -54,7 +40,7 @@
                 <option value="Packet B" data-rate="11700">Packet B (₹11700/kg)</option>
                 <option value="Packet C" data-rate="5500">Packet C (₹5500/kg)</option>
             </select>
-            <input id="order_grams" type="number" placeholder="कितना ग्राम? (Min 100)" min="100" oninput="updateCalc()">
+            <input id="order_grams" type="number" placeholder="ग्राम (Min 100)" min="100" oninput="updateCalc()">
         </div>
 
         <div id="price_display" class="price-box">कुल कीमत: ₹0.00</div>
@@ -65,72 +51,74 @@
         </div>
         <input id="order_addr" placeholder="पूरा पता (Delivery Address)" style="width:100%; padding:12px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc;">
 
-        <button class="btn" onclick="processPayment()">💰 Pay & Order Now</button>
+        <button class="btn" onclick="generateOrder()">💰 Generate Order & QR</button>
 
         <div id="qr-container">
-            <p>📸 इसे स्कैन करें या नीचे बटन दबाएं</p>
+            <p style="font-weight: bold;">📸 Scan to Pay</p>
             <div id="qrcode"></div>
-            <p style="margin-top:10px; font-size:12px; color:#666;">UPI ID: 7033578145@sbi</p>
-            <button class="btn" onclick="openPaymentApp()" style="margin-top:15px; background:#007BFF;">Open Payment App</button>
+            <button class="btn" onclick="openApp()" style="background:#007BFF;">Open Payment App</button>
+            <button class="btn" onclick="confirmPayment()" style="background:#28a745; margin-top:10px;">I have paid (भुगतान कर दिया)</button>
         </div>
 
-        <p id="status_msg" style="text-align:center; margin-top:15px; font-weight:bold; color:var(--tiranga-green);"></p>
+        <div id="success_card" class="success-card">
+            <h3 id="order_no">Order ID: #MCH-0000</h3>
+            <p id="summary_text">आपका ऑर्डर रिकॉर्ड कर लिया गया है।</p>
+            <button class="btn" onclick="sendWhatsApp()" style="background:#25D366; color:white;">Receive Order Message on WhatsApp</button>
+        </div>
     </main>
 
     <script>
         let totalVal = 0;
         let upiLink = "";
+        let currentOrderID = "";
 
         function updateCalc() {
             const sel = document.getElementById('order_item');
             const g = document.getElementById('order_grams').value;
             const rate = sel.options[sel.selectedIndex].getAttribute('data-rate');
-            const display = document.getElementById('price_display');
-            
             if(rate && g >= 100) {
                 totalVal = (rate / 1000) * g;
-                display.innerText = `कुल कीमत: ₹${totalVal.toFixed(2)} (${g} ग्राम)`;
-            } else {
-                totalVal = 0;
-                display.innerText = `कुल कीमत: ₹0.00`;
+                document.getElementById('price_display').innerText = `कुल कीमत: ₹${totalVal.toFixed(2)} (${g} ग्राम)`;
             }
         }
 
-        function processPayment() {
+        function generateOrder() {
             const name = document.getElementById('order_name').value;
-            const item = document.getElementById('order_item').value;
-            const grams = document.getElementById('order_grams').value;
+            if(!name || totalVal === 0) return alert("कृपया जानकारी भरें!");
 
-            if(!name || totalVal === 0) {
-                alert("कृपया पूरी जानकारी सही भरें!");
-                return;
-            }
+            // Unique Order Number Generation
+            currentOrderID = "MCH-" + Math.floor(10000 + Math.random() * 90000);
+            upiLink = `upi://pay?pa=7033578145@sbi&pn=MithilaHelp&am=${totalVal.toFixed(2)}&cu=INR&tn=Order_${currentOrderID}`;
 
-            // UPI Payment Link
-            upiLink = `upi://pay?pa=7033578145@sbi&pn=MithilaHelp&am=${totalVal.toFixed(2)}&cu=INR&tn=Order_${item}_${grams}g_by_${name}`;
-
-            // Generate QR Code
             document.getElementById('qr-container').style.display = 'block';
-            const qrBox = document.getElementById('qrcode');
-            qrBox.innerHTML = ""; // Clear old QR
-            new QRCode(qrBox, {
-                text: upiLink,
-                width: 180,
-                height: 180
-            });
-
-            document.getElementById('status_msg').innerText = "✅ क्यूआर कोड जेनरेट हो गया है।";
+            document.getElementById('success_card').style.display = 'none';
             
-            // Scroll to QR Code
+            const qrBox = document.getElementById('qrcode');
+            qrBox.innerHTML = ""; 
+            new QRCode(qrBox, { text: upiLink, width: 180, height: 180 });
             document.getElementById('qr-container').scrollIntoView({ behavior: 'smooth' });
         }
 
-        function openPaymentApp() {
-            if(upiLink) {
-                window.location.href = upiLink;
-            } else {
-                alert("पहले 'Pay & Order Now' बटन दबाएं");
-            }
+        function openApp() { window.location.href = upiLink; }
+
+        function confirmPayment() {
+            document.getElementById('qr-container').style.display = 'none';
+            document.getElementById('success_card').style.display = 'block';
+            document.getElementById('order_no').innerText = `Order ID: #${currentOrderID}`;
+            document.getElementById('summary_text').innerHTML = `धन्यवाद <b>${document.getElementById('order_name').value}</b>!<br>₹${totalVal.toFixed(2)} का ऑर्डर प्रोसेस हो रहा है।`;
+        }
+
+        function sendWhatsApp() {
+            const name = document.getElementById('order_name').value;
+            const mobile = document.getElementById('order_mobile').value;
+            const item = document.getElementById('order_item').value;
+            const grams = document.getElementById('order_grams').value;
+            
+            // Text for WhatsApp Message
+            const text = `*NEW ORDER DETAILS*%0A--------------------%0A*Order ID:* %23${currentOrderID}%0A*Name:* ${name}%0A*Item:* ${item}%0A*Quantity:* ${grams}g%0A*Amount:* Rs.${totalVal.toFixed(2)}%0A*Status:* Payment Initiated%0A--------------------%0AThank you for ordering with Mithila College Help!`;
+            
+            // Ye aapke number par aur user ke liye message ready karega
+            window.open(`https://wa.me/91${mobile}?text=${text}`, '_blank');
         }
     </script>
 </body>
