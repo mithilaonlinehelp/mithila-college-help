@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Mithila Help - Super Controller</title>
+    <title>Mithila Help - Super Online System</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
@@ -17,7 +17,7 @@
         input, select { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
         .btn { width: 100%; padding: 10px; border: none; border-radius: 25px; color: white; font-weight: bold; cursor: pointer; margin-top: 8px; }
         .btn-blue { background: var(--blue); } .btn-green { background: var(--green); } .btn-red { background: var(--red); }
-        .captcha { background: #eee; text-align: center; font-size: 20px; font-weight: bold; padding: 8px; border-radius: 6px; letter-spacing: 4px; }
+        .captcha { background: #eee; text-align: center; font-size: 20px; font-weight: bold; padding: 8px; border-radius: 6px; letter-spacing: 4px; border: 2px dashed #bbb; }
         table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 12px; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background: #f1f1f1; }
@@ -32,7 +32,8 @@
         <input type="text" id="l_phone" placeholder="Mobile / Admin Name">
         <input type="password" id="l_pass" placeholder="Password">
         <div id="cap_text" class="captcha"></div>
-        <input type="number" id="l_cap_in" placeholder="Captcha Answer">
+        <button onclick="genCap()" style="background:none; border:none; color:var(--blue); font-size:11px; cursor:pointer; margin-bottom:5px;">🔄 Refresh Captcha</button>
+        <input type="number" id="l_cap_in" placeholder="Jod (Answer) likhen">
         <button class="btn btn-blue" onclick="doLogin()">Login</button>
         <p style="text-align:center; margin-top:10px; font-size:13px;">
             <span onclick="go('box-reg')" style="color:var(--blue); cursor:pointer;">Register</span> | 
@@ -60,7 +61,7 @@
         <div id="qty_area" style="display:none;">
             <label id="lbl_qty" class="small-txt">Quantity:</label>
             <input type="number" id="sel_qty" oninput="calc()">
-            <p id="min_msg" style="color:red; font-size:11px;"></p>
+            <p id="min_msg" style="color:var(--red); font-size:11px;"></p>
         </div>
 
         <p id="total_p" style="text-align:center; font-weight:bold; font-size:22px; color:var(--green); margin:10px 0;">₹0.00</p>
@@ -75,7 +76,7 @@
     </div>
 
     <div id="box-admin" class="admin-wide">
-        <h2>🛠️ Admin: Shreya Rani</h2>
+        <h2>🛠️ Admin: Shreya Rani Control</h2>
         <div class="admin-nav">
             <button class="btn btn-blue" onclick="showAdmSec('sec-orders')">Orders</button>
             <button class="btn btn-blue" onclick="showAdmSec('sec-prods')">Products</button>
@@ -92,7 +93,7 @@
 
         <div id="sec-prods" class="adm-sec" style="display:none;">
             <h3>📦 Manage Products</h3>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; background:#f9f9f9; padding:10px;">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; background:#f9f9f9; padding:10px; border-radius:8px;">
                 <input type="text" id="adm_pn" placeholder="Name">
                 <input type="number" id="adm_pr" placeholder="Rate">
                 <select id="adm_unit">
@@ -115,6 +116,7 @@
     </div>
 
     <script>
+        // --- Firebase Configuration ---
         const firebaseConfig = {
             apiKey: "AIzaSyBtLLOyVgt5hQwxokdsSRkeArZab5kyr_Q",
             authDomain: "mithilahelp-4107d.firebaseapp.com",
@@ -129,6 +131,7 @@
         const rdb = firebase.database();
         let capAns = 0, currentUser = null, allProducts = {};
 
+        // --- Core Navigation ---
         function go(id) {
             document.querySelectorAll('.box, .admin-wide').forEach(b => b.style.display = 'none');
             document.getElementById(id).style.display = 'block';
@@ -140,46 +143,71 @@
             document.getElementById(id).style.display = 'block';
         }
 
+        // --- Captcha System ---
         function genCap() {
-            let a = Math.floor(Math.random()*10), b = Math.floor(Math.random()*10);
-            capAns = a + b; document.getElementById('cap_text').innerText = `${a} + ${b} = ?`;
+            let a = Math.floor(Math.random() * 10);
+            let b = Math.floor(Math.random() * 10);
+            capAns = a + b;
+            document.getElementById('cap_text').innerText = `${a} + ${b} = ?`;
+            document.getElementById('l_cap_in').value = "";
         }
 
+        // --- Login & Registration ---
         function doLogin() {
-            let u = document.getElementById('l_phone').value, p = document.getElementById('l_pass').value, c = document.getElementById('l_cap_in').value;
-            if(c != capAns) return alert("Wrong Captcha");
-            if(u === "shreya rani" && p === "mydearshreya@#") { loadAdmin(); go('box-admin'); return; }
+            let u = document.getElementById('l_phone').value, 
+                p = document.getElementById('l_pass').value, 
+                c = document.getElementById('l_cap_in').value;
+
+            if(c == "" || parseInt(c) !== capAns) {
+                alert("❌ Galat Captcha! Sahi jod likhen.");
+                genCap();
+                return;
+            }
+
+            if(u === "shreya rani" && p === "mydearshreya@#") { 
+                loadAdmin(); go('box-admin'); return; 
+            }
             
             rdb.ref('blockedUsers/' + u).once('value', (s) => {
                 if(s.exists()) return alert("❌ Account Blocked by Admin!");
                 rdb.ref('users/' + u).once('value', (snap) => {
                     let v = snap.val();
-                    if(v && v.pass === p) { currentUser = v; loadUser(); go('box-order'); }
-                    else alert("Invalid Login!");
+                    if(v && v.pass === p) { 
+                        currentUser = v; loadUser(); go('box-order'); 
+                    } else {
+                        alert("Invalid Login!");
+                        genCap();
+                    }
                 });
             });
         }
 
         function doReg() {
-            let n = document.getElementById('r_name').value, ph = document.getElementById('r_phone').value, d = document.getElementById('r_dob').value, ps = document.getElementById('r_pass').value;
-            if(!n || !ph || !ps) return alert("Fill all fields!");
+            let n = document.getElementById('r_name').value, 
+                ph = document.getElementById('r_phone').value, 
+                d = document.getElementById('r_dob').value, 
+                ps = document.getElementById('r_pass').value;
+            if(!n || !ph || !ps) return alert("Sari details bharen!");
             rdb.ref('users/' + ph).set({name:n, phone:ph, dob:d, pass:ps});
-            alert("Registered!"); go('box-login');
+            alert("Registered Online!"); go('box-login');
         }
 
+        // --- User Features ---
         function loadUser() {
             document.getElementById('wel_user').innerText = "Namaste, " + currentUser.name;
             rdb.ref('products/').on('value', (s) => {
                 allProducts = s.val() || {};
-                let sel = document.getElementById('sel_p'); sel.innerHTML = "<option value=''>Choose Item</option>";
-                for(let id in allProducts) sel.innerHTML += `<option value="${id}">${allProducts[id].name} (₹${allProducts[id].rate}/${allProducts[id].unit})</option>`;
+                let sel = document.getElementById('sel_p'); 
+                sel.innerHTML = "<option value=''>Choose Item</option>";
+                for(let id in allProducts) 
+                    sel.innerHTML += `<option value="${id}">${allProducts[id].name} (₹${allProducts[id].rate}/${allProducts[id].unit})</option>`;
             });
             rdb.ref('orders/').on('value', (s) => {
                 let data = s.val();
                 for(let id in data) if(data[id].phone === currentUser.phone) {
                     let d = data[id];
                     document.getElementById('track_status').style.display = 'block';
-                    document.getElementById('track_status').innerHTML = `📌 Last Order: <b>${d.status}</b> | ⏳ ETA: <b>${d.eta || 'Waiting'}</b>`;
+                    document.getElementById('track_status').innerHTML = `📌 Order: <b>${d.status}</b> | ⏳ Time: <b>${d.eta || 'Waiting'}</b>`;
                 }
             });
         }
@@ -200,29 +228,38 @@
         }
 
         function placeOrder() {
-            let id = document.getElementById('sel_p').value, q = document.getElementById('sel_qty').value, ad = document.getElementById('sel_ad').value, m = document.getElementById('sel_m').value;
-            if(!id || !ad || q < allProducts[id].min) return alert("Check Quantity/Address!");
+            let id = document.getElementById('sel_p').value, 
+                q = document.getElementById('sel_qty').value, 
+                ad = document.getElementById('sel_ad').value, 
+                m = document.getElementById('sel_m').value;
+            
+            if(!id || !ad || q < parseFloat(allProducts[id].min)) return alert("Check Min Order/Address!");
             let total = (allProducts[id].rate * q).toFixed(2);
 
             if(m === "Online") {
                 let upi = `upi://pay?pa=7033578145@sbi&pn=Mithila&am=${total}&cu=INR`;
-                document.getElementById('qr_box').innerHTML = "<h4>Scan & Enter TID Below</h4>";
-                new QRCode(document.getElementById('qr_box'), {text:upi, width:120, height:120});
-                let tid = prompt("Enter 12-digit Transaction ID:");
-                if(!tid || tid.length < 10) return alert("Invalid TID. Order Failed.");
+                document.getElementById('qr_box').innerHTML = "<h4>Scan & Pay ₹"+total+"</h4>";
+                new QRCode(document.getElementById('qr_box'), {text:upi, width:150, height:150});
+                let tid = prompt("Payment ke baad 12-digit Transaction ID (UTR) likhen:");
+                if(!tid || tid.length < 10) return alert("Sahi Transaction ID bina order nahi hoga!");
                 saveOrder(id, q, total, ad, m, tid);
             } else { saveOrder(id, q, total, ad, m, "COD"); }
         }
 
         function saveOrder(pid, q, total, ad, m, tid) {
-            rdb.ref('orders/').push({ userName: currentUser.name, phone: currentUser.phone, item: allProducts[pid].name, qty: q, price: total, address: ad, method: m, txnId: tid, status: "Pending", eta: "" });
-            alert("Order Placed Successfully!");
+            rdb.ref('orders/').push({
+                userName: currentUser.name, phone: currentUser.phone, 
+                item: allProducts[pid].name, qty: q, price: total, 
+                address: ad, method: m, txnId: tid, status: "Pending", eta: ""
+            });
+            alert("Order Success! Tracking Shuru.");
         }
 
+        // --- Admin Controls ---
         function loadAdmin() {
             rdb.ref('products/').on('value', (s) => {
                 let d = s.val(), h = "";
-                for(let id in d) h += `<tr><td>${d[id].name}</td><td>${d[id].rate}</td><td>${d[id].unit}</td><td>${d[id].min}</td><td><button onclick="rdb.ref('products/${id}').remove()">Del</button></td></tr>`;
+                for(let id in d) h += `<tr><td>${d[id].name}</td><td>${d[id].rate}</td><td>${d[id].unit}</td><td>${d[id].min}</td><td><button class="btn-red" onclick="rdb.ref('products/${id}').remove()">Del</button></td></tr>`;
                 document.getElementById('tbl_p').querySelector('tbody').innerHTML = h;
             });
             rdb.ref('users/').on('value', (s) => {
@@ -234,27 +271,29 @@
                 let d = s.val(), h = "";
                 for(let id in d) {
                     let o = d[id];
-                    h += `<tr><td>${o.userName}<br>${o.phone}</td><td>${o.item} (${o.qty})<br>₹${o.price}</td><td>${o.method}<br>${o.txnId}</td>
+                    h += `<tr><td>${o.userName}<br>${o.phone}</td><td>${o.item} (${o.qty})<br>₹${o.price}</td><td>${o.method}<br>TID: ${o.txnId}</td>
                     <td><select onchange="updateO('${id}', 'status', this.value)"><option ${o.status=='Pending'?'selected':''}>Pending</option><option ${o.status=='Success'?'selected':''}>Success</option><option ${o.status=='Cancel'?'selected':''}>Cancel</option></select>
                     <input style="width:70px" placeholder="Time" value="${o.eta}" onchange="updateO('${id}', 'eta', this.value)"></td>
-                    <td><button onclick="rdb.ref('orders/${id}').remove()">Del</button></td></tr>`;
+                    <td><button class="btn-red" onclick="rdb.ref('orders/${id}').remove()">Del</button></td></tr>`;
                 }
                 document.getElementById('tbl_o').querySelector('tbody').innerHTML = h;
             });
         }
 
         function updateO(id, key, val) { rdb.ref('orders/' + id).update({[key]: val}); }
-        function blockUser(ph) { rdb.ref('blockedUsers/' + ph).set(true); alert("User Blocked!"); }
+        function blockUser(ph) { if(confirm("Block User?")) rdb.ref('blockedUsers/' + ph).set(true); }
         function admAddP() {
             let n = document.getElementById('adm_pn').value, r = document.getElementById('adm_pr').value, u = document.getElementById('adm_unit').value, m = document.getElementById('adm_min').value;
+            if(!n || !r) return alert("Pura bharen!");
             rdb.ref('products/').push({name:n, rate:r, unit:u, min:m}); alert("Saved!");
         }
         function recoverPass() {
-            let ph = prompt("Enter Mobile:"), d = prompt("Enter DOB (YYYY-MM-DD):");
+            let ph = prompt("Mobile Number:"), d = prompt("DOB (YYYY-MM-DD):");
             rdb.ref('users/' + ph).once('value', s => {
-                let u = s.val(); if(u && u.dob === d) alert("Password: " + u.pass); else alert("Wrong Info!");
+                let u = s.val(); if(u && u.dob === d) alert("Aapka Password: " + u.pass); else alert("Details nahi mili!");
             });
         }
+        window.onload = genCap;
     </script>
 </body>
 </html>
