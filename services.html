@@ -4,25 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Mithila College Help - Online Services</title>
-
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2G01CRRFP1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-2G01CRRFP1');
-    </script>
-
     <style>
         :root {
             --tiranga-orange: #FF9933;
             --tiranga-green: #138808;
-            --blue-highlight: #007BFF;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        /* ==== बैकग्राउंड और चक्र एनिमेशन (Wapas Joda Gaya) ==== */
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(120deg, var(--tiranga-orange), #ffffff, var(--tiranga-green));
@@ -30,7 +19,6 @@
             animation: gradientShift 10s ease infinite;
             position: relative;
             overflow-x: hidden;
-            color: #111;
         }
         @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
@@ -40,96 +28,98 @@
             background-size: contain; opacity: 0.12; transform: translate(-50%, -50%) rotate(0deg);
             animation: chakraRotate 25s linear infinite; pointer-events: none; z-index: 0;
         }
-        @keyframes chakraRotate { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+        @keyframes chakraRotate { 0% { transform: translate(-50%, -50%) rotate(360deg); } }
 
-        /* ==== Header & Nav ==== */
-        header { padding: 20px 0; background: rgba(255,255,255,0.8); backdrop-filter: blur(6px); text-align: center; border-bottom: 3px solid rgba(0,0,0,0.1); }
-        .site-title { font-size: 26px; font-weight: 800; color: #000; }
+        main { max-width: 900px; margin: 30px auto; background: rgba(255,255,255,0.95); padding: 25px; border-radius: 15px; box-shadow: 0 6px 25px rgba(0,0,0,0.15); position: relative; z-index: 2; }
+        h2.section-title { color: var(--tiranga-green); border-left: 5px solid var(--tiranga-orange); padding-left: 10px; margin-bottom: 20px; }
+
+        .input-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+        input, select { flex: 1; padding: 12px; border-radius: 6px; border: 1px solid #ccc; outline: none; font-size: 15px; }
         
-        nav { background: rgba(0,0,0,0.85); padding: 12px 0; text-align: center; position: sticky; top: 0; z-index: 100; }
-        nav a { color: white; text-decoration: none; margin: 0 10px; font-weight: 600; font-size: 14px; transition: 0.3s; }
-        nav a:hover { color: #ffcc33; }
+        .btn { background: linear-gradient(to right, var(--tiranga-orange), var(--tiranga-green)); border: none; color: #000; font-weight: 700; padding: 15px; border-radius: 30px; cursor: pointer; width: 100%; font-size: 16px; transition: 0.3s; }
+        .btn:hover { transform: scale(1.02); }
 
-        /* ==== Main Content Card ==== */
-        main { max-width: 1000px; margin: 25px auto; background: rgba(255,255,255,0.92); padding: 25px; border-radius: 15px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); position: relative; z-index: 2; }
-        h2.section-title { margin-top: 25px; font-size: 20px; color: var(--tiranga-green); border-left: 5px solid var(--tiranga-orange); padding-left: 10px; margin-bottom: 15px; }
-
-        /* ==== Forms & Inputs ==== */
-        .input-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
-        input { flex: 1; padding: 12px; border-radius: 8px; border: 1px solid #ccc; outline: none; min-width: 200px; }
-        input:focus { border-color: var(--tiranga-orange); }
-
-        .btn { background: linear-gradient(to right, var(--tiranga-orange), var(--tiranga-green)); border: none; color: white; font-weight: 700; padding: 12px 25px; border-radius: 30px; cursor: pointer; transition: 0.3s; }
-        .btn:hover { transform: scale(1.05); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-
-        /* Status Box */
-        #status_msg { margin-top: 15px; padding: 12px; border-radius: 8px; display: none; text-align: center; font-weight: bold; }
-
-        footer { background: #000; color: #fff; text-align: center; padding: 15px; margin-top: 30px; }
+        .price-tag { background: #fff3cd; color: #856404; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 15px; border: 1px solid #ffeeba; }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="site-title">MITHILA COLLEGE HELP</div>
-    </header>
-
-    <nav>
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Services</a>
-        <a href="#order-section">Order Now</a> <a href="#">Contact</a>
-        <a href="#">Help</a>
-    </nav>
-
     <main>
-        <h2 id="order-section" class="section-title">🛒 Online Order Service</h2>
+        <h2 id="order-section" class="section-title">🛒 Online Order (Gram Based)</h2>
+        
         <div class="input-group">
-            <input id="order_item" placeholder="सामान का नाम (Book, Form, etc.)">
-            <input id="order_qty" type="number" placeholder="Quantity" style="max-width: 100px;">
+            <select id="order_item" onchange="calculatePrice()">
+                <option value="">-- पैकेट चुनें --</option>
+                <option value="Packet A" data-rate="9300">Packet A (₹9300/kg)</option>
+                <option value="Packet B" data-rate="11700">Packet B (₹11700/kg)</option>
+                <option value="Packet C" data-rate="5500">Packet C (₹5500/kg)</option>
+            </select>
+            <input id="order_grams" type="number" placeholder="कितना ग्राम? (Min 100)" min="100" oninput="calculatePrice()">
         </div>
+
+        <div id="final_price_display" class="price-tag">कुल कीमत: ₹0.00</div>
+
         <div class="input-group">
-            <input id="order_name" placeholder="आपका नाम">
+            <input id="order_cust_name" placeholder="आपका नाम">
             <input id="order_mobile" placeholder="मोबाइल नंबर">
         </div>
+
         <div class="input-group">
-            <input id="order_address" placeholder="पूरा पता (Delivery Address)">
+            <input id="order_address" placeholder="डिलीवरी का पता">
         </div>
-        <button class="btn" onclick="submitOrder()">Place Order Now</button>
-        <div id="status_msg"></div>
 
-        <hr style="margin: 30px 0; border: 1px solid #eee;">
-
-        <h2 class="section-title">🆔 College ID Card Generator</h2>
-        <p>आपका ID कार्ड जेनरेटर यहाँ पहले की तरह काम करेगा...</p>
+        <button class="btn" onclick="processPayment()">Pay & Place Order</button>
+        
+        <div id="order_status" style="margin-top:15px; display:none; text-align: center; font-weight: bold;"></div>
     </main>
 
-    <footer>
-        © 2019 MITHILA COLLEGE HELP | Developed by Vikram
-    </footer>
-
     <script>
-        function submitOrder() {
-            const item = document.getElementById('order_item').value;
-            const name = document.getElementById('order_name').value;
-            const mobile = document.getElementById('order_mobile').value;
-            const status = document.getElementById('status_msg');
+        let finalAmount = 0;
 
-            if(!item || !name || !mobile) {
-                alert("कृपया ज़रूरी जानकारी भरें!");
+        function calculatePrice() {
+            const select = document.getElementById('order_item');
+            const gramsInput = document.getElementById('order_grams');
+            const display = document.getElementById('final_price_display');
+            
+            const selectedOption = select.options[select.selectedIndex];
+            const ratePerKg = parseFloat(selectedOption.getAttribute('data-rate'));
+            const grams = parseFloat(gramsInput.value);
+
+            if (ratePerKg && grams >= 100) {
+                // Calculation: (Rate / 1000) * Grams
+                finalAmount = (ratePerKg / 1000) * grams;
+                display.innerHTML = `कुल कीमत: ₹${finalAmount.toFixed(2)} (${grams} ग्राम के लिए)`;
+            } else {
+                finalAmount = 0;
+                display.innerHTML = `कुल कीमत: ₹0.00 (न्यूनतम 100 ग्राम)`;
+            }
+        }
+
+        function processPayment() {
+            const name = document.getElementById('order_cust_name').value;
+            const item = document.getElementById('order_item').value;
+            const grams = document.getElementById('order_grams').value;
+            const status = document.getElementById('order_status');
+
+            if(!item || !grams || !name || finalAmount === 0) {
+                alert("कृपया सही पैकेट, ग्राम और अपना नाम भरें!");
                 return;
             }
 
-            status.style.display = "block";
-            status.style.background = "#d4edda";
-            status.style.color = "#155724";
-            status.innerHTML = `✅ ऑर्डर सफल! <br> ${name}, आपका ${item} के लिए ऑर्डर ले लिया गया है।`;
-            
-            // Clear inputs
-            document.getElementById('order_item').value = "";
+            // UPI Link - 7033578145@sbi
+            const upiUrl = `upi://pay?pa=7033578145@sbi&pn=MithilaCollegeHelp&am=${finalAmount.toFixed(2)}&cu=INR&tn=Order_${item}_${grams}g`;
+
+            status.style.display = 'block';
+            status.style.color = '#0c5460';
+            status.innerHTML = `पेमेंट ऐप खुल रहा है...`;
+
+            // Redirect to UPI App
+            window.location.href = upiUrl;
+
+            setTimeout(() => {
+                status.innerHTML = `✅ ऑर्डर सबमिट कर दिया गया है! भुगतान के बाद हम संपर्क करेंगे।`;
+            }, 3000);
         }
-        
-        // Search filter functionality can be added here
     </script>
 </body>
 </html>
