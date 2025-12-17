@@ -1,13 +1,16 @@
 <script>
     // Sound and Non-blocking Permission Logic
+    // Note: Audio will only play if the user interacts with the page first (browser policy)
     const welcomeSound = new Audio("https://cdn.pixabay.com/download/audio/2023/03/28/audio_8e8c4e2ddc.mp3?filename=success-1-6297.mp3");
+    // Attempt to play sound, but catch errors silently if browser blocks autoplay
     try { welcomeSound.play().catch(()=>{}); } catch(e){};
     
-    // Global variable for photo data
+    // Global variable to store the selected photo's data URL
     let photoData = '';
 
     // =================================================================
-    // 1. NON-BLOCKING PERMISSION LOGIC
+    // 1. NON-BLOCKING PERMISSION LOGIC AND PHOTO UPLOAD
+    //    (Ensures elements are loaded before attaching listeners)
     // =================================================================
     document.addEventListener('DOMContentLoaded', () => {
         const btn = document.getElementById('requestPermBtn');
@@ -18,7 +21,7 @@
             btn.addEventListener('click', async () => {
                 btn.textContent = "Requesting...";
                 btn.disabled = true;
-                // Request permissions
+                // Request permissions (non-blocking)
                 try { await navigator.mediaDevices.getUserMedia({ audio: true }).catch(()=>{}); alert("🎤 Mic Access Status: Requested"); } catch(e){}
                 try { await navigator.mediaDevices.getUserMedia({ video: true }).catch(()=>{}); alert("📷 Camera Access Status: Requested"); } catch(e){}
                 try { await new Promise(r => navigator.geolocation.getCurrentPosition(()=>r(), ()=>r(), {timeout:5000})); alert("📍 Location Access Status: Requested"); } catch(e){}
@@ -28,7 +31,7 @@
             });
         }
         
-        // Photo Load Logic (Must be inside DOMContentLoaded to find the input element)
+        // Photo Load Logic (Reads file into a data URL for preview)
         if (idPhotoInput) {
             idPhotoInput.addEventListener('change', e => {
                 const file = e.target.files[0]; 
@@ -42,10 +45,11 @@
 
 
     // =================================================================
-    // 2. SEARCH FILTER LOGIC (Global Function for onkeyup)
+    // 2. SEARCH FILTER LOGIC (Global Function for onkeyup in HTML)
     // =================================================================
     window.filterLinks = function() {
         const val = document.getElementById('searchBox').value.toLowerCase();
+        // Filters list items based on text content
         document.querySelectorAll('.service-grid li').forEach(li => { 
             li.style.display = li.textContent.toLowerCase().includes(val) ? '' : 'none';
         });
@@ -57,7 +61,7 @@
 
     // ** Preview Button Logic (Called by onclick="previewIdCard()") **
     window.previewIdCard = function() {
-        // Safety check
+        // Fetching Input Values (Safe access using optional chaining for robustness)
         const n = document.getElementById('id_name')?.value || 'Student Name';
         const r = document.getElementById('id_roll')?.value || 'Roll No.';
         const fn = document.getElementById('id_father')?.value || 'Father Name';
@@ -69,10 +73,10 @@
         const prev = document.getElementById('id_preview');
         if (!prev) return; 
 
-        // ID Card HTML Structure (Using styles and vars from CSS/HTML)
+        // ID Card HTML Structure (Injecting data into the preview div)
         prev.innerHTML = `
-          <div id="printArea" style="width:350px;border:4px solid var(--tiranga-green);border-radius:10px;padding:10px;background:#fff;box-shadow:0 4px 10px rgba(0, 0, 0, 0.2);">
-            <div style="text-align:center;padding-bottom:5px;border-bottom:2px solid var(--tiranga-orange);margin-bottom:8px;">
+          <div id="printArea" style="width:350px;border:4px solid #138808;border-radius:10px;padding:10px;background:#fff;box-shadow:0 4px 10px rgba(0, 0, 0, 0.2);">
+            <div style="text-align:center;padding-bottom:5px;border-bottom:2px solid #FF9933;margin-bottom:8px;">
                 <div style="display:flex;align-items:center;justify-content:center;gap:8px;">
                     <img src="https://mmtmcollege.ac.in/assets/img/logo.png" style="height:35px;width:35px;">
                     <div>
@@ -80,12 +84,12 @@
                         <small style="display:block;font-size:11px;color:#555;">Darbhanga, Bihar - 846004 | Affiliated to L.N.M.U.</small>
                     </div>
                 </div>
-                <h4 style="margin-top:5px;font-size:16px;background:var(--tiranga-orange);color:white;padding:3px 0;border-radius:4px;">IDENTITY CARD</h4>
+                <h4 style="margin-top:5px;font-size:16px;background:#FF9933;color:white;padding:3px 0;border-radius:4px;">IDENTITY CARD</h4>
             </div>
             
             <div style="display:flex;gap:15px;align-items:flex-start;font-size:13px;">
-                <div style="width:85px;height:100px;border:1px solid var(--tiranga-orange);border-radius:5px;overflow:hidden;flex-shrink:0;">
-                    ${photoData ? `<img src="${photoData}" style="width:100%;height:100%;object-fit:cover">` : `<small style="font-size:10px;">Paste Photo</small>`}
+                <div style="width:85px;height:100px;border:1px solid #FF9933;border-radius:5px;overflow:hidden;flex-shrink:0;text-align:center;">
+                    ${photoData ? `<img src="${photoData}" style="width:100%;height:100%;object-fit:cover">` : `<small style="font-size:10px;display:block;padding-top:40px;">Paste Photo</small>`}
                 </div>
                 
                 <div style="flex:1;">
@@ -100,8 +104,12 @@
             </div>
             
             <div style="display:flex;justify-content:space-between;margin-top:15px;padding-top:8px;border-top:1px dotted #ccc;font-size:11px;">
-                <div style="width:100px;text-align:center;"><br><small style="border-top:1px solid #333;padding-top:2px;display:block;">Student's Signature</small></div>
-                <div style="width:100px;text-align:right;"><br><small style="border-top:1px solid #333;padding-top:2px;display:block;">Principal's Signature & Seal</small></div>
+                <div style="width:100px;text-align:center;">
+                    <small style="border-top:1px solid #333;padding-top:2px;display:block;">Student's Signature</small>
+                </div>
+                <div style="width:100px;text-align:right;">
+                    <small style="border-top:1px solid #333;padding-top:2px;display:block;">Principal's Signature & Seal</small>
+                </div>
             </div>
 
           </div>`;
@@ -116,14 +124,15 @@
             alert('कृपया पहले ID कार्ड का Preview (प्रीव्यू) करें।');
             return;
         }
-        // ... (Print/Save Logic is same as before) ...
-        const w = window.open('', '', 'height=600,width=800');
+
+        // Opens a new window for printing
+        const w = window.open('', '_blank', 'height=600,width=800');
         if (!w) {
             alert('पॉप-अप विंडो ब्लॉक है। कृपया इसे अनब्लॉक करें।');
             return;
         }
         
-        // Print Logic
+        // Print Logic (HTML structure for print window)
         const printContent = `
             <!DOCTYPE html>
             <html>
@@ -131,22 +140,22 @@
               <title>Print ID Card</title>
               <style>
                 @page { margin: 10mm; }
+                /* Replicating the minimal ID card styles for the print window */
                 body { font-family: Poppins, sans-serif; display: flex; justify-content: center; align-items: center; }
                 .id-card-preview { width: 350px; border: 4px solid #138808; border-radius: 10px; padding: 10px; background: #fff; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); }
-                .id-header { text-align: center; padding-bottom: 5px; border-bottom: 2px solid #ff9933; margin-bottom: 8px; }
-                .id-header h4 { margin: 0; color: #138808; font-size: 18px; font-weight: 800; text-transform: uppercase; }
-                .id-header small { display: block; font-size: 11px; color: #555; }
-                .id-details { display: flex; gap: 15px; align-items: flex-start; font-size: 13px; }
-                .id-photo-frame { width: 85px; height: 100px; border: 1px solid #ff9933; border-radius: 5px; overflow: hidden; flex-shrink: 0; }
-                .id-details-text div { margin-bottom: 4px; }
-                .id-signature { display: flex; justify-content: space-between; margin-top: 15px; padding-top: 8px; border-top: 1px dotted #ccc; font-size: 11px; }
-                .id-signature-area { width: 100px; text-align: center; }
-                .id-signature-area small { border-top: 1px solid #333; padding-top: 2px; display: block; }
               </style>
             </head>
             <body>
               ${area.outerHTML}
-              <script>window.onload = function() { window.print(); window.close(); }</script>
+              <script>
+                // Self-executing script to print and close immediately after loading
+                window.onload = function() { 
+                    setTimeout(() => { // Small delay sometimes helps with asset loading before print
+                        window.print(); 
+                        window.close(); 
+                    }, 200); 
+                }
+              </script>
             </body>
             </html>
         `;
