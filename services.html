@@ -3,122 +3,154 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Mithila College Help - Order System</title>
+    <title>Mithila College Help - Secure Login & Order</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         :root { --tiranga-orange: #FF9933; --tiranga-green: #138808; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(120deg, var(--tiranga-orange), #ffffff, var(--tiranga-green));
-            background-size: 300% 300%;
-            animation: gradientShift 10s ease infinite;
-            position: relative; overflow-x: hidden;
-        }
+        body { font-family: 'Poppins', sans-serif; background: linear-gradient(120deg, var(--tiranga-orange), #ffffff, var(--tiranga-green)); background-size: 300% 300%; animation: gradientShift 10s ease infinite; min-height: 100vh; }
         @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
-        main { max-width: 900px; margin: 30px auto; background: rgba(255,255,255,0.95); padding: 25px; border-radius: 15px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); position: relative; z-index: 2; }
-        h2 { color: var(--tiranga-green); border-left: 5px solid var(--tiranga-orange); padding-left: 10px; margin-bottom: 20px; }
-        .input-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
-        input, select { flex: 1; padding: 12px; border-radius: 8px; border: 1px solid #ccc; outline: none; }
-        .btn { background: linear-gradient(to right, var(--tiranga-orange), var(--tiranga-green)); border: none; color: white; font-weight: 700; padding: 15px; border-radius: 30px; cursor: pointer; width: 100%; font-size: 16px; margin-top: 10px; }
-        .price-box { background: #fff3cd; color: #856404; padding: 15px; border-radius: 10px; text-align: center; font-weight: bold; margin-bottom: 15px; border: 1px solid #ffeeba; font-size: 18px; }
-        #qr-container { display: none; margin-top: 20px; text-align: center; padding: 20px; background: #fff; border-radius: 10px; border: 2px solid var(--tiranga-orange); }
-        #qrcode { display: inline-block; margin: 15px 0; }
-        .success-card { background: #d4edda; color: #155724; padding: 20px; border-radius: 10px; margin-top: 20px; display: none; text-align: center; border: 1px solid #c3e6cb; }
+        main { max-width: 600px; margin: 50px auto; background: rgba(255,255,255,0.95); padding: 30px; border-radius: 15px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
+        h2 { color: var(--tiranga-green); border-left: 5px solid var(--tiranga-orange); padding-left: 10px; margin-bottom: 20px; text-align: center; }
+        
+        .form-group { margin-bottom: 15px; }
+        input, select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ccc; outline: none; font-size: 15px; }
+        
+        .captcha-box { background: #eee; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; font-size: 18px; margin-bottom: 10px; letter-spacing: 5px; color: #333; }
+        
+        .btn { border: none; color: white; font-weight: 700; padding: 15px; border-radius: 30px; cursor: pointer; width: 100%; font-size: 16px; transition: 0.3s; margin-top: 10px; }
+        .btn-login { background: #007BFF; }
+        .btn-order { background: linear-gradient(to right, var(--tiranga-orange), var(--tiranga-green)); }
+        
+        #order-section, #qr-container, #receipt_card { display: none; }
+        .price-box { background: #fff3cd; color: #856404; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 15px; }
     </style>
 </head>
 <body>
 
-    <main>
-        <h2>🛒 Online Order & Secure Payment</h2>
+    <main id="auth-box">
+        <h2>🔐 सुरक्षित लॉगिन (Login)</h2>
+        <div class="form-group">
+            <input type="text" id="login_phone" placeholder="मोबाइल नंबर">
+        </div>
+        <div class="form-group">
+            <input type="password" id="login_pass" placeholder="पासवर्ड">
+        </div>
         
-        <div class="input-group">
+        <div class="captcha-box" id="captcha_display"></div>
+        <div class="form-group">
+            <input type="text" id="captcha_input" placeholder="ऊपर दिया गया कैप्चा भरें">
+        </div>
+        
+        <button class="btn btn-login" onclick="checkLogin()">लॉगिन करें</button>
+        <p id="login_err" style="color:red; font-size:12px; margin-top:10px; text-align:center;"></p>
+    </main>
+
+    <main id="order-section">
+        <h2>🛒 अपना ऑर्डर चुनें</h2>
+        <div class="form-group">
             <select id="order_item" onchange="updateCalc()">
                 <option value="">-- पैकेट चुनें --</option>
                 <option value="Packet A" data-rate="9300">Packet A (₹9300/kg)</option>
                 <option value="Packet B" data-rate="11700">Packet B (₹11700/kg)</option>
                 <option value="Packet C" data-rate="5500">Packet C (₹5500/kg)</option>
             </select>
+        </div>
+        <div class="form-group">
             <input id="order_grams" type="number" placeholder="ग्राम (Min 100)" min="100" oninput="updateCalc()">
         </div>
-
         <div id="price_display" class="price-box">कुल कीमत: ₹0.00</div>
-
-        <div class="input-group">
-            <input id="order_name" placeholder="आपका नाम">
-            <input id="order_mobile" placeholder="मोबाइल नंबर">
+        <div class="form-group">
+            <input id="order_addr" placeholder="पूरा डिलीवरी पता">
         </div>
-        <input id="order_addr" placeholder="पूरा पता (Delivery Address)" style="width:100%; padding:12px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc;">
+        
+        <button class="btn btn-order" onclick="generateOrder()">💳 पेमेंट और ऑर्डर जेनरेट करें</button>
 
-        <button class="btn" onclick="generateOrder()">💰 Generate Order & QR</button>
-
-        <div id="qr-container">
-            <p style="font-weight: bold;">📸 Scan to Pay</p>
-            <div id="qrcode"></div>
-            <button class="btn" onclick="openApp()" style="background:#007BFF;">Open Payment App</button>
-            <button class="btn" onclick="confirmPayment()" style="background:#28a745; margin-top:10px;">I have paid (भुगतान कर दिया)</button>
+        <div id="qr-container" style="text-align:center;">
+            <div id="qrcode" style="margin:20px 0;"></div>
+            <button class="btn" onclick="showReceipt()" style="background:#28a745;">मैंने पेमेंट कर दिया (रसीद)</button>
         </div>
 
-        <div id="success_card" class="success-card">
-            <h3 id="order_no">Order ID: #MCH-0000</h3>
-            <p id="summary_text">आपका ऑर्डर रिकॉर्ड कर लिया गया है।</p>
-            <button class="btn" onclick="sendWhatsApp()" style="background:#25D366; color:white;">Receive Order Message on WhatsApp</button>
+        <div id="receipt_card" style="border:1px solid #ddd; padding:15px; margin-top:20px; border-radius:10px; background:#fff;">
+            <h3 style="text-align:center; color:var(--tiranga-green);">ऑर्डर रसीद</h3>
+            <p id="r_data" style="font-size:14px; margin:10px 0;"></p>
+            <button class="btn" onclick="sendToAdmin()" style="background:#25D366;">WhatsApp पर विवरण भेजें</button>
         </div>
     </main>
 
     <script>
+        let captchaVal = "";
         let totalVal = 0;
-        let upiLink = "";
-        let currentOrderID = "";
+        let adminPhone = "916200732472";
 
+        // 1. कैप्चा जेनरेट करें
+        function genCaptcha() {
+            let num1 = Math.floor(Math.random() * 10);
+            let num2 = Math.floor(Math.random() * 10);
+            captchaVal = num1 + num2;
+            document.getElementById('captcha_display').innerText = `${num1} + ${num2} = ?`;
+        }
+        window.onload = genCaptcha;
+
+        // 2. लॉगिन चेक करें
+        function checkLogin() {
+            const phone = document.getElementById('login_phone').value;
+            const pass = document.getElementById('login_pass').value;
+            const capInput = document.getElementById('captcha_input').value;
+
+            // डेमो के लिए पासवर्ड 'mithila123' रखा है, आप इसे बदल सकते हैं
+            if (phone.length === 10 && pass === "mithila123" && capInput == captchaVal) {
+                document.getElementById('auth-box').style.display = 'none';
+                document.getElementById('order-section').style.display = 'block';
+            } else {
+                document.getElementById('login_err').innerText = "❌ गलत नंबर, पासवर्ड या कैप्चा!";
+                genCaptcha();
+            }
+        }
+
+        // 3. ऑर्डर कैलकुलेशन
         function updateCalc() {
             const sel = document.getElementById('order_item');
             const g = document.getElementById('order_grams').value;
             const rate = sel.options[sel.selectedIndex].getAttribute('data-rate');
             if(rate && g >= 100) {
                 totalVal = (rate / 1000) * g;
-                document.getElementById('price_display').innerText = `कुल कीमत: ₹${totalVal.toFixed(2)} (${g} ग्राम)`;
+                document.getElementById('price_display').innerText = `कुल कीमत: ₹${totalVal.toFixed(2)}`;
             }
         }
 
+        // 4. पेमेंट क्यूआर
         function generateOrder() {
-            const name = document.getElementById('order_name').value;
-            if(!name || totalVal === 0) return alert("कृपया जानकारी भरें!");
-
-            // Unique Order Number Generation
-            currentOrderID = "MCH-" + Math.floor(10000 + Math.random() * 90000);
-            upiLink = `upi://pay?pa=7033578145@sbi&pn=MithilaHelp&am=${totalVal.toFixed(2)}&cu=INR&tn=Order_${currentOrderID}`;
-
+            const addr = document.getElementById('order_addr').value;
+            if(!addr || totalVal === 0) return alert("जानकारी भरें!");
+            
             document.getElementById('qr-container').style.display = 'block';
-            document.getElementById('success_card').style.display = 'none';
+            const upi = `upi://pay?pa=7033578145@sbi&pn=MithilaHelp&am=${totalVal.toFixed(2)}&cu=INR`;
             
             const qrBox = document.getElementById('qrcode');
-            qrBox.innerHTML = ""; 
-            new QRCode(qrBox, { text: upiLink, width: 180, height: 180 });
-            document.getElementById('qr-container').scrollIntoView({ behavior: 'smooth' });
+            qrBox.innerHTML = "";
+            new QRCode(qrBox, { text: upi, width: 180, height: 180 });
         }
 
-        function openApp() { window.location.href = upiLink; }
-
-        function confirmPayment() {
-            document.getElementById('qr-container').style.display = 'none';
-            document.getElementById('success_card').style.display = 'block';
-            document.getElementById('order_no').innerText = `Order ID: #${currentOrderID}`;
-            document.getElementById('summary_text').innerHTML = `धन्यवाद <b>${document.getElementById('order_name').value}</b>!<br>₹${totalVal.toFixed(2)} का ऑर्डर प्रोसेस हो रहा है।`;
-        }
-
-        function sendWhatsApp() {
-            const name = document.getElementById('order_name').value;
-            const mobile = document.getElementById('order_mobile').value;
+        function showReceipt() {
+            document.getElementById('receipt_card').style.display = 'block';
+            const name = document.getElementById('login_phone').value;
             const item = document.getElementById('order_item').value;
             const grams = document.getElementById('order_grams').value;
+            const addr = document.getElementById('order_addr').value;
             
-            // Text for WhatsApp Message
-            const text = `*NEW ORDER DETAILS*%0A--------------------%0A*Order ID:* %23${currentOrderID}%0A*Name:* ${name}%0A*Item:* ${item}%0A*Quantity:* ${grams}g%0A*Amount:* Rs.${totalVal.toFixed(2)}%0A*Status:* Payment Initiated%0A--------------------%0AThank you for ordering with Mithila College Help!`;
-            
-            // Ye aapke number par aur user ke liye message ready karega
-            window.open(`https://wa.me/91${mobile}?text=${text}`, '_blank');
+            document.getElementById('r_data').innerHTML = `
+                <b>ऑर्डर आईडी:</b> #MCH${Date.now().toString().slice(-4)}<br>
+                <b>सामान:</b> ${item} (${grams}g)<br>
+                <b>कुल राशि:</b> ₹${totalVal.toFixed(2)}<br>
+                <b>पता:</b> ${addr}
+            `;
+        }
+
+        function sendToAdmin() {
+            const text = `*New Order Confirmed*%0AID: #MCH${Date.now().toString().slice(-4)}%0AItem: ${document.getElementById('order_item').value}%0AAmount: Rs.${totalVal.toFixed(2)}%0AAddress: ${document.getElementById('order_addr').value}`;
+            window.open(`https://wa.me/${adminPhone}?text=${text}`, '_blank');
         }
     </script>
 </body>
