@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mithila College Help - Online Services</title>
-
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-2G01CRRFP1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -14,317 +13,482 @@
     </script>
 
     <style>
-        /* CSS Variables */
-        :root {
-            --tiranga-orange: #FF9933;
-            --tiranga-green: #138808;
-            --blue-highlight: #007BFF;
+        body {
+          font-family: "Poppins", sans-serif;
+          margin: 0;
+          background: linear-gradient(to bottom right, #e8f0ff, #ffffff);
+          color: #333;
+          transition: background 0.5s ease;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
+        /* HEADER */
+        header {
+          background: linear-gradient(90deg, #007BFF, #00b3ff);
+          color: white;
+          padding: 18px;
+          text-align: center;
+          font-size: 26px;
+          letter-spacing: 1px;
+          font-weight: bold;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+        }
+
+        header img {
+          height: 60px;
+          width: 60px;
+          border-radius: 50%;
+          border: 2px solid white;
+          background: white;
+          object-fit: cover;
+        }
+
+        /* NAVIGATION - UPDATED FOR NEW LINK */
+        nav {
+          background: #0056b3;
+          padding: 12px;
+          text-align: center;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        nav a {
+          color: white;
+          margin: 0 8px; /* Links ko thoda pass kiya */
+          padding: 0 7px; /* Padding diya */
+          text-decoration: none;
+          font-weight: 600;
+          transition: color 0.3s;
+          border-right: 1px solid rgba(255,255,255,0.4); /* Divider */
+        }
+        nav a:last-child {
+            border-right: none; /* Last link se divider hataya */
+        }
+
+        nav a:hover {
+          color: #ffd700;
+        }
+
+        /* MAIN SECTION */
+        section {
+          max-width: 950px;
+          margin: 30px auto;
+          background: white;
+          padding: 25px;
+          border-radius: 12px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+          animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+          color: #007BFF;
+          border-bottom: 2px solid #007BFF;
+          padding-bottom: 6px;
+          margin-top: 25px;
+        }
+
+        ul {
+          list-style-type: none;
+          padding: 0;
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+          gap: 8px;
+        }
+
+        li {
+          background: #f8f9fa;
+          padding: 10px;
+          border-radius: 8px;
+          transition: 0.3s;
+          border: 1px solid #ddd;
+        }
+
+        li:hover {
+          background: #e3f2fd;
+          transform: translateY(-3px);
+        }
+
+        a.link {
+          color: #0056b3;
+          text-decoration: none;
+          font-weight: bold;
+        }
+
+        a.link:hover {
+          text-decoration: underline;
+        }
+
+        .perm-btn {
+          display: inline-block;
+          margin: 10px 5px;
+          background: linear-gradient(90deg, #007BFF, #00c3ff);
+          color: white;
+          border: none;
+          padding: 10px 22px;
+          border-radius: 8px;
+          font-size: 15px;
+          cursor: pointer;
+        }
+
+        .perm-btn:hover {
+          background: linear-gradient(90deg, #0056b3, #0098e0);
+        }
+
+        #searchBox {
+          width: 100%;
+          padding: 10px;
+          font-size: 16px;
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          margin-bottom: 20px;
+        }
+        
+        /* ID Card Generator Inputs Styling */
+        .id-input-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;}
+        .id-input-group input {
+            flex: 1;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
             box-sizing: border-box;
         }
-
-        /* ==== Background and Chakra Animation ==== */
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(120deg, var(--tiranga-orange), #ffffff, var(--tiranga-green));
-            background-size: 300% 300%;
-            animation: gradientShift 10s ease infinite;
-            position: relative;
-            overflow-x: hidden;
-            color: #111;
+        
+        /* ID Card Preview Styling */
+        /* (CSS code for ID Card Preview is complex, keeping only minimal styles here) */
+        .id-card-preview {
+            border: 4px solid #0056b3;
+            border-radius: 10px;
+            padding: 10px;
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
-        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        body::before {
-            content: ""; position: fixed; top: 50%; left: 50%; width: 260px; height: 260px;
-            background: url('https://upload.wikimedia.org/wikipedia/commons/1/17/Ashoka_Chakra.svg') no-repeat center;
-            background-size: contain; opacity: 0.12; transform: translate(-50%, -50%) rotate(0deg);
-            animation: chakraRotate 25s linear infinite; pointer-events: none; z-index: 0;
+
+        /* Order Section Styles */
+        #order_status {
+            font-size: 14px;
+            font-weight: 600;
         }
-        @keyframes chakraRotate { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
 
-        html { scroll-behavior: smooth; }
-
-        /* ==== Main Content and Header ==== */
-        #main-content {
-            position: relative; z-index: 2;
-            min-height: 100vh;
+        footer {
+          text-align: center;
+          background: #007BFF;
+          color: pink;
+          padding: 12px;
+          margin-top: 20px;
+          font-size: 14px;
+          border-top: 3px solid #0056b3;
         }
-        header { padding: 25px 0; background: rgba(255,255,255,0.75); backdrop-filter: blur(6px); border-bottom: 3px solid rgba(0,0,0,0.2); box-shadow: 0 4px 10px rgba(0,0,0,0.2); text-align: center; }
-        .header-content { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-        .header-content img { width: 100px; height: 100px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.3); object-fit: cover; }
-        .site-title { font-size: 28px; font-weight: 700; color: #000; }
-        nav { background: rgba(0,0,0,0.8); padding: 12px 0; border-radius: 0 0 15px 15px; text-align: center; }
-        nav a { color: white; text-decoration: none; margin: 0 14px; font-weight: 600; transition: 0.3s; }
-        nav a:hover { color: #ffcc33; text-shadow: 0 0 10px rgba(255,255,255,0.7); }
-        
-        /* ==== Main Body (White Card) ==== */
-        main {
-            max-width: 1000px; margin: 30px auto; background: rgba(255,255,255,0.9); padding: 25px; border-radius: 15px; box-shadow: 0 6px 25px rgba(0,0,0,0.15);
-        }
-        h2.section-title { margin-top: 20px; font-size: 20px; color: var(--tiranga-green); border-left: 5px solid var(--tiranga-orange); padding-left: 10px; }
-        
-        /* ==== Services Grid & List Styling ==== */
-        .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; margin-top: 10px; list-style: none; padding: 0;}
-        .service-grid li { background: #f8fafc; padding: 12px; border-radius: 10px; border: 1px solid #e3e9f3; transition: 0.3s; }
-        .service-grid li:hover { transform: translateY(-4px); box-shadow: 0 6px 14px rgba(0,0,0,0.12); }
-        .service-grid a { color: var(--blue-highlight); font-weight: 600; text-decoration: none; }
-        .service-grid a:hover { text-decoration: underline; }
-        
-        /* ==== Search Bar ==== */
-        #searchBox { width: 100%; padding: 12px 15px; border-radius: 30px; border: 2px solid #444; font-size: 1rem; outline: none; margin-top: 10px; margin-bottom: 20px; box-sizing: border-box; }
-        #searchBox:focus { border-color: var(--tiranga-green); box-shadow: 0 0 10px rgba(19,136,8,0.6); }
-
-        /* ==== Buttons ==== */
-        .perm-btn, button { background: linear-gradient(to right, var(--tiranga-orange), var(--tiranga-green)); border: none; color: #000; font-weight: 600; padding: 10px 20px; border-radius: 30px; cursor: pointer; transition: 0.3s; margin: 10px 5px; display: inline-block; }
-        .perm-btn:hover, button:hover { transform: scale(1.05); }
-
-        /* ==== ID Card Styling (using previous variables) ==== */
-        .id-input-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;}
-        .id-input-group input, #id_photo { flex: 1; padding: 8px; border-radius: 6px; border: 1px solid #ccc; box-sizing: border-box; }
-        
-        /* ==== Footer ==== */
-        footer { background: rgba(0,0,0,0.85); color: #fff; text-align: center; padding: 12px; margin-top: 20px; border-top: 3px solid var(--tiranga-green); border-radius: 0 0 10px 10px; }
-        
-        @media (max-width:700px){ .header-content img { width:80px; height:80px; } nav a { display:inline-block; margin:5px 8px; } }
     </style>
 </head>
-
 <body>
-    <div id="main-content">
-        <header>
-            <div class="header-content">
-                <img src="gandhi.logo.png" alt="Mithila College Logo">
-                <div class="site-title">MITHILA COLLEGE HELP</div>
-            </div>
-            <nav>
-                <a href="index.html">Home</a>
-                <a href="about.html">About</a>
-                <a href="services.html">Online Services</a>
-                <a href="contact.html">Contact</a>
-                <a href="help.html">Help</a>
-            </nav>
-        </header>
 
-        <main>
-            <h2 class="section-title">🔍 Search Services</h2>
-            <input type="text" id="searchBox" placeholder="सेवाएँ खोजें (LNMU, Bhumi, eShram, Recharge...)" onkeyup="filterLinks()">
-            <br>
-            
-            <h2 class="section-title">🔐 Permission Access</h2>
-            <p>वेबसाइट की विशिष्ट सेवाओं (जैसे फोटो अपलोड) का उपयोग करने से पहले परमिशन दें।</p>
-            <button id="requestPermBtn" class="perm-btn">Allow Access Now</button>
-            <hr style="margin:20px 0; border:1px solid #e0e0e0;">
+    <header>
+      <img src="https://mithilaonlinehelp.kesug.com/gandhi.logo.png" alt="Logo">
+      MITHILA COLLEGE HELP
+    </header>
 
-            <h2 class="section-title">🎓 LNMU & Colleges</h2>
-            <ul class="service-grid">
-                <li><a href="https://lnmu.ac.in/" target="_blank">🌐 LNMU Official Website</a></li>
-                <li><a href="https://lnmuniversity.com/LNMU_ERP/Home.aspx/" target="_blank">📘 LNMU Student Portal UG</a></li>
-                <li><a href="https://lnmuniversity.com/" target="_blank">🧾 Exam Form / Admit Card</a></li>
-                <li><a href="https://mmtmcollege.ac.in/" target="_blank">🏫 M.M.T.M College</a></li>
-                <li><a href="https://www.mithilacollege.in/" target="_blank">Mithila College, Darbhanga</a></li>
-                <li><a href="https://www.cmclnmu.ac.in/" target="_blank">CM College, Darbhanga</a></li>
-                <li><a href="https://www.marwari-college.in/" target="_blank">Marwari College, Darbhanga</a></li>
-                <li><a href="https://mlscollege.ac.in/" target="_blank">M.L.S.M College</a></li>
-                <li><a href="https://mahila-college-dbg.ac.in/" target="_blank">Mahila College, Darbhanga</a></li>
-            </ul>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Online Services</a>
+      <a href="#order-section">Order Service</a> <a href="contact.html">Contact</a>
+      <a href="help.html">Help</a>
+    </nav>
 
-            <h2 class="section-title">🌐 Bihar Government Services</h2>
-            <ul class="service-grid">
-                <li><a href="https://serviceonline.bihar.gov.in/" target="_blank">🧾 Service Plus Portal</a></li>
-                <li><a href="https://biharbhumi.bihar.gov.in/" target="_blank">🌏 Bihar Bhumi (Land Records)</a></li>
-                <li><a href="https://epds.bihar.gov.in/" target="_blank">🍚 EPDS (Ration Card)</a></li>
-                <li><a href="https://eshram.gov.in/" target="_blank">🧍 eShram Card</a></li>
-                <li><a href="https://myaadhaar.uidai.gov.in/" target="_blank">🪪 Aadhaar Portal</a></li>
-                <li><a href="https://abha.abdm.gov.in/" target="_blank">🏥 ABHA / Ayushman Card</a></li>
-                <li><a href="https://brabu.net/" target="_blank">🎓 BRABU University</a></li>
-                <li><a href="https://brabu.ucanapply.com/" target="_blank">📝 BRABU Admission Portal</a></li>
-                <li><a href="https://state.bihar.gov.in/" target="_blank">🏛 Bihar Govt Official Site</a></li>
-            </ul>
+    <section>
+        <h2>🔍 Search Services</h2>
+        <input type="text" id="searchBox" placeholder="Type to search (LNMU, Bhumi, eShram, Recharge...)" onkeyup="filterLinks()">
 
-            <h2 class="section-title">🆔 College ID Card Generator</h2>
-            <div style="max-width:700px;">
-                <div class="id-input-group">
-                    <input id="id_name" placeholder="Student's Name" value="विक्रम भगत" required>
-                    <input id="id_univroll" placeholder="University Roll" value="8989" required>
-                </div>
-                <div class="id-input-group">
-                    <input id="id_father" placeholder="Father's Name" value="पी.के. सिंह" required>
-                    <input id="id_session" placeholder="Session (e.g., 2023-26)" style="width:180px;" value="2023-27" required>
-                </div>
-                <div class="id-input-group">
-                    <input id="id_course" placeholder="Course / Dept" value="B.Sc (Physics Hons.)" required>
-                    <input id="id_mobile" placeholder="Mobile No." style="width:180px;" value="65256699995">
-                </div>
-                <div class="id-input-group">
-                    <input id="id_address" placeholder="Address" value="दरभंगा, बिहार" required>
-                </div>
-                
-                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px;">
-                    <input type="file" id="id_photo" accept="image/*" style="padding:6px; flex: 1;">
-                    <button id="previewBtn" class="perm-btn" style="background:linear-gradient(90deg,#28a745,#20c997);">Preview ID</button>
-                    <button id="downloadPDFBtn" class="perm-btn">Download PDF</button>
-                </div>
-                
-                <div id="id_preview" style="margin-top:14px;display:none;max-width:800px;"></div>
-            </div>
-            <br>
-        </main>
+        <h2>🔐 Permission Access</h2>
+        <p>नीचे दिए गए बटन से वेबसाइट को Mic, Camera, Location और Storage की permission दें:</p>
+        <button class="perm-btn" onclick="requestPermissions()">Allow Access</button>
 
-        <footer>
-            © 2019 Mithila College Help — Developed ❤️ by VIKRAM KUMAR SINGH 6200732472
-        </footer>
-    </div>
+        <h2>🎓 LNMU Online Services</h2>
+        <ul class="serviceList">
+          <li><a class="link" href="https://lnmu.ac.in/" target="_blank">🌐 LNMU Official Website</a></li>
+          <li><a class="link" href="https://lnmu.ucanapply.com/" target="_blank">📘 LNMU Student Portal (UG/PG)</a></li>
+          <li><a class="link" href="https://lnmuniversity.com/" target="_blank">🧾 LNMU Exam Form / Admit Card</a></li>
+          <li><a class="link" href="https://mmtmcollege.ac.in/" target="_blank">🏫 M.M.T.M. College Official Site</a></li>
+        </ul>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    
-    <script>
-        // Global Photo Variable and Sound
-        let photoData = '';
-        const welcomeSound = new Audio("https://cdn.pixabay.com/download/audio/2023/03/28/audio_8e8c4e2ddc.mp3?filename=success-1-6297.mp3");
-        try { welcomeSound.play().catch(()=>{}); } catch(e){};
+        <h2>🏫 Colleges under LNMU</h2>
+        <ul class="serviceList">
+          <li><a class="link" href="https://www.mithilacollege.in/" target="_blank">Mithila College, Darbhanga</a></li>
+          <li><a class="link" href="https://www.cmclnmu.ac.in/" target="_blank">CM College, Darbhanga</a></li>
+          <li><a class="link" href="https://www.marwari-college.in/" target="_blank">Marwari College, Darbhanga</a></li>
+          <li><a class="link" href="https://mlscollege.ac.in/" target="_blank">M.L.S.M College, Darbhanga</a></li>
+          <li><a class="link" href="https://mahila-college-dbg.ac.in/" target="_blank">Mahila College, Darbhanga</a></li>
+        </ul>
+
+        <h2>🌐 Bihar Government Services</h2>
+        <ul class="serviceList">
+          <li><a class="link" href="https://serviceonline.bihar.gov.in/" target="_blank">🧾 Bihar Service Plus Portal</a></li>
+          <li><a class="link" href="https://biharbhumi.bihar.gov.in/" target="_blank">🌏 Bihar Bhumi (Land Records)</a></li>
+          <li><a class="link" href="https://epds.bihar.gov.in/" target="_blank">🍚 EPDS (Ration Card)</a></li>
+          <li><a class="link" href="https://eshram.gov.in/" target="_blank">🧍 eShram Card Portal</a></li>
+          <li><a class="link" href="https://myaadhaar.uidai.gov.in/" target="_blank">🪪 Aadhaar Download / Update</a></li>
+          <li><a class="link" href="https://abha.abdm.gov.in/" target="_blank">🏥 ABHA / Ayushman Bharat Card</a></li>
+        </ul>
+
+        <h2>⚙️ Digital & Utility Services</h2>
+        <ul class="serviceList">
+          <li><a class="link" href="https://www.jio.com/selfcare/recharge/" target="_blank">📱 Jio Recharge</a></li>
+          <li><a class="link" href="https://www.airtel.in/recharge/" target="_blank">📲 Airtel Recharge</a></li>
+          <li><a class="link" href="https://www.myvi.in/" target="_blank">📞 Vi Recharge</a></li>
+          <li><a class="link" href="https://portal.bsnl.in/myportal/" target="_blank">📶 BSNL Recharge</a></li>
+          <li><a class="link" href="https://fastag.ihmcl.com/" target="_blank">🚗 FASTag (IHMCL)</a></li>
+          <li><a class="link" href="https://nbpdcl.co.in/" target="_blank">💡 NBPDCL</a></li>
+          <li><a class="link" href="https://sbpdcl.co.in/" target="_blank">💡 SBPDCL</a></li>
+          <li><a class="link" href="https://www.digilocker.gov.in/" target="_blank">📂 DigiLocker</a></li>
+        </ul>
         
+        <h2 id="order-section">🛒 Online Order Service</h2>
+        <div style="max-width:700px;">
+            <div class="id-input-group">
+                <input id="order_item" placeholder="Item Name (e.g., Book, Form, Pen)" required>
+                <input id="order_qty" type="number" placeholder="Quantity" style="width:120px;" required>
+            </div>
+            <div class="id-input-group">
+                <input id="order_cust_name" placeholder="Your Name" required>
+                <input id="order_mobile" placeholder="Mobile Number" required>
+            </div>
+            <div class="id-input-group">
+                <input id="order_address" placeholder="Full Delivery Address" required>
+            </div>
+            
+            <div style="display:flex; gap:10px; margin-top:10px;">
+                <button onclick="placeOrder()" class="perm-btn" style="background:linear-gradient(90deg,#ffc107,#fd7e14);">Place Order Now</button>
+                <button onclick="clearOrder()" class="perm-btn" style="background:#6c757d; color:white;">Clear Form</button>
+            </div>
+            
+            <div id="order_status" style="margin-top:15px; padding:10px; border-radius:8px; display:none;"></div>
+        </div>
+        <h2>🆔 College ID Card Generator</h2>
+        <div style="max-width:700px;">
+            <div class="id-input-group">
+                <input id="id_name" placeholder="Name" required>
+                <input id="id_roll" placeholder="Roll No." style="width:180px;" required>
+            </div>
+            <div class="id-input-group">
+                <input id="id_father" placeholder="Father's Name" required>
+                <input id="id_session" placeholder="Session (e.g., 2023-26)" style="width:180px;" required>
+            </div>
+            <div class="id-input-group">
+                <input id="id_course" placeholder="Course / Dept" required>
+                <input id="id_mobile" placeholder="Mobile No." style="width:180px;">
+            </div>
+            <div class="id-input-group">
+                <input id="id_address" placeholder="Address" required>
+            </div>
+            
+            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                <input type="file" id="id_photo" accept="image/*" style="padding:6px">
+                <button id="previewBtn" class="perm-btn" style="background:linear-gradient(90deg,#28a745,#20c997);">Preview ID</button>
+                <button id="printBtn" class="perm-btn">Print / Save</button>
+            </div>
+            <div id="id_preview" style="margin-top:14px;display:none;max-width:360px;"></div>
+        </div>
+    </section>
+
+    <footer>
+      © 2019 MITHILA COLLEGE HELP | Developed by Vikram kumar singh 6200732472
+    </footer>
+
+    <script>
+        // Global Photo Variable
+        let photoData = '';
+
         // =================================================================
-        // 2. SEARCH FILTER LOGIC (Global Function for onkeyup in HTML)
+        // 1. PERMISSION ACCESS (Global Function)
         // =================================================================
-        window.filterLinks = function() {
-            const val = document.getElementById('searchBox').value.toLowerCase();
-            document.querySelectorAll('.service-grid li').forEach(li => { 
-                li.style.display = li.textContent.toLowerCase().includes(val) ? '' : 'none';
-            });
+        async function requestPermissions() {
+          try { await navigator.mediaDevices.getUserMedia({ audio: true }); alert("🎤 Mic Access Granted!"); } catch {}
+          try { await navigator.mediaDevices.getUserMedia({ video: true }); alert("📷 Camera Access Granted!"); } catch {}
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(()=>alert("📍 Location Access Granted!"));
+          }
+          try { await window.showOpenFilePicker(); alert("💾 Storage Access Granted!"); } catch {}
+        }
+
+        // =================================================================
+        // 2. SEARCH FILTER (Global Function)
+        // =================================================================
+        function filterLinks() {
+          const val = document.getElementById('searchBox').value.toLowerCase();
+          document.querySelectorAll('.serviceList li').forEach(li=>{
+            li.style.display = li.textContent.toLowerCase().includes(val)?'':'none';
+          });
         }
         
         // =================================================================
-        // 3. ID CARD GENERATOR LOGIC (Defined inside DOMContentLoaded for strict scoping)
+        // 3. ORDER SERVICE LOGIC (Global Functions)
         // =================================================================
-        document.addEventListener('DOMContentLoaded', () => {
-            const btn = document.getElementById('requestPermBtn');
-            const idPhotoInput = document.getElementById('id_photo');
-            const previewBtn = document.getElementById('previewBtn');
-            const downloadPDFBtn = document.getElementById('downloadPDFBtn'); // Updated ID
-            
-            // Helper function to get input values
-            const v = id => document.getElementById(id)?.value || "";
+        window.placeOrder = function() {
+            const item = document.getElementById('order_item').value;
+            const qty = document.getElementById('order_qty').value;
+            const name = document.getElementById('order_cust_name').value;
+            const mobile = document.getElementById('order_mobile').value;
+            const address = document.getElementById('order_address').value;
+            const statusDiv = document.getElementById('order_status');
 
-            // ** QR Code Generator **
-            const generateQR = (text) => {
-                const box = document.getElementById("qrBox");
-                if (!box) return;
-                box.innerHTML = "";
-                new QRCode(box, {
-                    text: text,
-                    width: 120,
-                    height: 120
-                });
+            if (!item || !qty || !name || !mobile || !address) {
+                statusDiv.style.display = 'block';
+                statusDiv.style.background = '#f8d7da';
+                statusDiv.style.color = '#721c24';
+                statusDiv.innerHTML = "⚠️ कृपया सभी जानकारी भरें (Please fill all fields).";
+                return;
             }
 
-            // ** Preview Function Definition **
-            const previewIdCard = () => {
-                const roll = v("id_univroll");
-                const sessionStart = v("id_session").split('-')[0];
-                const cardNo = `MC-${roll}-${sessionStart || '2023'}`;
-                
-                const prev = document.getElementById('id_preview');
-                if (!prev) return; 
+            statusDiv.style.display = 'block';
+            statusDiv.style.background = '#d4edda';
+            statusDiv.style.color = '#155724';
+            statusDiv.innerHTML = `✅ <b>Order Placed!</b><br>
+                                   Hi ${name}, your order for ${qty} ${item}(s) has been recorded.<br>
+                                   We will contact you on ${mobile} shortly.`;
 
-                prev.style.display='block';
-                prev.innerHTML = `
-                  <div id="printArea" style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap">
-                    
-                    <div style="width:360px;border:4px solid var(--tiranga-green);border-radius:14px;padding:12px;background:#fff;font-family:Poppins">
-                        <h4 style="text-align:center;margin:0;color:#c00">MAHARAJ MAHESH THAKUR MITHILA COLLEGE</h4>
-                        <small style="display:block;text-align:center">Darbhanga, Bihar</small>
-                        <hr>
-                        <div style="display:flex;gap:10px;font-size:13px">
-                            <div style="width:95px;height:120px;border:1px solid var(--tiranga-orange)">
-                            ${photoData
-                                ? `<img src="${photoData}" style="width:100%;height:100%;object-fit:cover">`
-                                : `<small style="display:block;text-align:center;margin-top:50px">Photo</small>`}
-                            </div>
-                            <div>
-                                <div><b>Name:</b> ${v("id_name")}</div>
-                                <div><b>Father:</b> ${v("id_father")}</div>
-                                <div><b>Course:</b> ${v("id_course")}</div>
-                                <div><b>Session:</b> ${v("id_session")}</div>
-                                <div><b>Mobile:</b> ${v("id_mobile")}</div>
-                                <div><b>Univ Roll:</b> ${roll}</div>
-                                <div><b>Card No:</b> ${cardNo}</div>
-                            </div>
-                        </div>
-                    </div>
+            try {
+                const orderSound = new Audio("https://cdn.pixabay.com/download/audio/2022/03/10/audio_c35078174a.mp3");
+                orderSound.play();
+            } catch(e) {}
+        };
 
-                    <div style="width:360px;border:4px solid var(--blue-highlight);border-radius:14px;padding:12px;background:#f8f9fa;font-family:Poppins">
-                        <h4 style="text-align:center;margin:0">OFFICIAL INFO</h4>
-                        <hr>
-                        <p style="font-size:13px"><b>Address:</b><br>${v("id_address")}</p>
-                        <div id="qrBox" style="width:120px;height:120px;margin:auto"></div>
-                        <small style="display:block;text-align:center">Scan QR Code</small>
-                    </div>
-                  </div>`;
-                
-                // QR Code Generation
-                setTimeout(() => generateQR(cardNo), 200);
-            };
+        window.clearOrder = function() {
+            document.getElementById('order_item').value = '';
+            document.getElementById('order_qty').value = '';
+            document.getElementById('order_cust_name').value = '';
+            document.getElementById('order_mobile').value = '';
+            document.getElementById('order_address').value = '';
+            document.getElementById('order_status').style.display = 'none';
+        };
 
+        // =================================================================
+        // 4. ID CARD GENERATOR LOGIC (Event Listeners attached on DOMContentLoaded)
+        // =================================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            const idPhotoInput = document.getElementById('id_photo');
+            const previewBtn = document.getElementById('previewBtn');
+            const printBtn = document.getElementById('printBtn');
 
-            // ** Print/Save (Download PDF) Function Definition **
-            const downloadPDF = () => {
-                const area = document.getElementById("printArea");
-                if (!area) return alert("पहले Preview करें");
-
-                html2pdf().from(area).set({
-                    filename: `MMTM_College_ID_Card_${v("id_name")}.pdf`,
-                    html2canvas: { scale: 3 }
-                }).save();
-            };
-
-
-            // =================================================================
-            // 1. EVENT LISTENERS (Attaching functions to buttons)
-            // =================================================================
-            
             // Photo Load Listener
             if (idPhotoInput) {
                 idPhotoInput.addEventListener('change', e => {
-                    const file = e.target.files[0]; 
-                    if (!file) return;
+                    const file = e.target.files[0]; if(!file) return;
                     const reader = new FileReader(); 
-                    reader.onload = () => {
-                        photoData = reader.result;
-                        previewIdCard(); // Auto-preview after photo load
-                    };
+                    reader.onload = ()=> photoData = reader.result;
                     reader.readAsDataURL(file);
                 });
             }
 
             // Preview Button Listener
             if (previewBtn) {
-                previewBtn.addEventListener('click', previewIdCard);
+                previewBtn.addEventListener('click', ()=>{
+                    // Get Input Values
+                    const n = document.getElementById('id_name').value || 'Student Name';
+                    const r = document.getElementById('id_roll').value || 'Roll No.';
+                    const fn = document.getElementById('id_father').value || 'Father Name';
+                    const s = document.getElementById('id_session').value || 'Session';
+                    const cr = document.getElementById('id_course').value || 'Course';
+                    const m = document.getElementById('id_mobile').value || 'Mobile No.';
+                    const a = document.getElementById('id_address').value || 'Address';
+                    
+                    const prev = document.getElementById('id_preview');
+                    
+                    // ID Card HTML Structure 
+                    prev.innerHTML = `
+                      <div id="printArea" class="id-card-preview">
+                        <div class="id-header">
+                            <div style="display:flex;align-items:center;justify-content:center;gap:8px;">
+                                <img src="https://mmtmcollege.ac.in/assets/img/logo.png" style="height:35px;width:35px;">
+                                <div>
+                                    <h4 style="color:#c00;">MAHARAJ MAHESH THAKUR MITHILA COLLEGE</h4>
+                                    <small>Darbhanga, Bihar - 846004 | Affiliated to L.N.M.U.</small>
+                                </div>
+                            </div>
+                            <h4 style="margin-top:5px;font-size:16px;background:#007BFF;color:white;padding:3px 0;border-radius:4px;">IDENTITY CARD</h4>
+                        </div>
+                        
+                        <div class="id-details">
+                            <div class="id-photo-frame">
+                                ${photoData ? `<img src="${photoData}" style="width:100%;height:100%;object-fit:cover">` : `<small style="font-size:10px;">Paste Photo</small>`}
+                            </div>
+                            
+                            <div style="flex:1;" class="id-details-text">
+                                <div><strong>Name:</strong> ${n}</div>
+                                <div><strong>Father's Name:</strong> ${fn}</div>
+                                <div><strong>Roll No:</strong> ${r}</div>
+                                <div><strong>Course:</strong> ${cr}</div>
+                                <div><strong>Session:</strong> ${s}</div>
+                                <div><strong>Mobile:</strong> ${m}</div>
+                                <div><strong>Address:</strong> ${a}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="id-signature">
+                            <div class="id-signature-area">
+                                <small>Student's Signature</small>
+                            </div>
+                            <div class="id-signature-area" style="text-align:right;">
+                                <small>Principal's Signature & Seal</small>
+                            </div>
+                        </div>
+                      </div>`;
+                    prev.style.display='block';
+                });
             }
 
-            // Download PDF Button Listener
-            if (downloadPDFBtn) {
-                downloadPDFBtn.addEventListener('click', downloadPDF);
-            }
+            // Print Button Listener
+            if (printBtn) {
+                printBtn.addEventListener('click', ()=>{
+                    const area=document.getElementById('printArea');
+                    if(!area){alert('पहले Preview करें');return;}
 
-            // Permission Button Logic (unchanged)
-            if(btn) {
-                btn.addEventListener('click', async () => {
-                    btn.textContent = "Requesting...";
-                    btn.disabled = true;
-                    try { await navigator.mediaDevices.getUserMedia({ audio: true }).catch(()=>{}); alert("🎤 Mic Access Status: Requested"); } catch(e){}
-                    try { await navigator.mediaDevices.getUserMedia({ video: true }).catch(()=>{}); alert("📷 Camera Access Status: Requested"); } catch(e){}
-                    try { await new Promise(r => navigator.geolocation.getCurrentPosition(()=>r(), ()=>r(), {timeout:5000})); alert("📍 Location Access Status: Requested"); } catch(e){}
-                    btn.textContent = "Access Requested (Green)";
-                    btn.style.background = 'linear-gradient(to right, #138808, #28a745)';
+                    // Print Logic (using Print Window)
+                    const w=window.open(); 
+                    w.document.write(`
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                          <title>Print ID Card</title>
+                          <style>
+                            @page { margin: 10mm; }
+                            body { font-family: Poppins, sans-serif; display: flex; justify-content: center; align-items: center; height: 95vh; }
+                            .id-card-preview {
+                              width: 350px;
+                              border: 4px solid #0056b3; 
+                              border-radius: 10px;
+                              padding: 10px;
+                              background: #fff;
+                              box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                            }
+                            .id-header { text-align: center; padding-bottom: 5px; border-bottom: 2px solid #007BFF; margin-bottom: 8px; }
+                            .id-header h4 { margin: 0; color: #0056b3; font-size: 18px; font-weight: 800; text-transform: uppercase; }
+                            .id-header small { display: block; font-size: 11px; color: #555; }
+                            .id-details { display: flex; gap: 15px; align-items: flex-start; font-size: 13px; }
+                            .id-photo-frame { width: 85px; height: 100px; border: 1px solid #007BFF; border-radius: 5px; overflow: hidden; flex-shrink: 0; }
+                            .id-details-text div { margin-bottom: 4px; }
+                            .id-signature { display: flex; justify-content: space-between; margin-top: 15px; padding-top: 8px; border-top: 1px dotted #ccc; font-size: 11px; }
+                            .id-signature-area { width: 100px; text-align: center; }
+                            .id-signature-area small { border-top: 1px solid #333; padding-top: 2px; display: block; }
+                            .no-print { display: none; }
+                          </style>
+                        </head>
+                        <body>
+                          ${area.outerHTML}
+                          <script>window.onload = function() { window.print(); window.close(); }</script>
+                        </body>
+                        </html>
+                      `);
+                    w.document.close();
                 });
             }
         });
-
     </script>
 </body>
 </html>
