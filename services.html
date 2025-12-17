@@ -3,191 +3,206 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Mithila College Help - Pro Order System</title>
+    <title>Mithila College Help - Pro System</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
     <style>
-        :root { --tiranga-orange: #FF9933; --tiranga-green: #138808; --blue: #007BFF; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Poppins', sans-serif; background: linear-gradient(120deg, var(--tiranga-orange), #ffffff, var(--tiranga-green)); background-size: 300% 300%; animation: gradientShift 10s ease infinite; min-height: 100vh; }
-        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        :root { --orange: #FF9933; --green: #138808; --blue: #007BFF; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background: linear-gradient(120deg, var(--orange), #ffffff, var(--green));
+            background-size: 300% 300%;
+            animation: moveBg 10s infinite;
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+        }
+        @keyframes moveBg { 0% {background-position: 0% 50%;} 50% {background-position: 100% 50%;} 100% {background-position: 0% 50%;} }
+
+        .card { width: 90%; max-width: 450px; background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        h2 { text-align: center; color: var(--green); margin-bottom: 20px; border-bottom: 2px solid var(--orange); padding-bottom: 10px; }
         
-        .container { max-width: 500px; margin: 40px auto; background: rgba(255,255,255,0.98); padding: 30px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); position: relative; }
-        h2 { color: var(--tiranga-green); text-align: center; margin-bottom: 20px; border-bottom: 2px solid var(--tiranga-orange); padding-bottom: 10px; }
+        input, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; outline: none; }
+        .btn { width: 100%; padding: 14px; border: none; border-radius: 30px; color: white; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 10px; }
         
-        .form-group { margin-bottom: 15px; }
-        label { display: block; font-size: 13px; margin-bottom: 5px; font-weight: bold; color: #555; }
-        input, select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ccc; outline: none; transition: 0.3s; }
-        input:focus { border-color: var(--blue); box-shadow: 0 0 5px rgba(0,123,255,0.3); }
+        .btn-blue { background: var(--blue); }
+        .btn-mix { background: linear-gradient(to right, var(--orange), var(--green)); }
         
-        .btn { border: none; color: white; font-weight: 700; padding: 14px; border-radius: 30px; cursor: pointer; width: 100%; font-size: 16px; margin-top: 10px; transition: 0.3s; }
-        .btn-primary { background: var(--blue); }
-        .btn-order { background: linear-gradient(to right, var(--tiranga-orange), var(--tiranga-green)); }
+        .captcha { background: #f0f0f0; text-align: center; font-size: 20px; font-weight: bold; letter-spacing: 5px; padding: 10px; border-radius: 8px; margin: 10px 0; }
+        .link { text-align: center; margin-top: 15px; font-size: 14px; }
+        .link span { color: var(--blue); cursor: pointer; font-weight: bold; text-decoration: underline; }
         
-        .link-text { text-align: center; margin-top: 15px; font-size: 14px; color: #444; }
-        .link-text span { color: var(--blue); cursor: pointer; font-weight: bold; text-decoration: underline; }
-        
-        #register-box, #forget-box, #order-section, #receipt-box { display: none; }
-        .captcha-box { background: #f0f0f0; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; font-size: 20px; letter-spacing: 4px; margin-bottom: 10px; }
+        #register-div, #forget-div, #order-div, #receipt-div { display: none; }
     </style>
 </head>
 <body>
 
-    <div id="login-box" class="container">
+    <div id="login-div" class="card">
         <h2>🔐 Login</h2>
-        <div class="form-group"><input type="text" id="l_phone" placeholder="Mobile Number"></div>
-        <div class="form-group"><input type="password" id="l_pass" placeholder="Password"></div>
-        <div class="captcha-box" id="l_cap_img"></div>
-        <div class="form-group"><input type="text" id="l_cap_in" placeholder="Solve Captcha"></div>
-        <button class="btn btn-primary" onclick="doLogin()">Login Now</button>
-        <div class="link-text">Naye hain? <span onclick="showBox('register-box')">Register Karein</span></div>
-        <div class="link-text"><span onclick="showBox('forget-box')">Password Bhool Gaye?</span></div>
+        <input type="text" id="l_phone" placeholder="मोबाइल नंबर (10 अंक)">
+        <input type="password" id="l_pass" placeholder="पासवर्ड">
+        <div class="captcha" id="l_cap_text"></div>
+        <input type="text" id="l_cap_val" placeholder="ऊपर का जोड़ लिखें">
+        <button class="btn btn-blue" onclick="processLogin()">Login</button>
+        <div class="link">नये हैं? <span onclick="toggleView('register-div')">Register करें</span></div>
+        <div class="link"><span onclick="toggleView('forget-div')">पासवर्ड भूल गए?</span></div>
     </div>
 
-    <div id="register-box" class="container">
-        <h2>📝 New Registration</h2>
-        <div class="form-group"><input type="text" id="r_name" placeholder="Pura Naam (Name)"></div>
-        <div class="form-group"><input type="text" id="r_phone" placeholder="Mobile Number"></div>
-        <div class="form-group"><label>Date of Birth</label><input type="date" id="r_dob"></div>
-        <div class="form-group"><input type="password" id="r_pass" placeholder="Naya Password"></div>
-        <button class="btn btn-primary" onclick="doRegister()">Register Now</button>
-        <div class="link-text">Pehle se account hai? <span onclick="showBox('login-box')">Login Karein</span></div>
+    <div id="register-div" class="card">
+        <h2>📝 Registration</h2>
+        <input type="text" id="r_name" placeholder="आपका नाम">
+        <input type="text" id="r_phone" placeholder="मोबाइल नंबर">
+        <label style="font-size: 12px; font-weight: bold;">जन्म तिथि (DOB):</label>
+        <input type="date" id="r_dob">
+        <input type="password" id="r_pass" placeholder="नया पासवर्ड">
+        <button class="btn btn-blue" onclick="processRegister()">Register Now</button>
+        <div class="link">पहले से अकाउंट है? <span onclick="toggleView('login-div')">Login</span></div>
     </div>
 
-    <div id="forget-box" class="container">
-        <h2>🔍 Find Password</h2>
-        <div class="form-group"><input type="text" id="f_phone" placeholder="Registered Mobile No"></div>
-        <div class="form-group"><label>Verify DOB</label><input type="date" id="f_dob"></div>
-        <button class="btn btn-primary" onclick="doForget()">Verify & Show Password</button>
-        <div class="link-text"><span onclick="showBox('login-box')">Wapas Login par jayein</span></div>
+    <div id="forget-div" class="card">
+        <h2>🔍 Recovery</h2>
+        <input type="text" id="f_phone" placeholder="रजिस्टर्ड मोबाइल नंबर">
+        <label style="font-size: 12px; font-weight: bold;">अपनी DOB चुनें:</label>
+        <input type="date" id="f_dob">
+        <button class="btn btn-blue" onclick="processForget()">पासवर्ड दिखाएँ</button>
+        <div class="link"><span onclick="toggleView('login-div')">वापस लॉगिन</span></div>
     </div>
 
-    <div id="order-section" class="container">
-        <h2 id="welcome-msg">🛒 Order Page</h2>
-        <div class="form-group">
-            <select id="o_item" onchange="calcPrice()">
-                <option value="">-- Item Chunne --</option>
-                <option value="Packet A" data-rate="9300">Packet A (₹9300/kg)</option>
-                <option value="Packet B" data-rate="11700">Packet B (₹11700/kg)</option>
-                <option value="Packet C" data-rate="5500">Packet C (₹5500/kg)</option>
-            </select>
-        </div>
-        <div class="form-group"><input type="number" id="o_grams" placeholder="Grams (Min 100)" oninput="calcPrice()"></div>
-        <div id="price_tag" style="text-align:center; font-weight:bold; color:var(--tiranga-green); margin-bottom:10px;">Price: ₹0.00</div>
-        <div class="form-group"><input type="text" id="o_addr" placeholder="Delivery Address"></div>
-        <button class="btn btn-order" onclick="placeOrder()">Pay & Generate QR</button>
-        <div id="qrcode" style="margin:20px auto; display:flex; justify-content:center;"></div>
-        <button id="rec_btn" class="btn" style="background:#28a745; display:none;" onclick="showReceipt()">Check Receipt</button>
+    <div id="order-div" class="card">
+        <h2 id="user-welcome">🛒 Order</h2>
+        <select id="o_item" onchange="calcPrice()">
+            <option value="">-- पैकेट चुनें --</option>
+            <option value="Packet A" data-rate="9300">Packet A (₹9300/kg)</option>
+            <option value="Packet B" data-rate="11700">Packet B (₹11700/kg)</option>
+            <option value="Packet C" data-rate="5500">Packet C (₹5500/kg)</option>
+        </select>
+        <input type="number" id="o_gram" placeholder="कितना ग्राम? (Min 100)" oninput="calcPrice()">
+        <div id="o_price" style="text-align:center; font-weight:bold; padding:10px;">कीमत: ₹0.00</div>
+        <input type="text" id="o_addr" placeholder="डिलीवरी का पूरा पता">
+        <button class="btn btn-mix" onclick="processOrder()">Pay & Generate QR</button>
+        <div id="qrcode" style="display:flex; justify-content:center; margin-top:15px;"></div>
+        <button id="btn-rec" class="btn" style="background:#28a745; display:none;" onclick="showReceipt()">रसीद देखें</button>
     </div>
 
-    <div id="receipt-box" class="container">
-        <h2 style="color:var(--tiranga-green);">Final Receipt</h2>
-        <div id="r_details" style="line-height:1.8; margin-bottom:20px;"></div>
-        <button class="btn" style="background:#25D366;" onclick="whatsappAdmin()">Send Order to Admin WhatsApp</button>
-        <button class="btn" style="background:#666;" onclick="location.reload()">Logout</button>
+    <div id="receipt-div" class="card">
+        <h2>🧾 Receipt</h2>
+        <div id="rec_data" style="line-height: 1.8; margin-bottom: 15px; font-size: 14px;"></div>
+        <button class="btn" style="background:#25D366;" onclick="sendWhatsApp()">WhatsApp पर विवरण भेजें</button>
+        <button class="btn" style="background:#333;" onclick="location.reload()">Logout</button>
     </div>
 
     <script>
-        let capAns = 0;
+        let correctCap = 0;
         let finalAmt = 0;
-        let currentUser = null;
+        let loggedInUser = null;
 
-        function showBox(id) {
-            document.querySelectorAll('.container').forEach(b => b.style.display = 'none');
+        // व्यू बदलें
+        function toggleView(id) {
+            document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
             document.getElementById(id).style.display = 'block';
-            if(id === 'login-box') genCap();
+            if(id === 'login-div') createCaptcha();
         }
 
-        function genCap() {
-            let n1 = Math.floor(Math.random() * 10);
-            let n2 = Math.floor(Math.random() * 10);
-            capAns = n1 + n2;
-            document.getElementById('l_cap_img').innerText = `${n1} + ${n2} = ?`;
+        // कैप्चा
+        function createCaptcha() {
+            let a = Math.floor(Math.random() * 10);
+            let b = Math.floor(Math.random() * 10);
+            correctCap = a + b;
+            document.getElementById('l_cap_text').innerText = `${a} + ${b} = ?`;
         }
 
-        function doRegister() {
+        // रजिस्ट्रेशन
+        function processRegister() {
             const name = document.getElementById('r_name').value;
             const phone = document.getElementById('r_phone').value;
             const dob = document.getElementById('r_dob').value;
             const pass = document.getElementById('r_pass').value;
 
-            if(!name || phone.length < 10 || !dob || !pass) return alert("Sari jankari bharen!");
+            if(!name || phone.length < 10 || !dob || !pass) return alert("सभी जानकारी भरें!");
 
-            let users = JSON.parse(localStorage.getItem('mch_users') || "[]");
-            if(users.find(u => u.phone === phone)) return alert("Ye number pehle se registered hai!");
+            let users = JSON.parse(localStorage.getItem('m_users') || "[]");
+            if(users.find(u => u.phone === phone)) return alert("नंबर पहले से है!");
 
             users.push({name, phone, dob, pass});
-            localStorage.setItem('mch_users', JSON.stringify(users));
-            alert("Registration Safal! Ab login karein.");
-            showBox('login-box');
+            localStorage.setItem('m_users', JSON.stringify(users));
+            alert("रजिस्ट्रेशन सफल! अब लॉगिन करें।");
+            toggleView('login-div');
         }
 
-        function doLogin() {
+        // लॉगिन
+        function processLogin() {
             const phone = document.getElementById('l_phone').value;
             const pass = document.getElementById('l_pass').value;
-            const cap = document.getElementById('l_cap_in').value;
+            const cap = document.getElementById('l_cap_val').value;
 
-            if(cap != capAns) { alert("Captcha galat hai!"); return genCap(); }
+            if(cap != correctCap) return alert("कैप्चा गलत है!");
 
-            let users = JSON.parse(localStorage.getItem('mch_users') || "[]");
+            let users = JSON.parse(localStorage.getItem('m_users') || "[]");
             let user = users.find(u => u.phone === phone && u.pass === pass);
 
             if(user) {
-                currentUser = user;
-                document.getElementById('welcome-msg').innerText = `Welcome, ${user.name}`;
-                showBox('order-section');
+                loggedInUser = user;
+                document.getElementById('user-welcome').innerText = "नमस्ते, " + user.name;
+                toggleView('order-div');
             } else {
-                alert("Mobile ya Password galat hai!");
+                alert("मोबाइल या पासवर्ड गलत है!");
+                createCaptcha();
             }
         }
 
-        function doForget() {
+        // रिकवरी
+        function processForget() {
             const phone = document.getElementById('f_phone').value;
             const dob = document.getElementById('f_dob').value;
-            let users = JSON.parse(localStorage.getItem('mch_users') || "[]");
+            let users = JSON.parse(localStorage.getItem('m_users') || "[]");
             let user = users.find(u => u.phone === phone && u.dob === dob);
 
-            if(user) alert(`Aapka Password hai: ${user.pass}`);
-            else alert("Data match nahi hua!");
+            if(user) alert("आपका पासवर्ड है: " + user.pass);
+            else alert("डेटा मैच नहीं हुआ!");
         }
 
+        // कीमत गणना
         function calcPrice() {
             const sel = document.getElementById('o_item');
-            const g = document.getElementById('o_grams').value;
+            const gram = document.getElementById('o_gram').value;
             const rate = sel.options[sel.selectedIndex].getAttribute('data-rate');
-            if(rate && g >= 100) {
-                finalAmt = (rate / 1000) * g;
-                document.getElementById('price_tag').innerText = `Price: ₹${finalAmt.toFixed(2)}`;
+            if(rate && gram >= 100) {
+                finalAmt = (rate / 1000) * gram;
+                document.getElementById('o_price').innerText = `कीमत: ₹${finalAmt.toFixed(2)}`;
             }
         }
 
-        function placeOrder() {
+        // ऑर्डर और क्यूआर
+        function processOrder() {
             const addr = document.getElementById('o_addr').value;
-            if(!addr || finalAmt === 0) return alert("Order details bharen!");
+            if(!addr || finalAmt === 0) return alert("विवरण भरें!");
             
-            const upi = `upi://pay?pa=7033578145@sbi&pn=MithilaHelp&am=${finalAmt.toFixed(2)}&cu=INR&tn=Order_By_${currentUser.name}`;
-            document.getElementById('qrcode').innerHTML = "";
-            new QRCode(document.getElementById('qrcode'), { text: upi, width: 160, height: 160 });
-            document.getElementById('rec_btn').style.display = 'block';
+            const upi = `upi://pay?pa=7033578145@sbi&pn=MithilaHelp&am=${finalAmt.toFixed(2)}&cu=INR&tn=Order_By_${loggedInUser.name}`;
+            const qrElem = document.getElementById('qrcode');
+            qrElem.innerHTML = "";
+            new QRCode(qrElem, { text: upi, width: 150, height: 150 });
+            document.getElementById('btn-rec').style.display = 'block';
         }
 
         function showReceipt() {
-            showBox('receipt-box');
-            document.getElementById('r_details').innerHTML = `
-                <b>Order ID:</b> #MCH${Date.now().toString().slice(-5)}<br>
-                <b>Customer:</b> ${currentUser.name}<br>
-                <b>Mobile:</b> ${currentUser.phone}<br>
-                <b>Item:</b> ${document.getElementById('o_item').value} (${document.getElementById('o_grams').value}g)<br>
-                <b>Amount:</b> ₹${finalAmt.toFixed(2)}<br>
-                <b>Address:</b> ${document.getElementById('o_addr').value}
+            toggleView('receipt-div');
+            document.getElementById('rec_data').innerHTML = `
+                <b>नाम:</b> ${loggedInUser.name}<br>
+                <b>मोबाइल:</b> ${loggedInUser.phone}<br>
+                <b>सामान:</b> ${document.getElementById('o_item').value}<br>
+                <b>वजन:</b> ${document.getElementById('o_gram').value} ग्राम<br>
+                <b>कुल राशि:</b> ₹${finalAmt.toFixed(2)}<br>
+                <b>पता:</b> ${document.getElementById('o_addr').value}
             `;
         }
 
-        function whatsappAdmin() {
-            const text = `*NEW ORDER CONFIRMED*%0AName: ${currentUser.name}%0AItem: ${document.getElementById('o_item').value}%0AAmount: Rs.${finalAmt.toFixed(2)}%0AAddress: ${document.getElementById('o_addr').value}`;
-            window.open(`https://wa.me/916200732472?text=${text}`, '_blank');
+        function sendWhatsApp() {
+            const admin = "916200732472";
+            const text = `*नया ऑर्डर*%0Aनाम: ${loggedInUser.name}%0Aसामान: ${document.getElementById('o_item').value}%0Aवजन: ${document.getElementById('o_gram').value}g%0Aराशि: ₹${finalAmt.toFixed(2)}%0Aपता: ${document.getElementById('o_addr').value}`;
+            window.open(`https://wa.me/${admin}?text=${text}`, '_blank');
         }
 
-        window.onload = genCap;
+        window.onload = createCaptcha;
     </script>
 </body>
 </html>
