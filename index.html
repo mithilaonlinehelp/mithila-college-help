@@ -146,31 +146,31 @@
             </ul>
 
             <h2 class="section-title">🆔 College ID Card Generator</h2>
-<div style="max-width:700px;">
-    <div class="id-input-group">
-        <input id="id_name" placeholder="Student's Name" value="vikram bhagat54" required>
-        <input id="id_roll" placeholder="Roll Number" value="8989" required>
-    </div>
-    <div class="id-input-group">
-        <input id="id_father" placeholder="Father's Name" value="pk" required>
-        <input id="id_session" placeholder="Session (e.g., 2023-26)" style="width:180px;" value="2023-27" required>
-    </div>
-    <div class="id-input-group">
-        <input id="id_course" placeholder="Course / Dept" value="vdsbhhe" required>
-        <input id="id_mobile" placeholder="Mobile No." style="width:180px;" value="65256699995">
-    </div>
-    <div class="id-input-group">
-        <input id="id_address" placeholder="Address" value="vdsbhhe" required>
-    </div>
-    
-    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px;">
-        <input type="file" id="id_photo" accept="image/*" style="padding:6px; flex: 1;">
-        <button onclick="previewIdCard()" id="previewBtn" class="perm-btn" style="background:linear-gradient(90deg,#28a745,#20c997);">Preview ID</button>
-        <button onclick="printIdCard()" id="printBtn" class="perm-btn">Print / Save</button>
-    </div>
-    
-    <div id="id_preview" style="margin-top:14px;display:none;max-width:360px;"></div>
-</div>
+            <div style="max-width:700px;">
+                <div class="id-input-group">
+                    <input id="id_name" placeholder="Student's Name" value="vikram bhagat54" required>
+                    <input id="id_roll" placeholder="Roll Number" value="8989" required>
+                </div>
+                <div class="id-input-group">
+                    <input id="id_father" placeholder="Father's Name" value="pk" required>
+                    <input id="id_session" placeholder="Session (e.g., 2023-26)" style="width:180px;" value="2023-27" required>
+                </div>
+                <div class="id-input-group">
+                    <input id="id_course" placeholder="Course / Dept" value="vdsbhhe" required>
+                    <input id="id_mobile" placeholder="Mobile No." style="width:180px;" value="65256699995">
+                </div>
+                <div class="id-input-group">
+                    <input id="id_address" placeholder="Address" value="vdsbhhe" required>
+                </div>
+                
+                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px;">
+                    <input type="file" id="id_photo" accept="image/*" style="padding:6px; flex: 1;">
+                    <button onclick="previewIdCard()" id="previewBtn" class="perm-btn" style="background:linear-gradient(90deg,#28a745,#20c997);">Preview ID</button>
+                    <button onclick="printIdCard()" id="printBtn" class="perm-btn">Print / Save</button>
+                </div>
+                
+                <div id="id_preview" style="margin-top:14px;display:none;max-width:360px;"></div>
+            </div>
             <br>
         </main>
 
@@ -187,68 +187,12 @@
         let photoData = ''; // Global variable for photo data
 
         // =================================================================
-        // 1. EVENT LISTENERS (Run after HTML is loaded)
-        // =================================================================
-        document.addEventListener('DOMContentLoaded', () => {
-            const btn = document.getElementById('requestPermBtn');
-            const idPhotoInput = document.getElementById('id_photo');
-            const previewBtn = document.getElementById('previewBtn');
-            const printBtn = document.getElementById('printBtn');
-            
-            // Permission Button Logic
-            if(btn) {
-                btn.addEventListener('click', async () => {
-                    btn.textContent = "Requesting...";
-                    btn.disabled = true;
-                    // Request permissions (non-blocking)
-                    try { await navigator.mediaDevices.getUserMedia({ audio: true }).catch(()=>{}); alert("🎤 Mic Access Status: Requested"); } catch(e){}
-                    try { await navigator.mediaDevices.getUserMedia({ video: true }).catch(()=>{}); alert("📷 Camera Access Status: Requested"); } catch(e){}
-                    try { await new Promise(r => navigator.geolocation.getCurrentPosition(()=>r(), ()=>r(), {timeout:5000})); alert("📍 Location Access Status: Requested"); } catch(e){}
-                    
-                    btn.textContent = "Access Requested (Green)";
-                    btn.style.background = 'linear-gradient(to right, #138808, #28a745)';
-                });
-            }
-            
-            // Photo Load Logic (Reads file into a data URL for preview)
-            if (idPhotoInput) {
-                idPhotoInput.addEventListener('change', e => {
-                    const file = e.target.files[0]; 
-                    if (!file) return;
-                    const reader = new FileReader(); 
-                    reader.onload = () => photoData = reader.result;
-                    reader.readAsDataURL(file);
-                });
-            }
-
-            // Attaching ID Card Preview and Print to buttons using IDs
-            if (previewBtn) {
-                previewBtn.addEventListener('click', previewIdCard);
-            }
-
-            if (printBtn) {
-                printBtn.addEventListener('click', printIdCard);
-            }
-        });
-
-
-        // =================================================================
-        // 2. SEARCH FILTER LOGIC (Global Function for onkeyup in HTML)
-        // =================================================================
-        window.filterLinks = function() {
-            const val = document.getElementById('searchBox').value.toLowerCase();
-            document.querySelectorAll('.service-grid li').forEach(li => { 
-                li.style.display = li.textContent.toLowerCase().includes(val) ? '' : 'none';
-            });
-        }
-
-        // =================================================================
-        // 3. ID CARD GENERATOR LOGIC (Global Functions for clarity)
+        // 3. ID CARD GENERATOR LOGIC (Defining Global Functions for onclick)
         // =================================================================
 
         // ** Preview Function **
         window.previewIdCard = function() {
-            // Fetching Input Values (Safe access)
+            // Fetching Input Values
             const n = document.getElementById('id_name')?.value || 'Student Name';
             const r = document.getElementById('id_roll')?.value || 'Roll No.';
             const fn = document.getElementById('id_father')?.value || 'Father Name';
@@ -301,7 +245,7 @@
 
               </div>`;
             prev.style.display='block';
-        };
+        }
 
 
         // ** Print/Save Function **
@@ -346,6 +290,52 @@
             w.document.write(printContent);
             w.document.close();
         };
+
+
+        // =================================================================
+        // 1. NON-BLOCKING PERMISSION & PHOTO LOAD (Run after HTML is loaded)
+        // =================================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('requestPermBtn');
+            const idPhotoInput = document.getElementById('id_photo');
+            
+            // Permission Button Logic
+            if(btn) {
+                btn.addEventListener('click', async () => {
+                    btn.textContent = "Requesting...";
+                    btn.disabled = true;
+                    // Request permissions (non-blocking)
+                    try { await navigator.mediaDevices.getUserMedia({ audio: true }).catch(()=>{}); alert("🎤 Mic Access Status: Requested"); } catch(e){}
+                    try { await navigator.mediaDevices.getUserMedia({ video: true }).catch(()=>{}); alert("📷 Camera Access Status: Requested"); } catch(e){}
+                    try { await new Promise(r => navigator.geolocation.getCurrentPosition(()=>r(), ()=>r(), {timeout:5000})); alert("📍 Location Access Status: Requested"); } catch(e){}
+                    
+                    btn.textContent = "Access Requested (Green)";
+                    btn.style.background = 'linear-gradient(to right, #138808, #28a745)';
+                });
+            }
+            
+            // Photo Load Logic (Reads file into a data URL for preview)
+            if (idPhotoInput) {
+                idPhotoInput.addEventListener('change', e => {
+                    const file = e.target.files[0]; 
+                    if (!file) return;
+                    const reader = new FileReader(); 
+                    reader.onload = () => photoData = reader.result;
+                    reader.readAsDataURL(file);
+                });
+            }
+        });
+
+
+        // =================================================================
+        // 2. SEARCH FILTER LOGIC (Global Function for onkeyup in HTML)
+        // =================================================================
+        window.filterLinks = function() {
+            const val = document.getElementById('searchBox').value.toLowerCase();
+            document.querySelectorAll('.service-grid li').forEach(li => { 
+                li.style.display = li.textContent.toLowerCase().includes(val) ? '' : 'none';
+            });
+        }
     </script>
-    </body>
+</body>
 </html>
