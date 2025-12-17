@@ -3,12 +3,12 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Mithila College Help - Online Services</title>
+    <title>Mithila College Help - Online Order</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
-        :root { --tiranga-orange: #FF9933; --tiranga-green: #138808; --blue: #007BFF; }
+        :root { --tiranga-orange: #FF9933; --tiranga-green: #138808; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        /* 🇮🇳 तिरंगा बैकग्राउंड और घूमता अशोक चक्र */
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(120deg, var(--tiranga-orange), #ffffff, var(--tiranga-green));
@@ -26,41 +26,27 @@
         }
         @keyframes chakraRotate { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
 
-        header { padding: 20px; background: rgba(255,255,255,0.8); text-align: center; border-bottom: 3px solid rgba(0,0,0,0.1); }
-        nav { background: rgba(0,0,0,0.85); padding: 12px; text-align: center; position: sticky; top: 0; z-index: 100; }
-        nav a { color: white; text-decoration: none; margin: 0 10px; font-weight: 600; font-size: 14px; }
+        main { max-width: 900px; margin: 30px auto; background: rgba(255,255,255,0.95); padding: 25px; border-radius: 15px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); position: relative; z-index: 2; }
+        h2 { color: var(--tiranga-green); border-left: 5px solid var(--tiranga-orange); padding-left: 10px; margin-bottom: 20px; }
 
-        main { max-width: 950px; margin: 25px auto; background: rgba(255,255,255,0.95); padding: 25px; border-radius: 15px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); position: relative; z-index: 2; }
-        h2 { color: var(--tiranga-green); border-left: 5px solid var(--tiranga-orange); padding-left: 10px; margin: 20px 0 15px; }
-
-        .input-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+        .input-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
         input, select { flex: 1; padding: 12px; border-radius: 8px; border: 1px solid #ccc; outline: none; }
         
-        .btn { background: linear-gradient(to right, var(--tiranga-orange), var(--tiranga-green)); border: none; color: white; font-weight: 700; padding: 12px 20px; border-radius: 30px; cursor: pointer; transition: 0.3s; width: 100%; }
+        .btn { background: linear-gradient(to right, var(--tiranga-orange), var(--tiranga-green)); border: none; color: white; font-weight: 700; padding: 15px; border-radius: 30px; cursor: pointer; transition: 0.3s; width: 100%; font-size: 16px; }
         .btn:hover { transform: scale(1.02); }
 
-        .price-box { background: #fff3cd; color: #856404; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 15px; border: 1px solid #ffeeba; }
-        
-        .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; list-style: none; }
-        .service-grid li { background: #f8fafc; padding: 12px; border-radius: 10px; border: 1px solid #e3e9f3; }
-        .service-grid a { color: var(--blue); font-weight: 600; text-decoration: none; }
+        .price-box { background: #fff3cd; color: #856404; padding: 15px; border-radius: 10px; text-align: center; font-weight: bold; margin-bottom: 15px; border: 1px solid #ffeeba; font-size: 18px; }
 
-        #id_preview { margin-top: 15px; }
+        /* QR Code Container */
+        #qr-container { display: none; margin-top: 20px; text-align: center; padding: 15px; background: #fff; border-radius: 10px; border: 2px solid var(--tiranga-orange); }
+        #qrcode { display: inline-block; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-    <header><h1>MITHILA COLLEGE HELP</h1></header>
-
-    <nav>
-        <a href="#">Home</a>
-        <a href="#order-section">Order Now</a>
-        <a href="#college-section">Colleges</a>
-        <a href="#id-section">ID Card</a>
-    </nav>
-
     <main>
-        <h2 id="order-section">🛒 Online Order (Min 100g)</h2>
+        <h2>🛒 Online Order & Payment</h2>
+        
         <div class="input-group">
             <select id="order_item" onchange="updateCalc()">
                 <option value="">-- पैकेट चुनें --</option>
@@ -68,7 +54,7 @@
                 <option value="Packet B" data-rate="11700">Packet B (₹11700/kg)</option>
                 <option value="Packet C" data-rate="5500">Packet C (₹5500/kg)</option>
             </select>
-            <input id="order_grams" type="number" placeholder="ग्राम (Min 100)" min="100" oninput="updateCalc()">
+            <input id="order_grams" type="number" placeholder="कितना ग्राम? (Min 100)" min="100" oninput="updateCalc()">
         </div>
 
         <div id="price_display" class="price-box">कुल कीमत: ₹0.00</div>
@@ -77,73 +63,74 @@
             <input id="order_name" placeholder="आपका नाम">
             <input id="order_mobile" placeholder="मोबाइल नंबर">
         </div>
-        <input id="order_addr" placeholder="पूरा पता (Address)" style="width: 100%; margin-bottom: 10px;">
+        <input id="order_addr" placeholder="पूरा पता (Delivery Address)" style="width:100%; padding:12px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc;">
 
-        <button class="btn" onclick="payNow()">Pay & Order</button>
-        <p id="pay_status" style="text-align:center; margin-top:10px; font-weight:bold;"></p>
+        <button class="btn" onclick="processPayment()">💰 Pay & Order Now</button>
 
-        <hr style="margin: 30px 0;">
-
-        <h2 id="college-section">🎓 LNMU & Colleges</h2>
-        <ul class="service-grid">
-            <li><a href="https://lnmu.ac.in/" target="_blank">LNMU Official</a></li>
-            <li><a href="https://mmtmcollege.ac.in/" target="_blank">MMTM College</a></li>
-            <li><a href="https://serviceonline.bihar.gov.in/" target="_blank">Service Plus</a></li>
-        </ul>
-
-        <hr style="margin: 30px 0;">
-
-        <h2 id="id-section">🆔 ID Card Generator</h2>
-        <div class="input-group">
-            <input id="id_name" placeholder="Student Name">
-            <input id="id_roll" placeholder="Roll No.">
+        <div id="qr-container">
+            <p>📸 इसे स्कैन करें या नीचे बटन दबाएं</p>
+            <div id="qrcode"></div>
+            <p style="margin-top:10px; font-size:12px; color:#666;">UPI ID: 7033578145@sbi</p>
+            <button class="btn" onclick="openPaymentApp()" style="margin-top:15px; background:#007BFF;">Open Payment App</button>
         </div>
-        <input type="file" id="id_photo" accept="image/*" style="margin-bottom: 10px;">
-        <button class="btn" onclick="genID()">Preview ID Card</button>
-        <div id="id_preview"></div>
+
+        <p id="status_msg" style="text-align:center; margin-top:15px; font-weight:bold; color:var(--tiranga-green);"></p>
     </main>
 
     <script>
         let totalVal = 0;
+        let upiLink = "";
 
         function updateCalc() {
             const sel = document.getElementById('order_item');
             const g = document.getElementById('order_grams').value;
             const rate = sel.options[sel.selectedIndex].getAttribute('data-rate');
+            const display = document.getElementById('price_display');
+            
             if(rate && g >= 100) {
                 totalVal = (rate / 1000) * g;
-                document.getElementById('price_display').innerText = `कुल कीमत: ₹${totalVal.toFixed(2)} (${g} ग्राम)`;
+                display.innerText = `कुल कीमत: ₹${totalVal.toFixed(2)} (${g} ग्राम)`;
+            } else {
+                totalVal = 0;
+                display.innerText = `कुल कीमत: ₹0.00`;
             }
         }
 
-        function payNow() {
+        function processPayment() {
             const name = document.getElementById('order_name').value;
-            if(!name || totalVal === 0) return alert("जानकारी सही भरें!");
+            const item = document.getElementById('order_item').value;
+            const grams = document.getElementById('order_grams').value;
 
-            // UPI ID: 7033578145@sbi पर पेमेंट (सुरक्षित लिंक)
-            const upi = `upi://pay?pa=7033578145@sbi&pn=MithilaHelp&am=${totalVal.toFixed(2)}&cu=INR&tn=Order_From_${name}`;
-            window.location.href = upi;
+            if(!name || totalVal === 0) {
+                alert("कृपया पूरी जानकारी सही भरें!");
+                return;
+            }
+
+            // UPI Payment Link
+            upiLink = `upi://pay?pa=7033578145@sbi&pn=MithilaHelp&am=${totalVal.toFixed(2)}&cu=INR&tn=Order_${item}_${grams}g_by_${name}`;
+
+            // Generate QR Code
+            document.getElementById('qr-container').style.display = 'block';
+            const qrBox = document.getElementById('qrcode');
+            qrBox.innerHTML = ""; // Clear old QR
+            new QRCode(qrBox, {
+                text: upiLink,
+                width: 180,
+                height: 180
+            });
+
+            document.getElementById('status_msg').innerText = "✅ क्यूआर कोड जेनरेट हो गया है।";
             
-            document.getElementById('pay_status').innerText = "✅ पेमेंट ऐप खुल रहा है... भुगतान के बाद संपर्क करें।";
+            // Scroll to QR Code
+            document.getElementById('qr-container').scrollIntoView({ behavior: 'smooth' });
         }
 
-        let pic = "";
-        document.getElementById('id_photo').onchange = e => {
-            const r = new FileReader();
-            r.onload = () => pic = r.result;
-            r.readAsDataURL(e.target.files[0]);
-        };
-
-        function genID() {
-            const n = document.getElementById('id_name').value || "Name";
-            document.getElementById('id_preview').innerHTML = `
-                <div style="width:320px; border:3px solid #138808; padding:10px; background:#fff; border-radius:10px;">
-                    <h3 style="text-align:center; color:#c00;">MITHILA COLLEGE</h3>
-                    <div style="display:flex; gap:10px; margin-top:10px;">
-                        <img src="${pic}" style="width:80px; height:90px; border:1px solid #ccc;">
-                        <p><b>Name:</b> ${n}</p>
-                    </div>
-                </div>`;
+        function openPaymentApp() {
+            if(upiLink) {
+                window.location.href = upiLink;
+            } else {
+                alert("पहले 'Pay & Order Now' बटन दबाएं");
+            }
         }
     </script>
 </body>
