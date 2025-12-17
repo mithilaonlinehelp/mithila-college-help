@@ -3,26 +3,26 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Mithila Help - Super Admin Pro</title>
+    <title>Mithila Help - Final Fixed Pro</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         :root { --orange: #FF9933; --green: #138808; --blue: #007BFF; --red: #dc3545; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background: #f0f2f5; padding: 10px; }
-        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); max-width: 500px; margin: 20px auto; }
+        body { background: #f4f7f6; padding: 10px; }
+        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); max-width: 480px; margin: 20px auto; }
         .admin-card { max-width: 1000px; background: #fff; padding: 20px; border-radius: 10px; margin: auto; }
-        h2, h3 { text-align: center; color: var(--green); margin-bottom: 15px; border-bottom: 2px solid var(--orange); padding-bottom: 5px; }
-        input, select { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 8px; }
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 25px; color: white; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+        h2 { text-align: center; color: var(--green); margin-bottom: 20px; border-bottom: 2px solid var(--orange); padding-bottom: 5px; }
+        input, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; outline: none; }
+        .btn { width: 100%; padding: 14px; border: none; border-radius: 30px; color: white; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.3s; }
         .btn-blue { background: var(--blue); }
         .btn-red { background: var(--red); }
         .btn-green { background: var(--green); }
         .captcha { background: #eee; text-align: center; font-size: 22px; font-weight: bold; padding: 10px; border-radius: 8px; margin: 10px 0; letter-spacing: 5px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 12px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background: #f4f4f4; }
-        .status-box { background: #fff3cd; padding: 10px; border-radius: 8px; margin: 10px 0; border: 1px solid #ffeeba; }
-        #login-page, #register-page, #order-page, #admin-page, #profile-page { display: none; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 13px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        .link-text { text-align: center; margin-top: 15px; font-size: 14px; }
+        .link-text span { color: var(--blue); cursor: pointer; font-weight: bold; text-decoration: underline; }
+        #register-page, #forget-page, #order-page, #admin-page, #profile-page { display: none; }
     </style>
 </head>
 <body>
@@ -32,67 +32,86 @@
         <input type="text" id="l_user" placeholder="मोबाइल या एडमिन नाम">
         <input type="password" id="l_pass" placeholder="पासवर्ड">
         <div class="captcha" id="cap_box"></div>
-        <input type="number" id="l_cap" placeholder="कैप्चा उत्तर">
-        <button class="btn btn-blue" onclick="handleLogin()">Login</button>
-        <p style="text-align:center; margin-top:10px;">नये? <a href="#" onclick="showPage('register-page')">रजिस्टर करें</a></p>
+        <input type="number" id="l_cap" placeholder="उत्तर लिखें">
+        <button class="btn btn-blue" onclick="handleLogin()">लॉगिन करें</button>
+        <div class="link-text">नये यूजर? <span onclick="showPage('register-page')">रजिस्टर करें</span></div>
+        <div class="link-text"><span onclick="showPage('forget-page')">पासवर्ड भूल गए?</span></div>
     </div>
 
     <div id="register-page" class="card">
-        <h2>📝 रजिस्ट्रेशन</h2>
-        <input type="text" id="r_name" placeholder="नाम">
-        <input type="text" id="r_phone" placeholder="मोबाइल">
-        <input type="password" id="r_pass" placeholder="पासवर्ड">
-        <button class="btn btn-blue" onclick="handleRegister()">Register</button>
-        <button class="btn" style="background:#666;" onclick="showPage('login-page')">Back</button>
+        <h2>📝 नया रजिस्ट्रेशन</h2>
+        <input type="text" id="r_name" placeholder="पूरा नाम">
+        <input type="text" id="r_phone" placeholder="मोबाइल नंबर">
+        <label style="font-size:12px; font-weight:bold;">जन्म तिथि (DOB) रिकवरी के लिए:</label>
+        <input type="date" id="r_dob">
+        <input type="password" id="r_pass" placeholder="पासवर्ड बनाएं">
+        <button class="btn btn-blue" onclick="handleRegister()">रजिस्टर करें</button>
+        <div class="link-text"><span onclick="showPage('login-page')">वापस लॉगिन</span></div>
     </div>
 
-    <div id="profile-page" class="card">
-        <h2>👤 एडिट प्रोफाइल</h2>
-        <input type="text" id="edit_name" placeholder="नया नाम">
-        <input type="password" id="edit_pass" placeholder="नया पासवर्ड">
-        <button class="btn btn-green" onclick="saveProfile()">Save Changes</button>
-        <button class="btn" style="background:#666;" onclick="showPage('order-page')">Back</button>
+    <div id="forget-page" class="card">
+        <h2>🔍 पासवर्ड रिकवरी</h2>
+        <input type="text" id="f_phone" placeholder="रजिस्टर्ड मोबाइल नंबर">
+        <label style="font-size:12px; font-weight:bold;">अपनी DOB चुनें:</label>
+        <input type="date" id="f_dob">
+        <button class="btn btn-blue" onclick="handleForget()">पासवर्ड दिखाएँ</button>
+        <div class="link-text"><span onclick="showPage('login-page')">वापस लॉगिन</span></div>
     </div>
 
     <div id="order-page" class="card">
-        <div style="display:flex; justify-content:space-between;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
             <h3 id="u_welcome">स्वागत है</h3>
-            <button onclick="loadProfile()" style="color:var(--blue); border:none; background:none; cursor:pointer;">Edit Profile</button>
+            <span onclick="loadProfile()" style="color:var(--blue); cursor:pointer; font-size:14px; font-weight:bold;">⚙️ एडिट प्रोफाइल</span>
         </div>
-        <div id="u_status" class="status-box" style="display:none;"></div>
+        <div id="u_status" style="background:#fff3cd; padding:10px; border-radius:8px; margin:10px 0; display:none; font-size:13px;"></div>
+        
         <select id="o_prod" onchange="updateTotal()"></select>
-        <input type="number" id="o_gram" placeholder="ग्राम" oninput="updateTotal()">
-        <p id="o_price" style="text-align:center; font-weight:bold; font-size:18px; color:var(--green);">₹0.00</p>
-        <input id="o_addr" placeholder="डिलीवरी पता">
-        <select id="o_method"><option value="Online">Online Payment</option><option value="COD">Cash on Delivery</option></select>
-        <button class="btn btn-green" onclick="submitOrder()">Place Order</button>
+        <input type="number" id="o_gram" placeholder="वजन ग्राम में (Min 100)" oninput="updateTotal()">
+        <p id="o_price" style="text-align:center; font-weight:bold; font-size:20px; color:var(--green); margin:10px 0;">₹0.00</p>
+        <input type="text" id="o_addr" placeholder="डिलीवरी का पूरा पता">
+        
+        <label style="font-size:13px; font-weight:bold;">पेमेंट विकल्प:</label>
+        <select id="o_method">
+            <option value="Online">Online UPI Payment</option>
+            <option value="COD">Cash on Delivery (COD)</option>
+        </select>
+
+        <button class="btn btn-green" onclick="submitOrder()">ऑर्डर कन्फर्म करें</button>
         <div id="qrcode" style="display:flex; justify-content:center; margin-top:15px;"></div>
-        <div id="user_cancel_div"></div>
-        <button class="btn btn-red" onclick="location.reload()">Logout</button>
+        <div id="user_cancel_area"></div>
+        <button class="btn btn-red" onclick="location.reload()">लॉगआउट</button>
     </div>
 
     <div id="admin-page" class="admin-card">
         <h2>🛠️ कंट्रोल पैनल: Shreya Rani</h2>
-        <div style="background:#d1ecf1; padding:15px; border-radius:10px; text-align:center; font-weight:bold; margin-bottom:10px;" id="earning">कमाई: ₹0.00</div>
+        <div style="background:#d1ecf1; padding:15px; border-radius:10px; text-align:center; font-weight:bold; margin-bottom:20px;">कुल कमाई (Delivered): <span id="earning">₹0.00</span></div>
         
-        <h3>📦 ऑर्डर्स मैनेजमेंट</h3>
+        <div style="background:#eef; padding:15px; border-radius:10px; margin-bottom:20px;">
+            <h3>📦 प्रोडक्ट और रेट मैनेजमेंट</h3>
+            <input type="text" id="p_name" placeholder="प्रोडक्ट नाम">
+            <input type="number" id="p_rate" placeholder="रेट प्रति किलो">
+            <button class="btn btn-blue" onclick="addUpdateProduct()">Product Save/Update</button>
+            <table id="prod_table"><thead><tr><th>नाम</th><th>रेट</th><th>एक्शन</th></tr></thead><tbody id="p_list_admin"></tbody></table>
+        </div>
+
+        <h3>👥 ऑर्डर्स लिस्ट</h3>
         <table id="admin_orders">
-            <thead><tr><th>ID</th><th>नाम/मोबाइल</th><th>पेमेंट</th><th>स्टेटस</th><th>एक्शन</th></tr></thead>
+            <thead><tr><th>ID</th><th>नाम/मोबाइल</th><th>पेमेंट</th><th>स्टेटस</th><th>समय</th><th>एक्शन</th></tr></thead>
             <tbody></tbody>
         </table>
-        <button class="btn btn-red" onclick="location.reload()" style="max-width:200px; margin:auto; display:block;">Admin Logout</button>
+        <button class="btn btn-red" onclick="location.reload()" style="max-width:200px; margin:20px auto; display:block;">Logout Admin</button>
     </div>
 
     <script>
         let correctCap = 0, currentUser = null;
-        let db = JSON.parse(localStorage.getItem('mch_v5')) || {
+        let db = JSON.parse(localStorage.getItem('mch_final_db')) || {
             users: [], products: [{name:"Packet A", rate:9300},{name:"Packet B", rate:11700}], orders: [], blocked: []
         };
 
-        function save() { localStorage.setItem('mch_v5', JSON.stringify(db)); }
+        function save() { localStorage.setItem('mch_final_db', JSON.stringify(db)); }
 
         function showPage(id) {
-            document.querySelectorAll('div[id$="-page"]').forEach(p => p.style.display = 'none');
+            document.querySelectorAll('div[id$="-page"], div[id$="-box"]').forEach(p => p.style.display = 'none');
             document.getElementById(id).style.display = 'block';
             if(id === 'login-page') genCap();
         }
@@ -102,46 +121,38 @@
             correctCap = a+b; document.getElementById('cap_box').innerText = `${a} + ${b} = ?`;
         }
 
+        function handleRegister() {
+            let n = document.getElementById('r_name').value, ph = document.getElementById('r_phone').value,
+                d = document.getElementById('r_dob').value, ps = document.getElementById('r_pass').value;
+            if(!n || ph.length < 10 || !d || !ps) return alert("सब भरें!");
+            db.users.push({name:n, phone:ph, dob:d, pass:ps}); save(); alert("रजिस्ट्रेशन सफल!"); showPage('login-page');
+        }
+
+        function handleForget() {
+            let ph = document.getElementById('f_phone').value, d = document.getElementById('f_dob').value;
+            let u = db.users.find(x => x.phone === ph && x.dob === d);
+            if(u) alert(`आपका पासवर्ड है: ${u.pass}`); else alert("डेटा मैच नहीं हुआ!");
+        }
+
         function handleLogin() {
             let u = document.getElementById('l_user').value, p = document.getElementById('l_pass').value, c = document.getElementById('l_cap').value;
-            if(c != correctCap) return alert("Wrong Captcha");
+            if(c != correctCap) return alert("Wrong Captcha!");
             if(u === "shreya rani" && p === "mydearshreya@#") { loadAdmin(); showPage('admin-page'); return; }
             let user = db.users.find(x => x.phone === u && x.pass === p);
             if(user) { if(db.blocked.includes(u)) return alert("Blocked!"); currentUser = user; loadUser(); showPage('order-page'); } else alert("Error!");
         }
 
-        function handleRegister() {
-            let n = document.getElementById('r_name').value, ph = document.getElementById('r_phone').value, ps = document.getElementById('r_pass').value;
-            db.users.push({name:n, phone:ph, pass:ps}); save(); alert("Success!"); showPage('login-page');
-        }
-
-        function loadProfile() {
-            document.getElementById('edit_name').value = currentUser.name;
-            document.getElementById('edit_pass').value = currentUser.pass;
-            showPage('profile-page');
-        }
-
-        function saveProfile() {
-            let idx = db.users.findIndex(x => x.phone === currentUser.phone);
-            db.users[idx].name = document.getElementById('edit_name').value;
-            db.users[idx].pass = document.getElementById('edit_pass').value;
-            currentUser = db.users[idx]; save(); alert("Updated!"); showPage('order-page');
-        }
-
         function loadUser() {
-            document.getElementById('u_welcome').innerText = "Namaste, " + currentUser.name;
-            let sel = document.getElementById('o_prod'); sel.innerHTML = `<option value="">Choose Item</option>`;
+            document.getElementById('u_welcome').innerText = "नमस्ते, " + currentUser.name;
+            let sel = document.getElementById('o_prod'); sel.innerHTML = `<option value="">सामान चुनें</option>`;
             db.products.forEach(p => sel.innerHTML += `<option value="${p.rate}">${p.name}</option>`);
             
             let last = db.orders.slice().reverse().find(o => o.phone === currentUser.phone);
-            let cancelDiv = document.getElementById('user_cancel_div');
-            cancelDiv.innerHTML = "";
+            let cancelArea = document.getElementById('user_cancel_area'); cancelArea.innerHTML = "";
             if(last) {
                 document.getElementById('u_status').style.display='block';
-                document.getElementById('u_status').innerHTML = `📌 <b>Status:</b> ${last.status}`;
-                if(last.status === "Pending") {
-                    cancelDiv.innerHTML = `<button class="btn btn-red" onclick="cancelOrder('${last.id}')">Cancel My Order</button>`;
-                }
+                document.getElementById('u_status').innerHTML = `📌 <b>स्टेटस:</b> ${last.status} | ⏳ <b>समय:</b> ${last.eta || 'जल्द'}`;
+                if(last.status === "Pending") cancelArea.innerHTML = `<button class="btn btn-red" onclick="cancelOrder('${last.id}')">Cancel Order</button>`;
             }
         }
 
@@ -153,41 +164,45 @@
         function submitOrder() {
             let pr = document.getElementById('o_price').innerText.replace('₹','');
             let meth = document.getElementById('o_method').value, addr = document.getElementById('o_addr').value;
-            if(pr == "0.00" || !addr) return alert("Fill all!");
-            let id = "ORD" + Math.floor(Math.random()*9999);
-            db.orders.push({id:id, name:currentUser.name, phone:currentUser.phone, price:pr, method:meth, status:"Pending"});
+            if(pr === "0.00" || !addr) return alert("विवरण भरें!");
+            let id = "MCH" + Math.floor(Math.random()*9999);
+            db.orders.push({id:id, name:currentUser.name, phone:currentUser.phone, price:pr, method:meth, status:"Pending", eta:""});
             save();
             if(meth === "Online") {
                 let upi = `upi://pay?pa=7033578145@sbi&pn=Mithila&am=${pr}&cu=INR&tn=${id}`;
-                document.getElementById('qrcode').innerHTML = ""; new QRCode(document.getElementById('qrcode'),{text:upi,width:120,height:120});
-            }
-            alert("Order Success!"); loadUser();
-            window.open(`https://wa.me/916200732472?text=NewOrder_${id}_${meth}`);
+                document.getElementById('qrcode').innerHTML = ""; new QRCode(document.getElementById('qrcode'), {text:upi, width:150, height:150});
+            } else { document.getElementById('qrcode').innerHTML = "<h3>✅ COD Order Recorded</h3>"; }
+            loadUser();
+            window.open(`https://wa.me/916200732472?text=New_Order_${id}_${meth}`);
         }
 
-        function cancelOrder(id) {
-            if(!confirm("Order Cancel Karein?")) return;
-            db.orders = db.orders.filter(o => o.id !== id);
-            save(); alert("Cancelled!"); loadUser();
-            window.open(`https://wa.me/916200732472?text=Order_Cancelled_${id}`);
-        }
-
-        // --- ADMIN ---
+        // ADMIN FUNCTIONS
         function loadAdmin() {
+            let pl = document.getElementById('p_list_admin'); pl.innerHTML = "";
+            db.products.forEach((p, i) => {
+                pl.innerHTML += `<tr><td>${p.name}</td><td>${p.rate}</td><td><button onclick="editP(${i})">Edit</button> | <button onclick="delP(${i})">X</button></td></tr>`;
+            });
             let ot = document.querySelector('#admin_orders tbody'); ot.innerHTML = "";
             let earn = 0;
             db.orders.forEach((o, i) => {
                 if(o.status === "Delivered") earn += parseFloat(o.price);
                 ot.innerHTML += `<tr><td>${o.id}</td><td>${o.name}</td><td>${o.method}</td>
-                <td><select onchange="db.orders[${i}].status=this.value; save(); loadAdmin();"><option ${o.status=='Pending'?'selected':''}>Pending</option><option ${o.status=='Delivered'?'selected':''}>Delivered</option><option ${o.status=='Cancelled'?'selected':''}>Cancelled</option></select></td>
-                <td><button onclick="deleteOrder(${i})" style="color:red; border:none; background:none; cursor:pointer;">Delete</button></td></tr>`;
+                <td><select onchange="db.orders[${i}].status=this.value; save(); loadAdmin();"><option ${o.status=='Pending'?'selected':''}>Pending</option><option ${o.status=='Delivered'?'selected':''}>Delivered</option></select></td>
+                <td><input value="${o.eta}" onchange="db.orders[${i}].eta=this.value; save();" style="width:70px"></td>
+                <td><button onclick="db.orders.splice(${i},1); save(); loadAdmin();">Delete</button></td></tr>`;
             });
-            document.getElementById('earning').innerText = `Earning: ₹${earn.toFixed(2)}`;
+            document.getElementById('earning').innerText = `₹${earn.toFixed(2)}`;
         }
 
-        function deleteOrder(i) {
-            if(confirm("Order Delete?")) { db.orders.splice(i,1); save(); loadAdmin(); }
+        function addUpdateProduct() {
+            let n = document.getElementById('p_name').value, r = document.getElementById('p_rate').value;
+            let idx = db.products.findIndex(x => x.name === n);
+            if(idx > -1) db.products[idx].rate = r; else db.products.push({name:n, rate:r});
+            save(); loadAdmin(); alert("Saved!");
         }
+
+        function editP(i) { document.getElementById('p_name').value = db.products[i].name; document.getElementById('p_rate').value = db.products[i].rate; }
+        function delP(i) { db.products.splice(i,1); save(); loadAdmin(); }
 
         window.onload = genCap;
     </script>
