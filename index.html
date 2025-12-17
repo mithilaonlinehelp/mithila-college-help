@@ -146,31 +146,31 @@
             </ul>
 
             <h2 class="section-title">🆔 College ID Card Generator</h2>
-            <div style="max-width:700px;">
-                <div class="id-input-group">
-                    <input id="id_name" placeholder="Student's Name" required>
-                    <input id="id_roll" placeholder="Roll Number" required>
-                </div>
-                <div class="id-input-group">
-                    <input id="id_father" placeholder="Father's Name" required>
-                    <input id="id_session" placeholder="Session (e.g., 2023-26)" style="width:180px;" required>
-                </div>
-                <div class="id-input-group">
-                    <input id="id_course" placeholder="Course / Dept" required>
-                    <input id="id_mobile" placeholder="Mobile No." style="width:180px;">
-                </div>
-                <div class="id-input-group">
-                    <input id="id_address" placeholder="Address" required>
-                </div>
-                
-                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px;">
-                    <input type="file" id="id_photo" accept="image/*" style="padding:6px; flex: 1;">
-                    <button id="previewBtn" class="perm-btn" style="background:linear-gradient(90deg,#28a745,#20c997);">Preview ID</button>
-                    <button id="printBtn" class="perm-btn">Print / Save</button>
-                </div>
-                
-                <div id="id_preview" style="margin-top:14px;display:none;max-width:360px;"></div>
-            </div>
+<div style="max-width:700px;">
+    <div class="id-input-group">
+        <input id="id_name" placeholder="Student's Name" value="vikram bhagat54" required>
+        <input id="id_roll" placeholder="Roll Number" value="8989" required>
+    </div>
+    <div class="id-input-group">
+        <input id="id_father" placeholder="Father's Name" value="pk" required>
+        <input id="id_session" placeholder="Session (e.g., 2023-26)" style="width:180px;" value="2023-27" required>
+    </div>
+    <div class="id-input-group">
+        <input id="id_course" placeholder="Course / Dept" value="vdsbhhe" required>
+        <input id="id_mobile" placeholder="Mobile No." style="width:180px;" value="65256699995">
+    </div>
+    <div class="id-input-group">
+        <input id="id_address" placeholder="Address" value="vdsbhhe" required>
+    </div>
+    
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px;">
+        <input type="file" id="id_photo" accept="image/*" style="padding:6px; flex: 1;">
+        <button onclick="previewIdCard()" id="previewBtn" class="perm-btn" style="background:linear-gradient(90deg,#28a745,#20c997);">Preview ID</button>
+        <button onclick="printIdCard()" id="printBtn" class="perm-btn">Print / Save</button>
+    </div>
+    
+    <div id="id_preview" style="margin-top:14px;display:none;max-width:360px;"></div>
+</div>
             <br>
         </main>
 
