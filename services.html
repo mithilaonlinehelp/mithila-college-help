@@ -4,21 +4,29 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Mithila Help - Super System</title>
-    <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <style>
-        :root { --orange: #FF9933; --green: #138808; --blue: #007BFF; --red: #dc3545; --purple: #6f42c1; --teal: #20c997; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        :root { --orange: #FF9933; --green: #138808; --blue: #007BFF; --red: #dc3545; --purple: #6f42c1; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
         body { background: #f4f7f6; padding: 10px; padding-bottom: 50px; }
+        
+        /* Boxes */
         .box { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); max-width: 450px; margin: 15px auto; display: none; }
+        /* Force Login to show initially */
+        #box-login { display: block; }
+        
         .admin-wide { max-width: 1100px; background: white; padding: 20px; border-radius: 12px; margin: auto; display: none; border-top: 5px solid var(--orange); }
+        
         h2 { text-align: center; color: var(--green); margin-bottom: 15px; border-bottom: 2px solid var(--orange); }
         input, select { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+        
+        /* Buttons */
         .btn { width: 100%; padding: 10px; border: none; border-radius: 25px; color: white; font-weight: bold; cursor: pointer; margin-top: 8px; }
         .btn-blue { background: var(--blue); } .btn-green { background: var(--green); } .btn-red { background: var(--red); }
-        .captcha { background: #eee; text-align: center; font-size: 20px; font-weight: bold; padding: 8px; border-radius: 6px; letter-spacing: 4px; border: 2px dashed #bbb; margin-top: 10px; color: #333; }
+        
+        /* Captcha */
+        .captcha { background: #eee; text-align: center; font-size: 20px; font-weight: bold; padding: 8px; border-radius: 6px; letter-spacing: 2px; border: 2px dashed #bbb; margin-top: 10px; color: #333; }
+        
+        /* Tables */
         table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 12px; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background: #f1f1f1; }
@@ -27,18 +35,15 @@
         
         /* Status Badges */
         .st-btn { padding: 4px 8px; margin: 2px; border: none; border-radius: 4px; color: white; cursor: pointer; font-size: 10px; }
-        .st-confirm { background: var(--blue); }
-        .st-ship { background: var(--purple); }
-        .st-out { background: var(--orange); }
-        .st-del { background: var(--green); }
-        .st-can { background: var(--red); }
+        .st-confirm { background: var(--blue); } .st-ship { background: var(--purple); }
+        .st-out { background: var(--orange); } .st-del { background: var(--green); } .st-can { background: var(--red); }
 
-        /* User History Table */
+        /* History */
         .history-box { margin-top: 20px; border-top: 2px dashed #ccc; padding-top: 10px; }
         .hist-row { background: #f9f9f9; padding: 10px; margin-bottom: 5px; border-radius: 5px; border-left: 4px solid var(--blue); font-size: 12px; }
 
-        /* Audio Call Styles */
-        #call_modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; z-index: 999; flex-direction: column; justify-content: center; align-items: center; color: white; }
+        /* Audio Modal */
+        #call_modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; z-index: 9999; flex-direction: column; justify-content: center; align-items: center; color: white; }
         .call-anim { width: 80px; height: 80px; background: var(--green); border-radius: 50%; animation: pulse 1.5s infinite; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; font-size: 30px; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(19, 136, 8, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(19, 136, 8, 0); } 100% { box-shadow: 0 0 0 0 rgba(19, 136, 8, 0); } }
     </style>
@@ -48,4 +53,118 @@
     <div id="call_modal">
         <div class="call-anim">📞</div>
         <h3 id="call_status">Connecting...</h3>
-        <div style="display: flex; gap: 10px; margin-top:
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button class="btn btn-green" id="btn_answer" style="width: 100px; display:none;" onclick="answerCall()">Answer</button>
+            <button class="btn btn-red" style="width: 100px;" onclick="endCall()">End Call</button>
+        </div>
+        <audio id="remote_audio" autoplay></audio>
+    </div>
+
+    <div id="box-login" class="box">
+        <h2>🔐 लॉगिन</h2>
+        <input type="text" id="l_phone" placeholder="Mobile / Admin Name">
+        <input type="password" id="l_pass" placeholder="Password">
+        
+        <div id="cap_text" class="captcha">Loading...</div>
+        <button onclick="genCap()" style="background:none; border:none; color:var(--blue); font-size:11px; cursor:pointer; margin-bottom:5px;">🔄 Refresh Captcha</button>
+        <input type="number" id="l_cap_in" placeholder="Jod/Ghatao ka Utar (Answer)">
+        
+        <button class="btn btn-blue" onclick="doLogin()">Login</button>
+        <p style="text-align:center; margin-top:10px; font-size:13px;">
+            <span onclick="go('box-reg')" style="color:var(--blue); cursor:pointer;">Register</span> | 
+            <span onclick="recoverPass()" style="color:var(--blue); cursor:pointer;">Forgot Password?</span>
+        </p>
+    </div>
+
+    <div id="box-reg" class="box">
+        <h2>📝 Registration</h2>
+        <input type="text" id="r_name" placeholder="Full Name">
+        <input type="text" id="r_phone" placeholder="Mobile">
+        <input type="email" id="r_email" placeholder="Email ID (Mandatory)">
+        <input type="date" id="r_dob" title="DOB for Recovery">
+        <input type="password" id="r_pass" placeholder="Create Password">
+        <button class="btn btn-blue" onclick="doReg()">Sign Up</button>
+        <button class="btn" style="background:#666;" onclick="go('box-login')">Back</button>
+    </div>
+
+    <div id="box-order" class="box">
+        <h3 id="wel_user">Namaste</h3>
+        
+        <label class="small-txt">Select Product:</label>
+        <select id="sel_p" onchange="updateProductUI()"></select>
+        
+        <div id="qty_area" style="display:none;">
+            <label id="lbl_qty" class="small-txt">Quantity:</label>
+            <input type="number" id="sel_qty" oninput="calc()">
+            <p id="min_msg" style="color:var(--red); font-size:11px;"></p>
+        </div>
+
+        <p id="total_p" style="text-align:center; font-weight:bold; font-size:22px; color:var(--green); margin:10px 0;">₹0.00</p>
+        <input type="text" id="sel_ad" placeholder="Full Delivery Address">
+        <select id="sel_m">
+            <option value="Online">Online Payment</option>
+            <option value="COD">Cash on Delivery (COD)</option>
+        </select>
+        <button class="btn btn-green" onclick="placeOrder()">Confirm Order & Notify Admin</button>
+        <div id="qr_box" style="display:flex; flex-direction:column; align-items:center; margin-top:10px;"></div>
+        
+        <div class="history-box">
+            <h4>📦 My Order History</h4>
+            <div id="user_history_list">Data loading...</div>
+        </div>
+
+        <button class="btn btn-red" onclick="location.reload()">Logout</button>
+    </div>
+
+    <div id="box-admin" class="admin-wide">
+        <h2>🛠️ Admin: Shreya Rani Control</h2>
+        <p id="adm_audio_stat" style="text-align:center; font-size:12px; color:blue;">🎧 Audio System Ready</p>
+        <div class="admin-nav">
+            <button class="btn btn-blue" onclick="showAdmSec('sec-orders')">Orders</button>
+            <button class="btn btn-blue" onclick="showAdmSec('sec-prods')">Products</button>
+            <button class="btn btn-blue" onclick="showAdmSec('sec-users')">Users</button>
+        </div>
+
+        <div id="sec-orders" class="adm-sec">
+            <h3>📋 Customer Orders</h3>
+            <table id="tbl_o">
+                <thead><tr><th>User/Phone</th><th>Details</th><th>TID/Payment</th><th>Status Action</th><th>Del</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div id="sec-prods" class="adm-sec" style="display:none;">
+            <h3>📦 Manage Products</h3>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; background:#f9f9f9; padding:10px; border-radius:8px;">
+                <input type="text" id="adm_pn" placeholder="Name">
+                <input type="number" id="adm_pr" placeholder="Rate">
+                <select id="adm_unit">
+                    <option value="kg">kg</option><option value="gm">gm</option>
+                    <option value="pc">pc</option><option value="mtr">mtr</option>
+                    <option value="bundle">bundle</option>
+                </select>
+                <input type="number" id="adm_min" placeholder="Min Qty">
+                <button class="btn btn-green" onclick="admAddP()">Save Product</button>
+            </div>
+            <table id="tbl_p"><thead><tr><th>Name</th><th>Rate</th><th>Unit</th><th>Min</th><th>Action</th></tr></thead><tbody></tbody></table>
+        </div>
+
+        <div id="sec-users" class="adm-sec" style="display:none;">
+            <h3>👥 All Registered Users</h3>
+            <table id="tbl_u"><thead><tr><th>Name/Email</th><th>Phone/Pass</th><th>Live Talk</th><th>Action</th></tr></thead><tbody></tbody></table>
+        </div>
+        
+        <button class="btn btn-red" style="max-width:200px; display:block; margin:20px auto;" onclick="location.reload()">Logout</button>
+    </div>
+
+    <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+
+    <script>
+        // --- Firebase Configuration ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyBtLLOyVgt5hQwxokdsSRkeArZab5kyr_Q",
+            authDomain: "mithilahelp-4107d.firebaseapp.com",
+            databaseURL: "https://mithilahelp-4107d-default-rtdb
