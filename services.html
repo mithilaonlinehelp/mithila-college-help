@@ -3,14 +3,15 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Mithila Help - Super Online System</title>
+    <title>Mithila Help - Super System</title>
+    <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <style>
-        :root { --orange: #FF9933; --green: #138808; --blue: #007BFF; --red: #dc3545; }
+        :root { --orange: #FF9933; --green: #138808; --blue: #007BFF; --red: #dc3545; --purple: #6f42c1; --teal: #20c997; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: #f4f7f6; padding: 10px; }
+        body { background: #f4f7f6; padding: 10px; padding-bottom: 50px; }
         .box { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); max-width: 450px; margin: 15px auto; display: none; }
         .admin-wide { max-width: 1100px; background: white; padding: 20px; border-radius: 12px; margin: auto; display: none; border-top: 5px solid var(--orange); }
         h2 { text-align: center; color: var(--green); margin-bottom: 15px; border-bottom: 2px solid var(--orange); }
@@ -23,9 +24,36 @@
         th { background: #f1f1f1; }
         .admin-nav { display: flex; gap: 5px; margin-bottom: 15px; overflow-x: auto; }
         .small-txt { font-size: 11px; color: #666; font-weight: bold; }
+        
+        /* Status Badges */
+        .st-btn { padding: 4px 8px; margin: 2px; border: none; border-radius: 4px; color: white; cursor: pointer; font-size: 10px; }
+        .st-confirm { background: var(--blue); }
+        .st-ship { background: var(--purple); }
+        .st-out { background: var(--orange); }
+        .st-del { background: var(--green); }
+        .st-can { background: var(--red); }
+
+        /* User History Table */
+        .history-box { margin-top: 20px; border-top: 2px dashed #ccc; padding-top: 10px; }
+        .hist-row { background: #f9f9f9; padding: 10px; margin-bottom: 5px; border-radius: 5px; border-left: 4px solid var(--blue); font-size: 12px; }
+
+        /* Audio Call Styles */
+        #call_modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; z-index: 999; flex-direction: column; justify-content: center; align-items: center; color: white; }
+        .call-anim { width: 80px; height: 80px; background: var(--green); border-radius: 50%; animation: pulse 1.5s infinite; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; font-size: 30px; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(19, 136, 8, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(19, 136, 8, 0); } 100% { box-shadow: 0 0 0 0 rgba(19, 136, 8, 0); } }
     </style>
 </head>
 <body>
+
+    <div id="call_modal">
+        <div class="call-anim">📞</div>
+        <h3 id="call_status">Connecting...</h3>
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button class="btn btn-green" id="btn_answer" style="width: 100px; display:none;" onclick="answerCall()">Answer</button>
+            <button class="btn btn-red" style="width: 100px;" onclick="endCall()">End Call</button>
+        </div>
+        <audio id="remote_audio" autoplay></audio>
+    </div>
 
     <div id="box-login" class="box" style="display:block;">
         <h2>🔐 लॉगिन</h2>
@@ -45,6 +73,7 @@
         <h2>📝 Registration</h2>
         <input type="text" id="r_name" placeholder="Full Name">
         <input type="text" id="r_phone" placeholder="Mobile">
+        <input type="email" id="r_email" placeholder="Email ID (Mandatory)">
         <input type="date" id="r_dob" title="DOB for Recovery">
         <input type="password" id="r_pass" placeholder="Create Password">
         <button class="btn btn-blue" onclick="doReg()">Sign Up</button>
@@ -53,7 +82,6 @@
 
     <div id="box-order" class="box">
         <h3 id="wel_user">Namaste</h3>
-        <div id="track_status" style="background:#fff3cd; padding:8px; border-radius:6px; margin:10px 0; font-size:12px; border:1px solid #ffeeba; display:none;"></div>
         
         <label class="small-txt">Select Product:</label>
         <select id="sel_p" onchange="updateProductUI()"></select>
@@ -70,13 +98,20 @@
             <option value="Online">Online Payment</option>
             <option value="COD">Cash on Delivery (COD)</option>
         </select>
-        <button class="btn btn-green" onclick="placeOrder()">Confirm Order</button>
+        <button class="btn btn-green" onclick="placeOrder()">Confirm Order & Notify Admin</button>
         <div id="qr_box" style="display:flex; flex-direction:column; align-items:center; margin-top:10px;"></div>
+        
+        <div class="history-box">
+            <h4>📦 My Order History</h4>
+            <div id="user_history_list"></div>
+        </div>
+
         <button class="btn btn-red" onclick="location.reload()">Logout</button>
     </div>
 
     <div id="box-admin" class="admin-wide">
         <h2>🛠️ Admin: Shreya Rani Control</h2>
+        <p id="adm_audio_stat" style="text-align:center; font-size:12px; color:blue;">🎧 Audio System Ready</p>
         <div class="admin-nav">
             <button class="btn btn-blue" onclick="showAdmSec('sec-orders')">Orders</button>
             <button class="btn btn-blue" onclick="showAdmSec('sec-prods')">Products</button>
@@ -86,7 +121,7 @@
         <div id="sec-orders" class="adm-sec">
             <h3>📋 Customer Orders</h3>
             <table id="tbl_o">
-                <thead><tr><th>User/Phone</th><th>Details</th><th>TID/Payment</th><th>Status/ETA</th><th>Action</th></tr></thead>
+                <thead><tr><th>User/Phone</th><th>Details</th><th>TID/Payment</th><th>Status Action</th><th>Del</th></tr></thead>
                 <tbody></tbody>
             </table>
         </div>
@@ -109,7 +144,7 @@
 
         <div id="sec-users" class="adm-sec" style="display:none;">
             <h3>👥 All Registered Users</h3>
-            <table id="tbl_u"><thead><tr><th>Name/Phone</th><th>Password</th><th>DOB</th><th>Action</th></tr></thead><tbody></tbody></table>
+            <table id="tbl_u"><thead><tr><th>Name/Email</th><th>Phone/Pass</th><th>Live Talk</th><th>Action</th></tr></thead><tbody></tbody></table>
         </div>
         
         <button class="btn btn-red" style="max-width:200px; display:block; margin:20px auto;" onclick="location.reload()">Logout</button>
@@ -130,6 +165,11 @@
         firebase.initializeApp(firebaseConfig);
         const rdb = firebase.database();
         let capAns = 0, currentUser = null, allProducts = {};
+        
+        // --- Audio System Variables ---
+        let peer = null;
+        let currentCall = null;
+        let localStream = null;
 
         // --- Core Navigation ---
         function go(id) {
@@ -165,7 +205,10 @@
             }
 
             if(u === "shreya rani" && p === "mydearshreya@#") { 
-                loadAdmin(); go('box-admin'); return; 
+                loadAdmin(); 
+                initAudio("admin_shreya"); // Admin ID
+                go('box-admin'); 
+                return; 
             }
             
             rdb.ref('blockedUsers/' + u).once('value', (s) => {
@@ -173,7 +216,10 @@
                 rdb.ref('users/' + u).once('value', (snap) => {
                     let v = snap.val();
                     if(v && v.pass === p) { 
-                        currentUser = v; loadUser(); go('box-order'); 
+                        currentUser = v; 
+                        loadUser(); 
+                        initAudio("u_" + v.phone); // User ID
+                        go('box-order'); 
                     } else {
                         alert("Invalid Login!");
                         genCap();
@@ -184,116 +230,36 @@
 
         function doReg() {
             let n = document.getElementById('r_name').value, 
-                ph = document.getElementById('r_phone').value, 
+                ph = document.getElementById('r_phone').value,
+                em = document.getElementById('r_email').value, // Email Input
                 d = document.getElementById('r_dob').value, 
                 ps = document.getElementById('r_pass').value;
-            if(!n || !ph || !ps) return alert("Sari details bharen!");
-            rdb.ref('users/' + ph).set({name:n, phone:ph, dob:d, pass:ps});
+            
+            if(!n || !ph || !ps || !em) return alert("Email aur sari details bharna zaroori hai!");
+            
+            rdb.ref('users/' + ph).set({name:n, phone:ph, email:em, dob:d, pass:ps});
             alert("Registered Online!"); go('box-login');
         }
 
-        // --- User Features ---
-        function loadUser() {
-            document.getElementById('wel_user').innerText = "Namaste, " + currentUser.name;
-            rdb.ref('products/').on('value', (s) => {
-                allProducts = s.val() || {};
-                let sel = document.getElementById('sel_p'); 
-                sel.innerHTML = "<option value=''>Choose Item</option>";
-                for(let id in allProducts) 
-                    sel.innerHTML += `<option value="${id}">${allProducts[id].name} (₹${allProducts[id].rate}/${allProducts[id].unit})</option>`;
-            });
-            rdb.ref('orders/').on('value', (s) => {
-                let data = s.val();
-                for(let id in data) if(data[id].phone === currentUser.phone) {
-                    let d = data[id];
-                    document.getElementById('track_status').style.display = 'block';
-                    document.getElementById('track_status').innerHTML = `📌 Order: <b>${d.status}</b> | ⏳ Time: <b>${d.eta || 'Waiting'}</b>`;
-                }
+        // --- Audio Call Functions (PeerJS) ---
+        function initAudio(myId) {
+            peer = new Peer(myId);
+            peer.on('open', (id) => console.log('My Peer ID: ' + id));
+            peer.on('call', (call) => {
+                document.getElementById('call_modal').style.display = 'flex';
+                document.getElementById('call_status').innerText = "📞 Call aa raha hai...";
+                document.getElementById('btn_answer').style.display = 'block';
+                currentCall = call;
             });
         }
 
-        function updateProductUI() {
-            let id = document.getElementById('sel_p').value;
-            if(!id) return document.getElementById('qty_area').style.display = 'none';
-            let p = allProducts[id];
-            document.getElementById('qty_area').style.display = 'block';
-            document.getElementById('lbl_qty').innerText = `Qty (${p.unit}):`;
-            document.getElementById('min_msg').innerText = `Min: ${p.min} ${p.unit}`;
-            document.getElementById('sel_qty').value = p.min; calc();
-        }
+        function makeCall(remoteId) {
+            document.getElementById('call_modal').style.display = 'flex';
+            document.getElementById('call_status').innerText = "🔔 Calling...";
+            document.getElementById('btn_answer').style.display = 'none';
 
-        function calc() {
-            let id = document.getElementById('sel_p').value, q = document.getElementById('sel_qty').value;
-            if(id && q > 0) document.getElementById('total_p').innerText = `₹${(allProducts[id].rate * q).toFixed(2)}`;
-        }
-
-        function placeOrder() {
-            let id = document.getElementById('sel_p').value, 
-                q = document.getElementById('sel_qty').value, 
-                ad = document.getElementById('sel_ad').value, 
-                m = document.getElementById('sel_m').value;
-            
-            if(!id || !ad || q < parseFloat(allProducts[id].min)) return alert("Check Min Order/Address!");
-            let total = (allProducts[id].rate * q).toFixed(2);
-
-            if(m === "Online") {
-                let upi = `upi://pay?pa=7033578145@sbi&pn=Mithila&am=${total}&cu=INR`;
-                document.getElementById('qr_box').innerHTML = "<h4>Scan & Pay ₹"+total+"</h4>";
-                new QRCode(document.getElementById('qr_box'), {text:upi, width:150, height:150});
-                let tid = prompt("Payment ke baad 12-digit Transaction ID (UTR) likhen:");
-                if(!tid || tid.length < 10) return alert("Sahi Transaction ID bina order nahi hoga!");
-                saveOrder(id, q, total, ad, m, tid);
-            } else { saveOrder(id, q, total, ad, m, "COD"); }
-        }
-
-        function saveOrder(pid, q, total, ad, m, tid) {
-            rdb.ref('orders/').push({
-                userName: currentUser.name, phone: currentUser.phone, 
-                item: allProducts[pid].name, qty: q, price: total, 
-                address: ad, method: m, txnId: tid, status: "Pending", eta: ""
-            });
-            alert("Order Success! Tracking Shuru.");
-        }
-
-        // --- Admin Controls ---
-        function loadAdmin() {
-            rdb.ref('products/').on('value', (s) => {
-                let d = s.val(), h = "";
-                for(let id in d) h += `<tr><td>${d[id].name}</td><td>${d[id].rate}</td><td>${d[id].unit}</td><td>${d[id].min}</td><td><button class="btn-red" onclick="rdb.ref('products/${id}').remove()">Del</button></td></tr>`;
-                document.getElementById('tbl_p').querySelector('tbody').innerHTML = h;
-            });
-            rdb.ref('users/').on('value', (s) => {
-                let d = s.val(), h = "";
-                for(let ph in d) h += `<tr><td>${d[ph].name}<br>${ph}</td><td>${d[ph].pass}</td><td>${d[ph].dob}</td><td><button class="btn-red" onclick="blockUser('${ph}')">Block</button></td></tr>`;
-                document.getElementById('tbl_u').querySelector('tbody').innerHTML = h;
-            });
-            rdb.ref('orders/').on('value', (s) => {
-                let d = s.val(), h = "";
-                for(let id in d) {
-                    let o = d[id];
-                    h += `<tr><td>${o.userName}<br>${o.phone}</td><td>${o.item} (${o.qty})<br>₹${o.price}</td><td>${o.method}<br>TID: ${o.txnId}</td>
-                    <td><select onchange="updateO('${id}', 'status', this.value)"><option ${o.status=='Pending'?'selected':''}>Pending</option><option ${o.status=='Success'?'selected':''}>Success</option><option ${o.status=='Cancel'?'selected':''}>Cancel</option></select>
-                    <input style="width:70px" placeholder="Time" value="${o.eta}" onchange="updateO('${id}', 'eta', this.value)"></td>
-                    <td><button class="btn-red" onclick="rdb.ref('orders/${id}').remove()">Del</button></td></tr>`;
-                }
-                document.getElementById('tbl_o').querySelector('tbody').innerHTML = h;
-            });
-        }
-
-        function updateO(id, key, val) { rdb.ref('orders/' + id).update({[key]: val}); }
-        function blockUser(ph) { if(confirm("Block User?")) rdb.ref('blockedUsers/' + ph).set(true); }
-        function admAddP() {
-            let n = document.getElementById('adm_pn').value, r = document.getElementById('adm_pr').value, u = document.getElementById('adm_unit').value, m = document.getElementById('adm_min').value;
-            if(!n || !r) return alert("Pura bharen!");
-            rdb.ref('products/').push({name:n, rate:r, unit:u, min:m}); alert("Saved!");
-        }
-        function recoverPass() {
-            let ph = prompt("Mobile Number:"), d = prompt("DOB (YYYY-MM-DD):");
-            rdb.ref('users/' + ph).once('value', s => {
-                let u = s.val(); if(u && u.dob === d) alert("Aapka Password: " + u.pass); else alert("Details nahi mili!");
-            });
-        }
-        window.onload = genCap;
-    </script>
-</body>
-</html>
+            navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+                localStream = stream;
+                let call = peer.call(remoteId, stream);
+                currentCall = call;
+                call.on('stream',
