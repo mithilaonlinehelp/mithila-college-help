@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>Mithila ERP 10.0 (Secure)</title>
+    <title>Mithila Super ERP 12.0 (All-in-One)</title>
+    
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -22,27 +23,23 @@
 
         input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; }
         
-        /* Captcha Style */
-        .captcha-box {
-            background: #fff3e0; border: 1px dashed var(--s); padding: 10px;
-            border-radius: 8px; margin: 10px 0; text-align: center;
-        }
+        /* Captcha Box */
+        .captcha-box { background: #fff3e0; border: 1px dashed var(--s); padding: 10px; border-radius: 8px; margin: 10px 0; text-align: center; }
         .cap-text { font-size: 18px; font-weight: bold; color: var(--p); letter-spacing: 2px; }
         
         .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; color: white; cursor: pointer; margin-top: 5px; font-size: 15px; }
         .btn-p { background: var(--p); }
         .btn-s { background: var(--s); }
         .btn-red { background: #d32f2f; }
-        .btn-sm { width: auto; padding: 5px 10px; font-size: 12px; }
+        .btn-sm { width: auto; padding: 5px 10px; font-size: 12px; margin-right: 3px; cursor: pointer; border:none; border-radius:4px; color:white; }
 
         .tabs { display: flex; gap: 5px; overflow-x: auto; padding-bottom: 5px; margin-bottom: 10px; }
         .tab { padding: 8px 15px; background: #e0e0e0; border-radius: 20px; white-space: nowrap; cursor: pointer; font-size: 13px; }
         .tab.active { background: var(--p); color: white; }
 
         .item { border-bottom: 1px solid #eee; padding: 10px 0; display: flex; justify-content: space-between; align-items: center; }
-        .access-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin: 10px 0; }
-        .access-item { font-size: 12px; display: flex; align-items: center; gap: 5px; }
-
+        .report-item { background: #f9f9f9; padding: 10px; margin-bottom: 5px; border-left: 4px solid var(--s); border-radius: 5px; font-size: 13px; }
+        
         #qr_modal { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:none; justify-content:center; align-items:center; z-index:200; }
         .qr-box { background: white; padding: 20px; border-radius: 10px; text-align: center; width: 300px; }
     </style>
@@ -50,7 +47,7 @@
 <body>
 
     <div class="header">
-        <h2>Mithila Super ERP 10.0</h2>
+        <h2>Mithila ERP 12.0</h2>
     </div>
 
     <div id="qr_modal">
@@ -72,7 +69,7 @@
                 <div class="tab" onclick="setLoginRole('admin',this)">Admin</div>
             </div>
 
-            <input type="text" id="l_id" placeholder="Mobile Number / ID / Admin Name">
+            <input type="text" id="l_id" placeholder="Mobile / ID / Admin Name">
             <input type="password" id="l_pass" placeholder="Password">
             
             <div class="captcha-box">
@@ -81,7 +78,6 @@
             </div>
 
             <button class="btn btn-p" onclick="login()">Login Securely</button>
-            
             <p id="reg_hint" style="text-align:center; font-size:13px; color:var(--p); cursor:pointer; margin-top:15px;" onclick="showView('v_reg')">New User? Register Here</p>
         </div>
 
@@ -99,17 +95,51 @@
             <h3>Admin Dashboard</h3>
             <div class="tabs">
                 <div class="tab active" onclick="aTab('a_orders',this)">Orders</div>
-                <div class="tab" onclick="aTab('a_emp',this)">Employees</div>
+                <div class="tab" onclick="aTab('a_reports',this)">Reports</div>
                 <div class="tab" onclick="aTab('a_prod',this)">Products</div>
-                <div class="tab" onclick="aTab('a_users',this)">User Data</div>
+                <div class="tab" onclick="aTab('a_emp',this)">Employees</div>
+                <div class="tab" onclick="aTab('a_users',this)">Users</div>
                 <div class="tab" onclick="aTab('a_att',this)">Attendance</div>
             </div>
 
             <div id="a_orders"></div>
 
+            <div id="a_reports" class="hide" style="display:none;">
+                <h4>Employee Work Reports</h4>
+                <div id="report_list_adm">Loading Reports...</div>
+            </div>
+
+            <div id="a_prod" class="hide" style="display:none;">
+                <div style="background:#f9f9f9; padding:10px; border-radius:5px;">
+                    <h4>Add Product</h4>
+                    <input type="text" id="np_name" placeholder="Product Name">
+                    <div style="display:flex; gap:5px;">
+                        <input type="number" id="np_rate" placeholder="Rate (Rs)">
+                        <select id="np_unit">
+                            <option value="Pc">Piece (Pc)</option>
+                            <option value="Kg">Kilogram (Kg)</option>
+                            <option value="Gm">Gram (Gm)</option>
+                            <option value="Ltr">Liter (Ltr)</option>
+                            <option value="Ml">MiliLiter (Ml)</option>
+                            <option value="Doz">Dozen (Doz)</option>
+                            <option value="Bdl">Bundle (Bdl)</option>
+                            <option value="Box">Box</option>
+                            <option value="Pkt">Packet (Pkt)</option>
+                        </select>
+                    </div>
+                    <input type="number" id="np_qty" placeholder="Stock Qty">
+                    <input type="number" id="np_min" placeholder="Min Purchase">
+                    <input type="text" id="np_img" placeholder="Image URL">
+                    <button class="btn btn-s" onclick="addProduct()">Add Product</button>
+                </div>
+                <hr>
+                <h4>Product List</h4>
+                <div id="prod_list_adm"></div>
+            </div>
+
             <div id="a_emp" class="hide" style="display:none;">
-                <div style="background:#f9f9f9; padding:10px; border-radius:5px; border:1px solid #ddd;">
-                    <h4>Add New Employee</h4>
+                <div style="background:#f9f9f9; padding:10px; border-radius:5px;">
+                    <h4>Add Employee</h4>
                     <input type="text" id="ne_name" placeholder="Name">
                     <input type="text" id="ne_phone" placeholder="Phone (ID)">
                     <input type="text" id="ne_pass" placeholder="Password">
@@ -127,36 +157,27 @@
                     <p style="font-size:12px; font-weight:bold;">Access Permissions:</p>
                     <div class="access-grid">
                         <label class="access-item"><input type="checkbox" id="p_orders"> Orders</label>
-                        <label class="access-item"><input type="checkbox" id="p_chat"> Chat</label>
+                        <label class="access-item"><input type="checkbox" id="p_users"> Users</label>
                     </div>
                     <button class="btn btn-p" onclick="addEmployee()">Add Employee</button>
                 </div>
                 <div id="emp_list" style="margin-top:10px;"></div>
             </div>
 
-            <div id="a_prod" class="hide" style="display:none;">
-                <input type="text" id="np_name" placeholder="Product Name">
-                <input type="number" id="np_rate" placeholder="Rate (Rs)">
-                <input type="number" id="np_qty" placeholder="Stock Qty">
-                <input type="number" id="np_min" placeholder="Min Purchase Qty">
-                <input type="text" id="np_img" placeholder="Image URL">
-                <button class="btn btn-s" onclick="addProduct()">Add Product</button>
-                <div id="prod_list_adm"></div>
+            <div id="a_users" class="hide" style="display:none;">
+                <div id="user_list_adm"></div>
             </div>
-
-            <div id="a_users" class="hide" style="display:none;"></div>
             
             <div id="a_att" class="hide" style="display:none;">
-                <button class="btn btn-s" onclick="alert('All marked present!')">Punch ALL Present</button>
-                <div id="att_list_adm"></div>
+                <button class="btn btn-s" onclick="adminPunchAll()">Punch ALL Present</button>
+                <div id="att_list_adm" style="margin-top:10px;"></div>
             </div>
-
+            
             <button class="btn btn-red" onclick="logout()">Logout</button>
         </div>
 
         <div id="v_emp" class="box">
             <h3 id="emp_welcome">Employee</h3>
-            
             <div id="emp_att_sec" style="text-align:center; background:#eee; padding:10px; border-radius:8px; margin-bottom:10px;">
                 <p id="att_status">Checking...</p>
                 <div id="cam_div" style="display:none;">
@@ -166,13 +187,11 @@
                 </div>
                 <button class="btn btn-s" id="btn_start_cam" onclick="startCam()">Punch In</button>
             </div>
-
             <div id="emp_features"></div>
             <hr>
-            <h4>Work Update</h4>
+            <h4>Upload Work Report</h4>
             <textarea id="emp_work" placeholder="Today's work details..."></textarea>
-            <button class="btn btn-p" onclick="submitWork()">Submit</button>
-
+            <button class="btn btn-p" onclick="submitWork()">Submit Report</button>
             <button class="btn btn-red" onclick="logout()">Logout</button>
         </div>
 
@@ -182,17 +201,15 @@
                 <div class="tab active" onclick="uTab('u_shop',this)">Products</div>
                 <div class="tab" onclick="uTab('u_orders',this)">My Orders</div>
             </div>
-
             <div id="u_shop"></div>
             <div id="u_orders" style="display:none;"></div>
-
             <button class="btn btn-red" onclick="logout()">Logout</button>
         </div>
 
     </div>
 
     <script>
-        // === CONFIG (Using Your Key) ===
+        // CONFIG
         const firebaseConfig = {
             apiKey: "AIzaSyBtLLOyVgt5hQwxokdsSRkeArZab5kyr_Q", 
             authDomain: "mithilahelp-4107d.firebaseapp.com",
@@ -209,7 +226,7 @@
         let loginRole = 'user';
         let capSum = 0;
 
-        // === CAPTCHA LOGIC ===
+        // CAPTCHA
         function newCaptcha() {
             let n1 = Math.floor(Math.random() * 9) + 1;
             let n2 = Math.floor(Math.random() * 9) + 1;
@@ -219,11 +236,11 @@
         }
         window.onload = newCaptcha;
 
-        // === UTILS ===
+        // UTILS
         function showView(id) {
             document.querySelectorAll('.box').forEach(b => b.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            newCaptcha(); // Refresh on view change
+            newCaptcha();
         }
         function setLoginRole(r, el) {
             loginRole = r;
@@ -246,29 +263,19 @@
         }
         function logout() { location.reload(); }
 
-        // === AUTH & LOGIN ===
+        // AUTH
         function login() {
-            // 1. Check Captcha
             let ans = parseInt(document.getElementById('cap_ans').value);
-            if(ans !== capSum) {
-                alert("❌ Wrong Captcha! Math Error.");
-                newCaptcha();
-                return;
-            }
-
+            if(ans !== capSum) { alert("❌ Wrong Captcha!"); newCaptcha(); return; }
             let id = document.getElementById('l_id').value;
             let pass = document.getElementById('l_pass').value;
 
             if(loginRole === 'admin') {
-                // New Admin Condition: shreya rani OR 9135673198
                 if((id === "shreya rani" || id === "9135673198") && pass === "mydearshreya@#") {
                     curUser = { name: "Shreya Admin", role: "admin" };
                     loadAdminData();
                     showView('v_admin');
-                } else {
-                    alert("Invalid Admin ID or Password");
-                    newCaptcha();
-                }
+                } else { alert("Invalid Admin"); newCaptcha(); }
             } else {
                 let path = (loginRole === 'emp') ? 'employees' : 'users';
                 db.ref(path + '/' + id).once('value', s => {
@@ -276,87 +283,116 @@
                     if(d) {
                         if(d.blocked) return alert("You are BLOCKED by Admin.");
                         if(d.pass == pass) {
-                            curUser = d; 
-                            curUser.phone = id;
-                            if(loginRole === 'emp') loadEmpDash();
-                            else loadUserDash();
+                            curUser = d; curUser.phone = id;
+                            if(loginRole === 'emp') loadEmpDash(); else loadUserDash();
                         } else alert("Wrong Password");
-                    } else alert("User ID Not Found");
+                    } else alert("ID Not Found");
                 });
             }
         }
-
         function registerUser() {
-            let d = {
-                name: document.getElementById('r_name').value,
-                phone: document.getElementById('r_phone').value,
-                pass: document.getElementById('r_pass').value,
-                addr: document.getElementById('r_addr').value,
-                blocked: false
-            };
+            let d = { name: document.getElementById('r_name').value, phone: document.getElementById('r_phone').value, pass: document.getElementById('r_pass').value, addr: document.getElementById('r_addr').value, blocked: false };
             if(d.phone) db.ref('users/'+d.phone).set(d, e => { if(!e) { alert("Registered!"); showView('v_login'); } });
         }
 
-        // === ADMIN FUNCTIONS ===
+        // ADMIN FUNCTIONS
         function loadAdminData() {
+            // Work Reports
+            db.ref('work_reports').limitToLast(20).on('value', s => {
+                let h = "";
+                s.forEach(r => {
+                    let v = r.val();
+                    let t = new Date(v.time).toLocaleString();
+                    h += `<div class="report-item"><b>${v.user}</b> <small>(${t})</small><br>${v.text}</div>`;
+                });
+                document.getElementById('report_list_adm').innerHTML = h || "No reports";
+            });
+
+            // Products
+            db.ref('products').on('value', s => {
+                let h = "";
+                s.forEach(p => {
+                    let v = p.val();
+                    h += `<div class="item">
+                        <img src="${v.img}" style="width:40px;height:40px;border-radius:5px;margin-right:10px;">
+                        <div style="flex-grow:1"><b>${v.name}</b><br>Rs. ${v.rate} / ${v.unit}</div>
+                        <button class="btn-sm btn-red" onclick="db.ref('products/${p.key}').remove()">Del</button>
+                    </div>`;
+                });
+                document.getElementById('prod_list_adm').innerHTML = h;
+            });
+
             // Orders
             db.ref('orders').on('value', s => {
                 let h = "";
                 s.forEach(o => {
                     let v = o.val();
-                    let key = o.key;
                     h += `<div class="item" style="flex-direction:column; align-items:flex-start;">
-                        <b>Order #${key.substring(key.length-4)}</b>
-                        <div>User: ${v.u_name} (${v.u_phone})</div>
-                        <div>Item: ${v.p_name} | Qty: ${v.qty} | Rs. ${v.total}</div>
-                        <div>Status: <b style="color:blue">${v.status}</b></div>
-                        <div style="margin-top:5px;">
-                            <button class="btn-sm btn-p" onclick="updOrd('${key}','Confirmed')">Confirm</button>
-                            <button class="btn-sm btn-s" onclick="updOrd('${key}','Shipped')">Ship</button>
-                            <button class="btn-sm btn-p" onclick="updOrd('${key}','Delivered')">Done</button>
-                        </div>
+                        <b>Order #${o.key.substr(-4)}</b> (${v.status})<br>${v.p_name} x ${v.qty}
+                        <div style="margin-top:5px;"><button class="btn-sm btn-p" onclick="db.ref('orders/${o.key}').update({status:'Confirmed'})">Confirm</button></div>
                     </div>`;
                 });
-                document.getElementById('a_orders').innerHTML = h || "No Orders";
+                document.getElementById('a_orders').innerHTML = h;
             });
 
-            // Employees
+            // Employees (With Call & Block)
             db.ref('employees').on('value', s => {
-                let h = "";
-                s.forEach(e => {
-                    let v = e.val();
-                    h += `<div class="item">
-                        <div><b>${v.name}</b> (${v.role})<br><small>Pass: ${v.pass}</small></div>
+                 let h=""; 
+                 s.forEach(e=>{ 
+                     let v = e.val();
+                     h+=`<div class="item">
+                        <div><b>${v.name}</b> (${v.role})<br><small>${v.phone}</small></div>
                         <div>
-                            <a href="tel:${v.phone}" class="btn-sm btn-s" style="text-decoration:none;">📞</a>
+                            <a href="tel:${v.phone}" class="btn-sm btn-s" style="text-decoration:none">📞</a>
                             <button class="btn-sm btn-red" onclick="blockUser('employees','${v.phone}',${!v.blocked})">${v.blocked?'Unblock':'Block'}</button>
                         </div>
-                    </div>`;
-                });
-                document.getElementById('emp_list').innerHTML = h;
+                     </div>`; 
+                 });
+                 document.getElementById('emp_list').innerHTML = h;
             });
 
-            // Users
+            // Users (With Call & Block & Del)
             db.ref('users').on('value', s => {
-                let h = "";
-                s.forEach(u => {
-                    let v = u.val();
-                    h += `<div class="item">
-                        <div><b>${v.name}</b><br>Pass: ${v.pass}</div>
+                 let h=""; 
+                 s.forEach(u=>{ 
+                     let v = u.val();
+                     h+=`<div class="item">
+                        <div><b>${v.name}</b><br><small>${v.phone}</small></div>
                         <div>
+                            <a href="tel:${v.phone}" class="btn-sm btn-s" style="text-decoration:none">📞</a>
                             <button class="btn-sm btn-red" onclick="blockUser('users','${v.phone}',${!v.blocked})">${v.blocked?'Unblock':'Block'}</button>
+                            <button class="btn-sm btn-p" onclick="if(confirm('Del?')) db.ref('users/${v.phone}').remove()">Del</button>
                         </div>
-                    </div>`;
-                });
-                document.getElementById('a_users').innerHTML = h;
+                     </div>`; 
+                 });
+                 document.getElementById('user_list_adm').innerHTML = h;
+            });
+
+            // Attendance
+            let today = new Date().toLocaleDateString().split('/').join('-');
+            db.ref('attendance/'+today).on('value', s => {
+                 let h=""; s.forEach(a => h+=`<div class="item">${a.val().name} - ${a.val().time}</div>`);
+                 document.getElementById('att_list_adm').innerHTML = h || "No attendance today";
             });
         }
 
+        function addProduct() {
+            db.ref('products').push({
+                name: document.getElementById('np_name').value,
+                rate: document.getElementById('np_rate').value,
+                unit: document.getElementById('np_unit').value,
+                qty: document.getElementById('np_qty').value,
+                min: document.getElementById('np_min').value,
+                img: document.getElementById('np_img').value
+            });
+            alert("Product Added");
+        }
         function addEmployee() {
             let p = document.getElementById('ne_phone').value;
-            if(!p) return alert("Phone req");
+            if(!p) return;
             let perms = [];
             if(document.getElementById('p_orders').checked) perms.push('orders');
+            if(document.getElementById('p_users').checked) perms.push('users');
             
             db.ref('employees/'+p).set({
                 name: document.getElementById('ne_name').value,
@@ -366,73 +402,45 @@
                 role: document.getElementById('ne_role').value,
                 perms: perms,
                 blocked: false
-            }, e => alert("Employee Added"));
+            }, e => alert("Added"));
         }
-
-        function addProduct() {
-            db.ref('products').push({
-                name: document.getElementById('np_name').value,
-                rate: document.getElementById('np_rate').value,
-                qty: document.getElementById('np_qty').value,
-                min: document.getElementById('np_min').value,
-                img: document.getElementById('np_img').value
-            });
-            alert("Product Added");
-        }
-
-        function updOrd(k, s) { db.ref('orders/'+k).update({status: s}); }
         function blockUser(path, ph, st) { db.ref(path+'/'+ph).update({blocked: st}); }
+        function adminPunchAll() { alert("Dummy punch triggered for all."); }
 
-        // === EMPLOYEE FUNCTIONS ===
+        // EMPLOYEE
         function loadEmpDash() {
             document.getElementById('emp_welcome').innerText = curUser.name + " (" + curUser.role + ")";
             showView('v_emp');
             let today = new Date().toLocaleDateString().split('/').join('-');
             db.ref('attendance/'+today+'/'+curUser.phone).once('value', s => {
-                if(s.exists()) {
-                    document.getElementById('att_status').innerHTML = "✅ Present";
-                    document.getElementById('btn_start_cam').style.display='none';
-                }
+                if(s.exists()) { document.getElementById('att_status').innerHTML = "✅ Present"; document.getElementById('btn_start_cam').style.display='none'; }
             });
+            
+            // Access Features
             let h = "";
-            if(curUser.perms && curUser.perms.includes('orders')) {
-                h += `<button class="btn btn-s" onclick="alert('Viewing Orders Access...')">Manage Orders</button>`;
-            }
+            if(curUser.perms && curUser.perms.includes('orders')) h += `<button class="btn btn-s" onclick="alert('Viewing Orders...')">Manage Orders</button>`;
             document.getElementById('emp_features').innerHTML = h;
         }
-
         function startCam() {
-            let hr = new Date().getHours();
-            if(hr >= 10) return alert("Late! It's past 10 AM.");
-            document.getElementById('cam_div').style.display = 'block';
-            document.getElementById('btn_start_cam').style.display = 'none';
+            if(new Date().getHours() >= 10) return alert("Late!");
+            document.getElementById('cam_div').style.display='block'; document.getElementById('btn_start_cam').style.display='none';
             navigator.mediaDevices.getUserMedia({video:true}).then(s => document.getElementById('video').srcObject = s);
         }
-
         function takeSelfie() {
-            let v = document.getElementById('video');
-            let c = document.getElementById('canvas');
-            c.width = v.videoWidth; c.height = v.videoHeight;
-            c.getContext('2d').drawImage(v,0,0);
-            let img = c.toDataURL('image/png');
+            let v=document.getElementById('video'), c=document.getElementById('canvas');
+            c.width=v.videoWidth; c.height=v.videoHeight; c.getContext('2d').drawImage(v,0,0);
             let today = new Date().toLocaleDateString().split('/').join('-');
-            
-            db.ref('attendance/'+today+'/'+curUser.phone).set({
-                name: curUser.name, time: new Date().toLocaleTimeString(), photo: img, by: 'Self'
-            }, e => {
-                alert("Punched!");
-                v.srcObject.getTracks().forEach(t=>t.stop());
-                document.getElementById('cam_div').style.display='none';
-                document.getElementById('att_status').innerHTML = "✅ Present";
+            db.ref('attendance/'+today+'/'+curUser.phone).set({name:curUser.name, time:new Date().toLocaleTimeString(), photo:c.toDataURL(), by:'Self'}, e=>{
+                alert("Punched"); v.srcObject.getTracks().forEach(t=>t.stop()); document.getElementById('cam_div').style.display='none';
             });
         }
         function submitWork() {
             let t = document.getElementById('emp_work').value;
             if(t) db.ref('work_reports').push({user: curUser.name, text: t, time: Date.now()});
-            alert("Submitted");
+            alert("Sent");
         }
 
-        // === USER FUNCTIONS ===
+        // USER
         function loadUserDash() {
             document.getElementById('u_welcome').innerText = "Hi, " + curUser.name;
             showView('v_user');
@@ -440,13 +448,10 @@
                 let h = "";
                 s.forEach(p => {
                     let v = p.val();
-                    let k = p.key;
                     h += `<div class="item">
                         <img src="${v.img}" style="width:50px; height:50px; object-fit:cover; border-radius:5px; margin-right:10px;">
-                        <div style="flex-grow:1;">
-                            <b>${v.name}</b><br>Rs. ${v.rate} | Min: ${v.min}
-                        </div>
-                        <button class="btn-sm btn-p" onclick="buyModal('${k}','${v.name}',${v.rate},${v.min})">Buy</button>
+                        <div style="flex-grow:1;"><b>${v.name}</b><br>Rs. ${v.rate} / ${v.unit}</div>
+                        <button class="btn-sm btn-p" onclick="buyModal('${p.key}','${v.name}',${v.rate},${v.min})">Buy</button>
                     </div>`;
                 });
                 document.getElementById('u_shop').innerHTML = h;
@@ -455,10 +460,7 @@
                 let h = "";
                 s.forEach(o => {
                     let v = o.val();
-                    h += `<div class="item" style="flex-direction:column; align-items:flex-start;">
-                        <b>${v.p_name}</b> <span class="badge b-blu">${v.status}</span>
-                        <small>Qty: ${v.qty} | Rs. ${v.total}</small>
-                    </div>`;
+                    h += `<div class="item"><b>${v.p_name}</b> <span style="color:blue">${v.status}</span><br>Qty: ${v.qty}</div>`;
                 });
                 document.getElementById('u_orders').innerHTML = h;
             });
@@ -470,37 +472,17 @@
                 let mode = confirm("Press OK for Online (QR), Cancel for Cash");
                 let payMode = mode ? 'Online' : 'COD';
                 let total = qty * rate;
-
                 if(mode) {
                     document.getElementById('qr_modal').style.display = 'flex';
                     document.getElementById('qrcode').innerHTML = "";
-                    new QRCode(document.getElementById("qrcode"), {
-                        text: "upi://pay?pa=7033578145@sbi&pn=MithilaShop&am=" + total,
-                        width: 128, height: 128
-                    });
-                    setTimeout(() => {
-                        if(confirm("Payment Done?")) placeOrder(pname, qty, total, payMode);
-                        document.getElementById('qr_modal').style.display = 'none';
-                    }, 5000);
-                } else {
-                    placeOrder(pname, qty, total, payMode);
-                }
+                    new QRCode(document.getElementById("qrcode"), { text: "upi://pay?pa=7033578145@sbi&pn=MithilaShop&am=" + total, width: 128, height: 128 });
+                    setTimeout(() => { if(confirm("Paid?")) placeOrder(pname, qty, total, payMode); document.getElementById('qr_modal').style.display = 'none'; }, 5000);
+                } else placeOrder(pname, qty, total, payMode);
             } else alert("Invalid Qty");
         }
-
         function placeOrder(pname, qty, total, mode) {
-            db.ref('orders').push({
-                u_phone: curUser.phone,
-                u_name: curUser.name,
-                addr: curUser.addr || "No Addr",
-                p_name: pname,
-                qty: qty,
-                total: total,
-                pay_mode: mode,
-                status: 'Pending',
-                time: Date.now()
-            });
-            alert("Order Placed!");
+            db.ref('orders').push({u_phone: curUser.phone, u_name: curUser.name, addr: curUser.addr, p_name: pname, qty: qty, total: total, pay_mode: mode, status: 'Pending'});
+            alert("Order Placed");
         }
     </script>
 </body>
