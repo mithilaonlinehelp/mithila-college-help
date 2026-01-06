@@ -2,13 +2,12 @@
 <html lang="hi">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>Mithila System 5.0 (Ultimate)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>Mithila System 5.0 (Final Fix)</title>
     <style>
         :root { --orange: #FF9933; --white: #ffffff; --green: #138808; --blue: #000080; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
         
-        /* --- TIRANGA BACKGROUND & ANIMATION --- */
         body {
             background: linear-gradient(180deg, var(--orange) 0%, var(--white) 35%, var(--white) 65%, var(--green) 100%);
             min-height: 100vh;
@@ -16,42 +15,52 @@
             overflow-x: hidden;
             position: relative;
         }
+
+        /* --- BACKGROUND FIX (Sent to back completely) --- */
         .chakra-bg {
             position: fixed;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             width: 300px; height: 300px;
-            opacity: 0.2;
-            z-index: -1;
-            pointer-events: none;
+            opacity: 0.15;
+            z-index: 0; /* Background Layer */
+            pointer-events: none; /* Allows clicks to pass through */
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000080' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 2v20M2 12h20M4.93 4.93l14.14 14.14M19.07 4.93L4.93 19.07M12 12l2.5-4.33M12 12l-2.5-4.33M12 12l4.33 2.5M12 12l-4.33 2.5M12 12l4.33-2.5M12 12l-4.33-2.5M12 12l2.5 4.33M12 12l-2.5 4.33'/%3E%3C/svg%3E");
             background-size: cover;
             animation: spin 20s linear infinite;
         }
         @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
 
-        /* --- LAYOUT --- */
-        .container { max-width: 500px; margin: auto; padding: 15px; position: relative; z-index: 10; }
+        /* --- CONTAINER (Brought to Front) --- */
+        .container { 
+            max-width: 500px; 
+            margin: auto; 
+            padding: 15px; 
+            position: relative; 
+            z-index: 9999; /* Highest Priority for Clicks */
+        }
+        
         .box { background: rgba(255,255,255,0.96); padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); margin-bottom: 15px; display: none; border: 2px solid var(--blue); }
         #box-login { display: block; }
 
-        .admin-wide { max-width: 1000px; background: white; padding: 20px; margin: 10px auto; border-radius: 10px; display: none; border-top: 5px solid var(--orange); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .admin-wide { max-width: 1000px; background: white; padding: 20px; margin: 10px auto; border-radius: 10px; display: none; border-top: 5px solid var(--orange); box-shadow: 0 4px 15px rgba(0,0,0,0.2); position: relative; z-index: 9999; }
 
         h2, h3 { text-align: center; color: var(--blue); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
         label { font-size: 12px; font-weight: bold; color: #555; }
-        input, select, textarea { width: 100%; padding: 10px; margin: 5px 0 15px 0; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; outline: none; }
+        input, select, textarea { width: 100%; padding: 12px; margin: 5px 0 15px 0; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; outline: none; background: #fff; }
         
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 25px; color: white; font-weight: bold; cursor: pointer; margin-top: 5px; font-size: 15px; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .btn:active { transform: scale(0.98); }
+        /* High Touch Area Buttons */
+        .btn { width: 100%; padding: 14px; border: none; border-radius: 25px; color: white; font-weight: bold; cursor: pointer; margin-top: 5px; font-size: 16px; transition: 0.2s; box-shadow: 0 3px 6px rgba(0,0,0,0.2); touch-action: manipulation; }
+        .btn:active { transform: scale(0.96); }
         .btn:disabled { background: #ccc; cursor: not-allowed; }
         .btn-blue { background: var(--blue); } 
         .btn-green { background: var(--green); } 
         .btn-orange { background: var(--orange); }
         .btn-red { background: #dc3545; }
-        .link-btn { color: var(--blue); cursor: pointer; font-size: 13px; text-decoration: underline; background: none; border: none; padding: 0; }
+        .link-btn { color: var(--blue); cursor: pointer; font-size: 14px; text-decoration: underline; background: none; border: none; padding: 5px; display:inline-block; }
 
         .nav-tabs { display: flex; gap: 5px; overflow-x: auto; padding-bottom: 10px; border-bottom: 1px solid #ddd; margin-bottom: 15px; }
-        .nav-btn { padding: 8px 15px; border: none; background: #eee; border-radius: 20px; white-space: nowrap; cursor: pointer; font-size: 13px; font-weight: bold; color: #333; }
+        .nav-btn { padding: 10px 18px; border: none; background: #eee; border-radius: 20px; white-space: nowrap; cursor: pointer; font-size: 14px; font-weight: bold; color: #333; touch-action: manipulation; }
         .nav-btn.active { background: var(--blue); color: white; }
 
         .chat-box { height: 300px; overflow-y: auto; background: #e5ddd5; padding: 10px; border-radius: 8px; border: 1px solid #ddd; display: flex; flex-direction: column; gap: 8px; }
@@ -71,11 +80,21 @@
         #recaptcha-container { margin: 10px auto; }
         
         .toggle-login { display:flex; justify-content:center; gap:10px; margin-bottom:10px; }
-        .toggle-btn { padding:5px 10px; border:1px solid var(--blue); border-radius:15px; font-size:12px; cursor:pointer; }
+        .toggle-btn { padding:8px 15px; border:1px solid var(--blue); border-radius:15px; font-size:13px; cursor:pointer; font-weight:bold; }
         .toggle-btn.sel { background:var(--blue); color:white; }
+        
+        #error-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); color:white; display:none; justify-content:center; align-items:center; z-index:10000; text-align:center; padding:20px; }
     </style>
 </head>
 <body>
+
+    <div id="error-overlay">
+        <div>
+            <h2>⚠️ Connection Error</h2>
+            <p>Internet check karein. Firebase load nahi ho paya.</p>
+            <button class="btn btn-green" style="margin-top:20px; width:auto;" onclick="location.reload()">Reload Page</button>
+        </div>
+    </div>
 
     <div class="chakra-bg"></div>
 
@@ -310,6 +329,11 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 
     <script>
+        // Check if Firebase Loaded
+        if (typeof firebase === 'undefined') {
+            document.getElementById('error-overlay').style.display = 'flex';
+        }
+
         const firebaseConfig = {
             apiKey: "AIzaSyBtLLOyVgt5hQwxokdsSRkeArZab5kyr_Q",
             authDomain: "mithilahelp-4107d.firebaseapp.com",
@@ -319,20 +343,28 @@
             messagingSenderId: "525345376934",
             appId: "1:525345376934:web:7083c7cecccd26a4a78267"
         };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-        const auth = firebase.auth();
+        
+        try {
+            firebase.initializeApp(firebaseConfig);
+            const db = firebase.database();
+            const auth = firebase.auth();
+        } catch(err) {
+            console.error(err);
+            document.getElementById('error-overlay').style.display = 'flex';
+        }
 
         let currentUser = null; 
         let confirmationResult = null;
         let activeChatUser = null;
         let resendTimer = 60;
         let timerInterval = null;
-        let forgotRole = null; // 'user' or 'employee'
+        let forgotRole = null; 
 
         window.onload = function() {
-            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {'size': 'invisible'});
-            document.getElementById('today_date').innerText = new Date().toLocaleDateString();
+            if (typeof firebase !== 'undefined') {
+                window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {'size': 'invisible'});
+                document.getElementById('today_date').innerText = new Date().toLocaleDateString();
+            }
         };
 
         function go(id) { document.querySelectorAll('.box, .admin-wide').forEach(e => e.style.display = 'none'); document.getElementById(id).style.display = 'block'; }
@@ -356,7 +388,221 @@
             }
         }
 
-        // --- NEW ADMIN LOGIN ---
         function loginAdmin() {
             let id = document.getElementById('l_a_id').value;
             let pa = document.getElementById('l_a_pass').value;
+            if(id === "shreya rani" && pa === "mydearshreya@#") {
+                currentUser = { name: "Shreya Rani", type: "admin" };
+                loadAdminData();
+                go('box-admin');
+            } else alert("Wrong Admin Details");
+        }
+
+        function sendLoginOTP(role) {
+            let ph = (role==='user') ? document.getElementById('l_u_phone').value : document.getElementById('l_e_phone').value;
+            if(ph.length < 10) return alert("Enter valid Mobile");
+            let dbPath = (role==='user') ? 'users/' : 'employees/';
+            
+            db.ref(dbPath+ph).once('value', s => {
+                if(!s.exists()) return alert("Not registered/Found!");
+                let fPhone = "+91" + ph;
+                auth.signInWithPhoneNumber(fPhone, window.recaptchaVerifier).then((cr) => {
+                    confirmationResult = cr;
+                    if(role==='user') {
+                        document.getElementById('btn_u_otp_send').classList.add('hidden');
+                        document.getElementById('u_otp_verify').classList.remove('hidden');
+                    } else {
+                        document.getElementById('btn_e_otp_send').classList.add('hidden');
+                        document.getElementById('e_otp_verify').classList.remove('hidden');
+                    }
+                    alert("OTP Sent to " + fPhone);
+                }).catch(e => alert(e.message));
+            });
+        }
+
+        function loginUser(method) {
+            let ph = document.getElementById('l_u_phone').value;
+            if(method === 'pass') {
+                let pa = document.getElementById('l_u_pass').value;
+                db.ref('users/'+ph).once('value', s => {
+                    let u = s.val();
+                    if(u && u.pass == pa && u.type == 'user') {
+                        currentUser = u; loadUserChat(); loadFeed('u_feed_disp'); go('box-user');
+                    } else alert("Invalid Credentials");
+                });
+            } else {
+                let code = document.getElementById('l_u_otp_code').value;
+                confirmationResult.confirm(code).then(() => {
+                    db.ref('users/'+ph).once('value', s => {
+                        currentUser = s.val(); loadUserChat(); loadFeed('u_feed_disp'); go('box-user');
+                    });
+                }).catch(() => alert("Wrong OTP"));
+            }
+        }
+
+        function loginEmp(method) {
+            let ph = document.getElementById('l_e_phone').value;
+            if(method === 'pass') {
+                let pa = document.getElementById('l_e_pass').value;
+                db.ref('employees/'+ph).once('value', s => {
+                    let u = s.val();
+                    if(u && u.pass == pa) {
+                        currentUser = u; currentUser.type = 'employee';
+                        document.getElementById('e_wel_msg').innerText = "Emp: " + u.name;
+                        checkAttendanceStatus(); go('box-emp');
+                    } else alert("Invalid Credentials");
+                });
+            } else {
+                let code = document.getElementById('l_e_otp_code').value;
+                confirmationResult.confirm(code).then(() => {
+                    db.ref('employees/'+ph).once('value', s => {
+                        currentUser = s.val(); currentUser.type = 'employee';
+                        document.getElementById('e_wel_msg').innerText = "Emp: " + s.val().name;
+                        checkAttendanceStatus(); go('box-emp');
+                    });
+                }).catch(() => alert("Wrong OTP"));
+            }
+        }
+
+        function startForgot(role) {
+            forgotRole = role;
+            document.getElementById('forgot_role_disp').innerText = role.toUpperCase();
+            go('box-forgot');
+        }
+
+        function sendForgotOTP() {
+            let ph = document.getElementById('f_phone').value;
+            if(ph.length < 10) return alert("Enter valid Mobile");
+            let dbPath = (forgotRole==='user') ? 'users/' : 'employees/';
+            
+            db.ref(dbPath+ph).once('value', s => {
+                if(!s.exists()) return alert("Number not found in " + forgotRole + " database.");
+                auth.signInWithPhoneNumber("+91"+ph, window.recaptchaVerifier).then((cr) => {
+                    confirmationResult = cr;
+                    document.getElementById('btn_f_send').classList.add('hidden');
+                    document.getElementById('f_otp_sec').classList.remove('hidden');
+                    alert("OTP Sent for Reset!");
+                }).catch(e => alert(e.message));
+            });
+        }
+
+        function verifyForgotOTP() {
+            let code = document.getElementById('f_otp').value;
+            confirmationResult.confirm(code).then(() => {
+                document.getElementById('f_otp_sec').classList.add('hidden');
+                document.getElementById('f_new_pass_sec').classList.remove('hidden');
+                alert("Verified! Set new password.");
+            }).catch(() => alert("Wrong OTP"));
+        }
+
+        function updatePassword() {
+            let ph = document.getElementById('f_phone').value;
+            let np = document.getElementById('f_new_pass').value;
+            if(!np) return alert("Enter new password");
+            let dbPath = (forgotRole==='user') ? 'users/' : 'employees/';
+            db.ref(dbPath+ph).update({ pass: np }, (e) => {
+                if(!e) { alert("Password Updated! Please Login."); go('box-login'); }
+            });
+        }
+
+        function sendRegOTP() {
+            let ph = document.getElementById('r_phone').value;
+            let email = document.getElementById('r_email').value;
+            if(ph.length < 10 || !email) return alert("Valid Mobile & Email Required!");
+            db.ref('users/'+ph).once('value', s => {
+                if(s.exists()) return alert("User already exists!");
+                auth.signInWithPhoneNumber("+91"+ph, window.recaptchaVerifier).then((cr) => {
+                    confirmationResult = cr;
+                    document.getElementById('r_otp_sec').classList.remove('hidden');
+                    document.getElementById('btn_r_send').classList.add('hidden');
+                    startResendTimer();
+                }).catch((e) => alert("Error: " + e.message));
+            });
+        }
+
+        function startResendTimer() {
+            resendTimer = 60;
+            let btn = document.getElementById('btn_resend');
+            btn.disabled = true;
+            timerInterval = setInterval(() => {
+                resendTimer--;
+                btn.innerText = `Resend OTP (${resendTimer}s)`;
+                if(resendTimer <= 0) {
+                    clearInterval(timerInterval); btn.innerText = "Resend OTP"; btn.disabled = false;
+                }
+            }, 1000);
+        }
+
+        function verifyRegOTP() {
+            let code = document.getElementById('r_otp_code').value;
+            confirmationResult.confirm(code).then(() => {
+                document.getElementById('r_pass_sec').classList.remove('hidden');
+                document.getElementById('r_otp_sec').style.display = 'none';
+                alert("Mobile Verified!");
+            }).catch(() => alert("Invalid OTP"));
+        }
+
+        function finalizeReg() {
+            let d = {
+                name: document.getElementById('r_name').value,
+                phone: document.getElementById('r_phone').value,
+                email: document.getElementById('r_email').value,
+                dob: document.getElementById('r_dob').value,
+                pass: document.getElementById('r_pass').value,
+                type: 'user'
+            };
+            db.ref('users/'+d.phone).set(d, e => {
+                if(!e) { alert("Registration Success!"); go('box-login'); }
+            });
+        }
+
+        function uTab(id) { document.querySelectorAll('.u-sec').forEach(e => e.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); }
+        function eTab(id) { document.querySelectorAll('.e-sec').forEach(e => e.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); }
+        function aTab(id) { document.querySelectorAll('.a-sec').forEach(e => e.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); }
+
+        function checkAttendanceStatus() {
+            let today = new Date().toLocaleDateString().split('/').join('-');
+            db.ref(`attendance/${today}/${currentUser.phone}`).once('value', s => {
+                let stat = document.getElementById('e_today_status');
+                if(s.exists()) {
+                    stat.innerHTML = `Punched in at: ${s.val().time} <br> <span class="status-present">Present</span>`;
+                    document.getElementById('btn_start_cam').classList.add('hidden');
+                } else {
+                    stat.innerHTML = `<span class="status-absent">Not Punched Yet</span>`;
+                    document.getElementById('btn_start_cam').classList.remove('hidden');
+                }
+            });
+        }
+
+        function startCamera() {
+            if(new Date().getHours() >= 10) return alert("Late! It's past 10:00 AM.");
+            document.getElementById('camera_area').classList.remove('hidden');
+            document.getElementById('btn_start_cam').classList.add('hidden');
+            const video = document.getElementById('cam_preview');
+            navigator.mediaDevices.getUserMedia({ video: true }).then(stream => { video.srcObject = stream; });
+        }
+
+        function captureAndPunch() {
+            const video = document.getElementById('cam_preview');
+            const canvas = document.getElementById('cam_canvas');
+            canvas.width = video.videoWidth; canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0);
+            let imgData = canvas.toDataURL('image/png');
+            let today = new Date().toLocaleDateString().split('/').join('-');
+            db.ref(`attendance/${today}/${currentUser.phone}`).set({
+                name: currentUser.name, time: new Date().toLocaleTimeString(), photo: imgData, punchedBy: 'Self'
+            }, (e) => {
+                if(!e) {
+                    alert("✅ Attendance Marked.");
+                    video.srcObject.getTracks().forEach(t => t.stop());
+                    document.getElementById('camera_area').classList.add('hidden');
+                    checkAttendanceStatus();
+                }
+            });
+        }
+
+        function sendReport() {
+            let txt = document.getElementById('e_report_txt').value;
+            if(!txt) return;
+            let today = new Date().toLocaleDateString().split('/').join('-');
+            db.ref(`reports/${today}/${currentUser.phone}`).
