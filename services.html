@@ -3,337 +3,207 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-    <title>Mithila System 5.0 (Final Fix)</title>
-    <style>
-        :root { --orange: #FF9933; --white: #ffffff; --green: #138808; --blue: #000080; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
-        
-        body {
-            background: linear-gradient(180deg, var(--orange) 0%, var(--white) 35%, var(--white) 65%, var(--green) 100%);
-            min-height: 100vh;
-            padding-bottom: 60px;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* --- BACKGROUND FIX (Sent to back completely) --- */
-        .chakra-bg {
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px; height: 300px;
-            opacity: 0.15;
-            z-index: 0; /* Background Layer */
-            pointer-events: none; /* Allows clicks to pass through */
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000080' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 2v20M2 12h20M4.93 4.93l14.14 14.14M19.07 4.93L4.93 19.07M12 12l2.5-4.33M12 12l-2.5-4.33M12 12l4.33 2.5M12 12l-4.33 2.5M12 12l4.33-2.5M12 12l-4.33-2.5M12 12l2.5 4.33M12 12l-2.5 4.33'/%3E%3C/svg%3E");
-            background-size: cover;
-            animation: spin 20s linear infinite;
-        }
-        @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
-
-        /* --- CONTAINER (Brought to Front) --- */
-        .container { 
-            max-width: 500px; 
-            margin: auto; 
-            padding: 15px; 
-            position: relative; 
-            z-index: 9999; /* Highest Priority for Clicks */
-        }
-        
-        .box { background: rgba(255,255,255,0.96); padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); margin-bottom: 15px; display: none; border: 2px solid var(--blue); }
-        #box-login { display: block; }
-
-        .admin-wide { max-width: 1000px; background: white; padding: 20px; margin: 10px auto; border-radius: 10px; display: none; border-top: 5px solid var(--orange); box-shadow: 0 4px 15px rgba(0,0,0,0.2); position: relative; z-index: 9999; }
-
-        h2, h3 { text-align: center; color: var(--blue); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
-        label { font-size: 12px; font-weight: bold; color: #555; }
-        input, select, textarea { width: 100%; padding: 12px; margin: 5px 0 15px 0; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; outline: none; background: #fff; }
-        
-        /* High Touch Area Buttons */
-        .btn { width: 100%; padding: 14px; border: none; border-radius: 25px; color: white; font-weight: bold; cursor: pointer; margin-top: 5px; font-size: 16px; transition: 0.2s; box-shadow: 0 3px 6px rgba(0,0,0,0.2); touch-action: manipulation; }
-        .btn:active { transform: scale(0.96); }
-        .btn:disabled { background: #ccc; cursor: not-allowed; }
-        .btn-blue { background: var(--blue); } 
-        .btn-green { background: var(--green); } 
-        .btn-orange { background: var(--orange); }
-        .btn-red { background: #dc3545; }
-        .link-btn { color: var(--blue); cursor: pointer; font-size: 14px; text-decoration: underline; background: none; border: none; padding: 5px; display:inline-block; }
-
-        .nav-tabs { display: flex; gap: 5px; overflow-x: auto; padding-bottom: 10px; border-bottom: 1px solid #ddd; margin-bottom: 15px; }
-        .nav-btn { padding: 10px 18px; border: none; background: #eee; border-radius: 20px; white-space: nowrap; cursor: pointer; font-size: 14px; font-weight: bold; color: #333; touch-action: manipulation; }
-        .nav-btn.active { background: var(--blue); color: white; }
-
-        .chat-box { height: 300px; overflow-y: auto; background: #e5ddd5; padding: 10px; border-radius: 8px; border: 1px solid #ddd; display: flex; flex-direction: column; gap: 8px; }
-        .msg { padding: 8px 12px; border-radius: 8px; max-width: 75%; font-size: 14px; word-wrap: break-word; }
-        .msg.me { align-self: flex-end; background: #dcf8c6; } 
-        .msg.other { align-self: flex-start; background: white; }
-        
-        .card-list { display: flex; flex-direction: column; gap: 10px; }
-        .card-item { background: #f9f9f9; padding: 10px; border-radius: 5px; border-left: 4px solid var(--orange); display: flex; justify-content: space-between; align-items: center; }
-
-        #cam_preview { width: 100%; height: 250px; background: black; border-radius: 10px; display: none; }
-        #cam_canvas { display: none; }
-        .punch-status { text-align: center; font-weight: bold; margin: 10px 0; }
-        .status-present { color: var(--green); }
-        .status-absent { color: red; }
-        .hidden { display: none !important; }
-        #recaptcha-container { margin: 10px auto; }
-        
-        .toggle-login { display:flex; justify-content:center; gap:10px; margin-bottom:10px; }
-        .toggle-btn { padding:8px 15px; border:1px solid var(--blue); border-radius:15px; font-size:13px; cursor:pointer; font-weight:bold; }
-        .toggle-btn.sel { background:var(--blue); color:white; }
-        
-        #error-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); color:white; display:none; justify-content:center; align-items:center; z-index:10000; text-align:center; padding:20px; }
-    </style>
-</head>
-<body>
-
-    <div id="error-overlay">
-        <div>
-            <h2>⚠️ Connection Error</h2>
-            <p>Internet check karein. Firebase load nahi ho paya.</p>
-            <button class="btn btn-green" style="margin-top:20px; width:auto;" onclick="location.reload()">Reload Page</button>
-        </div>
-    </div>
-
-    <div class="chakra-bg"></div>
-
-    <div class="container">
-        <div id="box-login" class="box">
-            <h2>🔐 Login</h2>
-            <div class="nav-tabs" style="justify-content: center;">
-                <button class="nav-btn active" onclick="showLoginTab('login-user')">User</button>
-                <button class="nav-btn" onclick="showLoginTab('login-emp')">Employee</button>
-                <button class="nav-btn" onclick="showLoginTab('login-admin')">Admin</button>
-            </div>
-
-            <div id="login-user" class="l-sec">
-                <div class="toggle-login">
-                    <div class="toggle-btn sel" onclick="toggleMethod('u', 'pass', this)">Password</div>
-                    <div class="toggle-btn" onclick="toggleMethod('u', 'otp', this)">OTP</div>
-                </div>
-
-                <input type="text" id="l_u_phone" placeholder="Mobile Number">
-                
-                <div id="u_pass_area">
-                    <input type="password" id="l_u_pass" placeholder="Password">
-                    <button class="btn btn-blue" onclick="loginUser('pass')">Login</button>
-                    <div style="text-align:right; margin-top:5px;">
-                        <button class="link-btn" onclick="startForgot('user')">Forgot Password?</button>
-                    </div>
-                </div>
-
-                <div id="u_otp_area" class="hidden">
-                    <button class="btn btn-blue" id="btn_u_otp_send" onclick="sendLoginOTP('user')">Send OTP</button>
-                    <div id="u_otp_verify" class="hidden">
-                        <input type="number" id="l_u_otp_code" placeholder="Enter OTP">
-                        <button class="btn btn-green" onclick="loginUser('otp')">Verify & Login</button>
-                    </div>
-                </div>
-                
-                <p style="text-align:center; margin-top:15px; font-size:13px;">
-                    <span onclick="go('box-reg')" style="color:var(--orange); cursor:pointer; font-weight:bold;">New User? Register Here</span>
-                </p>
-            </div>
-
-            <div id="login-emp" class="l-sec hidden">
-                <div class="toggle-login">
-                    <div class="toggle-btn sel" onclick="toggleMethod('e', 'pass', this)">ID & Password</div>
-                    <div class="toggle-btn" onclick="toggleMethod('e', 'otp', this)">ID & OTP</div>
-                </div>
-
-                <input type="text" id="l_e_phone" placeholder="Employee Mobile (ID)">
-
-                <div id="e_pass_area">
-                    <input type="password" id="l_e_pass" placeholder="Password">
-                    <button class="btn btn-green" onclick="loginEmp('pass')">Login</button>
-                    <div style="text-align:right; margin-top:5px;">
-                        <button class="link-btn" onclick="startForgot('employee')">Forgot Password?</button>
-                    </div>
-                </div>
-
-                <div id="e_otp_area" class="hidden">
-                    <button class="btn btn-green" id="btn_e_otp_send" onclick="sendLoginOTP('employee')">Send OTP</button>
-                    <div id="e_otp_verify" class="hidden">
-                        <input type="number" id="l_e_otp_code" placeholder="Enter OTP">
-                        <button class="btn btn-green" onclick="loginEmp('otp')">Verify & Login</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="login-admin" class="l-sec hidden">
-                <input type="text" id="l_a_id" placeholder="Admin ID">
-                <input type="password" id="l_a_pass" placeholder="Admin Password">
-                <button class="btn btn-orange" onclick="loginAdmin()">Login Admin</button>
-            </div>
-
-            <div id="recaptcha-container"></div>
-        </div>
-
-        <div id="box-forgot" class="box">
-            <h2>🔑 Reset Password</h2>
-            <p style="text-align:center; margin-bottom:10px;">For: <span id="forgot_role_disp" style="font-weight:bold;"></span></p>
-            
-            <input type="text" id="f_phone" placeholder="Enter Registered Mobile">
-            
-            <div id="f_otp_sec" class="hidden">
-                <input type="number" id="f_otp" placeholder="Enter OTP">
-                <button class="btn btn-green" onclick="verifyForgotOTP()">Verify OTP</button>
-            </div>
-
-            <div id="f_new_pass_sec" class="hidden">
-                <input type="password" id="f_new_pass" placeholder="New Password">
-                <button class="btn btn-blue" onclick="updatePassword()">Set Password</button>
-            </div>
-
-            <button class="btn btn-blue" id="btn_f_send" onclick="sendForgotOTP()">Send OTP</button>
-            <button class="btn" style="background:#888;" onclick="go('box-login')">Cancel</button>
-        </div>
-
-        <div id="box-reg" class="box">
-            <h2>📝 User Registration</h2>
-            <input type="text" id="r_name" placeholder="Full Name">
-            <input type="date" id="r_dob">
-            <input type="email" id="r_email" placeholder="Email ID">
-            <input type="number" id="r_phone" placeholder="Mobile Number (10 Digit)">
-            
-            <div id="r_otp_sec" class="hidden" style="background:#f0f0f0; padding:10px; border-radius:5px; margin-bottom:10px;">
-                <label style="color:var(--green);">OTP Sent!</label>
-                <input type="number" id="r_otp_code" placeholder="Enter 6-digit OTP">
-                <button class="btn btn-green" onclick="verifyRegOTP()">Verify & Register</button>
-                <button class="btn btn-outline" id="btn_resend" onclick="sendRegOTP()" disabled style="background:none; color:#555; font-size:12px; margin-top:5px;">Resend OTP (60s)</button>
-            </div>
-
-            <button class="btn btn-blue" id="btn_r_send" onclick="sendRegOTP()">Send OTP</button>
-            
-            <div id="r_pass_sec" class="hidden">
-                <label>Set Password:</label>
-                <input type="password" id="r_pass" placeholder="Create Password">
-                <button class="btn btn-blue" onclick="finalizeReg()">Finish</button>
-            </div>
-            <button class="btn" style="background:#888;" onclick="go('box-login')">Back</button>
-        </div>
-
-        <div id="box-user" class="box">
-            <h3 id="u_wel_msg">Welcome User</h3>
-            <div class="nav-tabs">
-                <button class="nav-btn active" onclick="uTab('u-shop')">Shop</button>
-                <button class="nav-btn" onclick="uTab('u-chat')">Chat Admin</button>
-                <button class="nav-btn" onclick="uTab('u-media')">Feed</button>
-            </div>
-            <div id="u-shop" class="u-sec">
-                <p>Welcome to Mithila Shop.</p>
-                <button class="btn btn-green">View Products</button>
-            </div>
-            <div id="u-chat" class="u-sec hidden">
-                <div class="chat-box" id="u_chat_disp"></div>
-                <div style="display:flex; gap:5px; margin-top:5px;">
-                    <input type="text" id="u_msg_in" placeholder="Type message...">
-                    <button class="btn-blue" style="width:50px;" onclick="sendChat('user')">➤</button>
-                </div>
-            </div>
-            <div id="u-media" class="u-sec hidden">
-                <div id="u_feed_disp"></div>
-            </div>
-            <button class="btn btn-red" onclick="location.reload()">Logout</button>
-        </div>
-
-        <div id="box-emp" class="box">
-            <h3 id="e_wel_msg">Employee Panel</h3>
-            <div class="nav-tabs">
-                <button class="nav-btn active" onclick="eTab('e-att')">Attendance</button>
-                <button class="nav-btn" onclick="eTab('e-work')">Work Report</button>
-            </div>
-
-            <div id="e-att" class="e-sec">
-                <div class="punch-status" id="e_today_status">Checking Status...</div>
-                <div id="camera_area" class="hidden">
-                    <video id="cam_preview" autoplay playsinline></video>
-                    <canvas id="cam_canvas"></canvas>
-                    <button class="btn btn-green" id="btn_capture" onclick="captureAndPunch()">📸 Click & Punch In</button>
-                </div>
-                <button class="btn btn-blue" id="btn_start_cam" onclick="startCamera()">Start Face Punching</button>
-            </div>
-
-            <div id="e-work" class="e-sec hidden">
-                <textarea id="e_report_txt" rows="4" placeholder="Type your daily work report here..."></textarea>
-                <button class="btn btn-orange" onclick="sendReport()">Submit Report</button>
-            </div>
-            <button class="btn btn-red" onclick="location.reload()">Logout</button>
-        </div>
-    </div>
-
-    <div id="box-admin" class="admin-wide">
-        <h2>🛠️ Admin Control Center</h2>
-        <div class="nav-tabs">
-            <button class="nav-btn active" onclick="aTab('a-emp')">Employees</button>
-            <button class="nav-btn" onclick="aTab('a-att')">Attendance</button>
-            <button class="nav-btn" onclick="aTab('a-chat')">User Chat</button>
-            <button class="nav-btn" onclick="aTab('a-media')">Uploads</button>
-        </div>
-
-        <div id="a-emp" class="a-sec">
-            <h4>Add New Employee</h4>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                <input type="text" id="new_e_name" placeholder="Emp Name">
-                <input type="text" id="new_e_phone" placeholder="Emp Mobile">
-                <input type="password" id="new_e_pass" placeholder="Set Password">
-                <input type="text" id="new_e_role" placeholder="Role (e.g. Sales)" value="Staff">
-            </div>
-            <button class="btn btn-green" onclick="addEmployee()">Add Employee</button>
-            <hr style="margin:15px 0;">
-            <h4>Employee List</h4>
-            <div id="adm_emp_list" class="card-list"></div>
-        </div>
-
-        <div id="a-att" class="a-sec hidden">
-            <h4>Today's Attendance (<span id="today_date"></span>)</h4>
-            <div id="adm_att_list" class="card-list"></div>
-        </div>
-
-        <div id="a-chat" class="a-sec hidden">
-            <div style="display:grid; grid-template-columns: 1fr 2fr; gap:10px;">
-                <div>
-                    <h4>Users</h4>
-                    <div id="adm_user_list" style="height:300px; overflow-y:auto; background:#eee; padding:5px;"></div>
-                </div>
-                <div>
-                    <h4 id="chat_head_nm">Select User</h4>
-                    <div class="chat-box" id="adm_chat_disp"></div>
-                    <div style="display:flex; gap:5px; margin-top:5px;">
-                        <input type="text" id="a_msg_in" placeholder="Reply...">
-                        <button class="btn-blue" style="width:50px;" onclick="sendChat('admin')">➤</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="a-media" class="a-sec hidden">
-            <h4>Upload Media</h4>
-            <select id="m_type">
-                <option value="text">Notice (Text)</option>
-                <option value="video">Video (YouTube URL)</option>
-                <option value="photo">Photo (URL)</option>
-            </select>
-            <input type="text" id="m_title" placeholder="Title/Caption">
-            <input type="text" id="m_url" placeholder="Paste Link Here">
-            <button class="btn btn-orange" onclick="postMedia()">Upload to Feed</button>
-            <hr>
-            <div id="adm_post_list"></div>
-        </div>
-        <button class="btn btn-red" onclick="location.reload()" style="max-width:200px; margin:20px auto; display:block;">Logout Admin</button>
-    </div>
+    <title>Mithila System (Fixed)</title>
 
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 
-    <script>
-        // Check if Firebase Loaded
-        if (typeof firebase === 'undefined') {
-            document.getElementById('error-overlay').style.display = 'flex';
+    <style>
+        /* --- RESET & DESIGN --- */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+        body { 
+            margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; 
+            min-height: 100vh;
+            /* Tiranga Gradient Background */
+            background: linear-gradient(180deg, #FF9933 0%, #ffffff 40%, #ffffff 60%, #138808 100%);
+            position: relative;
+            padding-bottom: 50px;
         }
 
+        /* --- CHAKRA BACKGROUND (Fixed: Cannot block clicks now) --- */
+        .chakra-bg {
+            position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px; height: 300px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000080' stroke-width='1'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 2v20M2 12h20M4.93 4.93l14.14 14.14M19.07 4.93L4.93 19.07M12 12l2.5-4.33M12 12l-2.5-4.33M12 12l4.33 2.5M12 12l-4.33 2.5M12 12l4.33-2.5M12 12l-4.33-2.5M12 12l2.5 4.33M12 12l-2.5 4.33'/%3E%3C/svg%3E");
+            background-size: contain;
+            opacity: 0.15;
+            z-index: 0; /* Behind content */
+            pointer-events: none; /* KEY FIX: Clicks pass through this layer */
+            animation: spin 20s linear infinite;
+        }
+        @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+
+        /* --- CONTAINER (Above Background) --- */
+        .container {
+            position: relative; z-index: 10;
+            max-width: 500px; margin: 0 auto; padding: 15px;
+        }
+
+        /* --- BOX STYLES --- */
+        .box {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px; padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: 2px solid #000080;
+            margin-bottom: 20px;
+            display: none; /* Hidden initially */
+        }
+        .box.active { display: block; } /* Show when active */
+
+        h2, h3 { text-align: center; color: #000080; margin-top: 0; }
+        
+        input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; }
+
+        /* --- BUTTONS --- */
+        .btn {
+            width: 100%; padding: 12px; border: none; border-radius: 25px;
+            font-size: 16px; font-weight: bold; color: white; cursor: pointer;
+            margin-top: 10px; transition: 0.2s;
+        }
+        .btn:active { transform: scale(0.95); }
+        .btn-blue { background: #000080; }
+        .btn-green { background: #138808; }
+        .btn-orange { background: #FF9933; }
+        .btn-red { background: #dc3545; }
+
+        /* --- TABS --- */
+        .nav-tabs { display: flex; gap: 10px; margin-bottom: 15px; justify-content: center; }
+        .tab { padding: 8px 15px; background: #eee; border-radius: 20px; cursor: pointer; font-size: 14px; font-weight: bold; }
+        .tab.active { background: #000080; color: white; }
+
+        /* --- CAMERA --- */
+        #cam_wrapper { text-align: center; display: none; margin-top: 10px; }
+        video { width: 100%; border-radius: 10px; background: black; }
+        canvas { display: none; }
+
+        /* --- LISTS --- */
+        .list-item { background: #f9f9f9; padding: 10px; margin-bottom: 8px; border-radius: 8px; border-left: 4px solid #FF9933; display: flex; justify-content: space-between; align-items: center; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div class="chakra-bg"></div>
+
+    <div class="container">
+        
+        <div id="view-login" class="box active">
+            <h2>🔐 Login</h2>
+            <div class="nav-tabs">
+                <div class="tab active" onclick="switchLogin('user', this)">User</div>
+                <div class="tab" onclick="switchLogin('emp', this)">Employee</div>
+                <div class="tab" onclick="switchLogin('admin', this)">Admin</div>
+            </div>
+
+            <div id="form-user">
+                <input type="text" id="u_phone" placeholder="User Mobile">
+                <input type="password" id="u_pass" placeholder="Password">
+                <button class="btn btn-blue" onclick="doLogin('user')">Login User</button>
+                <p style="text-align:center; font-size:13px; margin-top:10px; cursor:pointer; color:#000080;" onclick="showReg()">New? Register Here</p>
+            </div>
+
+            <div id="form-emp" class="hidden">
+                <input type="text" id="e_phone" placeholder="Employee Phone (ID)">
+                <input type="password" id="e_pass" placeholder="Password">
+                <button class="btn btn-green" onclick="doLogin('emp')">Login Employee</button>
+            </div>
+
+            <div id="form-admin" class="hidden">
+                <input type="text" id="a_id" placeholder="Admin ID">
+                <input type="password" id="a_pass" placeholder="Admin Password">
+                <button class="btn btn-orange" onclick="doLogin('admin')">Login Admin</button>
+            </div>
+            
+            <div id="recaptcha-container"></div>
+        </div>
+
+        <div id="view-reg" class="box">
+            <h2>📝 Register</h2>
+            <input type="text" id="r_name" placeholder="Name">
+            <input type="text" id="r_phone" placeholder="Mobile (10 digit)">
+            <input type="text" id="r_pass" placeholder="Create Password">
+            
+            <button class="btn btn-blue" id="btn_send_otp" onclick="sendRegOtp()">Send OTP</button>
+            
+            <div id="otp_area" class="hidden">
+                <input type="number" id="r_otp" placeholder="Enter OTP">
+                <button class="btn btn-green" onclick="verifyRegOtp()">Verify & Register</button>
+            </div>
+            <button class="btn btn-red" onclick="showLogin()">Cancel</button>
+        </div>
+
+        <div id="view-emp" class="box">
+            <h3 id="emp_head">Employee</h3>
+            
+            <div style="background:#f0f0f0; padding:10px; border-radius:10px; text-align:center;">
+                <p id="att_msg" style="font-weight:bold;">Status: Checking...</p>
+                
+                <div id="cam_wrapper">
+                    <video id="video" autoplay playsinline></video>
+                    <canvas id="canvas"></canvas>
+                    <button class="btn btn-green" onclick="snapAndPunch('Self')">📸 Capture & Punch</button>
+                </div>
+                
+                <button class="btn btn-blue" id="btn_cam" onclick="startCamera()">Start Face Punching</button>
+            </div>
+
+            <hr>
+            <h4>Work Report</h4>
+            <textarea id="work_rpt" placeholder="Aaj kya kaam kiya?"></textarea>
+            <button class="btn btn-orange" onclick="submitReport()">Send Report</button>
+            
+            <button class="btn btn-red" onclick="logout()">Logout</button>
+        </div>
+
+        <div id="view-admin" class="box">
+            <h2>🛠️ Admin Panel</h2>
+            <div class="nav-tabs">
+                <div class="tab active" onclick="admTab('a-emp')">Employees</div>
+                <div class="tab" onclick="admTab('a-media')">Uploads</div>
+            </div>
+
+            <div id="a-emp">
+                <h4>Add Employee</h4>
+                <div style="display:flex; gap:5px;">
+                    <input type="text" id="new_e_name" placeholder="Name">
+                    <input type="text" id="new_e_phone" placeholder="Phone">
+                </div>
+                <input type="text" id="new_e_pass" placeholder="Password">
+                <button class="btn btn-green" onclick="addEmployee()">Add Employee</button>
+                
+                <hr>
+                <h4>Employee List & Punch</h4>
+                <p style="font-size:12px; color:#555;">(Click 'P' to punch for them instantly)</p>
+                <div id="admin_emp_list">Loading...</div>
+            </div>
+
+            <div id="a-media" class="hidden">
+                <h4>Upload Video/Photo</h4>
+                <select id="m_type">
+                    <option value="video">Video (YouTube)</option>
+                    <option value="photo">Photo (URL)</option>
+                    <option value="text">Notice (Text)</option>
+                </select>
+                <input type="text" id="m_title" placeholder="Title">
+                <input type="text" id="m_url" placeholder="Link (URL)">
+                <button class="btn btn-orange" onclick="uploadMedia()">Upload Post</button>
+            </div>
+
+            <button class="btn btn-red" onclick="logout()">Logout</button>
+        </div>
+        
+        <div id="view-user" class="box">
+            <h3 id="u_head">Welcome</h3>
+            <div id="media_feed">Loading Feed...</div>
+            <button class="btn btn-red" onclick="logout()">Logout</button>
+        </div>
+
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
         const firebaseConfig = {
             apiKey: "AIzaSyBtLLOyVgt5hQwxokdsSRkeArZab5kyr_Q",
             authDomain: "mithilahelp-4107d.firebaseapp.com",
@@ -344,265 +214,221 @@
             appId: "1:525345376934:web:7083c7cecccd26a4a78267"
         };
         
+        // Initialize Firebase
         try {
             firebase.initializeApp(firebaseConfig);
-            const db = firebase.database();
-            const auth = firebase.auth();
-        } catch(err) {
-            console.error(err);
-            document.getElementById('error-overlay').style.display = 'flex';
+            var db = firebase.database();
+            var auth = firebase.auth();
+        } catch(e) { console.error("Firebase Error", e); alert("Internet Check Karein!"); }
+
+        let currentUser = null;
+        let confirmRes = null;
+
+        // Init Recaptcha on Load
+        window.onload = function() {
+            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {'size': 'invisible'});
         }
 
-        let currentUser = null; 
-        let confirmationResult = null;
-        let activeChatUser = null;
-        let resendTimer = 60;
-        let timerInterval = null;
-        let forgotRole = null; 
-
-        window.onload = function() {
-            if (typeof firebase !== 'undefined') {
-                window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {'size': 'invisible'});
-                document.getElementById('today_date').innerText = new Date().toLocaleDateString();
-            }
-        };
-
-        function go(id) { document.querySelectorAll('.box, .admin-wide').forEach(e => e.style.display = 'none'); document.getElementById(id).style.display = 'block'; }
-        
-        function showLoginTab(id) {
-            document.querySelectorAll('.l-sec').forEach(e => e.classList.add('hidden'));
-            document.querySelectorAll('.nav-btn').forEach(e => e.classList.remove('active'));
-            event.target.classList.add('active');
+        // --- NAVIGATION ---
+        function switchView(id) {
+            document.querySelectorAll('.box').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+        function switchLogin(type, el) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('form-user').classList.add('hidden');
+            document.getElementById('form-emp').classList.add('hidden');
+            document.getElementById('form-admin').classList.add('hidden');
+            document.getElementById('form-'+type).classList.remove('hidden');
+        }
+        function admTab(id) {
+            document.getElementById('a-emp').classList.add('hidden');
+            document.getElementById('a-media').classList.add('hidden');
             document.getElementById(id).classList.remove('hidden');
         }
+        function showReg() { switchView('view-reg'); }
+        function showLogin() { switchView('view-login'); }
+        function logout() { location.reload(); }
 
-        function toggleMethod(prefix, type, el) {
-            el.parentElement.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('sel'));
-            el.classList.add('sel');
-            if(type === 'pass') {
-                document.getElementById(prefix + '_pass_area').classList.remove('hidden');
-                document.getElementById(prefix + '_otp_area').classList.add('hidden');
-            } else {
-                document.getElementById(prefix + '_pass_area').classList.add('hidden');
-                document.getElementById(prefix + '_otp_area').classList.remove('hidden');
-            }
-        }
-
-        function loginAdmin() {
-            let id = document.getElementById('l_a_id').value;
-            let pa = document.getElementById('l_a_pass').value;
-            if(id === "shreya rani" && pa === "mydearshreya@#") {
-                currentUser = { name: "Shreya Rani", type: "admin" };
-                loadAdminData();
-                go('box-admin');
-            } else alert("Wrong Admin Details");
-        }
-
-        function sendLoginOTP(role) {
-            let ph = (role==='user') ? document.getElementById('l_u_phone').value : document.getElementById('l_e_phone').value;
-            if(ph.length < 10) return alert("Enter valid Mobile");
-            let dbPath = (role==='user') ? 'users/' : 'employees/';
-            
-            db.ref(dbPath+ph).once('value', s => {
-                if(!s.exists()) return alert("Not registered/Found!");
-                let fPhone = "+91" + ph;
-                auth.signInWithPhoneNumber(fPhone, window.recaptchaVerifier).then((cr) => {
-                    confirmationResult = cr;
-                    if(role==='user') {
-                        document.getElementById('btn_u_otp_send').classList.add('hidden');
-                        document.getElementById('u_otp_verify').classList.remove('hidden');
-                    } else {
-                        document.getElementById('btn_e_otp_send').classList.add('hidden');
-                        document.getElementById('e_otp_verify').classList.remove('hidden');
-                    }
-                    alert("OTP Sent to " + fPhone);
-                }).catch(e => alert(e.message));
-            });
-        }
-
-        function loginUser(method) {
-            let ph = document.getElementById('l_u_phone').value;
-            if(method === 'pass') {
-                let pa = document.getElementById('l_u_pass').value;
-                db.ref('users/'+ph).once('value', s => {
-                    let u = s.val();
-                    if(u && u.pass == pa && u.type == 'user') {
-                        currentUser = u; loadUserChat(); loadFeed('u_feed_disp'); go('box-user');
-                    } else alert("Invalid Credentials");
-                });
-            } else {
-                let code = document.getElementById('l_u_otp_code').value;
-                confirmationResult.confirm(code).then(() => {
-                    db.ref('users/'+ph).once('value', s => {
-                        currentUser = s.val(); loadUserChat(); loadFeed('u_feed_disp'); go('box-user');
-                    });
-                }).catch(() => alert("Wrong OTP"));
-            }
-        }
-
-        function loginEmp(method) {
-            let ph = document.getElementById('l_e_phone').value;
-            if(method === 'pass') {
-                let pa = document.getElementById('l_e_pass').value;
+        // --- LOGIN LOGIC ---
+        function doLogin(role) {
+            if(role === 'admin') {
+                let i = document.getElementById('a_id').value;
+                let p = document.getElementById('a_pass').value;
+                if(i === "shreya rani" && p === "mydearshreya@#") {
+                    currentUser = {name: "Admin", role: "admin"};
+                    loadAdminData();
+                    switchView('view-admin');
+                } else { alert("Galat ID/Pass"); }
+            } 
+            else if(role === 'emp') {
+                let ph = document.getElementById('e_phone').value;
+                let pa = document.getElementById('e_pass').value;
                 db.ref('employees/'+ph).once('value', s => {
-                    let u = s.val();
-                    if(u && u.pass == pa) {
-                        currentUser = u; currentUser.type = 'employee';
-                        document.getElementById('e_wel_msg').innerText = "Emp: " + u.name;
-                        checkAttendanceStatus(); go('box-emp');
-                    } else alert("Invalid Credentials");
+                    let d = s.val();
+                    if(d && d.pass == pa) {
+                        currentUser = d; currentUser.role = 'emp';
+                        document.getElementById('emp_head').innerText = "Hi, " + d.name;
+                        checkAttendance();
+                        switchView('view-emp');
+                    } else alert("Employee Not Found/Wrong Pass");
                 });
-            } else {
-                let code = document.getElementById('l_e_otp_code').value;
-                confirmationResult.confirm(code).then(() => {
-                    db.ref('employees/'+ph).once('value', s => {
-                        currentUser = s.val(); currentUser.type = 'employee';
-                        document.getElementById('e_wel_msg').innerText = "Emp: " + s.val().name;
-                        checkAttendanceStatus(); go('box-emp');
-                    });
-                }).catch(() => alert("Wrong OTP"));
+            }
+            else { // User
+                let ph = document.getElementById('u_phone').value;
+                let pa = document.getElementById('u_pass').value;
+                db.ref('users/'+ph).once('value', s => {
+                    let d = s.val();
+                    if(d && d.pass == pa) {
+                        currentUser = d;
+                        document.getElementById('u_head').innerText = "Welcome " + d.name;
+                        loadFeed();
+                        switchView('view-user');
+                    } else alert("User Not Found");
+                });
             }
         }
 
-        function startForgot(role) {
-            forgotRole = role;
-            document.getElementById('forgot_role_disp').innerText = role.toUpperCase();
-            go('box-forgot');
-        }
-
-        function sendForgotOTP() {
-            let ph = document.getElementById('f_phone').value;
-            if(ph.length < 10) return alert("Enter valid Mobile");
-            let dbPath = (forgotRole==='user') ? 'users/' : 'employees/';
+        // --- REGISTRATION (User) ---
+        function sendRegOtp() {
+            let ph = document.getElementById('r_phone').value;
+            if(ph.length < 10) return alert("Valid mobile daliye");
             
-            db.ref(dbPath+ph).once('value', s => {
-                if(!s.exists()) return alert("Number not found in " + forgotRole + " database.");
-                auth.signInWithPhoneNumber("+91"+ph, window.recaptchaVerifier).then((cr) => {
-                    confirmationResult = cr;
-                    document.getElementById('btn_f_send').classList.add('hidden');
-                    document.getElementById('f_otp_sec').classList.remove('hidden');
-                    alert("OTP Sent for Reset!");
-                }).catch(e => alert(e.message));
-            });
+            auth.signInWithPhoneNumber('+91'+ph, window.recaptchaVerifier).then(cr => {
+                confirmRes = cr;
+                document.getElementById('btn_send_otp').classList.add('hidden');
+                document.getElementById('otp_area').classList.remove('hidden');
+                alert("OTP Sent!");
+            }).catch(e => alert(e.message));
         }
-
-        function verifyForgotOTP() {
-            let code = document.getElementById('f_otp').value;
-            confirmationResult.confirm(code).then(() => {
-                document.getElementById('f_otp_sec').classList.add('hidden');
-                document.getElementById('f_new_pass_sec').classList.remove('hidden');
-                alert("Verified! Set new password.");
+        function verifyRegOtp() {
+            let code = document.getElementById('r_otp').value;
+            confirmRes.confirm(code).then(() => {
+                let d = {
+                    name: document.getElementById('r_name').value,
+                    phone: document.getElementById('r_phone').value,
+                    pass: document.getElementById('r_pass').value,
+                    type: 'user'
+                };
+                db.ref('users/'+d.phone).set(d, e => {
+                    if(!e) { alert("Registered!"); showLogin(); }
+                });
             }).catch(() => alert("Wrong OTP"));
         }
 
-        function updatePassword() {
-            let ph = document.getElementById('f_phone').value;
-            let np = document.getElementById('f_new_pass').value;
-            if(!np) return alert("Enter new password");
-            let dbPath = (forgotRole==='user') ? 'users/' : 'employees/';
-            db.ref(dbPath+ph).update({ pass: np }, (e) => {
-                if(!e) { alert("Password Updated! Please Login."); go('box-login'); }
-            });
-        }
-
-        function sendRegOTP() {
-            let ph = document.getElementById('r_phone').value;
-            let email = document.getElementById('r_email').value;
-            if(ph.length < 10 || !email) return alert("Valid Mobile & Email Required!");
-            db.ref('users/'+ph).once('value', s => {
-                if(s.exists()) return alert("User already exists!");
-                auth.signInWithPhoneNumber("+91"+ph, window.recaptchaVerifier).then((cr) => {
-                    confirmationResult = cr;
-                    document.getElementById('r_otp_sec').classList.remove('hidden');
-                    document.getElementById('btn_r_send').classList.add('hidden');
-                    startResendTimer();
-                }).catch((e) => alert("Error: " + e.message));
-            });
-        }
-
-        function startResendTimer() {
-            resendTimer = 60;
-            let btn = document.getElementById('btn_resend');
-            btn.disabled = true;
-            timerInterval = setInterval(() => {
-                resendTimer--;
-                btn.innerText = `Resend OTP (${resendTimer}s)`;
-                if(resendTimer <= 0) {
-                    clearInterval(timerInterval); btn.innerText = "Resend OTP"; btn.disabled = false;
-                }
-            }, 1000);
-        }
-
-        function verifyRegOTP() {
-            let code = document.getElementById('r_otp_code').value;
-            confirmationResult.confirm(code).then(() => {
-                document.getElementById('r_pass_sec').classList.remove('hidden');
-                document.getElementById('r_otp_sec').style.display = 'none';
-                alert("Mobile Verified!");
-            }).catch(() => alert("Invalid OTP"));
-        }
-
-        function finalizeReg() {
-            let d = {
-                name: document.getElementById('r_name').value,
-                phone: document.getElementById('r_phone').value,
-                email: document.getElementById('r_email').value,
-                dob: document.getElementById('r_dob').value,
-                pass: document.getElementById('r_pass').value,
-                type: 'user'
-            };
-            db.ref('users/'+d.phone).set(d, e => {
-                if(!e) { alert("Registration Success!"); go('box-login'); }
-            });
-        }
-
-        function uTab(id) { document.querySelectorAll('.u-sec').forEach(e => e.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); }
-        function eTab(id) { document.querySelectorAll('.e-sec').forEach(e => e.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); }
-        function aTab(id) { document.querySelectorAll('.a-sec').forEach(e => e.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); }
-
-        function checkAttendanceStatus() {
+        // --- EMPLOYEE & CAMERA ---
+        function checkAttendance() {
             let today = new Date().toLocaleDateString().split('/').join('-');
-            db.ref(`attendance/${today}/${currentUser.phone}`).once('value', s => {
-                let stat = document.getElementById('e_today_status');
+            db.ref('attendance/'+today+'/'+currentUser.phone).once('value', s => {
                 if(s.exists()) {
-                    stat.innerHTML = `Punched in at: ${s.val().time} <br> <span class="status-present">Present</span>`;
-                    document.getElementById('btn_start_cam').classList.add('hidden');
+                    document.getElementById('att_msg').innerHTML = "<span style='color:green'>✅ Present (" + s.val().time + ")</span>";
+                    document.getElementById('btn_cam').classList.add('hidden');
                 } else {
-                    stat.innerHTML = `<span class="status-absent">Not Punched Yet</span>`;
-                    document.getElementById('btn_start_cam').classList.remove('hidden');
+                    document.getElementById('att_msg').innerHTML = "<span style='color:red'>❌ Not Punched</span>";
+                    document.getElementById('btn_cam').classList.remove('hidden');
                 }
             });
         }
 
         function startCamera() {
-            if(new Date().getHours() >= 10) return alert("Late! It's past 10:00 AM.");
-            document.getElementById('camera_area').classList.remove('hidden');
-            document.getElementById('btn_start_cam').classList.add('hidden');
-            const video = document.getElementById('cam_preview');
-            navigator.mediaDevices.getUserMedia({ video: true }).then(stream => { video.srcObject = stream; });
+            // Time Check for Employee (Not Admin)
+            if(currentUser.role === 'emp' && new Date().getHours() >= 10) {
+                return alert("10 Baj gaye! Ab Admin se contact karein.");
+            }
+
+            document.getElementById('cam_wrapper').style.display = 'block';
+            document.getElementById('btn_cam').classList.add('hidden');
+            
+            navigator.mediaDevices.getUserMedia({video: true})
+            .then(stream => { document.getElementById('video').srcObject = stream; })
+            .catch(e => alert("Camera Permission Denied: " + e));
         }
 
-        function captureAndPunch() {
-            const video = document.getElementById('cam_preview');
-            const canvas = document.getElementById('cam_canvas');
-            canvas.width = video.videoWidth; canvas.height = video.videoHeight;
-            canvas.getContext('2d').drawImage(video, 0, 0);
-            let imgData = canvas.toDataURL('image/png');
+        function snapAndPunch(byWho) {
+            let v = document.getElementById('video');
+            let c = document.getElementById('canvas');
+            c.width = v.videoWidth; c.height = v.videoHeight;
+            c.getContext('2d').drawImage(v, 0, 0);
+            let img = c.toDataURL('image/png'); // Base64 Photo
+
             let today = new Date().toLocaleDateString().split('/').join('-');
-            db.ref(`attendance/${today}/${currentUser.phone}`).set({
-                name: currentUser.name, time: new Date().toLocaleTimeString(), photo: imgData, punchedBy: 'Self'
-            }, (e) => {
-                if(!e) {
-                    alert("✅ Attendance Marked.");
-                    video.srcObject.getTracks().forEach(t => t.stop());
-                    document.getElementById('camera_area').classList.add('hidden');
-                    checkAttendanceStatus();
+            let time = new Date().toLocaleTimeString();
+
+            // Save to DB
+            let phone = (byWho === 'Admin') ? activeAdminPunchUser : currentUser.phone;
+            let name = (byWho === 'Admin') ? activeAdminPunchName : currentUser.name;
+
+            db.ref('attendance/'+today+'/'+phone).set({
+                name: name, time: time, photo: img, punchedBy: byWho
+            }, err => {
+                if(!err) {
+                    alert("Attendance Marked!");
+                    v.srcObject.getTracks().forEach(t => t.stop()); // Stop Cam
+                    document.getElementById('cam_wrapper').style.display = 'none';
+                    if(byWho === 'Self') checkAttendance();
                 }
             });
         }
 
-        function sendReport() {
-            let txt = document.getElementById('e_report_txt').value;
-            if(!txt) return;
+        function submitReport() {
+            let t = document.getElementById('work_rpt').value;
             let today = new Date().toLocaleDateString().split('/').join('-');
-            db.ref(`reports/${today}/${currentUser.phone}`).
+            if(t) db.ref('reports/'+today+'/'+currentUser.phone).push({text:t});
+            alert("Report Sent");
+        }
+
+        // --- ADMIN FUNCTIONS ---
+        let activeAdminPunchUser = null;
+        let activeAdminPunchName = null;
+
+        function loadAdminData() {
+            db.ref('employees').on('value', s => {
+                let h = "";
+                s.forEach(snap => {
+                    let e = snap.val();
+                    h += `<div class="list-item">
+                            <div><b>${e.name}</b><br>${e.phone}</div>
+                            <button class="btn-blue" style="width:auto; padding:5px 10px; font-size:12px; margin:0;" onclick="adminPunch('${e.phone}','${e.name}')">Punch (P)</button>
+                          </div>`;
+                });
+                document.getElementById('admin_emp_list').innerHTML = h;
+            });
+        }
+
+        function addEmployee() {
+            let n = document.getElementById('new_e_name').value;
+            let p = document.getElementById('new_e_phone').value;
+            let pass = document.getElementById('new_e_pass').value;
+            if(n && p) db.ref('employees/'+p).set({name:n, phone:p, pass:pass}, e => { if(!e) alert("Added!"); });
+        }
+
+        // Admin Manual Punch Trigger
+        function adminPunch(ph, nm) {
+            if(confirm("Mark attendance for " + nm + " now?")) {
+                let today = new Date().toLocaleDateString().split('/').join('-');
+                db.ref('attendance/'+today+'/'+ph).set({
+                    name: nm, time: new Date().toLocaleTimeString(), photo: "ManualByAdmin", punchedBy: "Admin"
+                }, e => { if(!e) alert(nm + " is Marked Present!"); });
+            }
+        }
+
+        function uploadMedia() {
+            let t = document.getElementById('m_title').value;
+            let u = document.getElementById('m_url').value;
+            let type = document.getElementById('m_type').value;
+            
+            db.ref('posts').push({
+                title: t, url: u, type: type, date: new Date().toLocaleDateString()
+            }, e => { if(!e) alert("Uploaded!"); });
+        }
+
+        // --- USER FEED ---
+        function loadFeed() {
+            db.ref('posts').limitToLast(10).on('value', s => {
+                let h = "";
+                let arr = []; s.forEach(x => arr.push(x.val()));
+                arr.reverse().forEach(p => {
+                    let media = "";
+                    if(p.type === 'video') media = `<iframe src="${p.url.replace('watch?v=','embed/')}" style="width:100%; height:200px; border:none;"></iframe>`;
+                    else if(p.type === 'photo') media = `<img src="${p.url}"
