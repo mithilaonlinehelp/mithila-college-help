@@ -2,175 +2,182 @@
 <html lang="hi">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Mithila Help - Super System</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>Mithila Super System 3.0 (OTP)</title>
     <style>
-        :root { --orange: #FF9933; --green: #138808; --blue: #007BFF; --red: #dc3545; --purple: #6f42c1; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-        body { background: #f4f7f6; padding: 10px; padding-bottom: 50px; }
+        :root { --orange: #FF9933; --green: #138808; --blue: #007BFF; --red: #dc3545; --chat-bg: #e5ddd5; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #f0f2f5; padding-bottom: 60px; }
         
-        .box { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); max-width: 450px; margin: 15px auto; display: none; }
-        #box-login { display: block; } /* Login always visible first */
-        
-        .admin-wide { max-width: 1100px; background: white; padding: 20px; border-radius: 12px; margin: auto; display: none; border-top: 5px solid var(--orange); }
-        
-        h2 { text-align: center; color: var(--green); margin-bottom: 15px; border-bottom: 2px solid var(--orange); }
-        input, select { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
-        
-        .btn { width: 100%; padding: 10px; border: none; border-radius: 25px; color: white; font-weight: bold; cursor: pointer; margin-top: 8px; }
-        .btn-blue { background: var(--blue); } .btn-green { background: var(--green); } .btn-red { background: var(--red); }
-        
-        /* Captcha Style */
-        .captcha { background: #ffeeba; text-align: center; font-size: 22px; font-weight: bold; padding: 10px; border-radius: 6px; letter-spacing: 2px; border: 2px dashed #ffc107; margin-top: 10px; color: #333; }
-        
-        /* Tables & Admin */
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 12px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background: #f1f1f1; }
-        .admin-nav { display: flex; gap: 5px; margin-bottom: 15px; overflow-x: auto; }
-        .small-txt { font-size: 11px; color: #666; font-weight: bold; }
-        
-        /* Buttons for Status */
-        .st-btn { padding: 4px 8px; margin: 2px; border: none; border-radius: 4px; color: white; cursor: pointer; font-size: 10px; }
-        .st-confirm { background: var(--blue); } .st-ship { background: var(--purple); }
-        .st-out { background: var(--orange); } .st-del { background: var(--green); } .st-can { background: var(--red); }
+        .container { max-width: 500px; margin: auto; padding: 10px; }
+        .box { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 15px; display: none; }
+        #box-login { display: block; }
 
-        /* History */
-        .history-box { margin-top: 20px; border-top: 2px dashed #ccc; padding-top: 10px; }
-        .hist-row { background: #f9f9f9; padding: 10px; margin-bottom: 5px; border-radius: 5px; border-left: 4px solid var(--blue); font-size: 12px; }
+        .admin-wide { max-width: 1000px; background: white; padding: 20px; margin: 10px auto; border-radius: 10px; display: none; border-top: 5px solid var(--orange); }
+
+        h2, h3 { text-align: center; color: var(--green); margin-bottom: 15px; }
+        input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; outline: none; }
+        
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 25px; color: white; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 16px; transition: 0.3s; }
+        .btn:active { transform: scale(0.98); }
+        .btn-blue { background: var(--blue); } .btn-green { background: var(--green); } .btn-red { background: var(--red); }
+        .btn-outline { background: transparent; border: 1px solid var(--blue); color: var(--blue); margin-top: 5px; }
+
+        /* Login Toggle Tabs */
+        .login-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .l-tab { flex: 1; padding: 10px; text-align: center; background: #eee; cursor: pointer; border-radius: 5px; font-size: 14px; }
+        .l-tab.active { background: var(--blue); color: white; font-weight: bold; }
+
+        /* Nav & Chat Styles (Same as before) */
+        .nav-tabs { display: flex; gap: 5px; overflow-x: auto; padding-bottom: 10px; border-bottom: 1px solid #ddd; margin-bottom: 15px; }
+        .nav-btn { padding: 8px 15px; border: none; background: #eee; border-radius: 20px; white-space: nowrap; cursor: pointer; font-size: 13px; }
+        .nav-btn.active { background: var(--blue); color: white; }
+        .chat-box { height: 300px; overflow-y: auto; background: var(--chat-bg); padding: 10px; border-radius: 8px; border: 1px solid #ddd; display: flex; flex-direction: column; gap: 8px; }
+        .msg { padding: 8px 12px; border-radius: 8px; max-width: 75%; font-size: 14px; word-wrap: break-word; }
+        .msg.me { align-self: flex-end; background: #dcf8c6; } .msg.other { align-self: flex-start; background: white; }
+        .hidden { display: none; }
 
         /* Call Modal */
-        #call_modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; z-index: 9999; flex-direction: column; justify-content: center; align-items: center; color: white; }
-        .call-anim { width: 80px; height: 80px; background: var(--green); border-radius: 50%; animation: pulse 1.5s infinite; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; font-size: 30px; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(19, 136, 8, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(19, 136, 8, 0); } 100% { box-shadow: 0 0 0 0 rgba(19, 136, 8, 0); } }
+        #call_modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; z-index: 9999; flex-direction: column; justify-content: center; align-items: center; color: white; }
+        .caller-anim { width: 80px; height: 80px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; animation: pulse 1s infinite; margin-bottom: 20px; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(255, 255, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); } }
+
+        /* Recaptcha container (Must be visible for first OTP) */
+        #recaptcha-container { margin: 10px auto; }
     </style>
 </head>
 <body>
 
     <div id="call_modal">
-        <div class="call-anim">📞</div>
-        <h3 id="call_status">Connecting...</h3>
-        <div style="display: flex; gap: 10px; margin-top: 20px;">
-            <button class="btn btn-green" id="btn_answer" style="width: 100px; display:none;" onclick="answerCall()">Answer</button>
-            <button class="btn btn-red" style="width: 100px;" onclick="endCall()">End Call</button>
+        <div class="caller-anim">📞</div>
+        <h2 id="call_status">Connecting...</h2>
+        <div style="display: flex; gap: 20px; margin-top: 20px;">
+            <button class="btn btn-green" id="btn_answer" style="width: 120px; display:none;" onclick="answerCall()">Answer</button>
+            <button class="btn btn-red" style="width: 120px;" onclick="endCall()">End</button>
         </div>
         <audio id="remote_audio" autoplay></audio>
     </div>
 
-    <div id="box-login" class="box">
-        <h2>🔐 लॉगिन</h2>
-        <input type="text" id="l_phone" placeholder="Mobile / Admin Name">
-        <input type="password" id="l_pass" placeholder="Password">
-        
-        <div id="cap_text" class="captcha" onclick="genCap()">Touch to Load</div>
-        <button type="button" onclick="genCap()" style="background:none; border:none; color:var(--blue); font-size:12px; cursor:pointer; margin:5px 0; width:100%; text-align:right;">🔄 Refresh Captcha</button>
-        
-        <input type="number" id="l_cap_in" placeholder="Jod/Ghatao ka Utar (Answer)">
-        <button class="btn btn-blue" onclick="doLogin()">Login</button>
-        
-        <p style="text-align:center; margin-top:10px; font-size:13px;">
-            <span onclick="go('box-reg')" style="color:var(--blue); cursor:pointer;">Register</span> | 
-            <span onclick="recoverPass()" style="color:var(--blue); cursor:pointer;">Forgot Password?</span>
-        </p>
-    </div>
+    <div class="container">
+        <div id="box-login" class="box">
+            <h2>🔐 Login</h2>
+            <div class="login-tabs">
+                <div class="l-tab active" onclick="switchLogin('pass', this)">Password</div>
+                <div class="l-tab" onclick="switchLogin('otp', this)">OTP</div>
+            </div>
 
-    <div id="box-reg" class="box">
-        <h2>📝 Registration</h2>
-        <input type="text" id="r_name" placeholder="Full Name">
-        <input type="text" id="r_phone" placeholder="Mobile">
-        <input type="email" id="r_email" placeholder="Email ID (Mandatory)">
-        <input type="date" id="r_dob" title="DOB for Recovery">
-        <input type="password" id="r_pass" placeholder="Create Password">
-        <button class="btn btn-blue" onclick="doReg()">Sign Up</button>
-        <button class="btn" style="background:#666;" onclick="go('box-login')">Back</button>
-    </div>
+            <div id="login-pass-sec">
+                <input type="text" id="l_phone" placeholder="Mobile Number (10 digit)">
+                <input type="password" id="l_pass" placeholder="Password">
+                <button class="btn btn-blue" onclick="doLoginPass()">Login</button>
+            </div>
 
-    <div id="box-order" class="box">
-        <h3 id="wel_user">Namaste</h3>
-        <label class="small-txt">Select Product:</label>
-        <select id="sel_p" onchange="updateProductUI()"></select>
-        <div id="qty_area" style="display:none;">
-            <label id="lbl_qty" class="small-txt">Quantity:</label>
-            <input type="number" id="sel_qty" oninput="calc()">
-            <p id="min_msg" style="color:var(--red); font-size:11px;"></p>
+            <div id="login-otp-sec" class="hidden">
+                <input type="text" id="l_otp_phone" placeholder="Mobile Number (10 digit)">
+                <div id="l_otp_input_area" class="hidden">
+                    <input type="number" id="l_otp_code" placeholder="Enter 6-digit OTP">
+                    <button class="btn btn-green" onclick="verifyLoginOTP()">Verify & Login</button>
+                </div>
+                <button class="btn btn-blue" id="btn_l_send" onclick="sendLoginOTP()">Send OTP</button>
+            </div>
+
+            <div id="recaptcha-container"></div>
+
+            <p style="text-align:center; margin-top:15px; font-size:13px;">
+                <span onclick="go('box-reg')" style="color:var(--blue); cursor:pointer;">New User? Register Here</span>
+            </p>
         </div>
-        <p id="total_p" style="text-align:center; font-weight:bold; font-size:22px; color:var(--green); margin:10px 0;">₹0.00</p>
-        <input type="text" id="sel_ad" placeholder="Full Delivery Address">
-        <select id="sel_m">
-            <option value="Online">Online Payment</option>
-            <option value="COD">Cash on Delivery (COD)</option>
-        </select>
-        <button class="btn btn-green" onclick="placeOrder()">Confirm Order & Notify Admin</button>
-        <div id="qr_box" style="display:flex; flex-direction:column; align-items:center; margin-top:10px;"></div>
-        <div class="history-box">
-            <h4>📦 My Order History</h4>
-            <div id="user_history_list">Data loading...</div>
+
+        <div id="box-reg" class="box">
+            <h2>📝 Registration</h2>
+            <input type="text" id="r_name" placeholder="Full Name">
+            <input type="text" id="r_phone" placeholder="Mobile Number (10 digit)">
+            
+            <div id="r_otp_sec" class="hidden" style="background:#f9f9f9; padding:10px; border-radius:5px;">
+                <label style="font-size:12px; color:green;">OTP Sent!</label>
+                <input type="number" id="r_otp_code" placeholder="Enter OTP">
+                <button class="btn btn-green" onclick="verifyRegOTP()">Verify & Register</button>
+            </div>
+
+            <button class="btn btn-blue" id="btn_r_send" onclick="sendRegOTP()">Send OTP to Verify</button>
+            
+            <div id="r_pass_sec" class="hidden">
+                <input type="password" id="r_pass" placeholder="Create Password">
+                <button class="btn btn-green" onclick="finalizeReg()">Finish Registration</button>
+            </div>
+
+            <button class="btn" style="background:#888;" onclick="go('box-login')">Back</button>
         </div>
-        <button class="btn btn-red" onclick="location.reload()">Logout</button>
+
+        <div id="box-user" class="box">
+            <h3 id="wel_user">Welcome</h3>
+            <div class="nav-tabs">
+                <button class="nav-btn active" onclick="uTab('u-shop', this)">🛍️ Shop</button>
+                <button class="nav-btn" onclick="uTab('u-chat', this)">💬 Chat Admin</button>
+                <button class="nav-btn" onclick="uTab('u-media', this)">📺 Updates</button>
+            </div>
+            <div id="u-shop" class="u-sec">
+                <select id="sel_p" onchange="calc()"></select>
+                <input type="number" id="sel_qty" placeholder="Qty" oninput="calc()">
+                <p id="total_p" style="font-size:20px; font-weight:bold; color:var(--green); text-align:center;">₹0</p>
+                <input type="text" id="sel_ad" placeholder="Address">
+                <button class="btn btn-green" onclick="placeOrder()">Order</button>
+            </div>
+            <div id="u-chat" class="u-sec hidden">
+                <div class="chat-box" id="user_chat_box"></div>
+                <div style="display:flex; gap:5px; margin-top:5px;">
+                    <input type="text" id="u_msg_in" placeholder="Type...">
+                    <button class="btn-blue" style="width:50px;" onclick="sendMsg('user')">➤</button>
+                </div>
+            </div>
+            <div id="u-media" class="u-sec hidden"><div id="media_feed_user">Loading...</div></div>
+            <button class="btn btn-red" onclick="location.reload()">Logout</button>
+        </div>
     </div>
 
     <div id="box-admin" class="admin-wide">
-        <h2>🛠️ Admin: Shreya Rani Control</h2>
-        <p id="adm_audio_stat" style="text-align:center; font-size:12px; color:blue;">🎧 Audio System Ready</p>
-        <div class="admin-nav">
-            <button class="btn btn-blue" onclick="showAdmSec('sec-orders')">Orders</button>
-            <button class="btn btn-blue" onclick="showAdmSec('sec-prods')">Products</button>
-            <button class="btn btn-blue" onclick="showAdmSec('sec-users')">Users</button>
+        <h2>🛠️ Admin Panel</h2>
+        <div class="nav-tabs">
+            <button class="nav-btn active" onclick="aTab('a-orders', this)">Orders</button>
+            <button class="nav-btn" onclick="aTab('a-users', this)">Users</button>
+            <button class="nav-btn" onclick="aTab('a-prods', this)">Products</button>
+            <button class="nav-btn" onclick="aTab('a-media', this)">Uploads</button>
         </div>
-        <div id="sec-orders" class="adm-sec">
-            <h3>📋 Customer Orders</h3>
-            <table id="tbl_o"><thead><tr><th>User/Phone</th><th>Details</th><th>TID/Payment</th><th>Status Action</th><th>Del</th></tr></thead><tbody></tbody></table>
-        </div>
-        <div id="sec-prods" class="adm-sec" style="display:none;">
-            <h3>📦 Manage Products</h3>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; background:#f9f9f9; padding:10px; border-radius:8px;">
-                <input type="text" id="adm_pn" placeholder="Name">
-                <input type="number" id="adm_pr" placeholder="Rate">
-                <select id="adm_unit"><option value="kg">kg</option><option value="gm">gm</option><option value="pc">pc</option><option value="mtr">mtr</option><option value="bundle">bundle</option></select>
-                <input type="number" id="adm_min" placeholder="Min Qty">
-                <button class="btn btn-green" onclick="admAddP()">Save Product</button>
+        <div id="a-orders" class="a-sec"><table id="tbl_o"><thead><tr><th>Order</th><th>Action</th></tr></thead><tbody></tbody></table></div>
+        <div id="a-users" class="a-sec hidden">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                <table id="tbl_u"><thead><tr><th>User</th><th>Action</th></tr></thead><tbody></tbody></table>
+                <div>
+                    <h4 id="adm_chat_head">Chat</h4>
+                    <div class="chat-box" id="adm_chat_box"></div>
+                    <div style="display:flex; gap:5px; margin-top:5px;">
+                        <input type="text" id="a_msg_in" placeholder="Reply...">
+                        <button class="btn-blue" style="width:50px;" onclick="sendMsg('admin')">➤</button>
+                    </div>
+                </div>
             </div>
-            <table id="tbl_p"><thead><tr><th>Name</th><th>Rate</th><th>Unit</th><th>Min</th><th>Action</th></tr></thead><tbody></tbody></table>
         </div>
-        <div id="sec-users" class="adm-sec" style="display:none;">
-            <h3>👥 All Registered Users</h3>
-            <table id="tbl_u"><thead><tr><th>Name/Email</th><th>Phone/Pass</th><th>Live Talk</th><th>Action</th></tr></thead><tbody></tbody></table>
+        <div id="a-prods" class="a-sec hidden">
+            <input type="text" id="p_name" placeholder="Name"> <input type="number" id="p_rate" placeholder="Rate">
+            <button class="btn btn-green" onclick="addProd()">Add</button>
+            <table id="tbl_p"><tbody></tbody></table>
         </div>
-        <button class="btn btn-red" style="max-width:200px; display:block; margin:20px auto;" onclick="location.reload()">Logout</button>
+        <div id="a-media" class="a-sec hidden">
+            <input type="text" id="m_title" placeholder="Title">
+            <input type="text" id="m_vid" placeholder="YouTube Link">
+            <button class="btn btn-blue" onclick="postMedia()">Post</button>
+            <div id="adm_media_list"></div>
+        </div>
+        <button class="btn btn-red" onclick="location.reload()" style="display:block; margin:20px auto;">Logout</button>
     </div>
 
     <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 
     <script>
-        // --- 1. CAPTCHA SYSTEM (Priority Level 1 - No Dependencies) ---
-        let capAns = 0;
-        function genCap() {
-            try {
-                let a = Math.floor(Math.random() * 20) + 1; 
-                let b = Math.floor(Math.random() * 10) + 1;
-                let ops = ['+', '-'];
-                let op = ops[Math.floor(Math.random() * ops.length)];
-
-                if(op === '-' && b > a) { let temp = a; a = b; b = temp; } // Avoid negative
-
-                if(op === '+') capAns = a + b;
-                else capAns = a - b;
-
-                let el = document.getElementById('cap_text');
-                if(el) el.innerText = `${a} ${op} ${b} = ?`;
-                document.getElementById('l_cap_in').value = "";
-            } catch(e) { console.log("Captcha Error", e); }
-        }
-        
-        // Run Captcha immediately on load
-        window.addEventListener('DOMContentLoaded', (event) => {
-            genCap();
-        });
-
-        // --- 2. FIREBASE & APP LOGIC ---
+        // --- CONFIGURATION ---
         const firebaseConfig = {
             apiKey: "AIzaSyBtLLOyVgt5hQwxokdsSRkeArZab5kyr_Q",
             authDomain: "mithilahelp-4107d.firebaseapp.com",
@@ -180,266 +187,269 @@
             messagingSenderId: "525345376934",
             appId: "1:525345376934:web:7083c7cecccd26a4a78267"
         };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const auth = firebase.auth();
 
-        // Initialize Firebase safely
-        let rdb;
-        try {
-            firebase.initializeApp(firebaseConfig);
-            rdb = firebase.database();
-        } catch(e) {
-            console.error("Firebase not loaded yet or blocked", e);
-            // Don't alert user immediately, let them try login then show error
-        }
+        let currentUser = null, activeChatUser = null, confirmationResult = null;
+        let products = {}, peer = null, currentCall = null;
 
-        let currentUser = null, allProducts = {};
-        let peer = null, currentCall = null, localStream = null;
+        // --- AUTH & OTP SYSTEM ---
+        window.onload = function() {
+            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+                'size': 'invisible'
+            });
+        };
 
-        // --- Navigation ---
-        function go(id) {
-            document.querySelectorAll('.box, .admin-wide').forEach(b => b.style.display = 'none');
-            document.getElementById(id).style.display = 'block';
-            if(id === 'box-login') genCap();
-        }
-
-        function showAdmSec(id) {
-            document.querySelectorAll('.adm-sec').forEach(s => s.style.display = 'none');
-            document.getElementById(id).style.display = 'block';
-        }
-
-        // --- Authentication ---
-        function doLogin() {
-            // Check Captcha First
-            let c = document.getElementById('l_cap_in').value;
-            if(c == "" || parseInt(c) !== capAns) {
-                alert("❌ Galat Captcha! Sahi Math ka utar likhen.");
-                genCap();
-                return;
+        function switchLogin(type, el) {
+            document.querySelectorAll('.l-tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            if(type === 'pass') {
+                document.getElementById('login-pass-sec').classList.remove('hidden');
+                document.getElementById('login-otp-sec').classList.add('hidden');
+            } else {
+                document.getElementById('login-pass-sec').classList.add('hidden');
+                document.getElementById('login-otp-sec').classList.remove('hidden');
             }
+        }
 
-            if(!rdb) { alert("Internet Error: Database connect nahi hua. Refresh karein."); return; }
-
-            let u = document.getElementById('l_phone').value; 
+        // 1. Password Login
+        function doLoginPass() {
+            let ph = document.getElementById('l_phone').value;
             let p = document.getElementById('l_pass').value;
 
-            if(!u || !p) { alert("Mobile aur Password daalein!"); return; }
-
-            if(u === "shreya rani" && p === "mydearshreya@#") { 
-                loadAdmin(); 
-                initAudio("admin_shreya");
-                go('box-admin'); 
-                return; 
+            if(ph === "shreya rani" && p === "mydearshreya@#") {
+                initAudio('admin_shreya'); loadAdmin(); go('box-admin'); return;
             }
+
+            db.ref('users/' + ph).once('value', s => {
+                let u = s.val();
+                if(u && u.pass === p) {
+                    currentUser = u;
+                    initAudio('u_' + ph); loadUser(); go('box-user');
+                } else alert("Wrong Password or User not found");
+            });
+        }
+
+        // 2. Login Send OTP
+        function sendLoginOTP() {
+            let ph = document.getElementById('l_otp_phone').value;
+            if(ph.length < 10) return alert("Valid Mobile Number required!");
+            let fPhone = "+91" + ph;
             
-            rdb.ref('blockedUsers/' + u).once('value', (s) => {
-                if(s.exists()) return alert("❌ Account Blocked by Admin!");
-                rdb.ref('users/' + u).once('value', (snap) => {
-                    let v = snap.val();
-                    if(v && v.pass === p) { 
-                        currentUser = v; 
-                        loadUser(); 
-                        initAudio("u_" + v.phone);
-                        go('box-order'); 
-                    } else {
-                        alert("Invalid Login!");
-                        genCap();
-                    }
+            // Check if user exists first
+            db.ref('users/' + ph).once('value', s => {
+                if(!s.exists()) return alert("User not registered! Register first.");
+                
+                auth.signInWithPhoneNumber(fPhone, window.recaptchaVerifier)
+                .then((cr) => {
+                    confirmationResult = cr;
+                    document.getElementById('l_otp_input_area').classList.remove('hidden');
+                    document.getElementById('btn_l_send').classList.add('hidden');
+                    alert("OTP Sent to " + fPhone);
+                }).catch((error) => {
+                    console.error(error); alert("SMS Error: " + error.message);
                 });
             });
         }
 
-        function doReg() {
-            if(!rdb) return alert("Internet Check karein!");
-            let n = document.getElementById('r_name').value, 
-                ph = document.getElementById('r_phone').value,
-                em = document.getElementById('r_email').value,
-                d = document.getElementById('r_dob').value, 
-                ps = document.getElementById('r_pass').value;
-            
-            if(!n || !ph || !ps || !em) return alert("Email aur sari details bharna zaroori hai!");
-            
-            rdb.ref('users/' + ph).set({name:n, phone:ph, email:em, dob:d, pass:ps});
-            alert("Registered Online!"); go('box-login');
+        // 3. Verify Login OTP
+        function verifyLoginOTP() {
+            let code = document.getElementById('l_otp_code').value;
+            confirmationResult.confirm(code).then((result) => {
+                let ph = document.getElementById('l_otp_phone').value;
+                db.ref('users/' + ph).once('value', s => {
+                    currentUser = s.val();
+                    initAudio('u_' + ph); loadUser(); go('box-user');
+                });
+            }).catch((error) => alert("Wrong OTP!"));
         }
 
-        // --- User Logic ---
+        // 4. Registration OTP
+        function sendRegOTP() {
+            let n = document.getElementById('r_name').value;
+            let ph = document.getElementById('r_phone').value;
+            if(!n || ph.length < 10) return alert("Enter Name and valid Mobile");
+
+            // Check if already registered
+            db.ref('users/' + ph).once('value', s => {
+                if(s.exists()) return alert("Already registered! Go to Login.");
+                
+                let fPhone = "+91" + ph;
+                auth.signInWithPhoneNumber(fPhone, window.recaptchaVerifier)
+                .then((cr) => {
+                    confirmationResult = cr;
+                    document.getElementById('r_otp_sec').classList.remove('hidden');
+                    document.getElementById('btn_r_send').classList.add('hidden');
+                    alert("OTP Sent!");
+                }).catch((err) => alert("Error: " + err.message));
+            });
+        }
+
+        function verifyRegOTP() {
+            let code = document.getElementById('r_otp_code').value;
+            confirmationResult.confirm(code).then((result) => {
+                // OTP verified, now allow password creation
+                document.getElementById('r_pass_sec').classList.remove('hidden');
+                document.getElementById('r_otp_sec').style.display = 'none';
+                alert("Mobile Verified! Now set a password.");
+            }).catch((err) => alert("Invalid OTP"));
+        }
+
+        function finalizeReg() {
+            let n = document.getElementById('r_name').value;
+            let ph = document.getElementById('r_phone').value;
+            let p = document.getElementById('r_pass').value;
+            
+            if(!p) return alert("Password is required");
+
+            db.ref('users/' + ph).set({
+                name: n, phone: ph, pass: p, verified: true
+            }, (err) => {
+                if(!err) { alert("Registration Success!"); go('box-login'); }
+            });
+        }
+
+        // --- APP LOGIC (Simplified from previous) ---
+        function go(id) {
+            document.querySelectorAll('.box, .admin-wide').forEach(e => e.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+        }
+
+        // User
         function loadUser() {
             document.getElementById('wel_user').innerText = "Namaste, " + currentUser.name;
-            rdb.ref('products/').on('value', (s) => {
-                allProducts = s.val() || {};
-                let sel = document.getElementById('sel_p'); 
-                sel.innerHTML = "<option value=''>Choose Item</option>";
-                for(let id in allProducts) 
-                    sel.innerHTML += `<option value="${id}">${allProducts[id].name} (₹${allProducts[id].rate}/${allProducts[id].unit})</option>`;
+            db.ref('products').on('value', s => {
+                products = s.val() || {};
+                let h = "<option value=''>Item</option>";
+                for(let k in products) h += `<option value="${k}">${products[k].name} - ₹${products[k].rate}</option>`;
+                document.getElementById('sel_p').innerHTML = h;
             });
-            
-            rdb.ref('orders/').on('value', (s) => {
-                let data = s.val();
-                let histHtml = "";
-                for(let id in data) {
-                    if(data[id].phone === currentUser.phone) {
-                        let d = data[id];
-                        let stColor = d.status == 'Confirmed' ? 'green' : (d.status == 'Cancel' ? 'red' : 'blue');
-                        histHtml += `<div class="hist-row">
-                            <b>Item:</b> ${d.item} (Qty: ${d.qty})<br>
-                            <b>Price:</b> ₹${d.price} | <b>Date:</b> ${d.date || 'N/A'}<br>
-                            <b>Status:</b> <span style="color:${stColor}; font-weight:bold;">${d.status}</span><br>
-                            <b>ETA/Msg:</b> ${d.eta || 'Processing...'}
-                        </div>`;
-                    }
-                }
-                document.getElementById('user_history_list').innerHTML = histHtml || "<p>No orders yet.</p>";
-            });
-        }
-
-        function updateProductUI() {
-            let id = document.getElementById('sel_p').value;
-            if(!id) return document.getElementById('qty_area').style.display = 'none';
-            let p = allProducts[id];
-            document.getElementById('qty_area').style.display = 'block';
-            document.getElementById('lbl_qty').innerText = `Qty (${p.unit}):`;
-            document.getElementById('min_msg').innerText = `Min: ${p.min} ${p.unit}`;
-            document.getElementById('sel_qty').value = p.min; calc();
-        }
-        function calc() {
-            let id = document.getElementById('sel_p').value, q = document.getElementById('sel_qty').value;
-            if(id && q > 0) document.getElementById('total_p').innerText = `₹${(allProducts[id].rate * q).toFixed(2)}`;
+            db.ref('chats/' + currentUser.phone).on('value', s => renderChat(s.val(), 'user_chat_box', 'user'));
+            db.ref('posts').on('value', s => renderMedia(s.val()));
         }
 
         function placeOrder() {
-            let id = document.getElementById('sel_p').value, 
-                q = document.getElementById('sel_qty').value, 
-                ad = document.getElementById('sel_ad').value, 
-                m = document.getElementById('sel_m').value;
-            
-            if(!id || !ad || q < parseFloat(allProducts[id].min)) return alert("Check Min Order/Address!");
-            let total = (allProducts[id].rate * q).toFixed(2);
-            let dObj = new Date().toLocaleString();
-
-            if(m === "Online") {
-                let upi = `upi://pay?pa=7033578145@sbi&pn=Mithila&am=${total}&cu=INR`;
-                document.getElementById('qr_box').innerHTML = "<h4>Scan & Pay ₹"+total+"</h4>";
-                new QRCode(document.getElementById('qr_box'), {text:upi, width:150, height:150});
-                let tid = prompt("Payment ke baad 12-digit Transaction ID (UTR) likhen:");
-                if(!tid || tid.length < 10) return alert("Sahi Transaction ID bina order nahi hoga!");
-                saveOrder(id, q, total, ad, m, tid, dObj);
-            } else { saveOrder(id, q, total, ad, m, "COD", dObj); }
+            let pid = document.getElementById('sel_p').value, qty = document.getElementById('sel_qty').value, ad = document.getElementById('sel_ad').value;
+            if(pid && qty && ad) {
+                db.ref('orders').push({ phone:currentUser.phone, name:currentUser.name, item:products[pid].name, qty:qty, status:"Pending" });
+                alert("Order Placed!");
+            }
+        }
+        function calc() {
+            let id = document.getElementById('sel_p').value, q = document.getElementById('sel_qty').value;
+            if(id && q) document.getElementById('total_p').innerText = "₹" + (products[id].rate * q);
         }
 
-        function saveOrder(pid, q, total, ad, m, tid, dObj) {
-            let pName = allProducts[pid].name;
-            rdb.ref('orders/').push({
-                userName: currentUser.name, phone: currentUser.phone, 
-                item: pName, qty: q, price: total, 
-                address: ad, method: m, txnId: tid, status: "Pending", eta: "", date: dObj
-            });
-            alert("Order Success! Admin ko WhatsApp bheja ja raha hai...");
-            let msg = `*New Order Alert!* %0A%0AName: ${currentUser.name}%0APhone: ${currentUser.phone}%0AItem: ${pName} (Qty: ${q})%0APrice: ₹${total}%0AAddress: ${ad}%0APayment: ${m} (TID: ${tid})`;
-            window.open(`https://wa.me/916200732472?text=${msg}`, '_blank');
-        }
-
-        // --- Admin Logic ---
+        // Admin
         function loadAdmin() {
-            rdb.ref('products/').on('value', (s) => {
+            db.ref('orders').on('value', s => {
                 let d = s.val(), h = "";
-                for(let id in d) h += `<tr><td>${d[id].name}</td><td>${d[id].rate}</td><td>${d[id].unit}</td><td>${d[id].min}</td><td><button class="btn-red" onclick="rdb.ref('products/${id}').remove()">Del</button></td></tr>`;
-                document.getElementById('tbl_p').querySelector('tbody').innerHTML = h;
-            });
-            rdb.ref('users/').on('value', (s) => {
-                let d = s.val(), h = "";
-                for(let ph in d) h += `<tr>
-                    <td>${d[ph].name}<br><small>${d[ph].email}</small></td>
-                    <td>${ph}<br>Pass: ${d[ph].pass}</td>
-                    <td><button class="btn-green" style="padding:5px; font-size:12px;" onclick="makeCall('u_${ph}')">📞 Call</button></td>
-                    <td>
-                        <button class="btn-red" style="padding:5px; width:45%; display:inline;" onclick="blockUser('${ph}')">Block</button>
-                        <button style="background:darkred; color:white; border:none; padding:5px; width:45%; border-radius:4px; cursor:pointer;" onclick="deleteUser('${ph}')">❌</button>
-                    </td>
-                </tr>`;
-                document.getElementById('tbl_u').querySelector('tbody').innerHTML = h;
-            });
-            rdb.ref('orders/').on('value', (s) => {
-                let d = s.val(), h = "";
-                for(let id in d) {
-                    let o = d[id];
-                    h += `<tr>
-                    <td>${o.userName}<br>${o.phone} <button onclick="makeCall('u_${o.phone}')">📞</button></td>
-                    <td>${o.item} (${o.qty})<br>₹${o.price}<br><small>${o.address}</small></td>
-                    <td>${o.method}<br>TID: ${o.txnId}<br><b>Status: ${o.status}</b></td>
-                    <td>
-                        <button class="st-btn st-confirm" onclick="upSt('${id}','Confirmed')">Conf</button>
-                        <button class="st-btn st-ship" onclick="upSt('${id}','Shipped')">Ship</button>
-                        <button class="st-btn st-out" onclick="upSt('${id}','Out for Del')">Out</button>
-                        <button class="st-btn st-del" onclick="upSt('${id}','Delivered')">Done</button>
-                        <button class="st-btn st-can" onclick="upSt('${id}','Cancel')">Can</button>
-                        <input style="width:100%; margin-top:5px; font-size:11px;" placeholder="ETA/Message" value="${o.eta}" onchange="updateO('${id}', 'eta', this.value)">
-                    </td>
-                    <td><button class="btn-red" onclick="rdb.ref('orders/${id}').remove()">Del</button></td></tr>`;
-                }
+                if(d) Object.keys(d).forEach(k => {
+                    h += `<tr><td>${d[k].name} - ${d[k].item}<br><small>${d[k].status}</small></td>
+                    <td><button onclick="db.ref('orders/${k}').remove()">X</button> <button onclick="db.ref('orders/${k}').update({status:'Confirmed'})">✔</button></td></tr>`;
+                });
                 document.getElementById('tbl_o').querySelector('tbody').innerHTML = h;
             });
-        }
-        function upSt(id, st) { rdb.ref('orders/' + id).update({status: st}); }
-        function updateO(id, key, val) { rdb.ref('orders/' + id).update({[key]: val}); }
-        function blockUser(ph) { if(confirm("Block User?")) rdb.ref('blockedUsers/' + ph).set(true); }
-        function deleteUser(ph) { if(confirm("Delete Permanently?")) rdb.ref('users/' + ph).remove(); }
-        function admAddP() {
-            let n = document.getElementById('adm_pn').value, r = document.getElementById('adm_pr').value, u = document.getElementById('adm_unit').value, m = document.getElementById('adm_min').value;
-            if(!n || !r) return alert("Pura bharen!");
-            rdb.ref('products/').push({name:n, rate:r, unit:u, min:m}); alert("Saved!");
-        }
-        function recoverPass() {
-            if(!rdb) return alert("Internet nahi hai!");
-            let ph = prompt("Mobile Number:"), d = prompt("DOB (YYYY-MM-DD):");
-            rdb.ref('users/' + ph).once('value', s => {
-                let u = s.val(); if(u && u.dob === d) alert("Password: " + u.pass); else alert("Wrong Details!");
+            db.ref('users').on('value', s => {
+                let d = s.val(), h = "";
+                if(d) Object.keys(d).forEach(k => {
+                    h += `<tr><td>${d[k].name}<br>${d[k].phone}</td><td><button onclick="makeCall('u_${d[k].phone}')">📞</button> <button onclick="openChat('${d[k].phone}','${d[k].name}')">💬</button></td></tr>`;
+                });
+                document.getElementById('tbl_u').querySelector('tbody').innerHTML = h;
             });
+            db.ref('products').on('value', s => {
+                let d = s.val(), h = "";
+                if(d) Object.keys(d).forEach(k => h += `<tr><td>${d[k].name}</td><td>${d[k].rate}</td></tr>`);
+                document.getElementById('tbl_p').querySelector('tbody').innerHTML = h;
+            });
+            db.ref('posts').on('value', s => {
+                let d = s.val(), h = "";
+                if(d) Object.keys(d).forEach(k => h += `<div>${d[k].title} <span onclick="db.ref('posts/${k}').remove()" style="color:red;cursor:pointer;">[X]</span></div>`);
+                document.getElementById('adm_media_list').innerHTML = h;
+            });
+        }
+        function addProd() {
+            let n = document.getElementById('p_name').value, r = document.getElementById('p_rate').value;
+            if(n && r) db.ref('products').push({name:n, rate:r});
+        }
+        function postMedia() {
+            let t = document.getElementById('m_title').value, v = document.getElementById('m_vid').value;
+            if(t) db.ref('posts').push({title:t, url:v, type: v ? 'video':'text'});
         }
 
-        // --- Audio Logic ---
-        function initAudio(myId) {
-            try {
-                peer = new Peer(myId);
-                peer.on('call', (call) => {
-                    document.getElementById('call_modal').style.display = 'flex';
-                    document.getElementById('call_status').innerText = "📞 Call aa raha hai...";
-                    document.getElementById('btn_answer').style.display = 'block';
-                    currentCall = call;
-                });
-            } catch(e) { console.log("Audio Error", e); }
+        // Chat
+        function sendMsg(role) {
+            let txt = document.getElementById(role == 'user' ? 'u_msg_in':'a_msg_in').value;
+            let ph = role == 'user' ? currentUser.phone : activeChatUser;
+            if(txt && ph) {
+                db.ref('chats/'+ph).push({text:txt, sender:role});
+                document.getElementById(role == 'user' ? 'u_msg_in':'a_msg_in').value = "";
+            }
         }
-        function makeCall(remoteId) {
-            document.getElementById('call_modal').style.display = 'flex';
-            document.getElementById('call_status').innerText = "🔔 Calling...";
-            document.getElementById('btn_answer').style.display = 'none';
-            navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-                localStream = stream;
-                let call = peer.call(remoteId, stream);
-                currentCall = call;
-                call.on('stream', (rs) => {
-                    document.getElementById('call_status').innerText = "🟢 Connected";
-                    document.getElementById('remote_audio').srcObject = rs;
-                });
-                call.on('close', endCallUI);
-            }).catch(() => { alert("Mic Error"); endCallUI(); });
+        function renderChat(d, elId, role) {
+            let box = document.getElementById(elId); box.innerHTML = "";
+            if(d) Object.keys(d).forEach(k => {
+                let m = d[k];
+                box.innerHTML += `<div class="msg ${m.sender==role || (role=='admin' && m.sender=='admin') ? 'me':'other'}">${m.text}</div>`;
+            });
+            box.scrollTop = box.scrollHeight;
         }
-        function answerCall() {
-            navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-                localStream = stream;
-                currentCall.answer(stream);
-                document.getElementById('call_status').innerText = "🟢 Talking...";
-                document.getElementById('btn_answer').style.display = 'none';
-                currentCall.on('stream', (rs) => { document.getElementById('remote_audio').srcObject = rs; });
+        function openChat(ph, n) {
+            activeChatUser = ph; document.getElementById('adm_chat_head').innerText = n;
+            db.ref('chats/'+ph).on('value', s => renderChat(s.val(), 'adm_chat_box', 'admin'));
+        }
+
+        // Media
+        function renderMedia(d) {
+            let h = "";
+            if(d) Object.keys(d).reverse().forEach(k => {
+                let m = d[k];
+                let c = m.type=='video' ? `<iframe src="${m.url.replace('watch?v=','embed/')}" style="width:100%;height:200px;border:none;"></iframe>` : '';
+                h += `<div style="background:white; padding:10px; margin-bottom:10px; border-radius:8px;"><b>${m.title}</b><br>${c}</div>`;
+            });
+            document.getElementById('media_feed_user').innerHTML = h;
+        }
+
+        // Navigation helpers
+        function uTab(id, b) {
+            document.querySelectorAll('.u-sec').forEach(e => e.classList.add('hidden'));
+            document.getElementById(id).classList.remove('hidden');
+        }
+        function aTab(id, b) {
+            document.querySelectorAll('.a-sec').forEach(e => e.classList.add('hidden'));
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        // Audio
+        function initAudio(id) {
+            peer = new Peer(id);
+            peer.on('call', c => {
+                document.getElementById('call_modal').style.display = 'flex';
+                document.getElementById('call_status').innerText = "📞 Admin Calling...";
+                document.getElementById('btn_answer').style.display = 'block';
+                currentCall = c;
             });
         }
-        function endCall() {
-            if(currentCall) currentCall.close();
-            if(localStream) localStream.getTracks().forEach(track => track.stop());
-            endCallUI();
+        function makeCall(id) {
+            document.getElementById('call_modal').style.display = 'flex';
+            document.getElementById('call_status').innerText = "Calling...";
+            document.getElementById('btn_answer').style.display = 'none';
+            navigator.mediaDevices.getUserMedia({audio:true}).then(s => {
+                let call = peer.call(id, s);
+                currentCall = call;
+                call.on('stream', rs => document.getElementById('remote_audio').srcObject = rs);
+            });
         }
-        function endCallUI() {
-            document.getElementById('call_modal').style.display = 'none';
-            document.getElementById('remote_audio').srcObject = null;
+        function answerCall() {
+            navigator.mediaDevices.getUserMedia({audio:true}).then(s => {
+                currentCall.answer(s);
+                document.getElementById('call_status').innerText = "Connected";
+                document.getElementById('btn_answer').style.display = 'none';
+                currentCall.on('stream', rs => document.getElementById('remote_audio').srcObject = rs);
+            });
         }
+        function endCall() { if(currentCall) currentCall.close(); document.getElementById('call_modal').style.display = 'none'; }
     </script>
 </body>
 </html>
