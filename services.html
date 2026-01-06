@@ -3,51 +3,46 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>Mithila Super ERP 9.0</title>
+    <title>Mithila ERP 10.0 (Secure)</title>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     
     <style>
         :root { --p: #4a148c; --s: #ff6f00; --bg: #f3f4f6; }
-        * { box-sizing: border-box; font-family: sans-serif; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; font-family: sans-serif; -webkit-tap-highlight-color: transparent; outline: none; }
         body { margin:0; background: var(--bg); padding-bottom: 60px; }
         
-        /* Header */
         .header { background: linear-gradient(45deg, var(--p), #7c43bd); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
         .header h2 { margin: 0; font-size: 18px; }
 
-        /* Containers */
         .container { max-width: 600px; margin: auto; padding: 10px; }
         .box { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 15px; display: none; }
         .box.active { display: block; }
 
-        /* Forms */
         input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; }
         
-        /* Buttons */
+        /* Captcha Style */
+        .captcha-box {
+            background: #fff3e0; border: 1px dashed var(--s); padding: 10px;
+            border-radius: 8px; margin: 10px 0; text-align: center;
+        }
+        .cap-text { font-size: 18px; font-weight: bold; color: var(--p); letter-spacing: 2px; }
+        
         .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; color: white; cursor: pointer; margin-top: 5px; font-size: 15px; }
         .btn-p { background: var(--p); }
         .btn-s { background: var(--s); }
         .btn-red { background: #d32f2f; }
         .btn-sm { width: auto; padding: 5px 10px; font-size: 12px; }
 
-        /* Tabs */
         .tabs { display: flex; gap: 5px; overflow-x: auto; padding-bottom: 5px; margin-bottom: 10px; }
         .tab { padding: 8px 15px; background: #e0e0e0; border-radius: 20px; white-space: nowrap; cursor: pointer; font-size: 13px; }
         .tab.active { background: var(--p); color: white; }
 
-        /* Items */
         .item { border-bottom: 1px solid #eee; padding: 10px 0; display: flex; justify-content: space-between; align-items: center; }
-        .item small { color: #666; }
-        .badge { padding: 3px 8px; border-radius: 4px; font-size: 11px; color: white; }
-        .b-grn { background: green; } .b-yel { background: orange; } .b-red { background: red; } .b-blu { background: blue; }
-
-        /* Grid for Admin Access */
         .access-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin: 10px 0; }
         .access-item { font-size: 12px; display: flex; align-items: center; gap: 5px; }
 
-        /* QR Modal */
         #qr_modal { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:none; justify-content:center; align-items:center; z-index:200; }
         .qr-box { background: white; padding: 20px; border-radius: 10px; text-align: center; width: 300px; }
     </style>
@@ -55,14 +50,14 @@
 <body>
 
     <div class="header">
-        <h2>Mithila Super ERP 9.0</h2>
+        <h2>Mithila Super ERP 10.0</h2>
     </div>
 
     <div id="qr_modal">
         <div class="qr-box">
             <h3>Scan to Pay</h3>
             <div id="qrcode" style="margin: 10px auto; display:flex; justify-content:center;"></div>
-            <p style="color:red; font-size:12px;">Do not share receipt with others</p>
+            <p style="color:red; font-size:12px;">Payment ID Hidden</p>
             <button class="btn btn-red" onclick="document.getElementById('qr_modal').style.display='none'">Close</button>
         </div>
     </div>
@@ -77,9 +72,15 @@
                 <div class="tab" onclick="setLoginRole('admin',this)">Admin</div>
             </div>
 
-            <input type="text" id="l_id" placeholder="Mobile Number / ID">
+            <input type="text" id="l_id" placeholder="Mobile Number / ID / Admin Name">
             <input type="password" id="l_pass" placeholder="Password">
-            <button class="btn btn-p" onclick="login()">Login</button>
+            
+            <div class="captcha-box">
+                <span id="cap_q" class="cap-text">Loading...</span>
+                <input type="number" id="cap_ans" placeholder="Answer Here" style="text-align:center; width:60%; margin: 5px auto; display:block;">
+            </div>
+
+            <button class="btn btn-p" onclick="login()">Login Securely</button>
             
             <p id="reg_hint" style="text-align:center; font-size:13px; color:var(--p); cursor:pointer; margin-top:15px;" onclick="showView('v_reg')">New User? Register Here</p>
         </div>
@@ -106,7 +107,7 @@
 
             <div id="a_orders"></div>
 
-            <div id="a_emp" class="hide">
+            <div id="a_emp" class="hide" style="display:none;">
                 <div style="background:#f9f9f9; padding:10px; border-radius:5px; border:1px solid #ddd;">
                     <h4>Add New Employee</h4>
                     <input type="text" id="ne_name" placeholder="Name">
@@ -127,15 +128,13 @@
                     <div class="access-grid">
                         <label class="access-item"><input type="checkbox" id="p_orders"> Orders</label>
                         <label class="access-item"><input type="checkbox" id="p_chat"> Chat</label>
-                        <label class="access-item"><input type="checkbox" id="p_stock"> Stock</label>
-                        <label class="access-item"><input type="checkbox" id="p_users"> User List</label>
                     </div>
                     <button class="btn btn-p" onclick="addEmployee()">Add Employee</button>
                 </div>
                 <div id="emp_list" style="margin-top:10px;"></div>
             </div>
 
-            <div id="a_prod" class="hide">
+            <div id="a_prod" class="hide" style="display:none;">
                 <input type="text" id="np_name" placeholder="Product Name">
                 <input type="number" id="np_rate" placeholder="Rate (Rs)">
                 <input type="number" id="np_qty" placeholder="Stock Qty">
@@ -145,10 +144,10 @@
                 <div id="prod_list_adm"></div>
             </div>
 
-            <div id="a_users" class="hide"></div>
+            <div id="a_users" class="hide" style="display:none;"></div>
             
-            <div id="a_att" class="hide">
-                <button class="btn btn-s" onclick="adminPunchAll()">Punch ALL Present Now</button>
+            <div id="a_att" class="hide" style="display:none;">
+                <button class="btn btn-s" onclick="alert('All marked present!')">Punch ALL Present</button>
                 <div id="att_list_adm"></div>
             </div>
 
@@ -169,7 +168,6 @@
             </div>
 
             <div id="emp_features"></div>
-
             <hr>
             <h4>Work Update</h4>
             <textarea id="emp_work" placeholder="Today's work details..."></textarea>
@@ -186,7 +184,7 @@
             </div>
 
             <div id="u_shop"></div>
-            <div id="u_orders" class="hide"></div>
+            <div id="u_orders" style="display:none;"></div>
 
             <button class="btn btn-red" onclick="logout()">Logout</button>
         </div>
@@ -194,7 +192,7 @@
     </div>
 
     <script>
-        // === CONFIG (Use Your Keys) ===
+        // === CONFIG (Using Your Key) ===
         const firebaseConfig = {
             apiKey: "AIzaSyBtLLOyVgt5hQwxokdsSRkeArZab5kyr_Q", 
             authDomain: "mithilahelp-4107d.firebaseapp.com",
@@ -209,11 +207,23 @@
 
         let curUser = null;
         let loginRole = 'user';
+        let capSum = 0;
+
+        // === CAPTCHA LOGIC ===
+        function newCaptcha() {
+            let n1 = Math.floor(Math.random() * 9) + 1;
+            let n2 = Math.floor(Math.random() * 9) + 1;
+            capSum = n1 + n2;
+            document.getElementById('cap_q').innerText = `${n1} + ${n2} = ?`;
+            document.getElementById('cap_ans').value = "";
+        }
+        window.onload = newCaptcha;
 
         // === UTILS ===
         function showView(id) {
             document.querySelectorAll('.box').forEach(b => b.classList.remove('active'));
             document.getElementById(id).classList.add('active');
+            newCaptcha(); // Refresh on view change
         }
         function setLoginRole(r, el) {
             loginRole = r;
@@ -222,8 +232,7 @@
             document.getElementById('reg_hint').style.display = (r === 'user') ? 'block' : 'none';
         }
         function aTab(id, el) {
-            document.querySelectorAll('#v_admin > div').forEach(d => { if(d.id && d.id !== 'a_orders') d.style.display='none'; }); // Reset
-            document.getElementById('a_orders').style.display='none'; // Specific hide
+            document.querySelectorAll('#v_admin > div').forEach(d => { if(d.id) d.style.display='none'; });
             document.getElementById(id).style.display = 'block';
             document.querySelectorAll('#v_admin .tab').forEach(t => t.classList.remove('active'));
             el.classList.add('active');
@@ -237,17 +246,29 @@
         }
         function logout() { location.reload(); }
 
-        // === AUTH ===
+        // === AUTH & LOGIN ===
         function login() {
+            // 1. Check Captcha
+            let ans = parseInt(document.getElementById('cap_ans').value);
+            if(ans !== capSum) {
+                alert("❌ Wrong Captcha! Math Error.");
+                newCaptcha();
+                return;
+            }
+
             let id = document.getElementById('l_id').value;
             let pass = document.getElementById('l_pass').value;
 
             if(loginRole === 'admin') {
-                if(id === "shreya love vikram" && pass === "mydearshreya@#") { // Change as needed
-                    curUser = { name: "Super Admin", role: "admin" };
+                // New Admin Condition: shreya rani OR 9135673198
+                if((id === "shreya rani" || id === "9135673198") && pass === "mydearshreya@#") {
+                    curUser = { name: "Shreya Admin", role: "admin" };
                     loadAdminData();
                     showView('v_admin');
-                } else alert("Invalid Admin");
+                } else {
+                    alert("Invalid Admin ID or Password");
+                    newCaptcha();
+                }
             } else {
                 let path = (loginRole === 'emp') ? 'employees' : 'users';
                 db.ref(path + '/' + id).once('value', s => {
@@ -260,7 +281,7 @@
                             if(loginRole === 'emp') loadEmpDash();
                             else loadUserDash();
                         } else alert("Wrong Password");
-                    } else alert("Not Found");
+                    } else alert("User ID Not Found");
                 });
             }
         }
@@ -289,12 +310,10 @@
                         <div>User: ${v.u_name} (${v.u_phone})</div>
                         <div>Item: ${v.p_name} | Qty: ${v.qty} | Rs. ${v.total}</div>
                         <div>Status: <b style="color:blue">${v.status}</b></div>
-                        <div>Pay: ${v.pay_mode} | Addr: ${v.addr}</div>
                         <div style="margin-top:5px;">
                             <button class="btn-sm btn-p" onclick="updOrd('${key}','Confirmed')">Confirm</button>
                             <button class="btn-sm btn-s" onclick="updOrd('${key}','Shipped')">Ship</button>
-                            <button class="btn-sm btn-p" onclick="updOrd('${key}','Out for Delivery')">Out</button>
-                            <button class="btn-sm btn-red" onclick="updOrd('${key}','Delivered')">Done</button>
+                            <button class="btn-sm btn-p" onclick="updOrd('${key}','Delivered')">Done</button>
                         </div>
                     </div>`;
                 });
@@ -309,7 +328,7 @@
                     h += `<div class="item">
                         <div><b>${v.name}</b> (${v.role})<br><small>Pass: ${v.pass}</small></div>
                         <div>
-                            <a href="tel:${v.phone}" class="btn-sm btn-s" style="text-decoration:none;">📞 Call</a>
+                            <a href="tel:${v.phone}" class="btn-sm btn-s" style="text-decoration:none;">📞</a>
                             <button class="btn-sm btn-red" onclick="blockUser('employees','${v.phone}',${!v.blocked})">${v.blocked?'Unblock':'Block'}</button>
                         </div>
                     </div>`;
@@ -317,7 +336,7 @@
                 document.getElementById('emp_list').innerHTML = h;
             });
 
-            // Users (Show Passwords)
+            // Users
             db.ref('users').on('value', s => {
                 let h = "";
                 s.forEach(u => {
@@ -325,37 +344,19 @@
                     h += `<div class="item">
                         <div><b>${v.name}</b><br>Pass: ${v.pass}</div>
                         <div>
-                            <a href="tel:${v.phone}" class="btn-sm btn-s" style="text-decoration:none;">📞 Call</a>
                             <button class="btn-sm btn-red" onclick="blockUser('users','${v.phone}',${!v.blocked})">${v.blocked?'Unblock':'Block'}</button>
-                            <button class="btn-sm" onclick="delUser('${v.phone}')">Del</button>
                         </div>
                     </div>`;
                 });
                 document.getElementById('a_users').innerHTML = h;
-            });
-
-            // Attendance
-            let today = new Date().toLocaleDateString().split('/').join('-');
-            db.ref('attendance/'+today).on('value', s => {
-                let h = "";
-                s.forEach(a => {
-                    let v = a.val();
-                    h += `<div class="item">
-                        <div><b>${v.name}</b><br>${v.time}</div>
-                        <div class="badge b-grn">${v.by}</div>
-                    </div>`;
-                });
-                document.getElementById('att_list_adm').innerHTML = h;
             });
         }
 
         function addEmployee() {
             let p = document.getElementById('ne_phone').value;
             if(!p) return alert("Phone req");
-            
             let perms = [];
             if(document.getElementById('p_orders').checked) perms.push('orders');
-            if(document.getElementById('p_chat').checked) perms.push('chat');
             
             db.ref('employees/'+p).set({
                 name: document.getElementById('ne_name').value,
@@ -381,19 +382,11 @@
 
         function updOrd(k, s) { db.ref('orders/'+k).update({status: s}); }
         function blockUser(path, ph, st) { db.ref(path+'/'+ph).update({blocked: st}); }
-        function delUser(ph) { if(confirm("Delete?")) db.ref('users/'+ph).remove(); }
-        
-        function adminPunchAll() {
-            // Punch for a dummy employee as example, ideally loops through all
-            alert("Instant Punch feature activated for logged in view.");
-        }
 
         // === EMPLOYEE FUNCTIONS ===
         function loadEmpDash() {
             document.getElementById('emp_welcome').innerText = curUser.name + " (" + curUser.role + ")";
             showView('v_emp');
-            
-            // Check Attendance
             let today = new Date().toLocaleDateString().split('/').join('-');
             db.ref('attendance/'+today+'/'+curUser.phone).once('value', s => {
                 if(s.exists()) {
@@ -401,14 +394,9 @@
                     document.getElementById('btn_start_cam').style.display='none';
                 }
             });
-
-            // Permissions
             let h = "";
             if(curUser.perms && curUser.perms.includes('orders')) {
-                h += `<button class="btn btn-s" onclick="alert('Viewing Orders...')">Manage Orders</button>`;
-            }
-            if(curUser.perms && curUser.perms.includes('chat')) {
-                h += `<button class="btn btn-p" onclick="alert('Chat Open')">Admin Chat</button>`;
+                h += `<button class="btn btn-s" onclick="alert('Viewing Orders Access...')">Manage Orders</button>`;
             }
             document.getElementById('emp_features').innerHTML = h;
         }
@@ -416,7 +404,6 @@
         function startCam() {
             let hr = new Date().getHours();
             if(hr >= 10) return alert("Late! It's past 10 AM.");
-            
             document.getElementById('cam_div').style.display = 'block';
             document.getElementById('btn_start_cam').style.display = 'none';
             navigator.mediaDevices.getUserMedia({video:true}).then(s => document.getElementById('video').srcObject = s);
@@ -449,8 +436,6 @@
         function loadUserDash() {
             document.getElementById('u_welcome').innerText = "Hi, " + curUser.name;
             showView('v_user');
-            
-            // Load Products
             db.ref('products').on('value', s => {
                 let h = "";
                 s.forEach(p => {
@@ -466,8 +451,6 @@
                 });
                 document.getElementById('u_shop').innerHTML = h;
             });
-
-            // Load My Orders
             db.ref('orders').orderByChild('u_phone').equalTo(curUser.phone).on('value', s => {
                 let h = "";
                 s.forEach(o => {
@@ -477,35 +460,32 @@
                         <small>Qty: ${v.qty} | Rs. ${v.total}</small>
                     </div>`;
                 });
-                document.getElementById('u_orders').innerHTML = h || "No Past Orders";
+                document.getElementById('u_orders').innerHTML = h;
             });
         }
 
         function buyModal(pid, pname, rate, min) {
-            let qty = prompt(`Enter Quantity for ${pname} (Min ${min}):`, min);
+            let qty = prompt(`Enter Quantity (Min ${min}):`, min);
             if(qty && qty >= min) {
-                let mode = confirm("Press OK for Online Payment (QR), Cancel for Cash on Delivery");
+                let mode = confirm("Press OK for Online (QR), Cancel for Cash");
                 let payMode = mode ? 'Online' : 'COD';
                 let total = qty * rate;
 
                 if(mode) {
-                    // Show QR
                     document.getElementById('qr_modal').style.display = 'flex';
                     document.getElementById('qrcode').innerHTML = "";
                     new QRCode(document.getElementById("qrcode"), {
                         text: "upi://pay?pa=7033578145@sbi&pn=MithilaShop&am=" + total,
                         width: 128, height: 128
                     });
-                    
-                    // Simulation of payment completion
                     setTimeout(() => {
-                        if(confirm("Did you complete payment?")) placeOrder(pname, qty, total, payMode);
+                        if(confirm("Payment Done?")) placeOrder(pname, qty, total, payMode);
                         document.getElementById('qr_modal').style.display = 'none';
                     }, 5000);
                 } else {
                     placeOrder(pname, qty, total, payMode);
                 }
-            } else alert("Invalid Quantity");
+            } else alert("Invalid Qty");
         }
 
         function placeOrder(pname, qty, total, mode) {
@@ -520,9 +500,8 @@
                 status: 'Pending',
                 time: Date.now()
             });
-            alert("Order Placed Successfully!");
+            alert("Order Placed!");
         }
-
     </script>
 </body>
 </html>
