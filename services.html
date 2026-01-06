@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>Mithila System 4.0 (Tiranga Edition)</title>
+    <title>Mithila System 5.0 (Ultimate)</title>
     <style>
         :root { --orange: #FF9933; --white: #ffffff; --green: #138808; --blue: #000080; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
@@ -16,14 +16,12 @@
             overflow-x: hidden;
             position: relative;
         }
-
-        /* Rotating Ashok Chakra Background */
         .chakra-bg {
             position: fixed;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             width: 300px; height: 300px;
-            opacity: 0.2; /* Light watermark look */
+            opacity: 0.2;
             z-index: -1;
             pointer-events: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000080' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 2v20M2 12h20M4.93 4.93l14.14 14.14M19.07 4.93L4.93 19.07M12 12l2.5-4.33M12 12l-2.5-4.33M12 12l4.33 2.5M12 12l-4.33 2.5M12 12l4.33-2.5M12 12l-4.33-2.5M12 12l2.5 4.33M12 12l-2.5 4.33'/%3E%3C/svg%3E");
@@ -34,7 +32,7 @@
 
         /* --- LAYOUT --- */
         .container { max-width: 500px; margin: auto; padding: 15px; position: relative; z-index: 10; }
-        .box { background: rgba(255,255,255,0.95); padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); margin-bottom: 15px; display: none; border: 2px solid var(--blue); }
+        .box { background: rgba(255,255,255,0.96); padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); margin-bottom: 15px; display: none; border: 2px solid var(--blue); }
         #box-login { display: block; }
 
         .admin-wide { max-width: 1000px; background: white; padding: 20px; margin: 10px auto; border-radius: 10px; display: none; border-top: 5px solid var(--orange); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
@@ -50,13 +48,12 @@
         .btn-green { background: var(--green); } 
         .btn-orange { background: var(--orange); }
         .btn-red { background: #dc3545; }
+        .link-btn { color: var(--blue); cursor: pointer; font-size: 13px; text-decoration: underline; background: none; border: none; padding: 0; }
 
-        /* --- TABS --- */
         .nav-tabs { display: flex; gap: 5px; overflow-x: auto; padding-bottom: 10px; border-bottom: 1px solid #ddd; margin-bottom: 15px; }
         .nav-btn { padding: 8px 15px; border: none; background: #eee; border-radius: 20px; white-space: nowrap; cursor: pointer; font-size: 13px; font-weight: bold; color: #333; }
         .nav-btn.active { background: var(--blue); color: white; }
 
-        /* --- CHAT & LISTS --- */
         .chat-box { height: 300px; overflow-y: auto; background: #e5ddd5; padding: 10px; border-radius: 8px; border: 1px solid #ddd; display: flex; flex-direction: column; gap: 8px; }
         .msg { padding: 8px 12px; border-radius: 8px; max-width: 75%; font-size: 14px; word-wrap: break-word; }
         .msg.me { align-self: flex-end; background: #dcf8c6; } 
@@ -65,15 +62,17 @@
         .card-list { display: flex; flex-direction: column; gap: 10px; }
         .card-item { background: #f9f9f9; padding: 10px; border-radius: 5px; border-left: 4px solid var(--orange); display: flex; justify-content: space-between; align-items: center; }
 
-        /* --- CAMERA / PUNCHING --- */
         #cam_preview { width: 100%; height: 250px; background: black; border-radius: 10px; display: none; }
         #cam_canvas { display: none; }
         .punch-status { text-align: center; font-weight: bold; margin: 10px 0; }
         .status-present { color: var(--green); }
         .status-absent { color: red; }
-
         .hidden { display: none !important; }
         #recaptcha-container { margin: 10px auto; }
+        
+        .toggle-login { display:flex; justify-content:center; gap:10px; margin-bottom:10px; }
+        .toggle-btn { padding:5px 10px; border:1px solid var(--blue); border-radius:15px; font-size:12px; cursor:pointer; }
+        .toggle-btn.sel { background:var(--blue); color:white; }
     </style>
 </head>
 <body>
@@ -90,18 +89,57 @@
             </div>
 
             <div id="login-user" class="l-sec">
+                <div class="toggle-login">
+                    <div class="toggle-btn sel" onclick="toggleMethod('u', 'pass', this)">Password</div>
+                    <div class="toggle-btn" onclick="toggleMethod('u', 'otp', this)">OTP</div>
+                </div>
+
                 <input type="text" id="l_u_phone" placeholder="Mobile Number">
-                <input type="password" id="l_u_pass" placeholder="Password">
-                <button class="btn btn-blue" onclick="loginUser()">Login User</button>
+                
+                <div id="u_pass_area">
+                    <input type="password" id="l_u_pass" placeholder="Password">
+                    <button class="btn btn-blue" onclick="loginUser('pass')">Login</button>
+                    <div style="text-align:right; margin-top:5px;">
+                        <button class="link-btn" onclick="startForgot('user')">Forgot Password?</button>
+                    </div>
+                </div>
+
+                <div id="u_otp_area" class="hidden">
+                    <button class="btn btn-blue" id="btn_u_otp_send" onclick="sendLoginOTP('user')">Send OTP</button>
+                    <div id="u_otp_verify" class="hidden">
+                        <input type="number" id="l_u_otp_code" placeholder="Enter OTP">
+                        <button class="btn btn-green" onclick="loginUser('otp')">Verify & Login</button>
+                    </div>
+                </div>
+                
                 <p style="text-align:center; margin-top:15px; font-size:13px;">
                     <span onclick="go('box-reg')" style="color:var(--orange); cursor:pointer; font-weight:bold;">New User? Register Here</span>
                 </p>
             </div>
 
             <div id="login-emp" class="l-sec hidden">
-                <input type="text" id="l_e_phone" placeholder="Employee Mobile">
-                <input type="password" id="l_e_pass" placeholder="Password">
-                <button class="btn btn-green" onclick="loginEmp()">Login Employee</button>
+                <div class="toggle-login">
+                    <div class="toggle-btn sel" onclick="toggleMethod('e', 'pass', this)">ID & Password</div>
+                    <div class="toggle-btn" onclick="toggleMethod('e', 'otp', this)">ID & OTP</div>
+                </div>
+
+                <input type="text" id="l_e_phone" placeholder="Employee Mobile (ID)">
+
+                <div id="e_pass_area">
+                    <input type="password" id="l_e_pass" placeholder="Password">
+                    <button class="btn btn-green" onclick="loginEmp('pass')">Login</button>
+                    <div style="text-align:right; margin-top:5px;">
+                        <button class="link-btn" onclick="startForgot('employee')">Forgot Password?</button>
+                    </div>
+                </div>
+
+                <div id="e_otp_area" class="hidden">
+                    <button class="btn btn-green" id="btn_e_otp_send" onclick="sendLoginOTP('employee')">Send OTP</button>
+                    <div id="e_otp_verify" class="hidden">
+                        <input type="number" id="l_e_otp_code" placeholder="Enter OTP">
+                        <button class="btn btn-green" onclick="loginEmp('otp')">Verify & Login</button>
+                    </div>
+                </div>
             </div>
 
             <div id="login-admin" class="l-sec hidden">
@@ -111,6 +149,26 @@
             </div>
 
             <div id="recaptcha-container"></div>
+        </div>
+
+        <div id="box-forgot" class="box">
+            <h2>🔑 Reset Password</h2>
+            <p style="text-align:center; margin-bottom:10px;">For: <span id="forgot_role_disp" style="font-weight:bold;"></span></p>
+            
+            <input type="text" id="f_phone" placeholder="Enter Registered Mobile">
+            
+            <div id="f_otp_sec" class="hidden">
+                <input type="number" id="f_otp" placeholder="Enter OTP">
+                <button class="btn btn-green" onclick="verifyForgotOTP()">Verify OTP</button>
+            </div>
+
+            <div id="f_new_pass_sec" class="hidden">
+                <input type="password" id="f_new_pass" placeholder="New Password">
+                <button class="btn btn-blue" onclick="updatePassword()">Set Password</button>
+            </div>
+
+            <button class="btn btn-blue" id="btn_f_send" onclick="sendForgotOTP()">Send OTP</button>
+            <button class="btn" style="background:#888;" onclick="go('box-login')">Cancel</button>
         </div>
 
         <div id="box-reg" class="box">
@@ -144,12 +202,10 @@
                 <button class="nav-btn" onclick="uTab('u-chat')">Chat Admin</button>
                 <button class="nav-btn" onclick="uTab('u-media')">Feed</button>
             </div>
-
             <div id="u-shop" class="u-sec">
-                <p>Shop functionality here...</p>
-                <button class="btn btn-green">Buy Items</button>
+                <p>Welcome to Mithila Shop.</p>
+                <button class="btn btn-green">View Products</button>
             </div>
-
             <div id="u-chat" class="u-sec hidden">
                 <div class="chat-box" id="u_chat_disp"></div>
                 <div style="display:flex; gap:5px; margin-top:5px;">
@@ -157,7 +213,6 @@
                     <button class="btn-blue" style="width:50px;" onclick="sendChat('user')">➤</button>
                 </div>
             </div>
-
             <div id="u-media" class="u-sec hidden">
                 <div id="u_feed_disp"></div>
             </div>
@@ -173,7 +228,6 @@
 
             <div id="e-att" class="e-sec">
                 <div class="punch-status" id="e_today_status">Checking Status...</div>
-                
                 <div id="camera_area" class="hidden">
                     <video id="cam_preview" autoplay playsinline></video>
                     <canvas id="cam_canvas"></canvas>
@@ -185,7 +239,6 @@
             <div id="e-work" class="e-sec hidden">
                 <textarea id="e_report_txt" rows="4" placeholder="Type your daily work report here..."></textarea>
                 <button class="btn btn-orange" onclick="sendReport()">Submit Report</button>
-                <div id="e_report_hist" style="margin-top:10px; font-size:12px; color:#555;"></div>
             </div>
             <button class="btn btn-red" onclick="location.reload()">Logout</button>
         </div>
@@ -249,7 +302,6 @@
             <hr>
             <div id="adm_post_list"></div>
         </div>
-
         <button class="btn btn-red" onclick="location.reload()" style="max-width:200px; margin:20px auto; display:block;">Logout Admin</button>
     </div>
 
@@ -258,7 +310,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 
     <script>
-        // --- CONFIGURATION ---
         const firebaseConfig = {
             apiKey: "AIzaSyBtLLOyVgt5hQwxokdsSRkeArZab5kyr_Q",
             authDomain: "mithilahelp-4107d.firebaseapp.com",
@@ -277,318 +328,35 @@
         let activeChatUser = null;
         let resendTimer = 60;
         let timerInterval = null;
+        let forgotRole = null; // 'user' or 'employee'
 
-        // --- INIT ---
         window.onload = function() {
             window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {'size': 'invisible'});
             document.getElementById('today_date').innerText = new Date().toLocaleDateString();
         };
 
-        // --- NAVIGATION ---
-        function go(id) {
-            document.querySelectorAll('.box, .admin-wide').forEach(e => e.style.display = 'none');
-            document.getElementById(id).style.display = 'block';
-        }
+        function go(id) { document.querySelectorAll('.box, .admin-wide').forEach(e => e.style.display = 'none'); document.getElementById(id).style.display = 'block'; }
+        
         function showLoginTab(id) {
             document.querySelectorAll('.l-sec').forEach(e => e.classList.add('hidden'));
             document.querySelectorAll('.nav-btn').forEach(e => e.classList.remove('active'));
             event.target.classList.add('active');
             document.getElementById(id).classList.remove('hidden');
         }
-        function uTab(id) { document.querySelectorAll('.u-sec').forEach(e => e.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); }
-        function eTab(id) { document.querySelectorAll('.e-sec').forEach(e => e.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); }
-        function aTab(id) { document.querySelectorAll('.a-sec').forEach(e => e.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); }
 
-        // --- AUTH & REGISTRATION ---
-        function sendRegOTP() {
-            let ph = document.getElementById('r_phone').value;
-            let email = document.getElementById('r_email').value;
-            if(ph.length < 10 || !email) return alert("Valid Mobile & Email Required!");
-
-            db.ref('users/'+ph).once('value', s => {
-                if(s.exists()) return alert("User already exists!");
-                
-                let fPhone = "+91" + ph;
-                auth.signInWithPhoneNumber(fPhone, window.recaptchaVerifier)
-                .then((cr) => {
-                    confirmationResult = cr;
-                    document.getElementById('r_otp_sec').classList.remove('hidden');
-                    document.getElementById('btn_r_send').classList.add('hidden');
-                    startResendTimer();
-                    alert("OTP Sent!");
-                }).catch((e) => alert("Error: " + e.message));
-            });
+        function toggleMethod(prefix, type, el) {
+            el.parentElement.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('sel'));
+            el.classList.add('sel');
+            if(type === 'pass') {
+                document.getElementById(prefix + '_pass_area').classList.remove('hidden');
+                document.getElementById(prefix + '_otp_area').classList.add('hidden');
+            } else {
+                document.getElementById(prefix + '_pass_area').classList.add('hidden');
+                document.getElementById(prefix + '_otp_area').classList.remove('hidden');
+            }
         }
 
-        function startResendTimer() {
-            resendTimer = 60;
-            let btn = document.getElementById('btn_resend');
-            btn.disabled = true;
-            timerInterval = setInterval(() => {
-                resendTimer--;
-                btn.innerText = `Resend OTP (${resendTimer}s)`;
-                if(resendTimer <= 0) {
-                    clearInterval(timerInterval);
-                    btn.innerText = "Resend OTP";
-                    btn.disabled = false;
-                }
-            }, 1000);
-        }
-
-        function verifyRegOTP() {
-            let code = document.getElementById('r_otp_code').value;
-            confirmationResult.confirm(code).then(() => {
-                document.getElementById('r_pass_sec').classList.remove('hidden');
-                document.getElementById('r_otp_sec').style.display = 'none';
-                alert("Mobile Verified!");
-            }).catch(() => alert("Invalid OTP"));
-        }
-
-        function finalizeReg() {
-            let d = {
-                name: document.getElementById('r_name').value,
-                phone: document.getElementById('r_phone').value,
-                email: document.getElementById('r_email').value,
-                dob: document.getElementById('r_dob').value,
-                pass: document.getElementById('r_pass').value,
-                type: 'user'
-            };
-            db.ref('users/'+d.phone).set(d, e => {
-                if(!e) { alert("Registration Success!"); go('box-login'); }
-            });
-        }
-
-        // --- LOGIN LOGIC ---
-        function loginUser() {
-            let ph = document.getElementById('l_u_phone').value;
-            let pa = document.getElementById('l_u_pass').value;
-            db.ref('users/'+ph).once('value', s => {
-                let u = s.val();
-                if(u && u.pass == pa && u.type == 'user') {
-                    currentUser = u;
-                    document.getElementById('u_wel_msg').innerText = "Namaste, " + u.name;
-                    loadUserChat(); loadFeed('u_feed_disp');
-                    go('box-user');
-                } else alert("Invalid User Credentials");
-            });
-        }
-
-        function loginEmp() {
-            let ph = document.getElementById('l_e_phone').value;
-            let pa = document.getElementById('l_e_pass').value;
-            db.ref('employees/'+ph).once('value', s => {
-                let u = s.val();
-                if(u && u.pass == pa) {
-                    currentUser = u;
-                    currentUser.type = 'employee';
-                    document.getElementById('e_wel_msg').innerText = "Employee: " + u.name;
-                    checkAttendanceStatus();
-                    go('box-emp');
-                } else alert("Invalid Employee Credentials");
-            });
-        }
-
+        // --- NEW ADMIN LOGIN ---
         function loginAdmin() {
             let id = document.getElementById('l_a_id').value;
             let pa = document.getElementById('l_a_pass').value;
-            if(id === "admin" && pa === "admin123") { // Hardcoded for demo
-                currentUser = { name: "Admin", type: "admin" };
-                loadAdminData();
-                go('box-admin');
-            } else alert("Wrong Admin Details");
-        }
-
-        // --- EMPLOYEE FUNCTIONS (Punching & Reports) ---
-        function checkAttendanceStatus() {
-            let today = new Date().toLocaleDateString().split('/').join('-');
-            db.ref(`attendance/${today}/${currentUser.phone}`).once('value', s => {
-                let d = s.val();
-                let stat = document.getElementById('e_today_status');
-                if(d) {
-                    stat.innerHTML = `You punched in at: ${d.time} <br> <span class="status-present">Present</span>`;
-                    document.getElementById('btn_start_cam').classList.add('hidden');
-                } else {
-                    stat.innerHTML = `<span class="status-absent">Not Punched Yet</span>`;
-                    document.getElementById('btn_start_cam').classList.remove('hidden');
-                }
-            });
-        }
-
-        function startCamera() {
-            let now = new Date();
-            // RULE: Before 10 AM check
-            if(now.getHours() >= 10) {
-               alert("It's past 10:00 AM. You are late. Contact Admin to punch.");
-               return;
-            }
-
-            document.getElementById('camera_area').classList.remove('hidden');
-            document.getElementById('btn_start_cam').classList.add('hidden');
-            
-            const video = document.getElementById('cam_preview');
-            navigator.mediaDevices.getUserMedia({ video: true })
-            .then(stream => { video.srcObject = stream; })
-            .catch(err => alert("Camera Error: " + err));
-        }
-
-        function captureAndPunch() {
-            const video = document.getElementById('cam_preview');
-            const canvas = document.getElementById('cam_canvas');
-            canvas.width = video.videoWidth; canvas.height = video.videoHeight;
-            canvas.getContext('2d').drawImage(video, 0, 0);
-            
-            let imgData = canvas.toDataURL('image/png'); // Base64 Image
-            let today = new Date().toLocaleDateString().split('/').join('-');
-            let time = new Date().toLocaleTimeString();
-
-            // Save to Firebase
-            db.ref(`attendance/${today}/${currentUser.phone}`).set({
-                name: currentUser.name,
-                time: time,
-                photo: imgData,
-                punchedBy: 'Self'
-            }, (e) => {
-                if(!e) {
-                    alert("✅ Face Punch Success! Attendance Marked.");
-                    // Stop Camera
-                    video.srcObject.getTracks().forEach(t => t.stop());
-                    document.getElementById('camera_area').classList.add('hidden');
-                    checkAttendanceStatus();
-                }
-            });
-        }
-
-        function sendReport() {
-            let txt = document.getElementById('e_report_txt').value;
-            if(!txt) return;
-            let today = new Date().toLocaleDateString().split('/').join('-');
-            db.ref(`reports/${today}/${currentUser.phone}`).push({
-                text: txt, time: new Date().toLocaleTimeString()
-            });
-            alert("Report Sent!");
-            document.getElementById('e_report_txt').value = "";
-        }
-
-        // --- ADMIN FUNCTIONS ---
-        function loadAdminData() {
-            // Employees
-            db.ref('employees').on('value', s => {
-                let h = "";
-                s.forEach(snap => {
-                    let e = snap.val();
-                    h += `<div class="card-item"><div><b>${e.name}</b><br>${e.phone}</div><div>${e.role}</div></div>`;
-                });
-                document.getElementById('adm_emp_list').innerHTML = h;
-            });
-
-            // Attendance
-            let today = new Date().toLocaleDateString().split('/').join('-');
-            db.ref(`attendance/${today}`).on('value', s => {
-                let h = "";
-                if(s.exists()) {
-                    s.forEach(snap => {
-                        let a = snap.val();
-                        h += `<div class="card-item">
-                            <img src="${a.photo}" style="width:40px;height:40px;border-radius:50%;margin-right:10px;">
-                            <div><b>${a.name}</b><br>Time: ${a.time}</div>
-                            <div style="color:green;font-weight:bold;">✔</div>
-                        </div>`;
-                    });
-                } else { h = "<p>No attendance yet today.</p>"; }
-                document.getElementById('adm_att_list').innerHTML = h;
-            });
-
-            // Users List for Chat
-            db.ref('users').on('value', s => {
-                let h = "";
-                s.forEach(snap => {
-                    let u = snap.val();
-                    h += `<div onclick="openAdminChat('${u.phone}','${u.name}')" style="background:white; padding:8px; border-bottom:1px solid #ddd; cursor:pointer;">${u.name} <br><small>${u.phone}</small></div>`;
-                });
-                document.getElementById('adm_user_list').innerHTML = h;
-            });
-        }
-
-        function addEmployee() {
-            let n = document.getElementById('new_e_name').value;
-            let p = document.getElementById('new_e_phone').value;
-            let pass = document.getElementById('new_e_pass').value;
-            let r = document.getElementById('new_e_role').value;
-            if(n && p && pass) {
-                db.ref('employees/'+p).set({ name:n, phone:p, pass:pass, role:r }, e => {
-                    if(!e) { alert("Employee Added! They can now login."); }
-                });
-            }
-        }
-
-        function manualPunch(ph, name) {
-            // Admin can punch anytime
-            let today = new Date().toLocaleDateString().split('/').join('-');
-            let time = new Date().toLocaleTimeString();
-            db.ref(`attendance/${today}/${ph}`).set({
-                name: name, time: time, photo: 'https://via.placeholder.com/50', punchedBy: 'Admin'
-            });
-            alert("Manual Punch Done!");
-        }
-
-        function postMedia() {
-            let type = document.getElementById('m_type').value;
-            let title = document.getElementById('m_title').value;
-            let url = document.getElementById('m_url').value;
-            if(!title) return alert("Title required");
-            
-            db.ref('posts').push({
-                type: type, title: title, url: url, date: new Date().toLocaleDateString()
-            });
-            alert("Uploaded!");
-        }
-
-        // --- SHARED CHAT & MEDIA ---
-        function loadFeed(elId) {
-            db.ref('posts').limitToLast(10).on('value', s => {
-                let h = "";
-                let d = []; s.forEach(x => d.push(x.val()));
-                d.reverse().forEach(p => {
-                    let content = "";
-                    if(p.type == 'video') content = `<iframe src="${p.url.replace('watch?v=', 'embed/')}" style="width:100%;height:200px;border:none;"></iframe>`;
-                    else if(p.type == 'photo') content = `<img src="${p.url}" style="width:100%;">`;
-                    
-                    h += `<div style="background:white; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
-                        <b style="color:var(--orange)">${p.title}</b><br><small>${p.date}</small><br>${content}
-                    </div>`;
-                });
-                document.getElementById(elId).innerHTML = h;
-            });
-        }
-
-        function loadUserChat() {
-            db.ref('chats/'+currentUser.phone).on('value', s => renderChat(s.val(), 'u_chat_disp', 'user'));
-        }
-
-        function openAdminChat(ph, name) {
-            activeChatUser = ph;
-            document.getElementById('chat_head_nm').innerText = "Chat with " + name;
-            db.ref('chats/'+ph).on('value', s => renderChat(s.val(), 'adm_chat_disp', 'admin'));
-        }
-
-        function sendChat(role) {
-            let txt = document.getElementById(role=='user'?'u_msg_in':'a_msg_in').value;
-            let ph = role=='user' ? currentUser.phone : activeChatUser;
-            if(txt && ph) {
-                db.ref('chats/'+ph).push({ text:txt, sender:role, time:Date.now() });
-                document.getElementById(role=='user'?'u_msg_in':'a_msg_in').value = "";
-            }
-        }
-
-        function renderChat(data, elId, myRole) {
-            let box = document.getElementById(elId); box.innerHTML = "";
-            if(data) Object.values(data).forEach(m => {
-                let isMe = (m.sender === myRole);
-                box.innerHTML += `<div class="msg ${isMe?'me':'other'}">${m.text}</div>`;
-            });
-            box.scrollTop = box.scrollHeight;
-        }
-
-    </script>
-</body>
-</html>
