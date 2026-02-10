@@ -3,29 +3,25 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>Mithila Super ERP 12.0 (All-in-One)</title>
+    <title>Mithila Super ERP 13.0 (Multi-Unit)</title>
     
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     
     <style>
-        :root { --p: #4a148c; --s: #ff6f00; --bg: #f3f4f6; }
-        * { box-sizing: border-box; font-family: sans-serif; -webkit-tap-highlight-color: transparent; outline: none; }
-        body { margin:0; background: var(--bg); padding-bottom: 60px; }
+        :root { --p: #2e7d32; --s: #f57f17; --bg: #e8f5e9; --chat-me: #dcf8c6; --chat-other: #fff; }
+        * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; outline: none; }
+        body { margin:0; background: var(--bg); padding-bottom: 70px; }
         
-        .header { background: linear-gradient(45deg, var(--p), #7c43bd); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .header { background: linear-gradient(45deg, #1b5e20, #4caf50); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
         .header h2 { margin: 0; font-size: 18px; }
 
         .container { max-width: 600px; margin: auto; padding: 10px; }
         .box { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 15px; display: none; }
         .box.active { display: block; }
 
-        input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; }
-        
-        /* Captcha Box */
-        .captcha-box { background: #fff3e0; border: 1px dashed var(--s); padding: 10px; border-radius: 8px; margin: 10px 0; text-align: center; }
-        .cap-text { font-size: 18px; font-weight: bold; color: var(--p); letter-spacing: 2px; }
+        input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; background: #fff; }
         
         .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; color: white; cursor: pointer; margin-top: 5px; font-size: 15px; }
         .btn-p { background: var(--p); }
@@ -38,7 +34,16 @@
         .tab.active { background: var(--p); color: white; }
 
         .item { border-bottom: 1px solid #eee; padding: 10px 0; display: flex; justify-content: space-between; align-items: center; }
-        .report-item { background: #f9f9f9; padding: 10px; margin-bottom: 5px; border-left: 4px solid var(--s); border-radius: 5px; font-size: 13px; }
+        
+        /* Chat Styles */
+        .chat-box { height: 300px; overflow-y: auto; background: #ece5dd; padding: 10px; border-radius: 5px; margin-bottom: 10px; display: flex; flex-direction: column; }
+        .msg { padding: 8px 12px; border-radius: 10px; margin-bottom: 5px; max-width: 75%; font-size: 14px; }
+        .msg.me { background: var(--chat-me); align-self: flex-end; }
+        .msg.other { background: var(--chat-other); align-self: flex-start; }
+
+        /* Camera Box */
+        .cam-container { width:100%; height:auto; background:#000; text-align:center; display:none; border-radius:8px; overflow:hidden;}
+        video { width: 100%; max-height: 300px; }
         
         #qr_modal { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:none; justify-content:center; align-items:center; z-index:200; }
         .qr-box { background: white; padding: 20px; border-radius: 10px; text-align: center; width: 300px; }
@@ -47,14 +52,13 @@
 <body>
 
     <div class="header">
-        <h2>Mithila ERP 12.0</h2>
+        <h2>Mithila ERP 13.0</h2>
     </div>
 
     <div id="qr_modal">
         <div class="qr-box">
             <h3>Scan to Pay</h3>
             <div id="qrcode" style="margin: 10px auto; display:flex; justify-content:center;"></div>
-            <p style="color:red; font-size:12px;">Payment ID Hidden</p>
             <button class="btn btn-red" onclick="document.getElementById('qr_modal').style.display='none'">Close</button>
         </div>
     </div>
@@ -71,18 +75,12 @@
 
             <input type="text" id="l_id" placeholder="Mobile / ID / Admin Name">
             <input type="password" id="l_pass" placeholder="Password">
-            
-            <div class="captcha-box">
-                <span id="cap_q" class="cap-text">Loading...</span>
-                <input type="number" id="cap_ans" placeholder="Answer Here" style="text-align:center; width:60%; margin: 5px auto; display:block;">
-            </div>
-
             <button class="btn btn-p" onclick="login()">Login Securely</button>
             <p id="reg_hint" style="text-align:center; font-size:13px; color:var(--p); cursor:pointer; margin-top:15px;" onclick="showView('v_reg')">New User? Register Here</p>
         </div>
 
         <div id="v_reg" class="box">
-            <h3>User Registration</h3>
+            <h3>New Customer Registration</h3>
             <input type="text" id="r_name" placeholder="Full Name">
             <input type="number" id="r_phone" placeholder="Mobile Number">
             <input type="password" id="r_pass" placeholder="Create Password">
@@ -94,104 +92,131 @@
         <div id="v_admin" class="box">
             <h3>Admin Dashboard</h3>
             <div class="tabs">
-                <div class="tab active" onclick="aTab('a_orders',this)">Orders</div>
-                <div class="tab" onclick="aTab('a_reports',this)">Reports</div>
-                <div class="tab" onclick="aTab('a_prod',this)">Products</div>
+                <div class="tab active" onclick="aTab('a_stock',this)">Stock</div>
                 <div class="tab" onclick="aTab('a_emp',this)">Employees</div>
-                <div class="tab" onclick="aTab('a_users',this)">Users</div>
                 <div class="tab" onclick="aTab('a_att',this)">Attendance</div>
+                <div class="tab" onclick="aTab('a_chat',this)">Chats</div>
             </div>
 
-            <div id="a_orders"></div>
-
-            <div id="a_reports" class="hide" style="display:none;">
-                <h4>Employee Work Reports</h4>
-                <div id="report_list_adm">Loading Reports...</div>
-            </div>
-
-            <div id="a_prod" class="hide" style="display:none;">
-                <div style="background:#f9f9f9; padding:10px; border-radius:5px;">
-                    <h4>Add Product</h4>
+            <div id="a_stock">
+                <div style="background:#f1f8e9; padding:10px; border-radius:5px;">
+                    <h4>Add Product (With Image & Unit)</h4>
                     <input type="text" id="np_name" placeholder="Product Name">
+                    
                     <div style="display:flex; gap:5px;">
-                        <input type="number" id="np_rate" placeholder="Rate (Rs)">
-                        <select id="np_unit">
-                            <option value="Pc">Piece (Pc)</option>
+                        <input type="number" id="np_rate" placeholder="Rate (Rs)" style="flex:1;">
+                        
+                        <select id="np_unit" style="flex:1;">
+                            <option value="Pc">Piece (Pics)</option>
                             <option value="Kg">Kilogram (Kg)</option>
                             <option value="Gm">Gram (Gm)</option>
+                            <option value="Mtr">Meter (Mtr)</option>
+                            <option value="Bdl">Bundle (Bdl)</option>
+                            <option value="Doz">Dozen (Doz)</option>
                             <option value="Ltr">Liter (Ltr)</option>
                             <option value="Ml">MiliLiter (Ml)</option>
-                            <option value="Doz">Dozen (Doz)</option>
-                            <option value="Bdl">Bundle (Bdl)</option>
                             <option value="Box">Box</option>
                             <option value="Pkt">Packet (Pkt)</option>
                         </select>
                     </div>
-                    <input type="number" id="np_qty" placeholder="Stock Qty">
-                    <input type="number" id="np_min" placeholder="Min Purchase">
-                    <input type="text" id="np_img" placeholder="Image URL">
-                    <button class="btn btn-s" onclick="addProduct()">Add Product</button>
+                    
+                    <input type="number" id="np_qty" placeholder="Current Stock Qty">
+                    <input type="text" id="np_img" placeholder="Image URL (Compulsory)">
+                    <button class="btn btn-s" onclick="addProduct()">Save Product</button>
                 </div>
                 <hr>
-                <h4>Product List</h4>
-                <div id="prod_list_adm"></div>
+                <h4>Current Inventory</h4>
+                <div id="prod_list_adm">Loading...</div>
             </div>
 
             <div id="a_emp" class="hide" style="display:none;">
-                <div style="background:#f9f9f9; padding:10px; border-radius:5px;">
-                    <h4>Add Employee</h4>
+                <div style="background:#fff3e0; padding:10px; border-radius:5px;">
+                    <h4>Add Employee (Live Photo Required)</h4>
                     <input type="text" id="ne_name" placeholder="Name">
-                    <input type="text" id="ne_phone" placeholder="Phone (ID)">
+                    <input type="number" id="ne_phone" placeholder="Phone (ID)">
                     <input type="text" id="ne_pass" placeholder="Password">
-                    <input type="number" id="ne_sal" placeholder="Salary">
-                    <select id="ne_role">
-                        <option value="Delivery Boy">Delivery Boy</option>
-                        <option value="Picker">Picker</option>
-                        <option value="Driver">Driver</option>
-                        <option value="Cooking Staff">Cooking Staff</option>
-                        <option value="Helper">Helper</option>
-                        <option value="Manager">Manager</option>
-                        <option value="HR">HR</option>
-                        <option value="Safety">Safety</option>
-                    </select>
-                    <p style="font-size:12px; font-weight:bold;">Access Permissions:</p>
-                    <div class="access-grid">
-                        <label class="access-item"><input type="checkbox" id="p_orders"> Orders</label>
-                        <label class="access-item"><input type="checkbox" id="p_users"> Users</label>
+                    <input type="text" id="ne_role" placeholder="Role (e.g. Driver)">
+                    
+                    <p style="font-size:12px; font-weight:bold;">Permissions:</p>
+                    <label><input type="checkbox" id="p_stock"> Can Edit Stock/Material</label>
+                    <br><br>
+                    
+                    <button class="btn btn-sm btn-p" onclick="startRegCam()">Open Camera</button>
+                    <div id="reg_cam_div" class="cam-container" style="margin-top:5px;">
+                        <video id="reg_video" autoplay playsinline></video>
+                        <button class="btn btn-red" onclick="captureRegPhoto()">Capture Photo</button>
                     </div>
-                    <button class="btn btn-p" onclick="addEmployee()">Add Employee</button>
+                    <input type="hidden" id="ne_ref_photo">
+                    <div id="ref_preview" style="display:none; text-align:center; margin:5px;">
+                        <img id="ref_img_show" style="width:100px; height:100px; border-radius:50%;">
+                        <p style="font-size:10px; color:green;">Photo Set!</p>
+                    </div>
+
+                    <button class="btn btn-p" onclick="addEmployee()" style="margin-top:10px;">Register Employee</button>
                 </div>
-                <div id="emp_list" style="margin-top:10px;"></div>
+                <hr>
+                <div id="emp_list"></div>
             </div>
 
-            <div id="a_users" class="hide" style="display:none;">
-                <div id="user_list_adm"></div>
-            </div>
-            
             <div id="a_att" class="hide" style="display:none;">
-                <button class="btn btn-s" onclick="adminPunchAll()">Punch ALL Present</button>
-                <div id="att_list_adm" style="margin-top:10px;"></div>
+                <h4>Work Report (Days Worked)</h4>
+                <div id="work_days_list" style="margin-bottom:15px; background:#eee; padding:5px;">Calculating...</div>
+                
+                <h4>Today's Punch (Live)</h4>
+                <div id="att_list_adm"></div>
+            </div>
+
+            <div id="a_chat" class="hide" style="display:none;">
+                <h4>Customer/Staff Messages</h4>
+                <div id="chat_users_list"></div>
+                <div id="admin_chat_window" style="display:none; margin-top:10px; border-top:2px solid #333; padding-top:10px;">
+                    <h5 id="chat_target_name">Chatting...</h5>
+                    <div id="admin_msgs" class="chat-box"></div>
+                    <input type="text" id="admin_msg_in" placeholder="Reply...">
+                    <button class="btn btn-s" onclick="adminSendMsg()">Send</button>
+                    <button class="btn btn-red btn-sm" onclick="closeAdminChat()">Close</button>
+                </div>
             </div>
             
-            <button class="btn btn-red" onclick="logout()">Logout</button>
+            <button class="btn btn-red" onclick="logout()" style="margin-top:20px;">Logout</button>
         </div>
 
         <div id="v_emp" class="box">
-            <h3 id="emp_welcome">Employee</h3>
+            <h3 id="emp_welcome">Employee Panel</h3>
+            
             <div id="emp_att_sec" style="text-align:center; background:#eee; padding:10px; border-radius:8px; margin-bottom:10px;">
-                <p id="att_status">Checking...</p>
-                <div id="cam_div" style="display:none;">
-                    <video id="video" style="width:100%; border-radius:5px;" autoplay playsinline></video>
-                    <canvas id="canvas" style="display:none;"></canvas>
-                    <button class="btn btn-p" onclick="takeSelfie()">📸 Capture</button>
+                <p id="att_status">Status: Checking...</p>
+                
+                <div id="punch_cam_div" class="cam-container">
+                    <video id="punch_video" autoplay playsinline></video>
+                    <button class="btn btn-p" onclick="takePunchSelfie()">📸 Capture & Punch</button>
                 </div>
-                <button class="btn btn-s" id="btn_start_cam" onclick="startCam()">Punch In</button>
+                <button class="btn btn-s" id="btn_start_punch" onclick="startPunchCam()">Punch In (Live Cam)</button>
+                <p style="font-size:11px; color:red;">Punch Time: 07-10 AM & 07-10 PM only. Sunday Off.</p>
             </div>
-            <div id="emp_features"></div>
-            <hr>
-            <h4>Upload Work Report</h4>
-            <textarea id="emp_work" placeholder="Today's work details..."></textarea>
-            <button class="btn btn-p" onclick="submitWork()">Submit Report</button>
+
+            <div class="tabs">
+                <div class="tab active" onclick="eTab('e_home',this)">Home</div>
+                <div class="tab" onclick="eTab('e_stock',this)" id="tab_stock_perm" style="display:none;">Stock Edit</div>
+                <div class="tab" onclick="eTab('e_chat',this)">Admin Chat</div>
+            </div>
+
+            <div id="e_home">
+                <h4>My Details</h4>
+                <p>Role: <span id="e_role_disp"></span></p>
+            </div>
+
+            <div id="e_stock" style="display:none;">
+                <h4>Update Store Material</h4>
+                <div id="prod_list_emp"></div>
+            </div>
+
+            <div id="e_chat" style="display:none;">
+                <div id="emp_msgs" class="chat-box"></div>
+                <input type="text" id="emp_msg_in" placeholder="Ask Admin...">
+                <button class="btn btn-p" onclick="sendChat('emp')">Send</button>
+            </div>
+
             <button class="btn btn-red" onclick="logout()">Logout</button>
         </div>
 
@@ -199,17 +224,27 @@
             <h3 id="u_welcome">Shop</h3>
             <div class="tabs">
                 <div class="tab active" onclick="uTab('u_shop',this)">Products</div>
-                <div class="tab" onclick="uTab('u_orders',this)">My Orders</div>
+                <div class="tab" onclick="uTab('u_chat',this)">Chat Support</div>
             </div>
+            
             <div id="u_shop"></div>
-            <div id="u_orders" style="display:none;"></div>
+            
+            <div id="u_chat" style="display:none;">
+                <h4>Talk to Admin</h4>
+                <div id="user_msgs" class="chat-box"></div>
+                <input type="text" id="user_msg_in" placeholder="Type message...">
+                <button class="btn btn-p" onclick="sendChat('user')">Send</button>
+            </div>
+
             <button class="btn btn-red" onclick="logout()">Logout</button>
         </div>
 
     </div>
 
+    <canvas id="canvas" style="display:none;"></canvas>
+
     <script>
-        // CONFIG
+        // FIREBASE CONFIG (Use your own keys in production)
         const firebaseConfig = {
             apiKey: "AIzaSyBtLLOyVgt5hQwxokdsSRkeArZab5kyr_Q", 
             authDomain: "mithilahelp-4107d.firebaseapp.com",
@@ -222,25 +257,14 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        let curUser = null;
+        let curUser = null; 
         let loginRole = 'user';
-        let capSum = 0;
+        let activeChatID = null; 
 
-        // CAPTCHA
-        function newCaptcha() {
-            let n1 = Math.floor(Math.random() * 9) + 1;
-            let n2 = Math.floor(Math.random() * 9) + 1;
-            capSum = n1 + n2;
-            document.getElementById('cap_q').innerText = `${n1} + ${n2} = ?`;
-            document.getElementById('cap_ans').value = "";
-        }
-        window.onload = newCaptcha;
-
-        // UTILS
+        // --- NAVIGATION ---
         function showView(id) {
             document.querySelectorAll('.box').forEach(b => b.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            newCaptcha();
         }
         function setLoginRole(r, el) {
             loginRole = r;
@@ -249,240 +273,392 @@
             document.getElementById('reg_hint').style.display = (r === 'user') ? 'block' : 'none';
         }
         function aTab(id, el) {
-            document.querySelectorAll('#v_admin > div').forEach(d => { if(d.id) d.style.display='none'; });
+            document.querySelectorAll('#v_admin > div').forEach(d => { if(d.id && d.id.startsWith('a_')) d.style.display='none'; });
             document.getElementById(id).style.display = 'block';
             document.querySelectorAll('#v_admin .tab').forEach(t => t.classList.remove('active'));
             el.classList.add('active');
         }
         function uTab(id, el) {
             document.getElementById('u_shop').style.display = 'none';
-            document.getElementById('u_orders').style.display = 'none';
+            document.getElementById('u_chat').style.display = 'none';
             document.getElementById(id).style.display = 'block';
             document.querySelectorAll('#v_user .tab').forEach(t => t.classList.remove('active'));
             el.classList.add('active');
         }
+        function eTab(id, el) {
+            document.getElementById('e_home').style.display = 'none';
+            document.getElementById('e_stock').style.display = 'none';
+            document.getElementById('e_chat').style.display = 'none';
+            document.getElementById(id).style.display = 'block';
+            document.querySelectorAll('#v_emp .tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+        }
         function logout() { location.reload(); }
 
-        // AUTH
+        // --- AUTH ---
         function login() {
-            let ans = parseInt(document.getElementById('cap_ans').value);
-            if(ans !== capSum) { alert("❌ Wrong Captcha!"); newCaptcha(); return; }
-            let id = document.getElementById('l_id').value;
-            let pass = document.getElementById('l_pass').value;
+            let id = document.getElementById('l_id').value.trim();
+            let pass = document.getElementById('l_pass').value.trim();
+            if(!id || !pass) return alert("Enter Details");
 
             if(loginRole === 'admin') {
                 if((id === "shreya rani" || id === "9135673198") && pass === "mydearshreya@#") {
-                    curUser = { name: "Shreya Admin", role: "admin" };
+                    curUser = { name: "Admin", role: "admin", phone: "admin" };
                     loadAdminData();
                     showView('v_admin');
-                } else { alert("Invalid Admin"); newCaptcha(); }
+                } else alert("Invalid Admin");
             } else {
                 let path = (loginRole === 'emp') ? 'employees' : 'users';
                 db.ref(path + '/' + id).once('value', s => {
                     let d = s.val();
-                    if(d) {
-                        if(d.blocked) return alert("You are BLOCKED by Admin.");
-                        if(d.pass == pass) {
-                            curUser = d; curUser.phone = id;
-                            if(loginRole === 'emp') loadEmpDash(); else loadUserDash();
-                        } else alert("Wrong Password");
-                    } else alert("ID Not Found");
+                    if(d && d.pass == pass) {
+                        curUser = d; curUser.phone = id;
+                        if(loginRole === 'emp') loadEmpDash(); else loadUserDash();
+                    } else alert("Invalid ID or Password");
                 });
             }
         }
         function registerUser() {
-            let d = { name: document.getElementById('r_name').value, phone: document.getElementById('r_phone').value, pass: document.getElementById('r_pass').value, addr: document.getElementById('r_addr').value, blocked: false };
-            if(d.phone) db.ref('users/'+d.phone).set(d, e => { if(!e) { alert("Registered!"); showView('v_login'); } });
+            let p = document.getElementById('r_phone').value;
+            let d = { 
+                name: document.getElementById('r_name').value, 
+                phone: p, 
+                pass: document.getElementById('r_pass').value, 
+                addr: document.getElementById('r_addr').value 
+            };
+            if(d.phone && d.pass) db.ref('users/'+p).set(d, e => { if(!e) { alert("Registered!"); showView('v_login'); } });
         }
 
-        // ADMIN FUNCTIONS
+        // --- ADMIN FUNCTIONS ---
         function loadAdminData() {
-            // Work Reports
-            db.ref('work_reports').limitToLast(20).on('value', s => {
-                let h = "";
-                s.forEach(r => {
-                    let v = r.val();
-                    let t = new Date(v.time).toLocaleString();
-                    h += `<div class="report-item"><b>${v.user}</b> <small>(${t})</small><br>${v.text}</div>`;
-                });
-                document.getElementById('report_list_adm').innerHTML = h || "No reports";
-            });
-
-            // Products
+            // 1. Stock View (Editable)
             db.ref('products').on('value', s => {
                 let h = "";
                 s.forEach(p => {
                     let v = p.val();
                     h += `<div class="item">
-                        <img src="${v.img}" style="width:40px;height:40px;border-radius:5px;margin-right:10px;">
-                        <div style="flex-grow:1"><b>${v.name}</b><br>Rs. ${v.rate} / ${v.unit}</div>
+                        <img src="${v.img}" style="width:50px;height:50px;border-radius:5px;object-fit:cover;margin-right:10px;">
+                        <div style="flex-grow:1">
+                            <b>${v.name}</b><br>
+                            Price: Rs.${v.rate}/${v.unit}<br>
+                            Stock: <b>${v.qty}</b> ${v.unit}
+                        </div>
+                        <button class="btn-sm btn-s" onclick="editStock('${p.key}', ${v.qty})">Edit Qty</button>
                         <button class="btn-sm btn-red" onclick="db.ref('products/${p.key}').remove()">Del</button>
                     </div>`;
                 });
                 document.getElementById('prod_list_adm').innerHTML = h;
             });
 
-            // Orders
-            db.ref('orders').on('value', s => {
-                let h = "";
-                s.forEach(o => {
-                    let v = o.val();
-                    h += `<div class="item" style="flex-direction:column; align-items:flex-start;">
-                        <b>Order #${o.key.substr(-4)}</b> (${v.status})<br>${v.p_name} x ${v.qty}
-                        <div style="margin-top:5px;"><button class="btn-sm btn-p" onclick="db.ref('orders/${o.key}').update({status:'Confirmed'})">Confirm</button></div>
-                    </div>`;
-                });
-                document.getElementById('a_orders').innerHTML = h;
-            });
-
-            // Employees (With Call & Block)
-            db.ref('employees').on('value', s => {
-                 let h=""; 
-                 s.forEach(e=>{ 
-                     let v = e.val();
-                     h+=`<div class="item">
-                        <div><b>${v.name}</b> (${v.role})<br><small>${v.phone}</small></div>
-                        <div>
-                            <a href="tel:${v.phone}" class="btn-sm btn-s" style="text-decoration:none">📞</a>
-                            <button class="btn-sm btn-red" onclick="blockUser('employees','${v.phone}',${!v.blocked})">${v.blocked?'Unblock':'Block'}</button>
-                        </div>
-                     </div>`; 
-                 });
-                 document.getElementById('emp_list').innerHTML = h;
-            });
-
-            // Users (With Call & Block & Del)
-            db.ref('users').on('value', s => {
-                 let h=""; 
-                 s.forEach(u=>{ 
-                     let v = u.val();
-                     h+=`<div class="item">
-                        <div><b>${v.name}</b><br><small>${v.phone}</small></div>
-                        <div>
-                            <a href="tel:${v.phone}" class="btn-sm btn-s" style="text-decoration:none">📞</a>
-                            <button class="btn-sm btn-red" onclick="blockUser('users','${v.phone}',${!v.blocked})">${v.blocked?'Unblock':'Block'}</button>
-                            <button class="btn-sm btn-p" onclick="if(confirm('Del?')) db.ref('users/${v.phone}').remove()">Del</button>
-                        </div>
-                     </div>`; 
-                 });
-                 document.getElementById('user_list_adm').innerHTML = h;
-            });
-
-            // Attendance
+            // 2. Attendance & Reports
             let today = new Date().toLocaleDateString().split('/').join('-');
             db.ref('attendance/'+today).on('value', s => {
-                 let h=""; s.forEach(a => h+=`<div class="item">${a.val().name} - ${a.val().time}</div>`);
-                 document.getElementById('att_list_adm').innerHTML = h || "No attendance today";
+                let h=""; 
+                s.forEach(a => {
+                    let v = a.val();
+                    h+=`<div class="item">
+                        <div><b>${v.name}</b><br>${v.time}</div>
+                        <img src="${v.photo}" style="width:50px;height:50px;border-radius:50%;border:2px solid green;">
+                    </div>`;
+                });
+                document.getElementById('att_list_adm').innerHTML = h || "No punches yet today.";
+            });
+
+            // Count Days Worked
+            db.ref('attendance').once('value', s => {
+                let counts = {};
+                s.forEach(dateSnap => {
+                    dateSnap.forEach(empSnap => {
+                        let eid = empSnap.key; // Phone number
+                        let ename = empSnap.val().name;
+                        if(!counts[eid]) counts[eid] = {name: ename, days: 0};
+                        counts[eid].days++;
+                    });
+                });
+                let rh = "";
+                for(let k in counts) {
+                    rh += `<div class="item">${counts[k].name}: <b>${counts[k].days} Days</b></div>`;
+                }
+                document.getElementById('work_days_list').innerHTML = rh;
+            });
+
+            // 3. Chat List
+            db.ref('chats').on('value', s => {
+                let h = "";
+                s.forEach(u => {
+                    let msgs = Object.values(u.val());
+                    let last = msgs[msgs.length-1];
+                    h += `<div class="item" onclick="openAdminChat('${u.key}', '${last.senderName}')" style="cursor:pointer; background:#fff;">
+                        <div><b>${last.senderName}</b><br><small>${last.text.substring(0,20)}...</small></div>
+                        <div style="font-size:10px;">${new Date(last.time).toLocaleTimeString()}</div>
+                    </div>`;
+                });
+                document.getElementById('chat_users_list').innerHTML = h;
+            });
+
+            // 4. Employees List
+            db.ref('employees').on('value', s => {
+                let h="";
+                s.forEach(e => {
+                    let v = e.val();
+                    h += `<div class="item">
+                        <img src="${v.ref_photo || ''}" style="width:40px;height:40px;border-radius:50%; object-fit:cover; margin-right:5px;">
+                        <div><b>${v.name}</b> (${v.role})<br>Perms: ${v.perms?v.perms.join(','):'None'}</div>
+                    </div>`;
+                });
+                document.getElementById('emp_list').innerHTML = h;
             });
         }
 
         function addProduct() {
+            let n = document.getElementById('np_name').value;
+            let img = document.getElementById('np_img').value;
+            let unit = document.getElementById('np_unit').value;
+            
+            if(!n || !img) return alert("Name and Image URL are Compulsory!");
+            
             db.ref('products').push({
-                name: document.getElementById('np_name').value,
+                name: n,
                 rate: document.getElementById('np_rate').value,
-                unit: document.getElementById('np_unit').value,
+                unit: unit,
                 qty: document.getElementById('np_qty').value,
-                min: document.getElementById('np_min').value,
-                img: document.getElementById('np_img').value
+                img: img
             });
             alert("Product Added");
         }
+
+        function editStock(key, oldQty) {
+            let nq = prompt("Enter New Quantity:", oldQty);
+            if(nq !== null) db.ref('products/'+key).update({qty: nq});
+        }
+
+        // --- EMPLOYEE REGISTRATION WITH LIVE CAMERA ---
+        let regStream = null;
+        function startRegCam() {
+            document.getElementById('reg_cam_div').style.display = 'block';
+            navigator.mediaDevices.getUserMedia({video:true}).then(s => {
+                regStream = s;
+                document.getElementById('reg_video').srcObject = s;
+            });
+        }
+        function captureRegPhoto() {
+            if(!regStream) return;
+            let v = document.getElementById('reg_video');
+            let c = document.getElementById('canvas');
+            c.width = v.videoWidth; c.height = v.videoHeight;
+            c.getContext('2d').drawImage(v,0,0);
+            let url = c.toDataURL('image/jpeg', 0.5);
+            document.getElementById('ne_ref_photo').value = url;
+            document.getElementById('ref_img_show').src = url;
+            document.getElementById('ref_preview').style.display = 'block';
+            document.getElementById('reg_cam_div').style.display = 'none';
+            regStream.getTracks().forEach(t=>t.stop());
+        }
         function addEmployee() {
             let p = document.getElementById('ne_phone').value;
-            if(!p) return;
-            let perms = [];
-            if(document.getElementById('p_orders').checked) perms.push('orders');
-            if(document.getElementById('p_users').checked) perms.push('users');
+            let ref = document.getElementById('ne_ref_photo').value;
+            if(!p || !ref) return alert("Phone and Live Photo Required!");
             
+            let perms = [];
+            if(document.getElementById('p_stock').checked) perms.push('manage_stock');
+
             db.ref('employees/'+p).set({
                 name: document.getElementById('ne_name').value,
                 phone: p,
                 pass: document.getElementById('ne_pass').value,
-                salary: document.getElementById('ne_sal').value,
                 role: document.getElementById('ne_role').value,
                 perms: perms,
-                blocked: false
-            }, e => alert("Added"));
+                ref_photo: ref
+            }, e => { if(!e) alert("Employee Registered"); });
         }
-        function blockUser(path, ph, st) { db.ref(path+'/'+ph).update({blocked: st}); }
-        function adminPunchAll() { alert("Dummy punch triggered for all."); }
 
-        // EMPLOYEE
+        // --- EMPLOYEE DASHBOARD FUNCTIONS ---
         function loadEmpDash() {
-            document.getElementById('emp_welcome').innerText = curUser.name + " (" + curUser.role + ")";
             showView('v_emp');
+            document.getElementById('emp_welcome').innerText = "Hi, " + curUser.name;
+            document.getElementById('e_role_disp').innerText = curUser.role;
+            
+            // Check Permissions
+            if(curUser.perms && curUser.perms.includes('manage_stock')) {
+                document.getElementById('tab_stock_perm').style.display = 'block';
+                loadStockForEmp();
+            }
+
+            // Check Attendance Status
             let today = new Date().toLocaleDateString().split('/').join('-');
             db.ref('attendance/'+today+'/'+curUser.phone).once('value', s => {
-                if(s.exists()) { document.getElementById('att_status').innerHTML = "✅ Present"; document.getElementById('btn_start_cam').style.display='none'; }
+                if(s.exists()) {
+                    document.getElementById('att_status').innerHTML = "✅ Present (" + s.val().time + ")";
+                    document.getElementById('btn_start_punch').style.display = 'none';
+                }
             });
-            
-            // Access Features
-            let h = "";
-            if(curUser.perms && curUser.perms.includes('orders')) h += `<button class="btn btn-s" onclick="alert('Viewing Orders...')">Manage Orders</button>`;
-            document.getElementById('emp_features').innerHTML = h;
-        }
-        function startCam() {
-            if(new Date().getHours() >= 10) return alert("Late!");
-            document.getElementById('cam_div').style.display='block'; document.getElementById('btn_start_cam').style.display='none';
-            navigator.mediaDevices.getUserMedia({video:true}).then(s => document.getElementById('video').srcObject = s);
-        }
-        function takeSelfie() {
-            let v=document.getElementById('video'), c=document.getElementById('canvas');
-            c.width=v.videoWidth; c.height=v.videoHeight; c.getContext('2d').drawImage(v,0,0);
-            let today = new Date().toLocaleDateString().split('/').join('-');
-            db.ref('attendance/'+today+'/'+curUser.phone).set({name:curUser.name, time:new Date().toLocaleTimeString(), photo:c.toDataURL(), by:'Self'}, e=>{
-                alert("Punched"); v.srcObject.getTracks().forEach(t=>t.stop()); document.getElementById('cam_div').style.display='none';
-            });
-        }
-        function submitWork() {
-            let t = document.getElementById('emp_work').value;
-            if(t) db.ref('work_reports').push({user: curUser.name, text: t, time: Date.now()});
-            alert("Sent");
+
+            loadChat('emp');
         }
 
-        // USER
-        function loadUserDash() {
-            document.getElementById('u_welcome').innerText = "Hi, " + curUser.name;
-            showView('v_user');
+        // Stock Edit Logic for Employee
+        function loadStockForEmp() {
             db.ref('products').on('value', s => {
                 let h = "";
                 s.forEach(p => {
                     let v = p.val();
                     h += `<div class="item">
-                        <img src="${v.img}" style="width:50px; height:50px; object-fit:cover; border-radius:5px; margin-right:10px;">
-                        <div style="flex-grow:1;"><b>${v.name}</b><br>Rs. ${v.rate} / ${v.unit}</div>
-                        <button class="btn-sm btn-p" onclick="buyModal('${p.key}','${v.name}',${v.rate},${v.min})">Buy</button>
+                        <b>${v.name}</b> (Qty: ${v.qty} ${v.unit})
+                        <button class="btn-sm btn-s" onclick="editStock('${p.key}', ${v.qty})">Update</button>
+                    </div>`;
+                });
+                document.getElementById('prod_list_emp').innerHTML = h;
+            });
+        }
+
+        // PUNCHING LOGIC (STRICT)
+        function startPunchCam() {
+            let d = new Date();
+            let day = d.getDay();
+            let h = d.getHours();
+
+            // 1. Sunday Check (0 is Sunday)
+            if(day === 0) return alert("Today is Sunday (Holiday). No Punching allowed.");
+
+            // 2. Time Check (7-10 AM OR 7-10 PM)
+            let isMorning = (h >= 7 && h < 10);
+            let isEvening = (h >= 19 && h < 22);
+
+            if(!isMorning && !isEvening) {
+                return alert("Punching allowed only between 7AM-10AM and 7PM-10PM.");
+            }
+
+            document.getElementById('punch_cam_div').style.display = 'block';
+            document.getElementById('btn_start_punch').style.display = 'none';
+            navigator.mediaDevices.getUserMedia({video:true}).then(s => {
+                document.getElementById('punch_video').srcObject = s;
+            });
+        }
+
+        function takePunchSelfie() {
+            let v = document.getElementById('punch_video');
+            let c = document.getElementById('canvas');
+            c.width = v.videoWidth; c.height = v.videoHeight;
+            c.getContext('2d').drawImage(v,0,0);
+            let imgUrl = c.toDataURL('image/jpeg', 0.5);
+
+            let today = new Date().toLocaleDateString().split('/').join('-');
+            let time = new Date().toLocaleTimeString();
+
+            // Save Punch
+            db.ref('attendance/'+today+'/'+curUser.phone).set({
+                name: curUser.name,
+                time: time,
+                photo: imgUrl,
+                role: curUser.role
+            }, e => {
+                if(!e) {
+                    alert("Attendance Marked Successfully!");
+                    v.srcObject.getTracks().forEach(t=>t.stop());
+                    document.getElementById('punch_cam_div').style.display = 'none';
+                    document.getElementById('att_status').innerHTML = "✅ Present";
+                }
+            });
+        }
+
+        // --- USER FUNCTIONS ---
+        function loadUserDash() {
+            showView('v_user');
+            document.getElementById('u_welcome').innerText = "Shop - " + curUser.name;
+            
+            db.ref('products').on('value', s => {
+                let h = "";
+                s.forEach(p => {
+                    let v = p.val();
+                    h += `<div class="item">
+                        <img src="${v.img}" style="width:60px; height:60px; object-fit:cover; border-radius:5px; margin-right:10px;">
+                        <div style="flex-grow:1;"><b>${v.name}</b><br>Rs. ${v.rate}/${v.unit}<br><small>Stock: ${v.qty}</small></div>
+                        <button class="btn-sm btn-p" onclick="buyModal('${p.key}','${v.name}',${v.rate})">Buy</button>
                     </div>`;
                 });
                 document.getElementById('u_shop').innerHTML = h;
             });
-            db.ref('orders').orderByChild('u_phone').equalTo(curUser.phone).on('value', s => {
+            loadChat('user');
+        }
+
+        function buyModal(pid, pname, rate) {
+            let q = prompt("Quantity?");
+            if(q) {
+                document.getElementById('qr_modal').style.display = 'flex';
+                document.getElementById('qrcode').innerHTML = "";
+                new QRCode(document.getElementById("qrcode"), { text: "upi://pay?pa=7033578145@sbi&pn=MithilaERP&am="+(q*rate), width: 128, height: 128 });
+                // Simulate Order
+                db.ref('orders').push({u_name:curUser.name, p_name:pname, qty:q});
+            }
+        }
+
+        // --- CHAT SYSTEM ---
+        function loadChat(role) {
+            let chatPath = 'chats/' + curUser.phone;
+            let divId = role === 'emp' ? 'emp_msgs' : 'user_msgs';
+            
+            db.ref(chatPath).on('value', s => {
                 let h = "";
-                s.forEach(o => {
-                    let v = o.val();
-                    h += `<div class="item"><b>${v.p_name}</b> <span style="color:blue">${v.status}</span><br>Qty: ${v.qty}</div>`;
+                s.forEach(m => {
+                    let v = m.val();
+                    let cls = (v.sender === 'admin') ? 'other' : 'me';
+                    h += `<div class="msg ${cls}">${v.text}</div>`;
                 });
-                document.getElementById('u_orders').innerHTML = h;
+                let d = document.getElementById(divId);
+                d.innerHTML = h;
+                d.scrollTop = d.scrollHeight;
             });
         }
 
-        function buyModal(pid, pname, rate, min) {
-            let qty = prompt(`Enter Quantity (Min ${min}):`, min);
-            if(qty && qty >= min) {
-                let mode = confirm("Press OK for Online (QR), Cancel for Cash");
-                let payMode = mode ? 'Online' : 'COD';
-                let total = qty * rate;
-                if(mode) {
-                    document.getElementById('qr_modal').style.display = 'flex';
-                    document.getElementById('qrcode').innerHTML = "";
-                    new QRCode(document.getElementById("qrcode"), { text: "upi://pay?pa=7033578145@sbi&pn=MithilaShop&am=" + total, width: 128, height: 128 });
-                    setTimeout(() => { if(confirm("Paid?")) placeOrder(pname, qty, total, payMode); document.getElementById('qr_modal').style.display = 'none'; }, 5000);
-                } else placeOrder(pname, qty, total, payMode);
-            } else alert("Invalid Qty");
+        function sendChat(role) {
+            let inputId = role === 'emp' ? 'emp_msg_in' : 'user_msg_in';
+            let txt = document.getElementById(inputId).value;
+            if(!txt) return;
+            
+            db.ref('chats/' + curUser.phone).push({
+                text: txt,
+                sender: 'user', 
+                senderName: curUser.name,
+                time: Date.now()
+            });
+            document.getElementById(inputId).value = "";
         }
-        function placeOrder(pname, qty, total, mode) {
-            db.ref('orders').push({u_phone: curUser.phone, u_name: curUser.name, addr: curUser.addr, p_name: pname, qty: qty, total: total, pay_mode: mode, status: 'Pending'});
-            alert("Order Placed");
+
+        // Admin Chat Logic
+        function openAdminChat(uid, name) {
+            activeChatID = uid;
+            document.getElementById('chat_target_name').innerText = "Chat with " + name;
+            document.getElementById('admin_chat_window').style.display = 'block';
+            
+            db.ref('chats/'+uid).on('value', s => {
+                let h = "";
+                s.forEach(m => {
+                    let v = m.val();
+                    let cls = (v.sender === 'admin') ? 'me' : 'other'; // Admin is 'me' here
+                    h += `<div class="msg ${cls}">${v.text}</div>`;
+                });
+                let d = document.getElementById('admin_msgs');
+                d.innerHTML = h;
+                d.scrollTop = d.scrollHeight;
+            });
+        }
+
+        function adminSendMsg() {
+            let txt = document.getElementById('admin_msg_in').value;
+            if(!txt || !activeChatID) return;
+            db.ref('chats/'+activeChatID).push({
+                text: txt,
+                sender: 'admin',
+                senderName: 'Admin',
+                time: Date.now()
+            });
+            document.getElementById('admin_msg_in').value = "";
+        }
+        
+        function closeAdminChat() {
+            document.getElementById('admin_chat_window').style.display='none';
+            if(activeChatID) db.ref('chats/'+activeChatID).off();
+            activeChatID = null;
         }
     </script>
 </body>
