@@ -9,7 +9,7 @@
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
     <style>
-        :root { --primary: #003366; --success: #28a745; --bg: #f8f9fa; }
+        :root { --primary: #003366; --success: #28a745; --bg: #f4f7f6; }
         body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); margin: 0; padding: 15px; }
         .container { max-width: 1100px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 25px rgba(0,0,0,0.1); }
         .header { text-align: center; border-bottom: 3px solid var(--primary); padding-bottom: 10px; margin-bottom: 20px; }
@@ -26,10 +26,11 @@
         .disclaimer { background: #fff3cd; border: 1px solid #ffeeba; padding: 15px; border-radius: 5px; font-size: 13px; line-height: 1.6; margin: 20px 0; }
         .btn-submit { background: var(--success); color: white; padding: 15px; border: none; border-radius: 6px; width: 100%; font-size: 18px; font-weight: bold; cursor: pointer; }
         
-        /* Certificate Printing Styles */
-        .certificate { border: 12px double #333; padding: 50px; background: #fff; position: relative; line-height: 1.8; display: none; color: #000; }
-        .watermark { position: absolute; top: 40%; left: 10%; font-size: 60px; color: rgba(0,0,0,0.03); transform: rotate(-35deg); font-weight: bold; pointer-events: none; }
+        /* Certificate Print Layout */
+        .certificate { border: 12px double #333; padding: 50px; background: #fff; line-height: 1.8; display: none; position: relative; color: #000; }
+        .watermark { position: absolute; top: 40%; left: 10%; font-size: 70px; color: rgba(0,0,0,0.03); transform: rotate(-35deg); font-weight: bold; pointer-events: none; }
         .cert-photo { width: 110px; height: 135px; border: 1px solid #000; object-fit: cover; }
+        .sig-box { text-align: right; margin-top: 40px; font-family: monospace; font-size: 12px; }
         @media print { .no-print { display: none; } .certificate { display: block; border: none; } }
     </style>
 </head>
@@ -38,17 +39,18 @@
 <div class="container no-print">
     <div class="header">
         <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Emblem_of_Bihar.svg" style="width:60px;">
-        <h2 style="color: var(--primary);">बिहार सरकार | RTPS डिजिटल सेवा</h2>
+        <h2 style="color: var(--primary);">बिहार सरकार | Government of Bihar</h2>
+        <p>लोक सेवाओं का अधिकार (RTPS) डिजिटल पोर्टल 2026</p>
     </div>
 
     <div class="tabs">
-        <div class="tab active" onclick="switchTab('apply')">📝 आवेदन (Apply)</div>
-        <div class="tab" onclick="switchTab('officer')">👮 अधिकारी (Officer)</div>
+        <div class="tab active" onclick="switchTab('apply')">📝 नया आवेदन (Apply)</div>
+        <div class="tab" onclick="switchTab('officer')">👮 अधिकारी लॉगिन (Officer)</div>
     </div>
 
     <div id="apply" class="panel active">
         <form id="applyForm" onsubmit="handleApply(event)">
-            <div class="section-title">1. आवेदक का विवरण (Personal Details)</div>
+            <div class="section-title">1. आवेदक का बायोडाटा (Personal Details)</div>
             <div class="row">
                 <div class="col"><label>नाम (English):</label><input type="text" id="uNameE" required></div>
                 <div class="col"><label>नाम (हिंदी - Auto):</label><input type="text" id="uNameH" required></div>
@@ -63,7 +65,6 @@
             </div>
             <div class="row">
                 <div class="col"><label>आधार संख्या (जरूरी):</label><input type="text" id="uAadhaar" maxlength="12" pattern="\d{12}" required></div>
-                <div class="col"><label>मोबाइल:</label><input type="tel" id="uMob" maxlength="10" required></div>
                 <div class="col"><label>फोटो अपलोड:</label><input type="file" onchange="encodeImg(this)" required></div>
             </div>
 
@@ -74,12 +75,13 @@
                 <div class="col"><label>प्रखंड (Block):</label><select id="blkSel" required><option value="">-- चुनें --</option></select></div>
             </div>
             <div class="row">
-                <div class="col"><label>ग्राम (हिंदी):</label><input type="text" id="uVillH" required></div>
+                <div class="col"><label>ग्राम/मोहल्ला (हिंदी):</label><input type="text" id="uVillH" required></div>
                 <div class="col"><label>वार्ड नं:</label><input type="number" id="uWard" required></div>
+                <div class="col"><label>डाकघर (हिंदी):</label><input type="text" id="uPostH" required></div>
                 <div class="col"><label>पिन कोड:</label><input type="number" id="uPin" required></div>
             </div>
 
-            <div class="section-title">3. प्रमाणपत्र प्रकार</div>
+            <div class="section-title">3. प्रमाणपत्र चयन</div>
             <div class="row">
                 <div class="col">
                     <label>सर्टिफिकेट प्रकार:</label>
@@ -93,12 +95,12 @@
             </div>
 
             <div class="disclaimer">
-                <b>शपथ-पत्र (I Agree):</b><br>
-                1. मैं घोषणा करता हूँ कि मेरे द्वारा दी गई सभी जानकारी पूरी तरह सत्य है।<br>
-                2. यदि कोई जानकारी गलत पाई जाती है, तो मेरा आवेदन तुरंत निरस्त किया जाए।<br>
-                3. गलत तथ्यों के लिए मैं स्वयं कानूनी रूप से उत्तरदायी रहूँगा।<br>
-                4. मैं स्वेच्छा से आधार प्रमाणीकरण के लिए सहमति प्रदान करता हूँ।<br>
-                5. यह विवरण मेरी सर्वोत्तम जानकारी के अनुसार सही और वैध है।
+                <b>स्व-घोषणा (I Agree):</b><br>
+                1. मैं घोषणा करता हूँ कि मेरे द्वारा दी गई सभी जानकारी पूर्णतः सत्य और वैध है।<br>
+                2. यदि कोई जानकारी गलत पाई जाती है, तो मेरा आवेदन बिना किसी सूचना के निरस्त कर दिया जाएगा।<br>
+                3. गलत तथ्यों को प्रस्तुत करने पर मैं स्वयं कानूनी कार्यवाही के लिए उत्तरदायी रहूँगा।<br>
+                4. मैं स्वेच्छा से आधार प्रमाणीकरण और डेटा संग्रहण के लिए अपनी सहमति प्रदान करता हूँ।<br>
+                5. मेरे द्वारा भरा गया यह विवरण मेरी सर्वोत्तम जानकारी के अनुसार सही है।
             </div>
             <div style="margin-bottom:15px;"><input type="checkbox" required style="width:auto;"> <b>सहमत हूँ</b></div>
             <button type="submit" class="btn-submit">आवेदन सबमिट करें</button>
@@ -112,32 +114,35 @@
             <input type="password" id="offP" placeholder="Password">
             <button onclick="offLogin()" class="btn-submit" style="margin-top:10px;">लॉगिन</button>
         </div>
-        <div id="off-dash" style="display:none;"><div id="appList"></div></div>
+        <div id="off-dash" style="display:none;">
+            <h3>पेंडिंग आवेदन</h3>
+            <div id="appList"></div>
+        </div>
     </div>
 </div>
 
 <div id="cert-output" class="certificate">
     <div class="watermark">BIHAR GOVERNMENT</div>
     <div style="text-align:center;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Emblem_of_Bihar.svg" style="width:70px;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Emblem_of_Bihar.svg" style="width:80px;">
         <h2>बिहार सरकार</h2>
         <h3 id="cTitle" style="text-decoration:underline;">---</h3>
         <p>प्रमाण-पत्र संख्या: <b id="cID">---</b> | दिनांक: <b id="cDate">---</b></p>
     </div>
-    <p style="margin-top:30px;">प्रमाणित किया जाता है कि <b><span id="cN"></span></b>, पिता <b><span id="cF"></span></b>, माता <b><span id="cM"></span></b>, ग्राम <b><span id="cV"></span></b>, वार्ड <b><span id="cW"></span></b>, प्रखंड <b><span id="cB"></span></b>, जिला <b><span id="cD"></span></b> के निवासी हैं।</p>
+    <p style="margin-top:30px;">प्रमाणित किया जाता है कि <b><span id="cN"></span></b>, पिता <b><span id="cF"></span></b>, माता <b><span id="cM"></span></b>, ग्राम <b><span id="cV"></span></b>, वार्ड <b><span id="cW"></span></b>, प्रखंड <b><span id="cB"></span></b>, जिला <b><span id="cD"></span></b>, राज्य बिहार के निवासी हैं। [cite: 13, 32, 64]</p>
     <div id="cExtraInfo"></div>
     <div style="display:flex; justify-content:space-between; margin-top:40px;">
         <img id="cP" class="cert-photo">
-        <div style="text-align:right;">
-            <b>Digitally signed by ABHISHEK ANAND</b><br>
-            राजस्व अधिकारी (Revenue Officer)<br> Time: <span id="sT"></span>
+        <div class="sig-box">
+            <b>Digitally signed by <span id="sN"></span></b><br>
+            <span id="sP"></span><br> 
+            Date: <span id="sT"></span> 
         </div>
     </div>
-    <button onclick="window.print()" class="no-print btn-submit" style="width:auto; margin-top:20px;">PDF सेव करें</button>
+    <button onclick="window.print()" class="no-print btn-submit" style="width:auto; margin-top:20px;">प्रिंट (Save PDF)</button>
 </div>
 
 <script>
-    // --- FIREBASE INITIALIZATION ---
     const firebaseConfig = {
         apiKey: "AIzaSyBtLL0yVgt5hQwxokdsSRkeArZab5kyr_Q",
         authDomain: "mithilahelp-4107d.firebaseapp.com",
@@ -151,26 +156,25 @@
 
     const biharData = {
         "Sitamarhi": {
-            "Pupri": ["Pupri", "Nanpur", "Bajpatti", "Choraut", "Bokhara"],
+            "Pupri": ["Pupri", "Nanpur", "Bajpatti", "Choraut", "Bokhara"], [cite: 4, 26, 57]
             "Belsand": ["Belsand", "Tariyani"],
             "Sadar": ["Dumra", "Riga", "Parsauni"]
         },
         "Patna": { "Danapur": ["Danapur", "Khagaul"], "Patna Sadar": ["Sadar", "Phulwarisharif"] }
     };
 
-    let userPhoto = "";
+    var userPhoto = ""; 
+    var activeOff = null;
 
-    // Fix for District Dropdown and Google Load
     window.addEventListener('load', () => {
         const dSel = document.getElementById('distSel');
         Object.keys(biharData).forEach(d => dSel.innerHTML += `<option value="${d}">${d}</option>`);
     });
 
-    // Fix Google Elements Load Error
     google.load("elements", "1", { packages: "transliteration" });
     google.setOnLoadCallback(() => {
         const control = new google.elements.transliteration.TransliterationControl({sourceLanguage:'en', destinationLanguage:['hi'], transliterationEnabled:true});
-        control.makeTransliteratable(['uNameH', 'uFatherH', 'uMotherH', 'uVillH', 'uExtra']);
+        control.makeTransliteratable(['uNameH', 'uFatherH', 'uMotherH', 'uVillH', 'uPostH', 'uExtra']);
     });
 
     function loadSub() {
@@ -191,7 +195,7 @@
     function toggleType() {
         const t = document.getElementById('uType').value;
         document.getElementById('extraBox').style.display = (t === 'Residence') ? 'none' : 'block';
-        document.getElementById('extraLabel').innerText = (t === 'Caste') ? 'जाति (Caste):' : 'आय (Income):';
+        document.getElementById('extraLabel').innerText = (t === 'Caste') ? 'जाति (Caste):' : 'वार्षिक आय (Rs):';
     }
 
     function encodeImg(input) {
@@ -205,30 +209,24 @@
     function handleApply(e) {
         e.preventDefault();
         if(!userPhoto) { alert("फोटो लोड होने दें!"); return; }
-
+        const t = document.getElementById('uType').value;
         const data = {
-            name: document.getElementById('uNameH').value + " (" + document.getElementById('uNameE').value + ")",
-            father: document.getElementById('uFatherH').value,
-            mother: document.getElementById('uMotherH').value,
-            aadhaar: document.getElementById('uAadhaar').value,
+            name: document.getElementById('uNameH').value + " (" + document.getElementById('uNameE').value + ")", [cite: 7, 31, 62]
+            father: document.getElementById('uFatherH').value + " (" + document.getElementById('uFatherE').value + ")",
+            mother: document.getElementById('uMotherH').value + " (" + document.getElementById('uMotherE').value + ")",
             dist: document.getElementById('distSel').value,
             block: document.getElementById('blkSel').value,
             vill: document.getElementById('uVillH').value,
             ward: document.getElementById('uWard').value,
-            type: document.getElementById('uType').value,
-            extra: document.getElementById('uExtra').value,
+            type: t,
+            extra: (t === 'Residence') ? "" : document.getElementById('uExtra').value,
             status: "Pending",
             photo: userPhoto,
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
         };
-
-        db.collection("certapps").add(data).then(() => {
-            alert("✅ आवेदन सफल!");
-            location.reload();
-        }).catch(err => alert("Error: " + err.message));
+        db.collection("certapps").add(data).then(() => { alert("✅ आवेदन सफल!"); location.reload(); });
     }
 
-    let activeOff = null;
     function offLogin() {
         const u = document.getElementById('offU').value;
         const p = document.getElementById('offP').value;
@@ -249,7 +247,7 @@
             snap.forEach(doc => {
                 const d = doc.data();
                 list.innerHTML += `<div style="border:1px solid #ccc; padding:10px; margin:5px;">
-                    <b>${d.name}</b> (${d.type}) <button onclick="approve('${doc.id}')">Approve</button>
+                    <b>${d.name}</b> (${d.type}) <button onclick="approve('${doc.id}')">View & Sign</button>
                 </div>`;
             });
         });
@@ -259,10 +257,10 @@
         db.collection("certapps").doc(id).get().then(doc => {
             const d = doc.data();
             const now = new Date();
-            const rID = Math.floor(1000000 + Math.random() * 9000000);
-            const pref = (d.type === 'Residence') ? 'BRCCO' : (d.type === 'Caste') ? 'BCCCO' : 'BICCO';
+            const rNum = Math.floor(1000000 + Math.random() * 9000000);
+            const pref = (d.type === 'Residence') ? 'BRCCO' : (d.type === 'Caste') ? 'BCCCO' : 'BICCO'; [cite: 5, 29, 59]
 
-            document.getElementById('cID').innerText = `${pref}/2026/${rID}`;
+            document.getElementById('cID').innerText = `${pref}/2026/${rNum}`;
             document.getElementById('cDate').innerText = now.toLocaleDateString();
             document.getElementById('cN').innerText = d.name;
             document.getElementById('cF').innerText = d.father;
@@ -272,12 +270,14 @@
             document.getElementById('cB').innerText = d.block;
             document.getElementById('cD').innerText = d.dist;
             document.getElementById('cP').src = d.photo;
-            document.getElementById('sT').innerText = now.toLocaleString();
+            document.getElementById('sN').innerText = activeOff.name;
+            document.getElementById('sP').innerText = activeOff.post;
+            document.getElementById('sT').innerText = now.toLocaleString() + " +05:30"; [cite: 16, 68]
             document.getElementById('cTitle').innerText = (d.type === 'Residence' ? 'निवास' : d.type === 'Caste' ? 'जाति' : 'आय') + " प्रमाण-पत्र";
             
             let extraStr = "";
-            if(d.type === 'Caste') extraStr = `<p>जाति: <b>${d.extra}</b></p>`;
-            if(d.type === 'Income') extraStr = `<p>वार्षिक आय: <b>₹${d.extra}/-</b></p>`;
+            if(d.type === 'Caste') extraStr = `<p>जाति: <b>${d.extra}</b></p>`; [cite: 62]
+            if(d.type === 'Income') extraStr = `<p>वार्षिक आय: <b>₹${d.extra}/-</b></p>`; [cite: 41]
             document.getElementById('cExtraInfo').innerHTML = extraStr;
 
             document.querySelector('.no-print').style.display = 'none';
