@@ -2,327 +2,193 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sarkar-Plus | Bihar Official RTPS Portal</title>
-    <style>
-        :root { --primary: #0056b3; --success: #28a745; --danger: #dc3545; --bg: #f0f2f5; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 10px; }
-        .container { max-width: 1100px; margin: auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.1); }
-        
-        .tab-box { display: flex; border-bottom: 3px solid var(--primary); margin-bottom: 20px; }
-        .tab { padding: 12px 20px; cursor: pointer; font-weight: bold; background: #e9ecef; border-radius: 8px 8px 0 0; margin-right: 5px; }
-        .tab.active { background: var(--primary); color: white; }
-        
-        .panel { display: none; padding: 20px; border: 1px solid #dee2e6; border-radius: 0 0 10px 10px; }
-        .panel.active { display: block; }
-
-        .row { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 12px; }
-        .col { flex: 1; min-width: 240px; }
-        label { display: block; font-weight: 600; margin-bottom: 5px; color: #333; font-size: 14px; }
-        input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
-        
-        .section-title { background: #e7f1ff; padding: 8px 15px; border-radius: 5px; margin: 20px 0 15px 0; color: var(--primary); font-weight: bold; }
-        .btn-green { background: var(--success); color: white; border: none; padding: 15px; cursor: pointer; border-radius: 8px; font-weight: bold; width: 100%; font-size: 16px; }
-        .hidden { display: none; }
-
-        /* Certificate Styling */
-        .certificate { border: 10px double #333; padding: 40px; background: #fff; position: relative; line-height: 1.8; }
-        .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); font-size: 80px; color: rgba(0,0,0,0.03); z-index: 0; font-weight: bold; white-space: nowrap; }
-        .sig-box { text-align: right; margin-top: 50px; font-family: 'Courier New', monospace; border-top: 1px solid #ddd; padding-top: 10px; }
-    </style>
-
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <title>Sarkar-Plus | Bihar Official RTPS Portal 2026</title>
+    
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+    <style>
+        :root { --bihar-blue: #003366; --rtps-green: #28a745; --bg: #f0f2f5; }
+        body { font-family: 'Segoe UI', Arial; background: var(--bg); margin: 0; padding: 15px; }
+        .container { max-width: 1100px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 25px rgba(0,0,0,0.1); }
+        
+        /* Header */
+        .header-top { text-align: center; border-bottom: 3px solid var(--bihar-blue); padding-bottom: 10px; margin-bottom: 20px; }
+        .logo-box img { width: 70px; }
+        
+        /* Form Sections */
+        .section-title { background: #e7f1ff; padding: 10px; color: var(--bihar-blue); font-weight: bold; border-left: 5px solid var(--bihar-blue); margin: 20px 0 10px; }
+        .row { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 10px; }
+        .col { flex: 1; min-width: 240px; }
+        label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+        input, select { width: 100%; padding: 9px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        
+        /* Tabs */
+        .tabs { display: flex; gap: 5px; margin-bottom: 20px; }
+        .tab { padding: 10px 20px; cursor: pointer; background: #ddd; border-radius: 5px; font-weight: bold; }
+        .tab.active { background: var(--bihar-blue); color: white; }
+        .panel { display: none; }
+        .panel.active { display: block; }
+
+        /* Disclaimer */
+        .disclaimer { background: #fff3cd; border: 1px solid #ffeeba; padding: 15px; border-radius: 5px; font-size: 13px; line-height: 1.5; margin: 20px 0; }
+        .btn-submit { background: var(--rtps-green); color: white; padding: 15px; border: none; border-radius: 6px; width: 100%; font-size: 18px; font-weight: bold; cursor: pointer; }
+        
+        /* Certificate Design */
+        .certificate { border: 12px double #333; padding: 50px; background: #fff; position: relative; color: #000; line-height: 1.8; display: none; }
+        .watermark { position: absolute; top: 40%; left: 10%; font-size: 70px; color: rgba(0,0,0,0.03); transform: rotate(-35deg); font-weight: bold; pointer-events: none; }
+        .cert-photo { width: 110px; height: 135px; border: 1px solid #000; object-fit: cover; }
+        .sig-box { text-align: right; margin-top: 40px; font-family: monospace; }
+        
+        @media print { .no-print { display: none; } .certificate { display: block; border: none; } }
+    </style>
 </head>
 <body>
 
-<div class="container">
-    <h2 style="text-align:center; color: #003366;">बिहार सरकार | RTPS सेवा पोर्टल 2026</h2>
-
-    <div class="tab-box">
-        <div class="tab active" onclick="openTab('user-panel', this)">📝 आवेदन (User)</div>
-        <div class="tab" onclick="openTab('dept-panel', this)">🏢 अधिकारी (Dept)</div>
-        <div class="tab" onclick="openTab('admin-panel', this)">🔑 एडमिन (Admin)</div>
+<div class="container no-print">
+    <div class="header-top">
+        <div class="logo-box"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Emblem_of_Bihar.svg"></div>
+        <h2 style="margin:5px; color: var(--bihar-blue);">बिहार सरकार | Government of Bihar</h2>
+        <p>लोक सेवाओं का अधिकार (RTPS) - डिजिटल पोर्टल 2026</p>
     </div>
 
-    <div id="user-panel" class="panel active">
-        <form onsubmit="userSubmit(event)">
-            <div class="section-title">व्यक्तिगत विवरण (Personal Details)</div>
+    <div class="tabs">
+        <div class="tab active" onclick="showTab('apply')">📝 आवेदन करें (Apply)</div>
+        <div class="tab" onclick="showTab('officer')">👮 अधिकारी लॉगिन (Officer)</div>
+    </div>
+
+    <div id="apply" class="panel active">
+        <form id="applyForm" onsubmit="handleApply(event)">
+            <div class="section-title">1. व्यक्तिगत विवरण (Personal Info)</div>
             <div class="row">
-                <div class="col"><label>आवेदक का नाम (Hindi):</label><input type="text" id="uNameHindi" required></div>
-                <div class="col"><label>पिता का नाम (Hindi):</label><input type="text" id="uFatherHindi" required></div>
-                <div class="col"><label>माता का नाम (Hindi):</label><input type="text" id="uMotherHindi" required></div>
+                <div class="col"><label>नाम (English):</label><input type="text" id="uNameE" required></div>
+                <div class="col"><label>नाम (हिंदी):</label><input type="text" id="uNameH" required></div>
+            </div>
+            <div class="row">
+                <div class="col"><label>पिता का नाम (English):</label><input type="text" id="uFatherE" required></div>
+                <div class="col"><label>पिता का नाम (हिंदी):</label><input type="text" id="uFatherH" required></div>
+            </div>
+            <div class="row">
+                <div class="col"><label>माता का नाम (हिंदी):</label><input type="text" id="uMotherH" required></div>
+                <div class="col"><label>आधार संख्या (Mandatory):</label><input type="text" id="uAadhaar" maxlength="12" required></div>
             </div>
 
-            <div class="section-title">पता (Full Address)</div>
+            <div class="section-title">2. आवासीय विवरण (Address)</div>
             <div class="row">
-                <div class="col"><label>जिला (District):</label><select id="uDist" onchange="updateSub()" required><option value="">-- चुनें --</option></select></div>
-                <div class="col"><label>अनुमंडल (Sub-Div):</label><select id="uSub" onchange="updateBlk()" required><option>-- Select --</option></select></div>
-                <div class="col"><label>प्रखंड (Block):</label><select id="uBlk" required><option>-- Select --</option></select></div>
+                <div class="col"><label>जिला:</label><select id="dist" onchange="loadSub()" required><option value="">-- चुनें --</option></select></div>
+                <div class="col"><label>अनुमंडल:</label><select id="sub" onchange="loadBlk()" required><option>-- चुनें --</option></select></div>
+                <div class="col"><label>प्रखंड (Block):</label><select id="blk" required><option>-- चुनें --</option></select></div>
             </div>
             <div class="row">
                 <div class="col"><label>ग्राम (Village):</label><input type="text" id="uVill" required></div>
-                <div class="col"><label>वार्ड नं (Ward):</label><input type="number" id="uWard" required></div>
-                <div class="col"><label>डाकघर (Post Office):</label><input type="text" id="uPost" required></div>
-                <div class="col"><label>पिन कोड (Pincode):</label><input type="number" id="uPin" required></div>
+                <div class="col"><label>वार्ड:</label><input type="number" id="uWard" required></div>
+                <div class="col"><label>पिन कोड:</label><input type="number" id="uPin" required></div>
             </div>
 
-            <div class="section-title">प्रमाण पत्र विवरण</div>
+            <div class="section-title">3. प्रमाणपत्र का प्रकार और फोटो</div>
             <div class="row">
                 <div class="col">
-                    <label>प्रकार (Type):</label>
+                    <label>प्रकार:</label>
                     <select id="uType" onchange="toggleFields()" required>
-                        <option value="Aawasiya">आवासीय (Residence)</option>
-                        <option value="Jati">जाiti (Caste)</option>
-                        <option value="Aay">आय (Income)</option>
+                        <option value="Residence">आवासीय (Residence)</option>
+                        <option value="Caste">जाति (Caste)</option>
+                        <option value="Income">आय (Income)</option>
                     </select>
                 </div>
+                <div class="col" id="extra-box" style="display:none;"><label id="extraLabel"></label><input type="text" id="uExtra"></div>
+                <div class="col"><label>आवेदक का फोटो:</label><input type="file" id="uPhoto" accept="image/*" onchange="encodeImg(this)" required></div>
             </div>
 
-            <div id="jati-sec" class="hidden">
-                <div class="row">
-                    <div class="col">
-                        <label>जाति कैटेगरी:</label>
-                        <select id="uCat">
-                            <option value="EBC-I">अत्यंत पिछड़ा वर्ग (EBC-I)</option>
-                            <option value="BC-II">पिछड़ा वर्ग (BC-II)</option>
-                            <option value="SC/ST">SC/ST</option>
-                        </select>
-                    </div>
-                    <div class="col"><label>जाति का नाम:</label><input type="text" id="uCasteName"></div>
-                </div>
+            <div class="disclaimer">
+                <b>शपथ-पत्र:</b><br>
+                1. मैं घोषणा करता हूँ कि मेरे द्वारा दी गई जानकारी पूर्णतः सत्य है।<br>
+                2. यदि कोई सूचना गलत पाई गई तो मेरा आवेदन निरस्त कर दिया जाए।<br>
+                3. गलत जानकारी के लिए मैं स्वयं कानूनी रूप से जिम्मेदार रहूँगा।<br>
+                4. मैं स्वेच्छा से अपना आधार विवरण साझा करने को तैयार हूँ।<br>
+                5. यह विवरण मेरी सर्वोत्तम जानकारी के अनुसार सही और वैध है।
             </div>
-
-            <div id="aay-sec" class="hidden">
-                <div class="row">
-                    <div class="col"><label>सरकारी सेवा से आय:</label><input type="number" id="iGov" value="0" oninput="sumInc()"></div>
-                    <div class="col"><label>कृषि से आय:</label><input type="number" id="iAgri" value="0" oninput="sumInc()"></div>
-                    <div class="col"><label>व्यवसाय से आय:</label><input type="number" id="iBiz" value="0" oninput="sumInc()"></div>
-                    <div class="col"><label>कुल आय (Total):</label><input type="number" id="iTotal" readonly></div>
-                </div>
+            <div style="margin-bottom: 15px;">
+                <input type="checkbox" id="agree" required style="width:auto;"> <b>मैं सहमत हूँ (I Agree)</b>
             </div>
-
-            <button type="submit" class="btn-green">आवेदन जमा करें</button>
+            <button type="submit" class="btn-submit">आवेदन सुरक्षित करें (Save Data)</button>
         </form>
     </div>
 
-    <div id="dept-panel" class="panel">
-        <div id="dept-login-box">
+    <div id="officer" class="panel">
+        <div id="off-login">
             <h3>अधिकारी लॉगिन</h3>
-            <input type="text" id="offId" placeholder="User ID">
-            <input type="password" id="offPass" placeholder="Password">
-            <button onclick="offLogin()" class="btn-blue">Login</button>
+            <input type="text" id="offU" placeholder="User ID (login)">
+            <input type="password" id="offP" placeholder="Password (shreya)">
+            <button onclick="handleOffLogin()" class="btn-submit" style="margin-top:10px;">Login</button>
         </div>
-        <div id="dept-dash" class="hidden">
-            <table id="appTable">
-                <thead><tr><th>Applicant</th><th>Type</th><th>Location</th><th>Action</th></tr></thead>
-                <tbody id="appBody"></tbody>
-            </table>
-        </div>
-        <div id="certPreview" class="hidden">
-            <div class="certificate">
-                <div class="watermark">BIHAR GOVERNMENT</div>
-                <h2 style="text-align:center;">बिहार सरकार</h2>
-                <h4 style="text-align:center; text-decoration: underline;" id="cTitle">प्रमाण पत्र</h4>
-                <p>प्रमाणित किया जाता है कि श्री/सुश्री <b><span id="cN"></span></b>, पिता: <b><span id="cF"></span></b>, ग्राम: <b><span id="cV"></span></b>, प्रखंड: <b><span id="cB"></span></b> के निवासी हैं।</p>
-                <div id="extraInfo"></div>
-                <div class="sig-box">
-                    <b>Digitally Signed By:</b><br>
-                    <span id="sN"></span><br>
-                    <span id="sD"></span><br>
-                    Date: <span id="sT"></span>
-                </div>
-            </div>
-            <button onclick="window.print()">Print PDF</button>
-        </div>
-    </div>
-
-    <div id="admin-panel" class="panel">
-        <div id="admin-login-box">
-            <input type="text" id="admU" placeholder="Admin Username">
-            <input type="password" id="admP" placeholder="Password">
-            <button onclick="admLogin()">Admin Verify</button>
-        </div>
-        <div id="admin-content" class="hidden">
-            <h3>Create Officer ID</h3>
-            <input type="text" id="nN" placeholder="Officer Name">
-            <input type="text" id="nD" placeholder="Designation (Rank)">
-            <input type="text" id="nI" placeholder="User ID">
-            <input type="password" id="nP" placeholder="Password">
-            <button onclick="saveOfficer()">Save Officer</button>
+        <div id="off-dash" style="display:none;">
+            <h3>पेंडिंग आवेदन लिस्ट</h3>
+            <div id="appList"></div>
         </div>
     </div>
 </div>
 
+<div id="cert-output" class="certificate">
+    <div class="watermark">BIHAR GOVERNMENT</div>
+    <div style="text-align:center;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Emblem_of_Bihar.svg" style="width:80px;">
+        <h2 style="margin:5px;">बिहार सरकार</h2>
+        <h3 id="cTitle" style="text-decoration:underline;">---</h3>
+        <p>प्रमाण-पत्र संख्या: <b id="cID">---</b> | दिनांक: <b id="cDate">---</b></p>
+    </div>
+    <p style="margin-top:30px;">प्रमाणित किया जाता है कि <b><span id="cN"></span></b>, पिता <b><span id="cF"></span></b>, माता <b><span id="cM"></span></b>, ग्राम <b><span id="cV"></span></b>, वार्ड संख्या <b><span id="cW"></span></b>, प्रखंड <b><span id="cB"></span></b>, जिला <b><span id="cD"></span></b>, राज्य बिहार के निवासी हैं।</p>
+    <div id="cExtraInfo"></div>
+    <div style="display:flex; justify-content:space-between; margin-top:40px;">
+        <img id="cP" class="cert-photo">
+        <div class="sig-box">
+            <b>Digitally signed by <span id="sN"></span></b><br>
+            <span id="sP"></span><br>
+            Time: <span id="sT"></span>
+        </div>
+    </div>
+    <div class="no-print" style="margin-top:20px;">
+        <button onclick="window.print()" class="btn-submit" style="width:auto;">Print PDF</button>
+        <button onclick="location.reload()" class="btn-submit" style="width:auto; background:#666;">Back</button>
+    </div>
+</div>
+
 <script>
-    // --- BIHAR FULL ADMINISTRATIVE DATA ---
-    const biharFullData = {
-        "Sitamarhi": {
-            "Sadar": ["Dumra", "Runnisaidpur", "Riga", "Parsauni", "Bairgania"],
-            "Pupri": ["Pupri", "Nanpur", "Bajpatti", "Choraut", "Bokhara"],
-            "Belsand": ["Belsand", "Tariyani"]
-        },
-        "Patna": {
-            "Patna Sadar": ["Sampatchak", "Phulwarisharif", "Patna Sadar"],
-            "Danapur": ["Danapur", "Khagaul", "Naubatpur", "Bihta"],
-            "Barh": ["Barh", "Bakhtiyarpur", "Mokama"]
-        },
-        "Muzaffarpur": {
-            "East": ["Mushahari", "Bochahan", "Sakra", "Dholi"],
-            "West": ["Kanti", "Marwan", "Paroo", "Saraiya"]
-        },
-        "Darbhanga": {
-            "Darbhanga Sadar": ["Sadar", "Keoti", "Jale"],
-            "Benipur": ["Benipur", "Alinagar", "Baheri"]
-        },
-        "Madhubani": {
-            "Madhubani Sadar": ["Rajnagar", "Pandaul", "Rahika"],
-            "Jhanjharpur": ["Jhanjharpur", "Lakhnaur", "Madhepur"]
-        }
-    };
-
-    // --- INITIALIZE DROPDOWNS ---
-    const distSel = document.getElementById('uDist');
-    Object.keys(biharFullData).forEach(d => distSel.innerHTML += `<option value="${d}">${d}</option>`);
-
-    function updateSub() {
-        const d = distSel.value;
-        const s = document.getElementById('uSub');
-        s.innerHTML = '<option>-- Select --</option>';
-        if(biharFullData[d]) Object.keys(biharFullData[d]).forEach(sub => s.innerHTML += `<option value="${sub}">${sub}</option>`);
-    }
-    function updateBlk() {
-        const d = distSel.value;
-        const sub = document.getElementById('uSub').value;
-        const b = document.getElementById('uBlk');
-        b.innerHTML = '<option>-- Select --</option>';
-        if(biharFullData[d] && biharFullData[d][sub]) biharFullData[d][sub].forEach(blk => b.innerHTML += `<option value="${blk}">${blk}</option>`);
-    }
-
-    // --- DYNAMIC FIELDS (CASTE/INCOME) ---
-    function toggleFields() {
-        const type = document.getElementById('uType').value;
-        document.getElementById('jati-sec').className = (type === 'Jati') ? '' : 'hidden';
-        document.getElementById('aay-sec').className = (type === 'Aay') ? '' : 'hidden';
-    }
-    function sumInc() {
-        const total = Number(document.getElementById('iGov').value) + Number(document.getElementById('iAgri').value) + Number(document.getElementById('iBiz').value);
-        document.getElementById('iTotal').value = total;
-    }
-
-    // --- HINDI TYPING ---
-    google.load("elements", "1", { packages: "transliteration" });
-    google.setOnLoadCallback(() => {
-        const control = new google.elements.transliteration.TransliterationControl({
-            sourceLanguage: 'en', destinationLanguage: ['hi'], transliterationEnabled: true
-        });
-        control.makeTransliteratable(['uNameHindi', 'uFatherHindi', 'uMotherHindi', 'uVill', 'uPost']);
-    });
-
-    // --- FIREBASE ---
+    // --- FIREBASE CONFIG (Your Data) ---
     const firebaseConfig = {
-      apiKey: "AIzaSyBtLL0yVgt5hQwxokdsSRkeArZab5kyr_Q",
-      authDomain: "mithilahelp-4107d.firebaseapp.com",
-      projectId: "mithilahelp-4107d",
-      storageBucket: "mithilahelp-4107d.firebasestorage.app",
-      messagingSenderId: "525345376934",
-      appId: "1:525345376934:web:7083c7cecccd26a4a78267"
+        apiKey: "AIzaSyBtLL0yVgt5hQwxokdsSRkeArZab5kyr_Q",
+        authDomain: "mithilahelp-4107d.firebaseapp.com",
+        projectId: "mithilahelp-4107d",
+        storageBucket: "mithilahelp-4107d.firebasestorage.app",
+        messagingSenderId: "525345376934",
+        appId: "1:525345376934:web:7083c7cecccd26a4a78267"
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
-    db.settings({ experimentalForceLongPolling: true });
 
-    function openTab(id, el) {
-        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        el.classList.add('active');
-    }
-
-    // --- FORM ACTIONS ---
-    function userSubmit(e) {
-        e.preventDefault();
-        db.collection("Applications").add({
-            name: document.getElementById('uNameHindi').value,
-            father: document.getElementById('uFatherHindi').value,
-            mother: document.getElementById('uMotherHindi').value,
-            dist: document.getElementById('uDist').value,
-            blk: document.getElementById('uBlk').value,
-            vill: document.getElementById('uVill').value,
-            post: document.getElementById('uPost').value,
-            pin: document.getElementById('uPin').value,
-            type: document.getElementById('uType').value,
-            caste: document.getElementById('uCasteName').value || "",
-            income: document.getElementById('iTotal').value || 0,
-            status: "Pending",
-            date: new Date()
-        }).then(() => alert("✅ आवेदन सफल रहा!"));
-    }
-
-    // Admin & Dept Login logic remains same as previous version but captures extra fields
-    function admLogin() {
-        if(document.getElementById('admU').value === "admin" && document.getElementById('admP').value === "123") {
-            document.getElementById('admin-login-box').classList.add('hidden');
-            document.getElementById('admin-content').classList.remove('hidden');
+    // --- BIHAR FULL DATA ---
+    const biharData = {
+        "Sitamarhi": {
+            "Pupri": ["Pupri", "Nanpur", "Bajpatti", "Choraut", "Bokhara"],
+            "Belsand": ["Belsand", "Tariyani"],
+            "Sadar": ["Dumra", "Riga", "Parsauni", "Bairgania"]
+        },
+        "Patna": {
+            "Danapur": ["Danapur", "Khagaul", "Naubatpur", "Bihta"],
+            "Patna Sadar": ["Patna Sadar", "Phulwarisharif", "Sampatchak"]
         }
-    }
-    function saveOfficer() {
-        db.collection("DepartmentUsers").add({
-            name: document.getElementById('nN').value,
-            designation: document.getElementById('nD').value,
-            id: document.getElementById('nI').value,
-            pass: document.getElementById('nP').value
-        }).then(() => alert("Officer Saved!"));
-    }
+    };
 
-    let curO = "", curD = "";
-    function offLogin() {
-        db.collection("DepartmentUsers").where("id","==",document.getElementById('offId').value).where("pass","==",document.getElementById('offPass').value).get().then(snap => {
-            if(!snap.empty) {
-                curO = snap.docs[0].data().name; curD = snap.docs[0].data().designation;
-                document.getElementById('dept-login-box').classList.add('hidden');
-                document.getElementById('dept-dash').classList.remove('hidden');
-                loadApps();
-            }
-        });
-    }
+    // Load Districts
+    const distS = document.getElementById('dist');
+    Object.keys(biharData).forEach(d => distS.innerHTML += `<option value="${d}">${d}</option>`);
 
-    function loadApps() {
-        const b = document.getElementById('appBody');
-        db.collection("Applications").where("status","==","Pending").get().then(snap => {
-            b.innerHTML = "";
-            snap.forEach(doc => {
-                const d = doc.data();
-                b.innerHTML += `<tr><td>${d.name}</td><td>${d.type}</td><td>${d.blk}</td>
-                <td><button onclick="approve('${doc.id}')">View & Sign</button></td></tr>`;
-            });
-        });
+    function loadSub() {
+        const d = distS.value; const s = document.getElementById('sub');
+        s.innerHTML = '<option>-- चुनें --</option>';
+        if(biharData[d]) Object.keys(biharData[d]).forEach(sd => s.innerHTML += `<option value="${sd}">${sd}</option>`);
     }
-
-    function approve(id) {
-        db.collection("Applications").doc(id).get().then(doc => {
-            const data = doc.data();
-            document.getElementById('cN').innerText = data.name;
-            document.getElementById('cF').innerText = data.father;
-            document.getElementById('cV').innerText = data.vill;
-            document.getElementById('cB').innerText = data.blk;
-            document.getElementById('cTitle').innerText = data.type + " प्रमाण पत्र";
-            
-            let extra = "";
-            if(data.type === 'Jati') extra = `<p>जाति: <b>${data.caste}</b></p>`;
-            if(data.type === 'Aay') extra = `<p>कुल वार्षिक आय: <b>Rs. ${data.income}</b></p>`;
-            document.getElementById('extraInfo').innerHTML = extra;
-
-            document.getElementById('sN').innerText = curO;
-            document.getElementById('sD').innerText = curD;
-            document.getElementById('sT').innerText = new Date().toLocaleString();
-            
-            document.getElementById('dept-dash').classList.add('hidden');
-            document.getElementById('certPreview').classList.remove('hidden');
-            db.collection("Applications").doc(id).update({ status: "Approved" });
-        });
-    }
-</script>
-</body>
-</html>
+    function loadBlk() {
+        const d = distS.value; const sd = document.getElementById('sub').value; const b = document.getElementById('blk');
+        b.innerHTML = '<option>-- चुनें --</option>';
+        if(biharData[d] && biharData[d][sd]) biharData[d][sd].forEach(blk => b
