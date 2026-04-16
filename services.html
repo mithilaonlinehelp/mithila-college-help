@@ -1,638 +1,336 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>Mithila Super ERP 14.0 (HR & Payroll)</title>
-    
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarkar-Plus | Bihar E-Services</title>
     <style>
-        :root { --p: #2e7d32; --s: #f57f17; --bg: #e8f5e9; --chat-me: #dcf8c6; --chat-other: #fff; }
-        * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; outline: none; }
-        body { margin:0; background: var(--bg); padding-bottom: 70px; }
-        
-        .header { background: linear-gradient(45deg, #1b5e20, #4caf50); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-        .header h2 { margin: 0; font-size: 18px; }
-
-        .container { max-width: 600px; margin: auto; padding: 10px; }
-        .box { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 15px; display: none; }
-        .box.active { display: block; }
-
-        input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; background: #fff; }
-        
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; color: white; cursor: pointer; margin-top: 5px; font-size: 15px; }
-        .btn-p { background: var(--p); }
-        .btn-s { background: var(--s); }
-        .btn-red { background: #d32f2f; }
-        .btn-grey { background: #607d8b; }
-        
-        /* Small Action Buttons */
-        .actions-grid { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 8px; }
-        .btn-xs { padding: 5px 8px; font-size: 11px; border-radius: 4px; border:none; color:white; cursor:pointer; flex: 1; text-align: center; text-decoration: none; display: inline-block; }
-        
-        .tabs { display: flex; gap: 5px; overflow-x: auto; padding-bottom: 5px; margin-bottom: 10px; }
-        .tab { padding: 8px 15px; background: #e0e0e0; border-radius: 20px; white-space: nowrap; cursor: pointer; font-size: 13px; }
-        .tab.active { background: var(--p); color: white; }
-
-        .item { border-bottom: 1px solid #eee; padding: 10px 0; display: flex; justify-content: space-between; align-items: center; }
-        
-        /* Captcha */
-        .captcha-box { background: #fff3e0; border: 1px dashed var(--s); padding: 10px; border-radius: 8px; margin: 10px 0; text-align: center; }
-        .cap-text { font-size: 18px; font-weight: bold; color: var(--p); letter-spacing: 2px; }
-
-        /* Chat Styles */
-        .chat-box { height: 300px; overflow-y: auto; background: #ece5dd; padding: 10px; border-radius: 5px; margin-bottom: 10px; display: flex; flex-direction: column; }
-        .msg { padding: 8px 12px; border-radius: 10px; margin-bottom: 5px; max-width: 75%; font-size: 14px; }
-        .msg.me { background: var(--chat-me); align-self: flex-end; }
-        .msg.other { background: var(--chat-other); align-self: flex-start; }
-
-        /* Camera Box */
-        .cam-container { width:100%; height:auto; background:#000; text-align:center; display:none; border-radius:8px; overflow:hidden;}
-        video { width: 100%; max-height: 300px; }
-        
-        /* Modals */
-        #qr_modal, #slip_modal { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:none; justify-content:center; align-items:center; z-index:200; }
-        .qr-box, .slip-box { background: white; padding: 20px; border-radius: 10px; text-align: center; width: 320px; }
-        
-        /* Salary Slip Design */
-        .slip-paper { border: 1px solid #000; padding: 15px; text-align: left; background: #fff; font-family: monospace; margin-bottom: 10px; }
-        .slip-row { display: flex; justify-content: space-between; margin-bottom: 5px; border-bottom: 1px dotted #ccc; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f7f6; margin: 0; padding: 20px; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        h2, h3 { text-align: center; color: #333; }
+        .tab-container { display: flex; border-bottom: 2px solid #007bff; margin-bottom: 20px; }
+        .tab { flex: 1; text-align: center; padding: 12px; cursor: pointer; font-weight: bold; background: #f8f9fa; border: 1px solid #ddd; border-bottom: none; }
+        .tab.active { background: #007bff; color: white; }
+        .panel { display: none; padding: 15px; }
+        .panel.active { display: block; }
+        .hidden { display: none; }
+        .row { display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
+        .col { flex: 1; min-width: 250px; }
+        label { font-weight: bold; display: block; margin-bottom: 5px; color: #444; font-size: 14px; }
+        input, select, button { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; margin-bottom: 10px; }
+        button { background: #28a745; color: white; font-weight: bold; cursor: pointer; border: none; font-size: 16px; margin-top: 10px; }
+        button:hover { background: #218838; }
+        .btn-blue { background: #007bff; }
+        .btn-blue:hover { background: #0056b3; }
+        .btn-admin { background: #dc3545; }
+        .btn-admin:hover { background: #c82333; }
+        .link-btn { background: none; color: #007bff; text-decoration: underline; padding: 0; text-align: center; cursor: pointer; border: none; font-size: 14px; display: inline; width: auto; }
+        .captcha-box { background: #e2e3e5; padding: 10px; text-align: center; border-radius: 4px; font-weight: bold; font-size: 18px; margin-bottom: 10px; letter-spacing: 2px; }
+        .signature-box { margin-top: 30px; text-align: right; padding: 10px; border-top: 2px dashed #ccc; font-family: 'Courier New', Courier, monospace; }
+        #finalOutput { background: #e8f5e9; padding: 20px; border: 2px solid #28a745; border-radius: 8px; margin-top: 20px; }
     </style>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
-    <div class="header">
-        <h2>Mithila ERP 14.0</h2>
+<div class="container">
+    <h2>प्रमाण पत्र पोर्टल (Bihar E-Services)</h2>
+
+    <div class="tab-container">
+        <div class="tab active" onclick="switchTab('user-panel', this)">1. User Panel</div>
+        <div class="tab" onclick="switchTab('dept-panel', this)">2. Department</div>
+        <div class="tab" onclick="switchTab('admin-panel', this)">3. Admin Panel</div>
     </div>
 
-    <div id="qr_modal">
-        <div class="qr-box">
-            <h3>Scan to Pay</h3>
-            <div id="qrcode" style="margin: 10px auto; display:flex; justify-content:center;"></div>
-            <button class="btn btn-red" onclick="document.getElementById('qr_modal').style.display='none'">Close</button>
-        </div>
-    </div>
-
-    <div id="slip_modal">
-        <div class="slip-box">
-            <h3>Salary Slip</h3>
-            <div id="slip_content" class="slip-paper">
-                </div>
-            <button class="btn btn-p" onclick="printSlip()">Print / Save</button>
-            <button class="btn btn-red" onclick="document.getElementById('slip_modal').style.display='none'">Close</button>
-        </div>
-    </div>
-
-    <div class="container">
-
-        <div id="v_login" class="box active">
-            <h3 style="text-align:center;">Secure Login</h3>
-            <div class="tabs" style="justify-content:center;">
-                <div class="tab active" onclick="setLoginRole('user',this)">User</div>
-                <div class="tab" onclick="setLoginRole('emp',this)">Employee</div>
-                <div class="tab" onclick="setLoginRole('admin',this)">Admin</div>
-            </div>
-
-            <input type="text" id="l_id" placeholder="Mobile / ID / Admin Name">
-            <input type="password" id="l_pass" placeholder="Password">
-            
-            <div class="captcha-box">
-                <span id="cap_q" class="cap-text">Loading...</span>
-                <input type="number" id="cap_ans" placeholder="Answer Here" style="text-align:center; width:60%; margin: 5px auto; display:block;">
-            </div>
-
-            <button class="btn btn-p" onclick="login()">Login Securely</button>
-            <p id="reg_hint" style="text-align:center; font-size:13px; color:var(--p); cursor:pointer; margin-top:15px;" onclick="showView('v_reg')">New User? Register Here</p>
+    <div id="user-panel" class="panel active">
+        <div id="register-section" class="hidden">
+            <h3>Naya Registration</h3>
+            <form onsubmit="handleReg(event)">
+                <input type="tel" id="regMob" pattern="[0-9]{10}" required placeholder="10 Digit Mobile No">
+                <input type="password" id="regPass" minlength="6" required placeholder="Password">
+                <div class="captcha-box"><span id="capReg1"></span> + <span id="capReg2"></span> = ?</div>
+                <input type="number" id="ansReg" required placeholder="Captcha Answer">
+                <button type="submit">Register</button>
+                <p style="text-align: center;"><button type="button" class="link-btn" onclick="showSection('login-section', 'capLog1', 'capLog2', 'ansLog')">Login karein</button></p>
+            </form>
         </div>
 
-        <div id="v_reg" class="box">
-            <h3>New Customer Registration</h3>
-            <input type="text" id="r_name" placeholder="Full Name">
-            <input type="number" id="r_phone" placeholder="Mobile Number">
-            <input type="password" id="r_pass" placeholder="Create Password">
-            <input type="text" id="r_addr" placeholder="Full Address">
-            <button class="btn btn-s" onclick="registerUser()">Register</button>
-            <button class="btn btn-red" onclick="showView('v_login')">Back</button>
+        <div id="login-section">
+            <h3>User Login</h3>
+            <form onsubmit="handleUserLog(event)">
+                <input type="tel" id="logMob" pattern="[0-9]{10}" required placeholder="Registered Mobile">
+                <input type="password" id="logPass" required placeholder="Password">
+                <div class="captcha-box"><span id="capLog1"></span> + <span id="capLog2"></span> = ?</div>
+                <input type="number" id="ansLog" required placeholder="Captcha Answer">
+                <button type="submit">Login</button>
+                <p style="text-align: center;"><button type="button" class="link-btn" onclick="showSection('register-section', 'capReg1', 'capReg2', 'ansReg')">Naya Account</button></p>
+            </form>
         </div>
 
-        <div id="v_admin" class="box">
-            <h3>Admin Dashboard</h3>
-            <div class="tabs">
-                <div class="tab active" onclick="aTab('a_stock',this)">Stock</div>
-                <div class="tab" onclick="aTab('a_emp',this)">HR & Staff</div>
-                <div class="tab" onclick="aTab('a_att',this)">Attendance</div>
-                <div class="tab" onclick="aTab('a_chat',this)">Chats</div>
-            </div>
-
-            <div id="a_stock">
-                <div style="background:#f1f8e9; padding:10px; border-radius:5px;">
-                    <h4>Add Product</h4>
-                    <input type="text" id="np_name" placeholder="Product Name">
-                    
-                    <div style="display:flex; gap:5px;">
-                        <input type="number" id="np_rate" placeholder="Rate (Rs)" style="flex:1;">
-                        <select id="np_unit" style="flex:1;">
-                            <option value="Pc">Piece (Pics)</option>
-                            <option value="Kg">Kilogram (Kg)</option>
-                            <option value="Gm">Gram (Gm)</option>
-                            <option value="Mtr">Meter (Mtr)</option>
-                            <option value="Bdl">Bundle (Bdl)</option>
-                            <option value="Doz">Dozen (Doz)</option>
-                            <option value="Ltr">Liter (Ltr)</option>
-                            <option value="Ml">MiliLiter (Ml)</option>
-                            <option value="Box">Box</option>
-                            <option value="Pkt">Packet (Pkt)</option>
-                        </select>
-                    </div>
-                    
-                    <input type="number" id="np_qty" placeholder="Current Stock Qty">
-                    <input type="text" id="np_img" placeholder="Image URL (Compulsory)">
-                    <button class="btn btn-s" onclick="addProduct()">Save Product</button>
-                </div>
-                <hr>
-                <h4>Current Inventory</h4>
-                <div id="prod_list_adm">Loading...</div>
-            </div>
-
-            <div id="a_emp" class="hide" style="display:none;">
-                <div style="background:#fff3e0; padding:10px; border-radius:5px;">
-                    <h4>Register New Employee</h4>
-                    <input type="text" id="ne_name" placeholder="Name">
-                    <input type="number" id="ne_phone" placeholder="Phone (ID)">
-                    <input type="text" id="ne_pass" placeholder="Password">
-                    <div style="display:flex; gap:5px;">
-                        <input type="text" id="ne_role" placeholder="Role (e.g. Driver)" style="flex:1">
-                        <input type="number" id="ne_sal" placeholder="Monthly Salary" style="flex:1">
-                    </div>
-                    
-                    <p style="font-size:12px; font-weight:bold;">Permissions:</p>
-                    <label><input type="checkbox" id="p_stock"> Can Edit Stock/Material</label>
-                    <br><br>
-                    
-                    <button class="btn btn-sm btn-p" onclick="startRegCam()">Open Camera (Live Photo)</button>
-                    <div id="reg_cam_div" class="cam-container" style="margin-top:5px;">
-                        <video id="reg_video" autoplay playsinline></video>
-                        <button class="btn btn-red" onclick="captureRegPhoto()">Capture Photo</button>
-                    </div>
-                    <input type="hidden" id="ne_ref_photo">
-                    <div id="ref_preview" style="display:none; text-align:center; margin:5px;">
-                        <img id="ref_img_show" style="width:100px; height:100px; border-radius:50%;">
-                        <p style="font-size:10px; color:green;">Photo Set!</p>
-                    </div>
-
-                    <button class="btn btn-p" onclick="addEmployee()" style="margin-top:10px;">Register Employee</button>
-                </div>
-                <hr>
-                <h4>Staff List (Actions)</h4>
-                <div id="emp_list"></div>
-            </div>
-
-            <div id="a_att" class="hide" style="display:none;">
-                <h4>Work Report (Days Worked)</h4>
-                <div id="work_days_list" style="margin-bottom:15px; background:#eee; padding:5px;">Calculating...</div>
+        <div id="application-section" class="hidden">
+            <h3>Application Form</h3>
+            <form onsubmit="submitForm(event)">
+                <label>Praman Patra (Type):</label>
+                <select id="appType" required>
+                    <option value="">-- Chunein --</option>
+                    <option value="BRCCO">Residence (Aawasiya)</option>
+                    <option value="BCCCO">Caste (Jatiye)</option>
+                    <option value="BICCO">Income (Aay)</option>
+                </select>
+                <input type="text" id="appName" required placeholder="Applicant Name">
+                <input type="tel" id="appMob" pattern="[0-9]{10}" required placeholder="Mobile Number">
                 
-                <h4>Today's Punch (Live)</h4>
-                <div id="att_list_adm"></div>
-            </div>
-
-            <div id="a_chat" class="hide" style="display:none;">
-                <h4>Messages</h4>
-                <div id="chat_users_list"></div>
-                <div id="admin_chat_window" style="display:none; margin-top:10px; border-top:2px solid #333; padding-top:10px;">
-                    <h5 id="chat_target_name">Chatting...</h5>
-                    <div id="admin_msgs" class="chat-box"></div>
-                    <input type="text" id="admin_msg_in" placeholder="Reply...">
-                    <button class="btn btn-s" onclick="adminSendMsg()">Send</button>
-                    <button class="btn btn-red btn-sm" onclick="closeAdminChat()">Close</button>
-                </div>
-            </div>
-            
-            <button class="btn btn-red" onclick="logout()" style="margin-top:20px;">Logout</button>
+                <div class="captcha-box"><span id="capApp1"></span> + <span id="capApp2"></span> = ?</div>
+                <input type="number" id="ansApp" required placeholder="Captcha Answer">
+                
+                <button type="submit" id="mainSubmitBtn">Submit Application</button>
+            </form>
         </div>
-
-        <div id="v_emp" class="box">
-            <h3 id="emp_welcome">Employee Panel</h3>
-            
-            <div id="emp_att_sec" style="text-align:center; background:#eee; padding:10px; border-radius:8px; margin-bottom:10px;">
-                <p id="att_status">Status: Checking...</p>
-                <div id="punch_cam_div" class="cam-container">
-                    <video id="punch_video" autoplay playsinline></video>
-                    <button class="btn btn-p" onclick="takePunchSelfie()">📸 Capture & Punch</button>
-                </div>
-                <button class="btn btn-s" id="btn_start_punch" onclick="startPunchCam()">Punch In (Live Cam)</button>
-                <p style="font-size:11px; color:red;">Punch Time: 07-10 AM & 07-10 PM only. Sunday Off.</p>
-            </div>
-
-            <div class="tabs">
-                <div class="tab active" onclick="eTab('e_home',this)">Home</div>
-                <div class="tab" onclick="eTab('e_stock',this)" id="tab_stock_perm" style="display:none;">Stock Edit</div>
-                <div class="tab" onclick="eTab('e_chat',this)">Admin Chat</div>
-            </div>
-
-            <div id="e_home">
-                <h4>My Details</h4>
-                <p>Role: <span id="e_role_disp"></span></p>
-                <p>Salary: Rs. <span id="e_sal_disp"></span></p>
-            </div>
-
-            <div id="e_stock" style="display:none;">
-                <h4>Update Store Material</h4>
-                <div id="prod_list_emp"></div>
-            </div>
-
-            <div id="e_chat" style="display:none;">
-                <div id="emp_msgs" class="chat-box"></div>
-                <input type="text" id="emp_msg_in" placeholder="Ask Admin...">
-                <button class="btn btn-p" onclick="sendChat('emp')">Send</button>
-            </div>
-
-            <button class="btn btn-red" onclick="logout()">Logout</button>
-        </div>
-
-        <div id="v_user" class="box">
-            <h3 id="u_welcome">Shop</h3>
-            <div class="tabs">
-                <div class="tab active" onclick="uTab('u_shop',this)">Products</div>
-                <div class="tab" onclick="uTab('u_chat',this)">Chat Support</div>
-            </div>
-            
-            <div id="u_shop"></div>
-            
-            <div id="u_chat" style="display:none;">
-                <h4>Talk to Admin</h4>
-                <div id="user_msgs" class="chat-box"></div>
-                <input type="text" id="user_msg_in" placeholder="Type message...">
-                <button class="btn btn-p" onclick="sendChat('user')">Send</button>
-            </div>
-
-            <button class="btn btn-red" onclick="logout()">Logout</button>
-        </div>
-
     </div>
 
-    <canvas id="canvas" style="display:none;"></canvas>
+    <div id="dept-panel" class="panel">
+        <div id="dept-login">
+            <h3>Department Login</h3>
+            <form onsubmit="deptLog(event)">
+                <input type="text" id="dId" required placeholder="Department ID">
+                <input type="password" id="dPass" required placeholder="Password">
+                <div class="captcha-box"><span id="capDept1"></span> + <span id="capDept2"></span> = ?</div>
+                <input type="number" id="ansDept" required placeholder="Captcha Answer">
+                <button type="submit" class="btn-blue" id="deptBtn">Login</button>
+            </form>
+        </div>
+        <div id="dept-dash" class="hidden">
+            <h3 style="color: green;">Department Dashboard</h3>
+            <p>Welcome, <b id="loggedDept">Officer</b></p>
+            <div style="background: #f8f9fa; padding: 15px; border: 1px solid #ddd;">
+                <p><b>Pending File:</b> <span id="pendingName">No Data</span></p>
+                <button class="btn-blue" onclick="alert('Verified and Sent to Admin!')">Verify & Forward to Admin</button>
+            </div>
+        </div>
+    </div>
 
-    <script>
-        // FIREBASE CONFIG
-        const firebaseConfig = {
-            apiKey: "AIzaSyBtLLOyVgt5hQwxokdsSRkeArZab5kyr_Q", 
-            authDomain: "mithilahelp-4107d.firebaseapp.com",
-            databaseURL: "https://mithilahelp-4107d-default-rtdb.firebaseio.com",
-            projectId: "mithilahelp-4107d",
-            storageBucket: "mithilahelp-4107d.firebasestorage.app",
-            messagingSenderId: "525345376934",
-            appId: "1:525345376934:web:7083c7cecccd26a4a78267"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+    <div id="admin-panel" class="panel">
+        <div id="admin-login">
+            <h3>Super Admin Login</h3>
+            <form onsubmit="adminLog(event)">
+                <input type="text" id="aId" required placeholder="Admin ID">
+                <input type="password" id="aPass" required placeholder="Password">
+                <div class="captcha-box"><span id="capAdmin1"></span> + <span id="capAdmin2"></span> = ?</div>
+                <input type="number" id="ansAdmin" required placeholder="Captcha Answer">
+                <button type="submit" class="btn-admin">System Login</button>
+            </form>
+        </div>
 
-        let curUser = null; 
-        let loginRole = 'user';
-        let activeChatID = null; 
-        let capSum = 0;
-        let empWorkDays = {}; // To store days worked for salary slip
+        <div id="admin-dash" class="hidden">
+            <h3 style="color: red;">Admin Dashboard (Shreya Singh)</h3>
+            
+            <div style="border: 2px solid #007bff; padding: 15px; border-radius: 8px; margin-bottom: 20px; background: #f8faff;">
+                <h4>➕ Add Department User</h4>
+                <form onsubmit="addDept(event)">
+                    <input type="text" id="newOffName" required placeholder="Officer Name">
+                    <input type="text" id="newOffId" required placeholder="New ID">
+                    <input type="password" id="newOffPass" required placeholder="New Password">
+                    <button type="submit" class="btn-blue">Create Department ID</button>
+                </form>
+            </div>
 
-        // --- CAPTCHA ---
-        function newCaptcha() {
-            let n1 = Math.floor(Math.random() * 9) + 1;
-            let n2 = Math.floor(Math.random() * 9) + 1;
-            capSum = n1 + n2;
-            document.getElementById('cap_q').innerText = `${n1} + ${n2} = ?`;
-            document.getElementById('cap_ans').value = "";
-        }
-        window.onload = newCaptcha;
-
-        // --- NAVIGATION ---
-        function showView(id) {
-            document.querySelectorAll('.box').forEach(b => b.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            newCaptcha();
-        }
-        function setLoginRole(r, el) {
-            loginRole = r;
-            document.querySelectorAll('#v_login .tab').forEach(t => t.classList.remove('active'));
-            el.classList.add('active');
-            document.getElementById('reg_hint').style.display = (r === 'user') ? 'block' : 'none';
-        }
-        function aTab(id, el) {
-            document.querySelectorAll('#v_admin > div').forEach(d => { if(d.id && d.id.startsWith('a_')) d.style.display='none'; });
-            document.getElementById(id).style.display = 'block';
-            document.querySelectorAll('#v_admin .tab').forEach(t => t.classList.remove('active'));
-            el.classList.add('active');
-        }
-        function uTab(id, el) {
-            document.getElementById('u_shop').style.display = 'none';
-            document.getElementById('u_chat').style.display = 'none';
-            document.getElementById(id).style.display = 'block';
-            document.querySelectorAll('#v_user .tab').forEach(t => t.classList.remove('active'));
-            el.classList.add('active');
-        }
-        function eTab(id, el) {
-            document.getElementById('e_home').style.display = 'none';
-            document.getElementById('e_stock').style.display = 'none';
-            document.getElementById('e_chat').style.display = 'none';
-            document.getElementById(id).style.display = 'block';
-            document.querySelectorAll('#v_emp .tab').forEach(t => t.classList.remove('active'));
-            el.classList.add('active');
-        }
-        function logout() { location.reload(); }
-
-        // --- AUTH ---
-        function login() {
-            // Captcha Check
-            let ans = parseInt(document.getElementById('cap_ans').value);
-            if(ans !== capSum) { alert("❌ Wrong Captcha!"); newCaptcha(); return; }
-
-            let id = document.getElementById('l_id').value.trim();
-            let pass = document.getElementById('l_pass').value.trim();
-            if(!id || !pass) return alert("Enter Details");
-
-            if(loginRole === 'admin') {
-                if((id === "shreya rani" || id === "9135673198") && pass === "mydearshreya@#") {
-                    curUser = { name: "Admin", role: "admin", phone: "admin" };
-                    loadAdminData();
-                    showView('v_admin');
-                } else { alert("Invalid Admin"); newCaptcha(); }
-            } else {
-                let path = (loginRole === 'emp') ? 'employees' : 'users';
-                db.ref(path + '/' + id).once('value', s => {
-                    let d = s.val();
-                    if(d) {
-                        if(d.blocked) { alert("You are BLOCKED or RESIGNED."); return; }
-                        if(d.pass == pass) {
-                            curUser = d; curUser.phone = id;
-                            if(loginRole === 'emp') loadEmpDash(); else loadUserDash();
-                        } else { alert("Invalid Password"); newCaptcha(); }
-                    } else { alert("ID Not Found"); newCaptcha(); }
-                });
-            }
-        }
-        function registerUser() {
-            let p = document.getElementById('r_phone').value;
-            let d = { 
-                name: document.getElementById('r_name').value, 
-                phone: p, 
-                pass: document.getElementById('r_pass').value, 
-                addr: document.getElementById('r_addr').value 
-            };
-            if(d.phone && d.pass) db.ref('users/'+p).set(d, e => { if(!e) { alert("Registered!"); showView('v_login'); } });
-        }
-
-        // --- ADMIN FUNCTIONS ---
-        function loadAdminData() {
-            // 1. Stock View
-            db.ref('products').on('value', s => {
-                let h = "";
-                s.forEach(p => {
-                    let v = p.val();
-                    h += `<div class="item">
-                        <img src="${v.img}" style="width:50px;height:50px;border-radius:5px;object-fit:cover;margin-right:10px;">
-                        <div style="flex-grow:1">
-                            <b>${v.name}</b><br>
-                            Rs.${v.rate}/${v.unit} | Stock: <b>${v.qty}</b>
-                        </div>
-                        <button class="btn-sm btn-s" onclick="editStock('${p.key}', ${v.qty})">Edit</button>
-                        <button class="btn-sm btn-red" onclick="db.ref('products/${p.key}').remove()">Del</button>
-                    </div>`;
-                });
-                document.getElementById('prod_list_adm').innerHTML = h;
-            });
-
-            // 2. Attendance Counts for Salary
-            db.ref('attendance').on('value', s => {
-                empWorkDays = {}; // Reset global object
-                s.forEach(dateSnap => {
-                    dateSnap.forEach(empSnap => {
-                        let eid = empSnap.key; 
-                        if(!empWorkDays[eid]) empWorkDays[eid] = 0;
-                        empWorkDays[eid]++;
-                    });
-                });
+            <div style="border: 2px solid #28a745; padding: 15px; border-radius: 8px;">
+                <h4>📜 Pending Approvals</h4>
+                <label>Verify By (Designation):</label>
+                <select id="authName">
+                    <option value="Revenue Officer (RO)">Revenue Officer (RO)</option>
+                    <option value="Circle Officer (CO)">Circle Officer (CO)</option>
+                </select>
+                <button class="btn-admin" onclick="genCert()">Approve & Generate PDF</button>
                 
-                // Show Count List
-                let rh = "";
-                for(let k in empWorkDays) {
-                    rh += `<div class="item">ID: ${k} - <b>${empWorkDays[k]} Days</b></div>`;
-                }
-                document.getElementById('work_days_list').innerHTML = rh;
-            });
+                <div id="finalOutput" class="hidden">
+                    <h3 style="color: #28a745; text-align: center; margin-top: 0;">Certificate Generated!</h3>
+                    <p><b>No:</b> <span id="finalCertNo" style="font-size: 18px; color: #d9534f; font-weight: bold;"></span></p>
+                    <div class="signature-box">
+                        <p style="margin: 0;">Digitally signed by <b>SHREYA SINGH</b></p>
+                        <p style="margin: 0;">Date: <span id="signDate"></span></p>
+                        <p style="margin-top: 10px;"><b>(हस्ताक्षर / Signature)</b></p>
+                        <p id="signDesig" style="margin: 0;"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-            // 3. Today's Punch
-            let today = new Date().toLocaleDateString().split('/').join('-');
-            db.ref('attendance/'+today).on('value', s => {
-                let h=""; s.forEach(a => { let v=a.val(); h+=`<div class="item"><div><b>${v.name}</b><br>${v.time}</div><img src="${v.photo}" style="width:50px;height:50px;border-radius:50%;border:2px solid green;"></div>`; });
-                document.getElementById('att_list_adm').innerHTML = h || "No punches.";
-            });
+<script>
+    // ==========================================
+    // 1. APNA FIREBASE CONFIG
+    // ==========================================
+    const firebaseConfig = {
+      apiKey: "AIzaSyBtLL0yVgt5hQwxokdsSRkeArZab5kyr_Q",
+      authDomain: "mithilahelp-4107d.firebaseapp.com",
+      projectId: "mithilahelp-4107d",
+      storageBucket: "mithilahelp-4107d.firebasestorage.app",
+      messagingSenderId: "525345376934",
+      appId: "1:525345376934:web:7083c7cecccd26a4a78267"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
-            // 4. Chat List
-            db.ref('chats').on('value', s => {
-                let h = "";
-                s.forEach(u => {
-                    let msgs = Object.values(u.val());
-                    let last = msgs[msgs.length-1];
-                    h += `<div class="item" onclick="openAdminChat('${u.key}', '${last.senderName}')" style="cursor:pointer; background:#fff;">
-                        <div><b>${last.senderName}</b><br><small>${last.text.substring(0,20)}...</small></div>
-                        <div style="font-size:10px;">New</div>
-                    </div>`;
-                });
-                document.getElementById('chat_users_list').innerHTML = h;
-            });
+    // ==========================================
+    // 2. LOGIC & CAPTCHA
+    // ==========================================
+    let curN1 = 0, curN2 = 0;
+    let pendingAppType = ""; 
 
-            // 5. EMPLOYEES LIST (ADVANCED)
-            db.ref('employees').on('value', s => {
-                let h="";
-                s.forEach(e => {
-                    let v = e.val();
-                    let statusColor = v.blocked ? 'red' : 'green';
-                    let statusText = v.blocked ? (v.status === 'Resigned' ? 'Resigned' : 'Blocked') : 'Active';
-                    
-                    h += `<div class="item" style="flex-direction:column; align-items:flex-start; background:#fff; margin-bottom:10px; padding:10px; border-radius:5px; border-left:5px solid ${statusColor};">
-                        <div style="display:flex; width:100%; align-items:center;">
-                            <img src="${v.ref_photo || ''}" style="width:50px;height:50px;border-radius:50%; object-fit:cover; margin-right:10px;">
-                            <div style="flex-grow:1">
-                                <b>${v.name}</b> <span style="font-size:11px; background:${statusColor}; color:white; padding:2px 5px; border-radius:3px;">${statusText}</span><br>
-                                <small>${v.phone} | ${v.role}</small><br>
-                                <small>Sal: Rs.${v.salary || 0}</small>
-                            </div>
-                        </div>
-                        <div class="actions-grid" style="width:100%;">
-                            <a href="tel:${v.phone}" class="btn-xs btn-s">📞 Call</a>
-                            <button class="btn-xs btn-p" onclick="openAdminChat('${v.phone}','${v.name}')">💬 Chat</button>
-                            <button class="btn-xs btn-grey" onclick="toggleBlock('${v.phone}', ${v.blocked})">${v.blocked ? 'Unblock' : 'Block'}</button>
-                            <button class="btn-xs btn-red" onclick="markResigned('${v.phone}')">Resign</button>
-                            <button class="btn-xs btn-red" onclick="deleteEmp('${v.phone}')">Del</button>
-                            <button class="btn-xs btn-p" onclick="genSalarySlip('${v.phone}','${v.name}',${v.salary||0})">📄 Slip</button>
-                        </div>
-                    </div>`;
-                });
-                document.getElementById('emp_list').innerHTML = h;
-            });
-        }
+    function switchTab(pId, el) {
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.getElementById(pId).classList.add('active');
+        el.classList.add('active');
 
-        // --- EMPLOYEE MANAGEMENT ACTIONS ---
-        function toggleBlock(ph, st) { db.ref('employees/'+ph).update({blocked: !st, status: !st?'Blocked':'Active'}); }
-        function deleteEmp(ph) { if(confirm("Permanently Delete?")) db.ref('employees/'+ph).remove(); }
-        function markResigned(ph) { if(confirm("Mark as Resigned? User will be blocked.")) db.ref('employees/'+ph).update({blocked:true, status:'Resigned'}); }
+        if(pId === 'user-panel') showSection('login-section', 'capLog1', 'capLog2', 'ansLog');
+        if(pId === 'dept-panel') setCap('capDept1', 'capDept2', 'ansDept');
+        if(pId === 'admin-panel') setCap('capAdmin1', 'capAdmin2', 'ansAdmin');
+    }
+    
+    function showSection(sId, c1, c2, inp) {
+        ['register-section', 'login-section', 'application-section'].forEach(id => document.getElementById(id).classList.add('hidden'));
+        document.getElementById(sId).classList.remove('hidden');
+        setCap(c1, c2, inp);
+    }
+
+    function setCap(c1, c2, inp) {
+        curN1 = Math.floor(Math.random() * 10) + 1;
+        curN2 = Math.floor(Math.random() * 10) + 1;
+        document.getElementById(c1).innerText = curN1;
+        document.getElementById(c2).innerText = curN2;
+        document.getElementById(inp).value = '';
+    }
+
+    function checkCap(inp) {
+        if(parseInt(document.getElementById(inp).value) === (curN1 + curN2)) return true;
+        alert("Galat Captcha!"); return false;
+    }
+
+    // ==========================================
+    // 3. USER FUNCTIONS
+    // ==========================================
+    function handleReg(e) {
+        e.preventDefault();
+        if(!checkCap('ansReg')) { setCap('capReg1', 'capReg2', 'ansReg'); return; }
+        alert("Registration Successful!"); showSection('login-section', 'capLog1', 'capLog2', 'ansLog');
+    }
+
+    function handleUserLog(e) {
+        e.preventDefault();
+        if(!checkCap('ansLog')) { setCap('capLog1', 'capLog2', 'ansLog'); return; }
+        showSection('application-section', 'capApp1', 'capApp2', 'ansApp');
+    }
+
+    // FORM SUBMIT FIRESTORE
+    function submitForm(e) {
+        e.preventDefault();
+        if(!checkCap('ansApp')) { setCap('capApp1', 'capApp2', 'ansApp'); return; }
         
-        // --- SALARY SLIP GENERATOR ---
-        function genSalarySlip(ph, name, sal) {
-            let days = empWorkDays[ph] || 0;
-            let perDay = sal / 30;
-            let total = Math.floor(perDay * days);
-            let date = new Date().toLocaleDateString();
+        let btn = document.getElementById('mainSubmitBtn');
+        btn.innerText = "Saving...";
+        
+        pendingAppType = document.getElementById('appType').value;
+        let name = document.getElementById('appName').value;
 
-            let html = `
-                <div style="text-align:center; border-bottom:2px solid #000; padding-bottom:10px; margin-bottom:10px;">
-                    <h3>Mithila Super ERP</h3>
-                    <p>Salary Slip / Payment Receipt</p>
-                </div>
-                <div class="slip-row"><span>Date:</span> <span>${date}</span></div>
-                <div class="slip-row"><span>Name:</span> <span>${name}</span></div>
-                <div class="slip-row"><span>ID:</span> <span>${ph}</span></div>
-                <div class="slip-row"><span>Monthly Salary:</span> <span>Rs. ${sal}</span></div>
-                <div class="slip-row"><span>Days Worked:</span> <span>${days}</span></div>
-                <div class="slip-row" style="font-weight:bold; font-size:16px; border-top:1px solid #000;">
-                    <span>NET PAYABLE:</span> <span>Rs. ${total}</span>
-                </div>
-                <p style="text-align:center; margin-top:20px; font-size:12px;">Computer Generated Slip</p>
-            `;
-            document.getElementById('slip_content').innerHTML = html;
-            document.getElementById('slip_modal').style.display = 'flex';
-        }
-        function printSlip() {
-            let c = document.getElementById('slip_content').innerHTML;
-            let w = window.open('', '', 'width=400,height=600');
-            w.document.write('<html><body >' + c + '</body></html>');
-            w.print();
-            w.close();
-        }
+        // Force save without strict rules dependency
+        db.collection("TestApplications").add({
+            name: name,
+            type: pendingAppType,
+            status: "Submitted"
+        }).then(() => {
+            alert("Form Saved in Firebase!");
+            document.getElementById('pendingName').innerText = name + " (" + pendingAppType + ")";
+            btn.innerText = "Submit Application";
+            e.target.reset();
+            showSection('login-section', 'capLog1', 'capLog2', 'ansLog');
+        }).catch(err => {
+            alert("Firebase Error: " + err.message + "\n\n(Dhyan dein: Apne Firebase me Rules ko 'true' karein)");
+            btn.innerText = "Submit Application";
+        });
+    }
 
-        // Product & Stock Logic
-        function addProduct() {
-            let n = document.getElementById('np_name').value;
-            let img = document.getElementById('np_img').value;
-            let unit = document.getElementById('np_unit').value;
-            if(!n || !img) return alert("Details Missing");
-            db.ref('products').push({
-                name: n, rate: document.getElementById('np_rate').value, unit: unit,
-                qty: document.getElementById('np_qty').value, img: img
-            });
-            alert("Added");
-        }
-        function editStock(key, oldQty) {
-            let nq = prompt("New Qty:", oldQty);
-            if(nq !== null) db.ref('products/'+key).update({qty: nq});
-        }
+    // ==========================================
+    // 4. DEPT FUNCTIONS
+    // ==========================================
+    function deptLog(e) {
+        e.preventDefault();
+        if(!checkCap('ansDept')) { setCap('capDept1', 'capDept2', 'ansDept'); return; }
 
-        // --- CAMERA & REGISTRATION ---
-        let regStream = null;
-        function startRegCam() {
-            document.getElementById('reg_cam_div').style.display = 'block';
-            navigator.mediaDevices.getUserMedia({video:true}).then(s => { regStream = s; document.getElementById('reg_video').srcObject = s; });
-        }
-        function captureRegPhoto() {
-            if(!regStream) return;
-            let v = document.getElementById('reg_video'); let c = document.getElementById('canvas');
-            c.width = v.videoWidth; c.height = v.videoHeight;
-            c.getContext('2d').drawImage(v,0,0);
-            let url = c.toDataURL('image/jpeg', 0.5);
-            document.getElementById('ne_ref_photo').value = url;
-            document.getElementById('ref_img_show').src = url;
-            document.getElementById('ref_preview').style.display = 'block';
-            document.getElementById('reg_cam_div').style.display = 'none';
-            regStream.getTracks().forEach(t=>t.stop());
-        }
-        function addEmployee() {
-            let p = document.getElementById('ne_phone').value;
-            let ref = document.getElementById('ne_ref_photo').value;
-            if(!p || !ref) return alert("Photo & Phone Required!");
-            
-            let perms = [];
-            if(document.getElementById('p_stock').checked) perms.push('manage_stock');
+        let id = document.getElementById('dId').value;
+        let pass = document.getElementById('dPass').value;
+        let btn = document.getElementById('deptBtn');
+        btn.innerText = "Checking...";
 
-            db.ref('employees/'+p).set({
-                name: document.getElementById('ne_name').value, phone: p, pass: document.getElementById('ne_pass').value,
-                role: document.getElementById('ne_role').value, salary: document.getElementById('ne_sal').value,
-                perms: perms, ref_photo: ref, blocked: false
-            }, e => { if(!e) alert("Registered"); });
-        }
-
-        // --- EMPLOYEE PANEL ---
-        function loadEmpDash() {
-            showView('v_emp');
-            document.getElementById('emp_welcome').innerText = "Hi, " + curUser.name;
-            document.getElementById('e_role_disp').innerText = curUser.role;
-            document.getElementById('e_sal_disp').innerText = curUser.salary || 0;
-            
-            if(curUser.perms && curUser.perms.includes('manage_stock')) {
-                document.getElementById('tab_stock_perm').style.display = 'block';
-                db.ref('products').on('value', s => {
-                    let h = ""; s.forEach(p => { let v=p.val(); h+=`<div class="item"><b>${v.name}</b> (${v.qty} ${v.unit}) <button class="btn-sm btn-s" onclick="editStock('${p.key}',${v.qty})">Upd</button></div>`; });
-                    document.getElementById('prod_list_emp').innerHTML = h;
-                });
+        db.collection("DeptUsers").where("uid", "==", id).where("pass", "==", pass).get()
+        .then((snap) => {
+            btn.innerText = "Login";
+            if (!snap.empty) {
+                document.getElementById('loggedDept').innerText = snap.docs[0].data().name;
+                document.getElementById('dept-login').classList.add('hidden');
+                document.getElementById('dept-dash').classList.remove('hidden');
+            } else {
+                alert("Galat ID/Pass! Pehle Admin Panel se Naya ID banayein.");
+                setCap('capDept1', 'capDept2', 'ansDept');
             }
-            let today = new Date().toLocaleDateString().split('/').join('-');
-            db.ref('attendance/'+today+'/'+curUser.phone).once('value', s => {
-                if(s.exists()) { document.getElementById('att_status').innerHTML = "✅ Present"; document.getElementById('btn_start_punch').style.display='none'; }
-            });
-            loadChat('emp');
-        }
+        }).catch(err => {
+            alert("Rules Error: Apne Firebase ke Firestore rules ko allow read, write: if true; karein.");
+            btn.innerText = "Login";
+        });
+    }
 
-        function startPunchCam() {
-            let d = new Date();
-            let day = d.getDay(); let h = d.getHours();
-            if(day === 0) return alert("Sunday Holiday");
-            let isM = (h >= 7 && h < 10); let isE = (h >= 19 && h < 22);
-            if(!isM && !isE) return alert("Time: 7-10 AM/PM Only");
-            
-            document.getElementById('punch_cam_div').style.display='block'; document.getElementById('btn_start_punch').style.display='none';
-            navigator.mediaDevices.getUserMedia({video:true}).then(s => document.getElementById('punch_video').srcObject=s);
-        }
-        function takePunchSelfie() {
-            let v=document.getElementById('punch_video'); let c=document.getElementById('canvas');
-            c.width=v.videoWidth; c.height=v.videoHeight; c.getContext('2d').drawImage(v,0,0);
-            let img = c.toDataURL('image/jpeg',0.5);
-            let today = new Date().toLocaleDateString().split('/').join('-');
-            db.ref('attendance/'+today+'/'+curUser.phone).set({name:curUser.name, time:new Date().toLocaleTimeString(), photo:img}, e=>{
-                 if(!e) { alert("Punched!"); v.srcObject.getTracks().forEach(t=>t.stop()); document.getElementById('punch_cam_div').style.display='none'; document.getElementById('att_status').innerHTML="✅ Present"; }
-            });
-        }
+    // ==========================================
+    // 5. ADMIN FUNCTIONS
+    // ==========================================
+    function adminLog(e) {
+        e.preventDefault();
+        if(!checkCap('ansAdmin')) { setCap('capAdmin1', 'capAdmin2', 'ansAdmin'); return; }
 
-        // --- USER & CHAT (UNCHANGED) ---
-        function loadUserDash() {
-            showView('v_user');
-            document.getElementById('u_welcome').innerText = "Shop - " + curUser.name;
-            db.ref('products').on('value', s => {
-                let h = ""; s.forEach(p => { let v=p.val(); h+=`<div class="item"><img src="${v.img}" style="width:50px;height:50px;border-radius:5px;margin-right:10px;"><div style="flex-grow:1"><b>${v.name}</b><br>Rs.${v.rate}/${v.unit}</div><button class="btn-sm btn-p" onclick="buyModal('${v.name}',${v.rate})">Buy</button></div>`; });
-                document.getElementById('u_shop').innerHTML = h;
-            });
-            loadChat('user');
+        let aId = document.getElementById('aId').value;
+        let aPass = document.getElementById('aPass').value;
+
+        // FIX: Simple Admin Login
+        if(aId === "shreyasingh" && aPass === "shreyarani@#") {
+            document.getElementById('admin-login').classList.add('hidden');
+            document.getElementById('admin-dash').classList.remove('hidden');
+        } else {
+            alert("Galat Admin Details!");
+            setCap('capAdmin1', 'capAdmin2', 'ansAdmin');
         }
-        function buyModal(n,r) {
-            let q=prompt("Qty?"); if(q) {
-                document.getElementById('qr_modal').style.display='flex'; document.getElementById('qrcode').innerHTML="";
-                new QRCode(document.getElementById("qrcode"),{text:"upi://pay?pa=7033578145@sbi&pn=Mithila&am="+(q*r),width:128,height:128});
-            }
-        }
-        function loadChat(r) {
-            let div = r==='emp'?'emp_msgs':'user_msgs';
-            db.ref('chats/'+curUser.phone).on('value', s=>{ let h=""; s.forEach(m=>{ let c=m.val().sender==='admin'?'other':'me'; h+=`<div class="msg ${c}">${m.val().text}</div>`; }); document.getElementById(div).innerHTML=h; });
-        }
-        function sendChat(r) {
-            let inp = r==='emp'?'emp_msg_in':'user_msg_in'; let txt=document.getElementById(inp).value;
-            if(txt) { db.ref('chats/'+curUser.phone).push({text:txt, sender:'user', senderName:curUser.name, time:Date.now()}); document.getElementById(inp).value=""; }
-        }
-        function openAdminChat(uid,name) {
-            activeChatID=uid; document.getElementById('chat_target_name').innerText=name; document.getElementById('admin_chat_window').style.display='block';
-            db.ref('chats/'+uid).on('value',s=>{ let h=""; s.forEach(m=>{ let c=m.val().sender==='admin'?'me':'other'; h+=`<div class="msg ${c}">${m.val().text}</div>`; }); document.getElementById('admin_msgs').innerHTML=h; });
-        }
-        function adminSendMsg() {
-            let t=document.getElementById('admin_msg_in').value; if(t && activeChatID) { db.ref('chats/'+activeChatID).push({text:t, sender:'admin', senderName:'Admin', time:Date.now()}); document.getElementById('admin_msg_in').value=""; }
-        }
-        function closeAdminChat() { document.getElementById('admin_chat_window').style.display='none'; if(activeChatID) db.ref('chats/'+activeChatID).off(); activeChatID=null; }
-    </script>
+    }
+
+    // ADD DEPT USER FIRESTORE
+    function addDept(e) {
+        e.preventDefault();
+        let name = document.getElementById('newOffName').value;
+        let id = document.getElementById('newOffId').value;
+        let pass = document.getElementById('newOffPass').value;
+
+        db.collection("DeptUsers").add({
+            name: name, uid: id, pass: pass
+        }).then(() => {
+            alert("New Department Officer Added!"); e.target.reset();
+        }).catch(err => alert("Error saving to Firebase: " + err.message));
+    }
+
+    function genCert() {
+        let type = pendingAppType || "BCCCO"; // Default if empty
+        let yr = new Date().getFullYear();
+        let num = Math.floor(1000000 + Math.random() * 9000000);
+        document.getElementById('finalCertNo').innerText = `${type}/${yr}/${num}`;
+        
+        let d = new Date();
+        document.getElementById('signDate').innerText = `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')} ${d.getHours()}:${d.getMinutes()} +05:30`;
+        document.getElementById('signDesig').innerText = `(${document.getElementById('authName').value})`;
+        document.getElementById('finalOutput').classList.remove('hidden');
+    }
+
+    window.onload = function() { showSection('login-section', 'capLog1', 'capLog2', 'ansLog'); };
+</script>
+
 </body>
 </html>
