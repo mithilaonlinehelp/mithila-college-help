@@ -3,178 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sarkar-Plus | Bihar E-Services</title>
+    <title>Sarkar-Plus | Bihar E-Services Official Portal</title>
     <style>
-        :root { --primary: #007bff; --success: #28a745; --admin: #dc3545; --light: #f8f9fa; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding: 20px; }
-        .container { max-width: 950px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        h2, h3 { text-align: center; color: #333; }
-        .tab-container { display: flex; border-bottom: 3px solid var(--primary); margin-bottom: 25px; cursor: pointer; }
-        .tab { flex: 1; text-align: center; padding: 15px; font-weight: bold; background: var(--light); border: 1px solid #ddd; }
+        :root { --primary: #0056b3; --success: #28a745; --danger: #dc3545; --bg: #f8f9fa; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 15px; }
+        .container { max-width: 1100px; margin: auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.1); }
+        
+        /* Tabs */
+        .tab-box { display: flex; border-bottom: 3px solid var(--primary); margin-bottom: 20px; }
+        .tab { padding: 15px 25px; cursor: pointer; font-weight: bold; background: #e9ecef; border-radius: 8px 8px 0 0; margin-right: 5px; }
         .tab.active { background: var(--primary); color: white; }
-        .panel { display: none; padding: 10px; }
+        
+        .panel { display: none; padding: 20px; border: 1px solid #dee2e6; border-radius: 0 0 10px 10px; }
         .panel.active { display: block; }
-        .form-row { display: flex; gap: 10px; flex-wrap: wrap; }
-        .form-group { flex: 1; min-width: 250px; }
-        label { font-weight: bold; display: block; margin-bottom: 5px; font-size: 14px; }
-        input, select, button { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; }
-        button { background: var(--primary); color: white; font-weight: bold; border: none; cursor: pointer; transition: 0.3s; }
-        button:hover { opacity: 0.9; }
-        .captcha-wrapper { background: #eee; padding: 10px; text-align: center; font-weight: bold; margin-bottom: 10px; }
+
+        /* Form Styling */
+        .row { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 15px; }
+        .col { flex: 1; min-width: 250px; }
+        label { display: block; font-weight: 600; margin-bottom: 8px; color: #333; }
+        input, select, button { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 15px; }
+        
+        .btn-blue { background: var(--primary); color: white; border: none; cursor: pointer; font-weight: bold; }
+        .btn-green { background: var(--success); color: white; border: none; cursor: pointer; }
+        .btn-red { background: var(--danger); color: white; border: none; cursor: pointer; }
+
+        /* Certificate Display */
+        .certificate { border: 8px double #444; padding: 50px; background: #fff; position: relative; margin-top: 20px; line-height: 1.8; }
+        .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); font-size: 70px; color: rgba(0,0,0,0.03); font-weight: bold; z-index: 0; white-space: nowrap; }
+        .sig-box { text-align: right; margin-top: 60px; font-family: 'Courier New', monospace; border-top: 1px solid #ddd; padding-top: 10px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #f2f2f2; }
+        .hidden { display: none; }
     </style>
 
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
 <div class="container">
-    <h2>Sarkar-Plus | Bihar E-Services</h2>
+    <h2 style="text-align:center; color: #003366;">बिहार सरकार | RTPS सेवा पोर्टल</h2>
 
-    <div class="tab-container">
-        <div class="tab active" onclick="switchTab('user-tab', this)">👤 User Portal</div>
-        <div class="tab" onclick="switchTab('admin-tab', this)">⚙️ Admin Panel</div>
+    <div class="tab-box">
+        <div class="tab active" onclick="openTab('user-panel', this)">📝 आवेदन (User)</div>
+        <div class="tab" onclick="openTab('dept-panel', this)">🏢 अधिकारी (Dept)</div>
+        <div class="tab" onclick="openTab('admin-panel', this)">🔑 एडमिन (Admin)</div>
     </div>
 
-    <div id="user-tab" class="panel active">
-        <div id="user-app">
-            <h3>Certificate Application Form</h3>
-            <form onsubmit="handleApplication(event)">
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Naam (English me likhein, Space dabate hi Hindi ho jayega):</label>
-                        <input type="text" id="vNameHindi" placeholder="जैसे: Vivek Kumar" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Praman Patra ka Prakar:</label>
-                        <select id="appType" required>
-                            <option value="Aawasiya">Aawasiya (Residence)</option>
-                            <option value="Jati">Jati (Caste)</option>
-                            <option value="Aay">Aay (Income)</option>
-                        </select>
-                    </div>
+    <div id="user-panel" class="panel active">
+        <h3>नया आवेदन पत्र</h3>
+        <form onsubmit="userSubmit(event)">
+            <div class="row">
+                <div class="col"><label>Name (Eng):</label><input type="text" id="uNameEng" required></div>
+                <div class="col"><label>नाम (Hindi - Space dabayein):</label><input type="text" id="uNameHindi" required></div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label>जिला (District):</label>
+                    <select id="uDist" onchange="updateSub()" required>
+                        <option value="">-- चुनें --</option>
+                        <option value="Sitamarhi">Sitamarhi</option>
+                        <option value="Patna">Patna</option>
+                        <option value="Muzaffarpur">Muzaffarpur</option>
+                    </select>
                 </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Zila (District):</label>
-                        <select id="vDistrict" onchange="updateSubDivisions()" required>
-                            <option value="">-- Chunein --</option>
-                            <option value="Sitamarhi">Sitamarhi</option>
-                            <option value="Patna">Patna</option>
-                            <option value="Muzaffarpur">Muzaffarpur</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Anumandal (Sub-Division):</label>
-                        <select id="vSubDiv" onchange="updateBlocks()" required>
-                            <option value="">-- Pehle Zila Chunein --</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Prakhand (Block):</label>
-                        <select id="vBlock" required>
-                            <option value="">-- Pehle Anumandal Chunein --</option>
-                        </select>
-                    </div>
+                <div class="col"><label>अनुमंडल (Sub-Div):</label><select id="uSub" onchange="updateBlk()" required><option>-- Select --</option></select></div>
+                <div class="col"><label>प्रखंड (Block):</label><select id="uBlk" required><option>-- Select --</option></select></div>
+            </div>
+            <div class="row">
+                <div class="col"><label>प्रमाण पत्र का प्रकार:</label>
+                    <select id="uType" required>
+                        <option value="Aawasiya">आवासीय (Residence)</option>
+                        <option value="Jati">जाति (Caste)</option>
+                        <option value="Aay">आय (Income)</option>
+                    </select>
                 </div>
+            </div>
+            <div class="row" style="background:#f1f1f1; padding:15px; border-radius:8px;">
+                <div class="col"><label>Photo Upload:</label><input type="file" required></div>
+                <div class="col"><label>Aadhar Card (PDF/Image):</label><input type="file" required></div>
+            </div>
+            <button type="submit" class="btn-green" style="margin-top:20px;">Submit Application</button>
+        </form>
+    </div>
 
-                <div class="captcha-wrapper"><span id="capAppText"></span></div>
-                <input type="number" id="capAppInput" placeholder="Answer" required>
-                
-                <button type="submit" style="background:var(--success)">Submit Application</button>
-            </form>
+    <div id="dept-panel" class="panel">
+        <div id="dept-login-box">
+            <h3>अधिकारी लॉगिन (Officer Login)</h3>
+            <input type="text" id="offId" placeholder="User ID" style="margin-bottom:10px;">
+            <input type="password" id="offPass" placeholder="Password" style="margin-bottom:10px;">
+            <button onclick="offLogin()" class="btn-blue">Login to Dashboard</button>
+        </div>
+
+        <div id="dept-dash" class="hidden">
+            <h3 id="offWelcome">Dashboard</h3>
+            <table id="appTable">
+                <thead><tr><th>Applicant</th><th>Type</th><th>Location</th><th>Action</th></tr></thead>
+                <tbody id="appBody"></tbody>
+            </table>
+        </div>
+
+        <div id="certPreview" class="hidden">
+            <div class="certificate">
+                <div class="watermark">BIHAR GOVERNMENT</div>
+                <h2 style="text-align:center;">बिहार सरकार</h2>
+                <h4 style="text-align:center; text-decoration: underline;" id="certHeader">प्रमाण पत्र</h4>
+                <p>प्रमाणित किया जाता है कि श्री/सुश्री <b><span id="resName">...</span></b>, प्रखंड <b><span id="resBlk">...</span></b>, जिला <b><span id="resDist">...</span></b> के निवासी हैं। इनका आवेदन पूर्ण रूप से सही पाया गया।</p>
+                <div class="sig-box">
+                    <b>Digitally Signed By:</b><br>
+                    <span id="sigName">Officer Name</span><br>
+                    <span id="sigDesig">Designation</span><br>
+                    Date: <span id="sigDate"></span>
+                </div>
+            </div>
+            <button onclick="window.print()" class="btn-blue" style="width:200px; margin-top:20px;">Print Certificate</button>
+            <button onclick="location.reload()" class="btn-red" style="width:200px;">Back</button>
         </div>
     </div>
 
-    <div id="admin-tab" class="panel">
-        <div id="admin-dash">
-            <h3 style="color:var(--admin)">Admin Console</h3>
-            <div style="background:#fff1f1; padding:20px; border:1px solid #ffcccc; border-radius:10px;">
-                <h4>➕ Add Officer</h4>
-                <form onsubmit="addDeptUser(event)">
-                    <input type="text" id="addOffName" placeholder="Officer Name" required>
-                    <input type="text" id="addOffId" placeholder="User ID" required>
-                    <input type="password" id="addOffPass" placeholder="Password" required>
-                    <button type="submit">Create Officer ID</button>
-                </form>
+    <div id="admin-panel" class="panel">
+        <div id="admin-login-box">
+            <h3>Admin Login</h3>
+            <input type="text" id="admUser" placeholder="Admin Username" style="margin-bottom:10px;">
+            <input type="password" id="admPass" placeholder="Password" style="margin-bottom:10px;">
+            <button onclick="admLogin()" class="btn-red">Verify Admin</button>
+        </div>
+
+        <div id="admin-content" class="hidden">
+            <h3 style="color:var(--danger)">Super Admin Console</h3>
+            <div style="background:#fff5f5; padding:20px; border:1px solid #feb2b2; border-radius:10px;">
+                <h4>Create New Officer Profile</h4>
+                <div class="row">
+                    <div class="col"><label>Officer Name:</label><input type="text" id="newOffName"></div>
+                    <div class="col"><label>Designation:</label><input type="text" id="newOffDesig" placeholder="Ex: Revenue Officer (RO)"></div>
+                </div>
+                <div class="row">
+                    <div class="col"><label>User ID:</label><input type="text" id="newOffId"></div>
+                    <div class="col"><label>Password:</label><input type="password" id="newOffPass"></div>
+                </div>
+                <button onclick="saveOfficer()" class="btn-blue">Create ID & Save Rank</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // --- BIHAR ADMINISTRATIVE DATA ---
+    // --- DATA ---
     const biharData = {
-        "Sitamarhi": {
-            "Sadar": ["Dumra", "Runnisaidpur", "Belsand", "Parsauni"],
-            "Pupri": ["Pupri", "Nanpur", "Bajpatti", "Choraut", "Bokhara"],
-            "Belsand": ["Belsand", "Parsauni"]
-        },
-        "Patna": {
-            "Patna Sadar": ["Patna Sadar", "Phulwari Sharif", "Sampatchak"],
-            "Danapur": ["Danapur", "Khagaul", "Naubatpur", "Bihta"]
-        },
-        "Muzaffarpur": {
-            "East": ["Mushahari", "Bochahan", "Sakra", "Dholi"],
-            "West": ["Kanti", "Marwan", "Paroo", "Saraiya"]
-        }
+        "Sitamarhi": { "Pupri": ["Pupri", "Nanpur", "Bajpatti"], "Sadar": ["Dumra", "Riga", "Runnisaidpur"] },
+        "Patna": { "Patna Sadar": ["Sampatchak", "Phulwarisharif"], "Danapur": ["Danapur", "Bihta"] }
     };
 
-    // --- HINDI TRANSLITERATION SETUP ---
+    // --- HINDI ---
     google.load("elements", "1", { packages: "transliteration" });
-    function onLoadHindi() {
-        var options = {
-            sourceLanguage: google.elements.transliteration.LanguageCode.ENGLISH,
-            destinationLanguage: [google.elements.transliteration.LanguageCode.HINDI],
-            shortcutKey: 'ctrl+g',
-            transliterationEnabled: true
-        };
-        var control = new google.elements.transliteration.TransliterationControl(options);
-        control.makeTransliteratable(['vNameHindi']); // Input ID yahan dein
+    google.setOnLoadCallback(() => {
+        new google.elements.transliteration.TransliterationControl({
+            sourceLanguage: 'en', destinationLanguage: ['hi'], transliterationEnabled: true
+        }).makeTransliteratable(['uNameHindi']);
+    });
+
+    // --- DROPDOWNS ---
+    function updateSub() {
+        const d = document.getElementById('uDist').value;
+        const s = document.getElementById('uSub');
+        s.innerHTML = '<option>-- Select --</option>';
+        if(biharData[d]) Object.keys(biharData[d]).forEach(sub => s.innerHTML += `<option value="${sub}">${sub}</option>`);
     }
-    google.setOnLoadCallback(onLoadHindi);
-
-    // --- DYNAMIC DROPDOWN LOGIC ---
-    function updateSubDivisions() {
-        const dist = document.getElementById('vDistrict').value;
-        const subDivDropdown = document.getElementById('vSubDiv');
-        const blockDropdown = document.getElementById('vBlock');
-        
-        subDivDropdown.innerHTML = '<option value="">-- Chunein --</option>';
-        blockDropdown.innerHTML = '<option value="">-- Pehle Anumandal Chunein --</option>';
-
-        if(dist && biharData[dist]) {
-            for(let sub in biharData[dist]) {
-                let opt = document.createElement('option');
-                opt.value = sub;
-                opt.innerHTML = sub;
-                subDivDropdown.appendChild(opt);
-            }
-        }
+    function updateBlk() {
+        const d = document.getElementById('uDist').value;
+        const s = document.getElementById('uSub').value;
+        const b = document.getElementById('uBlk');
+        b.innerHTML = '<option>-- Select --</option>';
+        if(biharData[d] && biharData[d][s]) biharData[d][s].forEach(blk => b.innerHTML += `<option value="${blk}">${blk}</option>`);
     }
 
-    function updateBlocks() {
-        const dist = document.getElementById('vDistrict').value;
-        const subDiv = document.getElementById('vSubDiv').value;
-        const blockDropdown = document.getElementById('vBlock');
-
-        blockDropdown.innerHTML = '<option value="">-- Chunein --</option>';
-
-        if(dist && subDiv && biharData[dist][subDiv]) {
-            biharData[dist][subDiv].forEach(block => {
-                let opt = document.createElement('option');
-                opt.value = block;
-                opt.innerHTML = block;
-                blockDropdown.appendChild(opt);
-            });
-        }
-    }
-
-    // --- FIREBASE CONFIG ---
+    // --- FIREBASE ---
     const firebaseConfig = {
       apiKey: "AIzaSyBtLL0yVgt5hQwxokdsSRkeArZab5kyr_Q",
       authDomain: "mithilahelp-4107d.firebaseapp.com",
@@ -183,60 +189,55 @@
       messagingSenderId: "525345376934",
       appId: "1:525345376934:web:7083c7cecccd26a4a78267"
     };
-
     firebase.initializeApp(firebaseConfig);
-    firebase.firestore().settings({ experimentalForceLongPolling: true, useFetchStreams: false });
     const db = firebase.firestore();
+    db.settings({ experimentalForceLongPolling: true });
 
-    // --- CAPTCHA ---
-    let n1, n2;
-    function genCaptcha() {
-        n1 = Math.floor(Math.random() * 9) + 1;
-        n2 = Math.floor(Math.random() * 9) + 1;
-        document.getElementById('capAppText').innerText = `${n1} + ${n2} = ?`;
-    }
-
-    function switchTab(id, el) {
+    // --- TABS ---
+    function openTab(id, el) {
         document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
         document.getElementById(id).classList.add('active');
         el.classList.add('active');
     }
 
-    // --- FORM SUBMIT ---
-    function handleApplication(e) {
-        e.preventDefault();
-        if(parseInt(document.getElementById('capAppInput').value) !== (n1+n2)) {
-            alert("Wrong Captcha!"); return;
-        }
+    // --- ADMIN ACTIONS ---
+    function admLogin() {
+        if(document.getElementById('admUser').value === "shreyasingh" && document.getElementById('admPass').value === "shreya@123") {
+            document.getElementById('admin-login-box').classList.add('hidden');
+            document.getElementById('admin-content').classList.remove('hidden');
+        } else alert("Invalid Admin Login");
+    }
 
+    function saveOfficer() {
+        const name = document.getElementById('newOffName').value;
+        const designation = document.getElementById('newOffDesig').value;
+        const id = document.getElementById('newOffId').value;
+        const pass = document.getElementById('newOffPass').value;
+        db.collection("DepartmentUsers").add({ name, designation, id, pass })
+        .then(() => alert("Officer ID & Designation Created Successfully!"));
+    }
+
+    // --- USER SUBMIT ---
+    function userSubmit(e) {
+        e.preventDefault();
         db.collection("Applications").add({
-            name: document.getElementById('vNameHindi').value,
-            district: document.getElementById('vDistrict').value,
-            subDivision: document.getElementById('vSubDiv').value,
-            block: document.getElementById('vBlock').value,
-            type: document.getElementById('appType').value,
+            name: document.getElementById('uNameHindi').value,
+            dist: document.getElementById('uDist').value,
+            blk: document.getElementById('uBlk').value,
+            type: document.getElementById('uType').value,
             status: "Pending",
             date: new Date()
-        }).then(() => {
-            alert("✅ Form Submitted! (Hindi Name & Location Saved)");
-            e.target.reset(); genCaptcha();
-        }).catch(() => alert("❌ Error!"));
+        }).then(() => alert("Success! Application & Documents Submitted."));
     }
 
-    // --- ADMIN: CREATE OFFICER ---
-    function addDeptUser(e) {
-        e.preventDefault();
-        db.collection("DepartmentUsers").add({
-            name: document.getElementById('addOffName').value,
-            id: document.getElementById('addOffId').value,
-            pass: document.getElementById('addOffPass').value,
-            createdAt: new Date()
-        }).then(() => { alert("✅ Officer Created!"); e.target.reset(); });
-    }
-
-    window.onload = genCaptcha;
-</script>
-
-</body>
-</html>
+    // --- DEPT ACTIONS ---
+    let curOffName = "", curOffDesig = "";
+    function offLogin() {
+        const id = document.getElementById('offId').value;
+        const pass = document.getElementById('offPass').value;
+        db.collection("DepartmentUsers").where("id","==",id).where("pass","==",pass).get().then(snap => {
+            if(!snap.empty) {
+                const off = snap.docs[0].data();
+                curOffName = off.name; curOffDesig = off.designation;
+                document.getElementById
