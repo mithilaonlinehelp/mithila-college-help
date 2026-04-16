@@ -1,98 +1,167 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
 <script>
-let photoData = "";
-
-/* ================= PHOTO ================= */
-document.getElementById("id_photo")?.addEventListener("change", e => {
-    const f = e.target.files[0];
-    if (!f) return;
-    const r = new FileReader();
-    r.onload = () => {
-        photoData = r.result;
-        previewIdCard();
+    // --- FIREBASE SETUP ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyBtLL0yVgt5hQwxokdsSRkeArZab5kyr_Q",
+      authDomain: "mithilahelp-4107d.firebaseapp.com",
+      projectId: "mithilahelp-4107d",
+      storageBucket: "mithilahelp-4107d.firebasestorage.app",
+      messagingSenderId: "525345376934",
+      appId: "1:525345376934:web:7083c7cecccd26a4a78267"
     };
-    r.readAsDataURL(f);
-});
+    
+    // 1. Firebase Initialize karein
+    firebase.initializeApp(firebaseConfig);
 
-/* ================= PREVIEW ================= */
-function previewIdCard() {
-    const v = id => document.getElementById(id)?.value || "";
-    const cardNo = "MMTM-" + (v("id_univroll") || "0000");
-
-    document.getElementById("id_preview").style.display = "block";
-    document.getElementById("id_preview").innerHTML = `
-
-<div id="printArea" style="display:flex;gap:20px;flex-wrap:wrap">
-
-<!-- FRONT -->
-<div style="width:360px;border:4px solid #198754;border-radius:14px;padding:12px;background:#fff;font-family:Poppins">
-
-<h4 style="text-align:center;margin:0;color:#c00">
-MAHARAJ MAHESH THAKUR MITHILA COLLEGE
-</h4>
-<small style="display:block;text-align:center">Darbhanga, Bihar</small>
-
-<hr>
-
-<div style="display:flex;gap:10px;font-size:13px">
-<div style="width:95px;height:120px;border:1px solid #ff9933">
-${photoData
-? `<img src="${photoData}" style="width:100%;height:100%;object-fit:cover">`
-: `<small style="display:block;text-align:center;margin-top:50px">Photo</small>`}
-</div>
-
-<div>
-<div><b>Name:</b> ${v("id_name")}</div>
-<div><b>Father:</b> ${v("id_father")}</div>
-<div><b>Course:</b> ${v("id_course")}</div>
-<div><b>Session:</b> ${v("id_session")}</div>
-<div><b>Mobile:</b> ${v("id_mobile")}</div>
-<div><b>Univ Roll:</b> ${v("id_univroll")}</div>
-<div><b>Card No:</b> ${cardNo}</div>
-</div>
-</div>
-</div>
-
-<!-- BACK -->
-<div style="width:360px;border:4px solid #0d6efd;border-radius:14px;padding:12px;background:#f8f9fa;font-family:Poppins">
-
-<h4 style="text-align:center;margin:0">OFFICIAL INFO</h4>
-<hr>
-
-<p style="font-size:13px"><b>Address:</b><br>${v("id_address")}</p>
-
-<div id="qrBox" style="width:120px;height:120px;margin:auto"></div>
-<small style="display:block;text-align:center">Scan QR</small>
-
-</div>
-</div>
-`;
-
-    setTimeout(() => generateQR(cardNo), 200);
-}
-
-/* ================= QR ================= */
-function generateQR(text) {
-    const box = document.getElementById("qrBox");
-    if (!box) return;
-    box.innerHTML = "";
-    new QRCode(box, {
-        text: text,
-        width: 120,
-        height: 120
+    // 2. Network error bypass (Long Polling)
+    firebase.firestore().settings({
+        experimentalForceLongPolling: true, 
+        useFetchStreams: false 
     });
-}
 
-/* ================= PDF ================= */
-function downloadPDF() {
-    const area = document.getElementById("printArea");
-    if (!area) return alert("पहले Preview करें");
+    // 3. Database reference
+    const db = firebase.firestore();
 
-    html2pdf().from(area).set({
-        filename: "MMTM_College_ID_Card.pdf",
-        html2canvas: { scale: 3 }
-    }).save();
-}
+    // --- CAPTCHA ENGINE ---
+    let n1, n2;
+    function generateCaptcha(textId, inputId) {
+        n1 = Math.floor(Math.random() * 9) + 1;
+        n2 = Math.floor(Math.random() * 9) + 1;
+        document.getElementById(textId).innerText = `${n1} + ${n2} = ?`;
+        document.getElementById(inputId).value = "";
+    }
+    function checkCaptcha(inputId) {
+        return parseInt(document.getElementById(inputId).value) === (n1 + n2);
+    }
+
+    // --- NAVIGATION ---
+    function switchTab(tabId, el) {
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        el.classList.add('active');
+        if(tabId === 'user-tab') generateCaptcha('capLogText', 'capLogInput');
+        if(tabId === 'dept-tab') generateCaptcha('capDeptText', 'capDeptInput');
+        if(tabId === 'admin-tab') generateCaptcha('capAdmText', 'capAdmInput');
+    }
+
+    function toggleUserSections(sec) {
+        ['user-reg', 'user-log', 'user-app'].forEach(s => document.getElementById(s).classList.add('hidden'));
+        document.getElementById(sec).classList.remove('hidden');
+        if(sec === 'user-reg') generateCaptcha('capRegText', 'capRegInput');
+        if(sec === 'user-log') generateCaptcha('capLogText', 'capLogInput');
+        if(sec === 'user-app') generateCaptcha('capAppText', 'capAppInput');
+    }
+
+    // --- DYNAMIC DATA ---
+    function loadSubDivisions() {
+        let dist = document.getElementById('vDistrict').value;
+        let s = document.getElementById('vSubDiv');
+        s.innerHTML = dist === 'Sitamarhi' ? '<option>Pupri</option><option>Sadar</option>' : '<option>Sadar</option>';
+        document.getElementById('vBlock').innerHTML = '<option>Bajpatti</option><option>Riga</option>';
+    }
+
+    function loadCastes() {
+        let cat = document.getElementById('vCategory').value;
+        let c = document.getElementById('vCaste');
+        if(cat === 'BC-2') c.innerHTML = '<option>Kushwaha (Koiri)</option><option>Yadav</option><option>Kurmi</option>';
+        else if(cat === 'EBC-1') c.innerHTML = '<option>Mallah</option><option>Teli</option><option>Kanu</option>';
+        else c.innerHTML = '<option>-- All Castes --</option>';
+    }
+
+    function updateFormDynamicFields() {
+        let t = document.getElementById('appType').value;
+        document.getElementById('caste-fields').className = t === 'BCCCO' ? 'visible' : 'hidden';
+        document.getElementById('income-fields').className = t === 'BICCO' ? 'visible' : 'hidden';
+    }
+
+    function sumIncome() {
+        let g = parseInt(document.getElementById('incGov').value) || 0;
+        let a = parseInt(document.getElementById('incAgri').value) || 0;
+        let b = parseInt(document.getElementById('incBiz').value) || 0;
+        document.getElementById('incTotal').value = g + a + b;
+    }
+
+    // --- CORE HANDLERS ---
+    function handleRegistration(e) {
+        e.preventDefault();
+        if(!checkCaptcha('capRegInput')) { alert("Wrong Captcha!"); generateCaptcha('capRegText', 'capRegInput'); return; }
+        alert("Account Created!"); toggleUserSections('user-log');
+    }
+
+    function handleUserLogin(e) {
+        e.preventDefault();
+        if(!checkCaptcha('capLogInput')) { alert("Wrong Captcha!"); generateCaptcha('capLogText', 'capLogInput'); return; }
+        toggleUserSections('user-app');
+    }
+
+    function handleApplication(e) {
+        e.preventDefault();
+        if(!checkCaptcha('capAppInput')) { alert("Wrong Captcha!"); generateCaptcha('capAppText', 'capAppInput'); return; }
+        let type = document.getElementById('appType').value;
+        let name = document.getElementById('vName').value;
+        
+        db.collection("Applications").add({ 
+            name: name, 
+            type: type, 
+            status: "Pending" 
+        }).then(() => {
+            alert("Submitted to Department!"); 
+            toggleUserSections('user-log');
+        }).catch((error) => {
+            console.error("Error submitting app: ", error);
+            alert("Error: Database se connect nahi ho paya. Kripya apna internet connection check karein.");
+        });
+    }
+
+    function handleDeptLogin(e) {
+        e.preventDefault();
+        if(!checkCaptcha('capDeptInput')) { alert("Wrong Captcha!"); generateCaptcha('capDeptText', 'capDeptInput'); return; }
+        db.collection("DepartmentUsers").where("id", "==", document.getElementById('deptId').value)
+          .where("pass", "==", document.getElementById('deptPass').value).get().then(snap => {
+            if(!snap.empty) {
+                document.getElementById('officerName').innerText = snap.docs[0].data().name;
+                document.getElementById('dept-login-box').classList.add('hidden');
+                document.getElementById('dept-dash').classList.remove('hidden');
+            } else alert("Invalid Login!");
+        }).catch((error) => {
+            alert("Network Error! " + error.message);
+        });
+    }
+
+    function handleAdminLogin(e) {
+        e.preventDefault();
+        if(!checkCaptcha('capAdmInput')) { alert("Wrong Captcha!"); generateCaptcha('capAdmText', 'capAdmInput'); return; }
+        if(document.getElementById('admId').value === "shreyasingh" && document.getElementById('admPass').value === "shreyarani@#") {
+            document.getElementById('admin-login-box').classList.add('hidden');
+            document.getElementById('admin-dash').classList.remove('hidden');
+        } else alert("Access Denied!");
+    }
+
+    function addDeptUser(e) {
+        e.preventDefault();
+        db.collection("DepartmentUsers").add({
+            name: document.getElementById('addOffName').value,
+            id: document.getElementById('addOffId').value,
+            pass: document.getElementById('addOffPass').value
+        }).then(() => { 
+            alert("New Officer Created!"); 
+            e.target.reset(); 
+        }).catch((error) => {
+            console.error("Error adding user: ", error);
+            alert("Error: Internet block hone ki wajah se ID create nahi hui. " + error.message);
+        });
+    }
+
+    function generateFinalCert() {
+        let prefix = document.getElementById('appType').value || "CERT";
+        let year = new Date().getFullYear();
+        let rand = Math.floor(1000000 + Math.random() * 9000000);
+        
+        document.getElementById('certNoFinal').innerText = `${prefix}/${year}/${rand}`;
+        document.getElementById('certTimeFinal').innerText = new Date().toLocaleString() + " +05:30";
+        document.getElementById('certDesigFinal').innerText = `(${document.getElementById('vDesignation').value})`;
+        document.getElementById('finalCertView').classList.remove('hidden');
+    }
+
+    window.onload = () => generateCaptcha('capLogText', 'capLogInput');
 </script>
