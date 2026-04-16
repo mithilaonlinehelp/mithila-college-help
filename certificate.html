@@ -6,7 +6,6 @@
     
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
     <style>
         :root { --primary: #003366; --success: #28a745; --bg: #f8f9fa; }
@@ -23,6 +22,7 @@
         .tab.active { background: var(--primary); color: white; }
         .panel { display: none; }
         .panel.active { display: block; }
+        .disclaimer { background: #fff3cd; border: 1px solid #ffeeba; padding: 15px; border-radius: 5px; font-size: 13px; line-height: 1.6; margin: 20px 0; }
         .btn-submit { background: var(--success); color: white; padding: 15px; border: none; border-radius: 6px; width: 100%; font-size: 18px; font-weight: bold; cursor: pointer; }
         
         /* Certificate Print Layout */
@@ -37,41 +37,42 @@
 
 <div class="container no-print">
     <div class="header">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Emblem_of_Bihar.svg" style="width:60px;">
-        <h2 style="color: var(--primary);">बिहार सरकार | Government of Bihar</h2>
-        <p>लोक सेवाओं का अधिकार (RTPS) डिजिटल पोर्टल 2026</p>
+        <h2 style="color: var(--primary);">बिहार सरकार | RTPS डिजिटल पोर्टल</h2>
     </div>
 
     <div class="tabs">
-        <div class="tab active" onclick="switchTab('apply')">📝 नया आवेदन (Apply)</div>
-        <div class="tab" onclick="switchTab('officer')">👮 अधिकारी लॉगिन (Officer)</div>
+        <div class="tab active" onclick="switchTab('apply')">📝 नया आवेदन</div>
+        <div class="tab" onclick="switchTab('officer')">👮 अधिकारी लॉगिन</div>
     </div>
 
     <div id="apply" class="panel active">
         <form id="applyForm" onsubmit="handleApply(event)">
-            <div class="section-title">1. आवेदक का बायोडाटा (Personal Details)</div>
+            <div class="section-title">1. आवेदक का बायोडाटा</div>
             <div class="row">
                 <div class="col"><label>नाम (English):</label><input type="text" id="uNameE" required></div>
-                <div class="col"><label>नाम (हिंदी - Auto):</label><input type="text" id="uNameH" required></div>
+                <div class="col"><label>नाम (हिंदी):</label><input type="text" id="uNameH" required></div>
             </div>
             <div class="row">
-                <div class="col"><label>पिता का नाम (हिंदी - Auto):</label><input type="text" id="uFatherH" required></div>
+                <div class="col"><label>पिता का नाम (English):</label><input type="text" id="uFatherE" required></div>
+                <div class="col"><label>पिता का नाम (हिंदी):</label><input type="text" id="uFatherH" required></div>
+            </div>
+            <div class="row">
                 <div class="col"><label>माता का नाम (English):</label><input type="text" id="uMotherE" required></div>
-                <div class="col"><label>माता का नाम (हिंदी - Auto):</label><input type="text" id="uMotherH" required></div>
+                <div class="col"><label>माता का नाम (हिंदी):</label><input type="text" id="uMotherH" required></div>
             </div>
             <div class="row">
-                <div class="col"><label>आधार संख्या (Mandatory):</label><input type="text" id="uAadhaar" maxlength="12" pattern="\d{12}" required></div>
+                <div class="col"><label>आधार संख्या:</label><input type="text" id="uAadhaar" maxlength="12" pattern="\d{12}" required></div>
                 <div class="col"><label>फोटो अपलोड:</label><input type="file" onchange="encodeImg(this)" required></div>
             </div>
 
-            <div class="section-title">2. आवासीय विवरण (Full Address)</div>
+            <div class="section-title">2. आवासीय विवरण</div>
             <div class="row">
                 <div class="col"><label>जिला:</label><select id="distSel" onchange="loadSub()" required><option value="">-- चुनें --</option></select></div>
                 <div class="col"><label>अनुमंडल:</label><select id="subSel" onchange="loadBlk()" required><option value="">-- चुनें --</option></select></div>
                 <div class="col"><label>प्रखंड (Block):</label><select id="blkSel" required><option value="">-- चुनें --</option></select></div>
             </div>
             <div class="row">
-                <div class="col"><label>ग्राम/मोहल्ला (हिंदी):</label><input type="text" id="uVillH" required></div>
+                <div class="col"><label>ग्राम/मोहल्ला:</label><input type="text" id="uVillH" required></div>
                 <div class="col"><label>वार्ड नं:</label><input type="number" id="uWard" required></div>
             </div>
 
@@ -89,10 +90,7 @@
             </div>
 
             <div class="disclaimer">
-                <b>स्व-घोषणा (I Agree):</b><br>
-                1. मैं घोषणा करता हूँ कि मेरे द्वारा दी गई सभी जानकारी पूर्णतः सत्य और वैध है।<br>
-                2. यदि कोई जानकारी गलत पाई जाती है, तो मेरा आवेदन बिना किसी सूचना के निरस्त कर दिया जाएगा।<br>
-                3. गलत तथ्यों को प्रस्तुत करने पर मैं स्वयं कानूनी कार्यवाही के लिए उत्तरदायी रहूँगा।
+                <b>स्व-घोषणा:</b> मैं घोषणा करता हूँ कि मेरे द्वारा दी गई सभी जानकारी पूर्णतः सत्य और वैध है।
             </div>
             <div style="margin-bottom:15px;"><input type="checkbox" required style="width:auto;"> <b>सहमत हूँ</b></div>
             <button type="submit" class="btn-submit">आवेदन सबमिट करें</button>
@@ -118,21 +116,19 @@
         <h3 id="cTitle" style="text-decoration:underline;">---</h3>
         <p>प्रमाण-पत्र संख्या: <b id="cID">---</b> | दिनांक: <b id="cDate">---</b></p>
     </div>
-    <p style="margin-top:30px;">प्रमाणित किया जाता है कि <b><span id="cN"></span></b>, पिता <b><span id="cF"></span></b>, माता <b><span id="cM"></span></b>, ग्राम <b><span id="cV"></span></b>, वार्ड <b><span id="cW"></span></b>, प्रखंड <b><span id="cB"></span></b>, जिला <b>सीतामढी</b> के निवासी हैं।</p>
+    <p style="margin-top:30px;">प्रमाणित किया जाता है कि <b><span id="cN"></span></b>, पिता <b><span id="cF"></span></b>, माता <b><span id="cM"></span></b>, ग्राम <b><span id="cV"></span></b>, वार्ड <b><span id="cW"></span></b>, प्रखंड <b><span id="cB"></span></b>, जिला <b><span id="cD"></span></b> के निवासी हैं।</p>
     <div id="cExtraInfo"></div>
     <div style="display:flex; justify-content:space-between; margin-top:40px;">
         <img id="cP" class="cert-photo">
         <div class="sig-box">
             <b>Digitally signed by <span id="sN"></span></b><br>
-            <span id="sP"></span><br> 
-            Time: <span id="sT"></span>
+            <span id="sP"></span><br> Time: <span id="sT"></span>
         </div>
     </div>
     <button onclick="window.print()" class="no-print btn-submit" style="width:auto; margin-top:20px;">PDF सेव करें</button>
 </div>
 
 <script>
-    // --- 1. GLOBAL VARIABLES (Fixes 'before initialization' error) ---
     var userPhoto = ""; 
     var activeOff = null;
 
@@ -148,25 +144,15 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // --- BIHAR DATA ---
     const biharData = {
         "Sitamarhi": { "Pupri": ["Pupri", "Nanpur", "Bajpatti"], "Sadar": ["Dumra", "Riga"] },
         "Patna": { "Danapur": ["Danapur", "Bihta"] }
     };
 
-    // --- GOOGLE LOADER FIX (Fixes jsapi:146 error) ---
-    google.load("elements", "1", { packages: "transliteration" });
-    google.setOnLoadCallback(() => {
-        const control = new google.elements.transliteration.TransliterationControl({
-            sourceLanguage: 'en', destinationLanguage: ['hi'], transliterationEnabled: true
-        });
-        control.makeTransliteratable(['uNameH', 'uFatherH', 'uMotherH', 'uVillH', 'uExtra']);
-    });
-
-    window.onload = () => {
+    window.addEventListener('load', () => {
         const dSel = document.getElementById('distSel');
         Object.keys(biharData).forEach(d => dSel.innerHTML += `<option value="${d}">${d}</option>`);
-    };
+    });
 
     function loadSub() {
         const d = document.getElementById('distSel').value;
@@ -186,7 +172,7 @@
     function toggleType() {
         const t = document.getElementById('uType').value;
         document.getElementById('extraBox').style.display = (t === 'Residence') ? 'none' : 'block';
-        document.getElementById('extraLabel').innerText = (t === 'Caste') ? 'जाति (Caste):' : 'आय (Income):';
+        document.getElementById('extraLabel').innerText = (t === 'Caste') ? 'जाति:' : 'वार्षिक आय:';
     }
 
     function encodeImg(input) {
@@ -197,30 +183,31 @@
         }
     }
 
-    // --- SUBMIT LOGIC ---
     function handleApply(e) {
         e.preventDefault();
         if(!userPhoto) { alert("फोटो लोड होने दें!"); return; }
 
         const data = {
             name: document.getElementById('uNameH').value + " (" + document.getElementById('uNameE').value + ")",
-            father: document.getElementById('uFatherH').value,
-            mother: document.getElementById('uMotherH').value,
+            father: document.getElementById('uFatherH').value + " (" + document.getElementById('uFatherE').value + ")",
+            mother: document.getElementById('uMotherH').value + " (" + document.getElementById('uMotherE').value + ")",
             dist: document.getElementById('distSel').value,
             block: document.getElementById('blkSel').value,
+            vill: document.getElementById('uVillH').value,
+            ward: document.getElementById('uWard').value,
             type: document.getElementById('uType').value,
-            photo: userPhoto,
+            extra: document.getElementById('uExtra') ? document.getElementById('uExtra').value : "",
             status: "Pending",
+            photo: userPhoto,
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
         };
 
         db.collection("certapps").add(data).then(() => {
-            alert("✅ आवेदन सफल!");
+            alert("✅ आवेदन सफलता पूर्वक जमा हो गया है!");
             location.reload();
         }).catch(err => alert("Error: " + err.message));
     }
 
-    // --- LOGIN LOGIC ---
     function offLogin() {
         const u = document.getElementById('offU').value;
         const p = document.getElementById('offP').value;
@@ -240,8 +227,8 @@
             list.innerHTML = "";
             snap.forEach(doc => {
                 const d = doc.data();
-                list.innerHTML += `<div style="border:1px solid #ccc; padding:10px; margin:5px; border-radius:5px;">
-                    <b>${d.name}</b> (${d.type}) <button onclick="approve('${doc.id}')" style="background:green; color:white; padding:5px;">Approve</button>
+                list.innerHTML += `<div style="border:1px solid #ccc; padding:10px; margin:5px;">
+                    <b>${d.name}</b> (${d.type}) <button onclick="approve('${doc.id}')">Approve</button>
                 </div>`;
             });
         });
@@ -259,13 +246,21 @@
             document.getElementById('cN').innerText = d.name;
             document.getElementById('cF').innerText = d.father;
             document.getElementById('cM').innerText = d.mother;
+            document.getElementById('cV').innerText = d.vill;
+            document.getElementById('cW').innerText = d.ward;
             document.getElementById('cB').innerText = d.block;
+            document.getElementById('cD').innerText = d.dist;
             document.getElementById('cP').src = d.photo;
             document.getElementById('sN').innerText = activeOff.name;
             document.getElementById('sP').innerText = activeOff.post;
             document.getElementById('sT').innerText = now.toLocaleString();
             document.getElementById('cTitle').innerText = (d.type === 'Residence' ? 'निवास' : d.type === 'Caste' ? 'जाति' : 'आय') + " प्रमाण-पत्र";
             
+            let extraStr = "";
+            if(d.type === 'Caste') extraStr = `<p>जाति: <b>${d.extra}</b></p>`;
+            if(d.type === 'Income') extraStr = `<p>वार्षिक आय: <b>₹${d.extra}/-</b></p>`;
+            document.getElementById('cExtraInfo').innerHTML = extraStr;
+
             document.querySelector('.no-print').style.display = 'none';
             document.getElementById('cert-output').style.display = 'block';
             db.collection("certapps").doc(id).update({status: "Approved"});
