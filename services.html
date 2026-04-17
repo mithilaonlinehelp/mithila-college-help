@@ -1,395 +1,638 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mithila ERP - Advanced Control</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Mithila Super ERP 14.0 (HR & Payroll)</title>
+    
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
     <style>
-        :root { --admin: #673ab7; --hr: #ff9800; --worker: #4caf50; --bg: #eceff1; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 0; }
-        .box { max-width: 900px; margin: 20px auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        :root { --p: #2e7d32; --s: #f57f17; --bg: #e8f5e9; --chat-me: #dcf8c6; --chat-other: #fff; }
+        * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; outline: none; }
+        body { margin:0; background: var(--bg); padding-bottom: 70px; }
         
-        /* Separate Login Screen */
-        #login-screen { text-align: center; max-width: 400px; margin: 100px auto; background: white; padding: 0; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); overflow: hidden; }
-        .login-tabs { display: flex; }
-        .log-tab { flex: 1; padding: 15px; cursor: pointer; font-weight: bold; background: #eee; color: #555; }
-        .log-tab.active.admin { background: var(--admin); color: white; }
-        .log-tab.active.worker { background: var(--worker); color: white; }
-        .login-body { padding: 30px; }
+        .header { background: linear-gradient(45deg, #1b5e20, #4caf50); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .header h2 { margin: 0; font-size: 18px; }
+
+        .container { max-width: 600px; margin: auto; padding: 10px; }
+        .box { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 15px; display: none; }
+        .box.active { display: block; }
+
+        input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; background: #fff; }
         
-        input, select, textarea { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
-        button { padding: 10px 15px; border: none; border-radius: 5px; color: white; cursor: pointer; font-weight: bold; width: 100%; font-size: 16px; margin-top: 10px; }
-        .btn-admin { background: var(--admin); } .btn-hr { background: var(--hr); } .btn-worker { background: var(--worker); } .btn-danger { background: #f44336; }
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; color: white; cursor: pointer; margin-top: 5px; font-size: 15px; }
+        .btn-p { background: var(--p); }
+        .btn-s { background: var(--s); }
+        .btn-red { background: #d32f2f; }
+        .btn-grey { background: #607d8b; }
         
-        /* Dashboard Layout */
-        #dashboard { display: none; }
-        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 15px; }
-        .nav-menu { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-        .nav-btn { flex: 1; padding: 10px; text-align: center; background: #e0e0e0; color: #333; cursor: pointer; border-radius: 5px; font-weight: bold; border:none;}
-        .nav-btn.active { background: var(--admin); color: white; }
+        /* Small Action Buttons */
+        .actions-grid { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 8px; }
+        .btn-xs { padding: 5px 8px; font-size: 11px; border-radius: 4px; border:none; color:white; cursor:pointer; flex: 1; text-align: center; text-decoration: none; display: inline-block; }
         
-        /* Panels */
-        .panel { display: none; padding: 15px; border: 1px solid #ddd; border-radius: 8px; background: #fafafa; }
-        .panel.active { display: block; }
+        .tabs { display: flex; gap: 5px; overflow-x: auto; padding-bottom: 5px; margin-bottom: 10px; }
+        .tab { padding: 8px 15px; background: #e0e0e0; border-radius: 20px; white-space: nowrap; cursor: pointer; font-size: 13px; }
+        .tab.active { background: var(--p); color: white; }
+
+        .item { border-bottom: 1px solid #eee; padding: 10px 0; display: flex; justify-content: space-between; align-items: center; }
         
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-        th { background: #eee; }
+        /* Captcha */
+        .captcha-box { background: #fff3e0; border: 1px dashed var(--s); padding: 10px; border-radius: 8px; margin: 10px 0; text-align: center; }
+        .cap-text { font-size: 18px; font-weight: bold; color: var(--p); letter-spacing: 2px; }
+
+        /* Chat Styles */
+        .chat-box { height: 300px; overflow-y: auto; background: #ece5dd; padding: 10px; border-radius: 5px; margin-bottom: 10px; display: flex; flex-direction: column; }
+        .msg { padding: 8px 12px; border-radius: 10px; margin-bottom: 5px; max-width: 75%; font-size: 14px; }
+        .msg.me { background: var(--chat-me); align-self: flex-end; }
+        .msg.other { background: var(--chat-other); align-self: flex-start; }
+
+        /* Camera Box */
+        .cam-container { width:100%; height:auto; background:#000; text-align:center; display:none; border-radius:8px; overflow:hidden;}
+        video { width: 100%; max-height: 300px; }
         
-        .dpr-card { border-left: 4px solid var(--hr); background: #fff; padding: 10px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .reply-box { margin-top: 10px; padding: 10px; background: #e8eaf6; border-radius: 5px; font-size: 14px; }
+        /* Modals */
+        #qr_modal, #slip_modal { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:none; justify-content:center; align-items:center; z-index:200; }
+        .qr-box, .slip-box { background: white; padding: 20px; border-radius: 10px; text-align: center; width: 320px; }
         
-        /* Attendance Grid */
-        .att-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-top: 10px; }
-        .day-box { padding: 10px; text-align: center; border: 1px solid #ccc; background: white; cursor: pointer; font-size:12px; }
-        .day-box.P { background: #c8e6c9; color: green; font-weight: bold; }
-        .day-box.A { background: #ffcdd2; color: red; font-weight: bold; }
-        
-        .punch-box { background: #e8f5e9; border: 2px dashed var(--worker); padding: 20px; text-align: center; border-radius: 10px; margin-bottom: 20px; }
-        .punch-btn { font-size: 20px; padding: 15px; background: var(--worker); border-radius: 50px; width: 60%; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        /* Salary Slip Design */
+        .slip-paper { border: 1px solid #000; padding: 15px; text-align: left; background: #fff; font-family: monospace; margin-bottom: 10px; }
+        .slip-row { display: flex; justify-content: space-between; margin-bottom: 5px; border-bottom: 1px dotted #ccc; }
     </style>
 </head>
 <body>
 
-<div id="login-screen">
-    <div class="login-tabs">
-        <div class="log-tab active admin" onclick="switchLogin('admin')" id="tab-admin">Admin / HR</div>
-        <div class="log-tab worker" onclick="switchLogin('worker')" id="tab-worker">Staff / Worker</div>
-    </div>
-    <div class="login-body">
-        <h3 id="login-title" style="margin-top:0;">Management Login</h3>
-        <input type="text" id="loginU" placeholder="Username">
-        <input type="password" id="loginP" placeholder="Password">
-        <button id="loginBtn" class="btn-admin" onclick="doLogin()">लॉगिन करें</button>
-    </div>
-</div>
-
-<div id="dashboard" class="box">
     <div class="header">
-        <h2 id="welcome-text" style="margin:0; color:var(--admin);">Welcome</h2>
-        <button class="btn-danger" style="width:auto; padding:5px 15px;" onclick="logout()">Logout</button>
+        <h2>Mithila ERP 14.0</h2>
     </div>
 
-    <div class="nav-menu" id="menu-bar"></div>
-
-    <div id="panel-users" class="panel">
-        <h3>नया कर्मचारी जोड़ें</h3>
-        <select id="newRole">
-            <option value="HR">HR Officer</option>
-            <option value="Worker">Worker / Staff</option>
-        </select>
-        <input type="text" id="newName" placeholder="Full Name">
-        <input type="text" id="newU" placeholder="Set Username">
-        <input type="text" id="newP" placeholder="Set Password">
-        <button class="btn-admin" onclick="addUser()">कर्मचारी जोड़ें</button>
-        <hr>
-        <h4>सभी कर्मचारी</h4>
-        <div id="user-list"></div>
-    </div>
-
-    <div id="panel-punch" class="panel">
-        <div class="punch-box">
-            <h3>आज की हाजिरी (Live Punch-In)</h3>
-            <p id="punch-status">आपने आज की हाजिरी नहीं लगाई है।</p>
-            <button class="punch-btn" id="btn-punch" onclick="markPunch()">👆 Punch In (Present)</button>
+    <div id="qr_modal">
+        <div class="qr-box">
+            <h3>Scan to Pay</h3>
+            <div id="qrcode" style="margin: 10px auto; display:flex; justify-content:center;"></div>
+            <button class="btn btn-red" onclick="document.getElementById('qr_modal').style.display='none'">Close</button>
         </div>
     </div>
 
-    <div id="panel-att" class="panel">
-        <h3>पूरे महीने की हाजिरी रिपोर्ट</h3>
-        <select id="attEmpSelect" onchange="renderAttendance()">
-            <option value="">-- कर्मचारी चुनें --</option>
-        </select>
-        <p style="font-size:12px;">(मैनुअल हाजिरी: तारीख पर क्लिक करके P या A लगाएं)</p>
-        <div class="att-grid" id="month-grid"></div>
-    </div>
-
-    <div id="panel-salary" class="panel">
-        <h3>सैलरी फिक्स करें और ऑटो-कैलकुलेट करें</h3>
-        
-        <div style="background: #e3f2fd; padding:15px; border-radius:5px; margin-bottom:15px;">
-            <h4>1. फिक्स सैलरी तय करें (Fix Base Salary)</h4>
-            <select id="fixSalEmp"></select>
-            <input type="number" id="fixSalAmt" placeholder="महीने की पूरी सैलरी (उदा: 15000)">
-            <button class="btn-admin" onclick="fixBaseSalary()">सैलरी सेट करें</button>
-        </div>
-
-        <div style="background: #f1f8e9; padding:15px; border-radius:5px;">
-            <h4>2. ऑटो सैलरी स्लिप बनाएं (Auto Calculate)</h4>
-            <select id="salEmpSelect"></select>
-            <button class="btn-worker" onclick="generateAutoSalary()">अटेंडेंस के हिसाब से स्लिप बनाएं</button>
-        </div>
-
-        <div id="salary-slip" style="display:none; margin-top:20px; padding:20px; border:2px solid #333; background:#fff;">
-            <h2 style="text-align:center; margin-top:0;">MITHILA ERP - SALARY SLIP</h2>
-            <hr>
-            <p><b>कर्मचारी का नाम:</b> <span id="s-name"></span></p>
-            <p><b>तय की गई सैलरी (Base):</b> ₹<span id="s-base"></span></p>
-            <p><b>कुल दिन (महीना):</b> 30</p>
-            <p><b>उपस्थित दिन (Present):</b> <span id="s-present" style="color:green; font-weight:bold;"></span> दिन</p>
-            <hr>
-            <p style="font-size:18px;"><b>इस महीने की कुल देय सैलरी:</b> ₹<span id="s-amt" style="font-size:24px; color:green; font-weight:bold;"></span></p>
-            <p><b>जारीकर्ता:</b> Admin (Shreya Singh)</p>
-            <button onclick="window.print()" class="btn-admin">प्रिंट (Print Slip)</button>
+    <div id="slip_modal">
+        <div class="slip-box">
+            <h3>Salary Slip</h3>
+            <div id="slip_content" class="slip-paper">
+                </div>
+            <button class="btn btn-p" onclick="printSlip()">Print / Save</button>
+            <button class="btn btn-red" onclick="document.getElementById('slip_modal').style.display='none'">Close</button>
         </div>
     </div>
 
-    <div id="panel-stock" class="panel">
-        <h3>नया प्रोडक्ट (Stock) जोड़ें</h3>
-        <input type="text" id="pName" placeholder="प्रोडक्ट का नाम (उदा: Cement)">
-        <select id="pUnit">
-            <option value="Piece (Pcs)">Piece (Pcs) - पीस</option>
-            <option value="Kilogram (Kg)">Kilogram (Kg) - किलो</option>
-            <option value="Gram (g)">Gram (g) - ग्राम</option>
-            <option value="Liter (L)">Liter (L) - लीटर</option>
-            <option value="Milliliter (ml)">Milliliter (ml) - मिलीलीटर</option>
-            <option value="Meter (m)">Meter (m) - मीटर</option>
-            <option value="Centimeter (cm)">Centimeter (cm) - सेंटीमीटर</option>
-            <option value="Box">Box - बॉक्स</option>
-            <option value="Carton">Carton - कार्टन</option>
-            <option value="Dozen">Dozen - दर्जन</option>
-            <option value="Pack">Pack - पैकेट</option>
-            <option value="Roll">Roll - रोल</option>
-            <option value="Tonne (t)">Tonne (t) - टन</option>
-            <option value="Quintal">Quintal - क्विंटल</option>
-            <option value="Bundle">Bundle - बंडल</option>
-            <option value="Pair">Pair - जोड़ा</option>
-        </select>
-        <input type="number" id="pQty" placeholder="मात्रा (Quantity)">
-        <button class="btn-hr" onclick="addProduct()">स्टॉक में जोड़ें</button>
-        <hr>
-        <table id="stock-table">
-            <tr><th>Product</th><th>Quantity</th><th>Unit</th></tr>
-        </table>
-    </div>
+    <div class="container">
 
-    <div id="panel-dpr" class="panel">
-        <h3 id="dpr-title">Daily Progress Report (DPR)</h3>
-        
-        <div id="dpr-submit-box" style="display:none;">
-            <textarea id="dprText" rows="4" placeholder="आज क्या काम हुआ? यहाँ रिपोर्ट लिखें..."></textarea>
-            <button class="btn-worker" onclick="submitDPR()">रिपोर्ट भेजें</button>
-            <hr>
+        <div id="v_login" class="box active">
+            <h3 style="text-align:center;">Secure Login</h3>
+            <div class="tabs" style="justify-content:center;">
+                <div class="tab active" onclick="setLoginRole('user',this)">User</div>
+                <div class="tab" onclick="setLoginRole('emp',this)">Employee</div>
+                <div class="tab" onclick="setLoginRole('admin',this)">Admin</div>
+            </div>
+
+            <input type="text" id="l_id" placeholder="Mobile / ID / Admin Name">
+            <input type="password" id="l_pass" placeholder="Password">
+            
+            <div class="captcha-box">
+                <span id="cap_q" class="cap-text">Loading...</span>
+                <input type="number" id="cap_ans" placeholder="Answer Here" style="text-align:center; width:60%; margin: 5px auto; display:block;">
+            </div>
+
+            <button class="btn btn-p" onclick="login()">Login Securely</button>
+            <p id="reg_hint" style="text-align:center; font-size:13px; color:var(--p); cursor:pointer; margin-top:15px;" onclick="showView('v_reg')">New User? Register Here</p>
         </div>
 
-        <h4>DPR रिपोर्ट्स</h4>
-        <div id="dpr-list"></div>
+        <div id="v_reg" class="box">
+            <h3>New Customer Registration</h3>
+            <input type="text" id="r_name" placeholder="Full Name">
+            <input type="number" id="r_phone" placeholder="Mobile Number">
+            <input type="password" id="r_pass" placeholder="Create Password">
+            <input type="text" id="r_addr" placeholder="Full Address">
+            <button class="btn btn-s" onclick="registerUser()">Register</button>
+            <button class="btn btn-red" onclick="showView('v_login')">Back</button>
+        </div>
+
+        <div id="v_admin" class="box">
+            <h3>Admin Dashboard</h3>
+            <div class="tabs">
+                <div class="tab active" onclick="aTab('a_stock',this)">Stock</div>
+                <div class="tab" onclick="aTab('a_emp',this)">HR & Staff</div>
+                <div class="tab" onclick="aTab('a_att',this)">Attendance</div>
+                <div class="tab" onclick="aTab('a_chat',this)">Chats</div>
+            </div>
+
+            <div id="a_stock">
+                <div style="background:#f1f8e9; padding:10px; border-radius:5px;">
+                    <h4>Add Product</h4>
+                    <input type="text" id="np_name" placeholder="Product Name">
+                    
+                    <div style="display:flex; gap:5px;">
+                        <input type="number" id="np_rate" placeholder="Rate (Rs)" style="flex:1;">
+                        <select id="np_unit" style="flex:1;">
+                            <option value="Pc">Piece (Pics)</option>
+                            <option value="Kg">Kilogram (Kg)</option>
+                            <option value="Gm">Gram (Gm)</option>
+                            <option value="Mtr">Meter (Mtr)</option>
+                            <option value="Bdl">Bundle (Bdl)</option>
+                            <option value="Doz">Dozen (Doz)</option>
+                            <option value="Ltr">Liter (Ltr)</option>
+                            <option value="Ml">MiliLiter (Ml)</option>
+                            <option value="Box">Box</option>
+                            <option value="Pkt">Packet (Pkt)</option>
+                        </select>
+                    </div>
+                    
+                    <input type="number" id="np_qty" placeholder="Current Stock Qty">
+                    <input type="text" id="np_img" placeholder="Image URL (Compulsory)">
+                    <button class="btn btn-s" onclick="addProduct()">Save Product</button>
+                </div>
+                <hr>
+                <h4>Current Inventory</h4>
+                <div id="prod_list_adm">Loading...</div>
+            </div>
+
+            <div id="a_emp" class="hide" style="display:none;">
+                <div style="background:#fff3e0; padding:10px; border-radius:5px;">
+                    <h4>Register New Employee</h4>
+                    <input type="text" id="ne_name" placeholder="Name">
+                    <input type="number" id="ne_phone" placeholder="Phone (ID)">
+                    <input type="text" id="ne_pass" placeholder="Password">
+                    <div style="display:flex; gap:5px;">
+                        <input type="text" id="ne_role" placeholder="Role (e.g. Driver)" style="flex:1">
+                        <input type="number" id="ne_sal" placeholder="Monthly Salary" style="flex:1">
+                    </div>
+                    
+                    <p style="font-size:12px; font-weight:bold;">Permissions:</p>
+                    <label><input type="checkbox" id="p_stock"> Can Edit Stock/Material</label>
+                    <br><br>
+                    
+                    <button class="btn btn-sm btn-p" onclick="startRegCam()">Open Camera (Live Photo)</button>
+                    <div id="reg_cam_div" class="cam-container" style="margin-top:5px;">
+                        <video id="reg_video" autoplay playsinline></video>
+                        <button class="btn btn-red" onclick="captureRegPhoto()">Capture Photo</button>
+                    </div>
+                    <input type="hidden" id="ne_ref_photo">
+                    <div id="ref_preview" style="display:none; text-align:center; margin:5px;">
+                        <img id="ref_img_show" style="width:100px; height:100px; border-radius:50%;">
+                        <p style="font-size:10px; color:green;">Photo Set!</p>
+                    </div>
+
+                    <button class="btn btn-p" onclick="addEmployee()" style="margin-top:10px;">Register Employee</button>
+                </div>
+                <hr>
+                <h4>Staff List (Actions)</h4>
+                <div id="emp_list"></div>
+            </div>
+
+            <div id="a_att" class="hide" style="display:none;">
+                <h4>Work Report (Days Worked)</h4>
+                <div id="work_days_list" style="margin-bottom:15px; background:#eee; padding:5px;">Calculating...</div>
+                
+                <h4>Today's Punch (Live)</h4>
+                <div id="att_list_adm"></div>
+            </div>
+
+            <div id="a_chat" class="hide" style="display:none;">
+                <h4>Messages</h4>
+                <div id="chat_users_list"></div>
+                <div id="admin_chat_window" style="display:none; margin-top:10px; border-top:2px solid #333; padding-top:10px;">
+                    <h5 id="chat_target_name">Chatting...</h5>
+                    <div id="admin_msgs" class="chat-box"></div>
+                    <input type="text" id="admin_msg_in" placeholder="Reply...">
+                    <button class="btn btn-s" onclick="adminSendMsg()">Send</button>
+                    <button class="btn btn-red btn-sm" onclick="closeAdminChat()">Close</button>
+                </div>
+            </div>
+            
+            <button class="btn btn-red" onclick="logout()" style="margin-top:20px;">Logout</button>
+        </div>
+
+        <div id="v_emp" class="box">
+            <h3 id="emp_welcome">Employee Panel</h3>
+            
+            <div id="emp_att_sec" style="text-align:center; background:#eee; padding:10px; border-radius:8px; margin-bottom:10px;">
+                <p id="att_status">Status: Checking...</p>
+                <div id="punch_cam_div" class="cam-container">
+                    <video id="punch_video" autoplay playsinline></video>
+                    <button class="btn btn-p" onclick="takePunchSelfie()">📸 Capture & Punch</button>
+                </div>
+                <button class="btn btn-s" id="btn_start_punch" onclick="startPunchCam()">Punch In (Live Cam)</button>
+                <p style="font-size:11px; color:red;">Punch Time: 07-10 AM & 07-10 PM only. Sunday Off.</p>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" onclick="eTab('e_home',this)">Home</div>
+                <div class="tab" onclick="eTab('e_stock',this)" id="tab_stock_perm" style="display:none;">Stock Edit</div>
+                <div class="tab" onclick="eTab('e_chat',this)">Admin Chat</div>
+            </div>
+
+            <div id="e_home">
+                <h4>My Details</h4>
+                <p>Role: <span id="e_role_disp"></span></p>
+                <p>Salary: Rs. <span id="e_sal_disp"></span></p>
+            </div>
+
+            <div id="e_stock" style="display:none;">
+                <h4>Update Store Material</h4>
+                <div id="prod_list_emp"></div>
+            </div>
+
+            <div id="e_chat" style="display:none;">
+                <div id="emp_msgs" class="chat-box"></div>
+                <input type="text" id="emp_msg_in" placeholder="Ask Admin...">
+                <button class="btn btn-p" onclick="sendChat('emp')">Send</button>
+            </div>
+
+            <button class="btn btn-red" onclick="logout()">Logout</button>
+        </div>
+
+        <div id="v_user" class="box">
+            <h3 id="u_welcome">Shop</h3>
+            <div class="tabs">
+                <div class="tab active" onclick="uTab('u_shop',this)">Products</div>
+                <div class="tab" onclick="uTab('u_chat',this)">Chat Support</div>
+            </div>
+            
+            <div id="u_shop"></div>
+            
+            <div id="u_chat" style="display:none;">
+                <h4>Talk to Admin</h4>
+                <div id="user_msgs" class="chat-box"></div>
+                <input type="text" id="user_msg_in" placeholder="Type message...">
+                <button class="btn btn-p" onclick="sendChat('user')">Send</button>
+            </div>
+
+            <button class="btn btn-red" onclick="logout()">Logout</button>
+        </div>
+
     </div>
 
-</div>
+    <canvas id="canvas" style="display:none;"></canvas>
 
-<script>
-    // --- DATABASE (Local Storage) ---
-    let db = {
-        users: JSON.parse(localStorage.getItem('erp_users')) || [{role: 'Admin', name: 'Shreya Singh', u: 'shreyasingh', p: 'shreyarani@#'}],
-        products: JSON.parse(localStorage.getItem('erp_products')) || [],
-        dprs: JSON.parse(localStorage.getItem('erp_dprs')) || [],
-        attendance: JSON.parse(localStorage.getItem('erp_att')) || {},
-        baseSalaries: JSON.parse(localStorage.getItem('erp_salaries')) || {}
-    };
-    function saveData() {
-        localStorage.setItem('erp_users', JSON.stringify(db.users));
-        localStorage.setItem('erp_products', JSON.stringify(db.products));
-        localStorage.setItem('erp_dprs', JSON.stringify(db.dprs));
-        localStorage.setItem('erp_att', JSON.stringify(db.attendance));
-        localStorage.setItem('erp_salaries', JSON.stringify(db.baseSalaries));
-    }
+    <script>
+        // FIREBASE CONFIG
+        const firebaseConfig = {
+            apiKey: "AIzaSyBtLLOyVgt5hQwxokdsSRkeArZab5kyr_Q", 
+            authDomain: "mithilahelp-4107d.firebaseapp.com",
+            databaseURL: "https://mithilahelp-4107d-default-rtdb.firebaseio.com",
+            projectId: "mithilahelp-4107d",
+            storageBucket: "mithilahelp-4107d.firebasestorage.app",
+            messagingSenderId: "525345376934",
+            appId: "1:525345376934:web:7083c7cecccd26a4a78267"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
 
-    let activeUser = null;
-    let loginType = 'admin';
+        let curUser = null; 
+        let loginRole = 'user';
+        let activeChatID = null; 
+        let capSum = 0;
+        let empWorkDays = {}; // To store days worked for salary slip
 
-    // --- LOGIN SYSTEM ---
-    function switchLogin(type) {
-        loginType = type;
-        document.getElementById('tab-admin').className = `log-tab ${type === 'admin' ? 'active admin' : ''}`;
-        document.getElementById('tab-worker').className = `log-tab ${type === 'worker' ? 'active worker' : ''}`;
-        document.getElementById('login-title').innerText = type === 'admin' ? "Admin / HR Login" : "Staff / Worker Login";
-        document.getElementById('loginBtn').className = type === 'admin' ? "btn-admin" : "btn-worker";
-    }
+        // --- CAPTCHA ---
+        function newCaptcha() {
+            let n1 = Math.floor(Math.random() * 9) + 1;
+            let n2 = Math.floor(Math.random() * 9) + 1;
+            capSum = n1 + n2;
+            document.getElementById('cap_q').innerText = `${n1} + ${n2} = ?`;
+            document.getElementById('cap_ans').value = "";
+        }
+        window.onload = newCaptcha;
 
-    function doLogin() {
-        let u = document.getElementById('loginU').value;
-        let p = document.getElementById('loginP').value;
-        let found = db.users.find(x => x.u === u && x.p === p);
-        
-        if(found) {
-            // Check if correct panel used
-            if((loginType === 'admin' && found.role === 'Worker') || (loginType === 'worker' && found.role !== 'Worker')) {
-                return alert("कृपया सही लॉगिन पैनल का इस्तेमाल करें!");
+        // --- NAVIGATION ---
+        function showView(id) {
+            document.querySelectorAll('.box').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            newCaptcha();
+        }
+        function setLoginRole(r, el) {
+            loginRole = r;
+            document.querySelectorAll('#v_login .tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('reg_hint').style.display = (r === 'user') ? 'block' : 'none';
+        }
+        function aTab(id, el) {
+            document.querySelectorAll('#v_admin > div').forEach(d => { if(d.id && d.id.startsWith('a_')) d.style.display='none'; });
+            document.getElementById(id).style.display = 'block';
+            document.querySelectorAll('#v_admin .tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+        }
+        function uTab(id, el) {
+            document.getElementById('u_shop').style.display = 'none';
+            document.getElementById('u_chat').style.display = 'none';
+            document.getElementById(id).style.display = 'block';
+            document.querySelectorAll('#v_user .tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+        }
+        function eTab(id, el) {
+            document.getElementById('e_home').style.display = 'none';
+            document.getElementById('e_stock').style.display = 'none';
+            document.getElementById('e_chat').style.display = 'none';
+            document.getElementById(id).style.display = 'block';
+            document.querySelectorAll('#v_emp .tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+        }
+        function logout() { location.reload(); }
+
+        // --- AUTH ---
+        function login() {
+            // Captcha Check
+            let ans = parseInt(document.getElementById('cap_ans').value);
+            if(ans !== capSum) { alert("❌ Wrong Captcha!"); newCaptcha(); return; }
+
+            let id = document.getElementById('l_id').value.trim();
+            let pass = document.getElementById('l_pass').value.trim();
+            if(!id || !pass) return alert("Enter Details");
+
+            if(loginRole === 'admin') {
+                if((id === "shreya rani" || id === "9135673198") && pass === "mydearshreya@#") {
+                    curUser = { name: "Admin", role: "admin", phone: "admin" };
+                    loadAdminData();
+                    showView('v_admin');
+                } else { alert("Invalid Admin"); newCaptcha(); }
+            } else {
+                let path = (loginRole === 'emp') ? 'employees' : 'users';
+                db.ref(path + '/' + id).once('value', s => {
+                    let d = s.val();
+                    if(d) {
+                        if(d.blocked) { alert("You are BLOCKED or RESIGNED."); return; }
+                        if(d.pass == pass) {
+                            curUser = d; curUser.phone = id;
+                            if(loginRole === 'emp') loadEmpDash(); else loadUserDash();
+                        } else { alert("Invalid Password"); newCaptcha(); }
+                    } else { alert("ID Not Found"); newCaptcha(); }
+                });
             }
-            activeUser = found;
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('dashboard').style.display = 'block';
-            document.getElementById('welcome-text').innerText = `Welcome, ${found.name} (${found.role})`;
-            setupMenu();
-        } else {
-            alert("गलत Username या Password!");
         }
-    }
-    function logout() { location.reload(); }
-
-    // --- MENU SETUP ---
-    function setupMenu() {
-        let menu = document.getElementById('menu-bar');
-        menu.innerHTML = "";
-        let role = activeUser.role;
-
-        if(role === 'Admin') {
-            menu.innerHTML += `<button class="nav-btn active" onclick="showPanel('panel-users', this)">👥 Staff</button>`;
-            menu.innerHTML += `<button class="nav-btn" onclick="showPanel('panel-att', this)">📅 Attendance View</button>`;
-            menu.innerHTML += `<button class="nav-btn" onclick="showPanel('panel-salary', this)">💸 Salary Gen</button>`;
-            menu.innerHTML += `<button class="nav-btn" onclick="showPanel('panel-stock', this)">📦 Stock</button>`;
-            menu.innerHTML += `<button class="nav-btn" onclick="showPanel('panel-dpr', this)">📋 DPRs</button>`;
-            showPanel('panel-users', menu.children[0]);
-            loadUserDropdowns();
-        } 
-        else if(role === 'HR') {
-            menu.innerHTML += `<button class="nav-btn active" onclick="showPanel('panel-stock', this)">📦 Stock</button>`;
-            menu.innerHTML += `<button class="nav-btn" onclick="showPanel('panel-dpr', this)">📋 DPRs</button>`;
-            showPanel('panel-stock', menu.children[0]);
-        } 
-        else if(role === 'Worker') {
-            menu.innerHTML += `<button class="nav-btn active" onclick="showPanel('panel-punch', this)">👆 Punch In</button>`;
-            menu.innerHTML += `<button class="nav-btn" onclick="showPanel('panel-dpr', this)">📝 My DPR</button>`;
-            document.getElementById('dpr-submit-box').style.display = 'block';
-            showPanel('panel-punch', menu.children[0]);
-            checkTodayPunch();
+        function registerUser() {
+            let p = document.getElementById('r_phone').value;
+            let d = { 
+                name: document.getElementById('r_name').value, 
+                phone: p, 
+                pass: document.getElementById('r_pass').value, 
+                addr: document.getElementById('r_addr').value 
+            };
+            if(d.phone && d.pass) db.ref('users/'+p).set(d, e => { if(!e) { alert("Registered!"); showView('v_login'); } });
         }
-        loadProducts(); loadDPRs();
-    }
 
-    function showPanel(id, btn) {
-        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        if(btn) btn.classList.add('active');
-    }
+        // --- ADMIN FUNCTIONS ---
+        function loadAdminData() {
+            // 1. Stock View
+            db.ref('products').on('value', s => {
+                let h = "";
+                s.forEach(p => {
+                    let v = p.val();
+                    h += `<div class="item">
+                        <img src="${v.img}" style="width:50px;height:50px;border-radius:5px;object-fit:cover;margin-right:10px;">
+                        <div style="flex-grow:1">
+                            <b>${v.name}</b><br>
+                            Rs.${v.rate}/${v.unit} | Stock: <b>${v.qty}</b>
+                        </div>
+                        <button class="btn-sm btn-s" onclick="editStock('${p.key}', ${v.qty})">Edit</button>
+                        <button class="btn-sm btn-red" onclick="db.ref('products/${p.key}').remove()">Del</button>
+                    </div>`;
+                });
+                document.getElementById('prod_list_adm').innerHTML = h;
+            });
 
-    // --- 1. ADMIN: ADD USER ---
-    function addUser() {
-        let r = document.getElementById('newRole').value;
-        let n = document.getElementById('newName').value;
-        let u = document.getElementById('newU').value;
-        let p = document.getElementById('newP').value;
-        if(!n || !u || !p) return alert("सारी जानकारी भरें!");
-        db.users.push({role: r, name: n, u: u, p: p});
-        saveData(); alert("कर्मचारी जुड़ गया!");
-        loadUserDropdowns();
-    }
-    function loadUserDropdowns() {
-        let list = "<ul>"; let sel = `<option value="">-- चुनें --</option>`;
-        db.users.forEach(u => {
-            list += `<li><b>${u.name}</b> (${u.role}) - ID: ${u.u}</li>`;
-            if(u.role === 'Worker') sel += `<option value="${u.name}">${u.name}</option>`;
-        });
-        document.getElementById('user-list').innerHTML = list + "</ul>";
-        document.getElementById('attEmpSelect').innerHTML = sel;
-        document.getElementById('salEmpSelect').innerHTML = sel;
-        document.getElementById('fixSalEmp').innerHTML = sel;
-    }
+            // 2. Attendance Counts for Salary
+            db.ref('attendance').on('value', s => {
+                empWorkDays = {}; // Reset global object
+                s.forEach(dateSnap => {
+                    dateSnap.forEach(empSnap => {
+                        let eid = empSnap.key; 
+                        if(!empWorkDays[eid]) empWorkDays[eid] = 0;
+                        empWorkDays[eid]++;
+                    });
+                });
+                
+                // Show Count List
+                let rh = "";
+                for(let k in empWorkDays) {
+                    rh += `<div class="item">ID: ${k} - <b>${empWorkDays[k]} Days</b></div>`;
+                }
+                document.getElementById('work_days_list').innerHTML = rh;
+            });
 
-    // --- 2. WORKER: PUNCH IN ---
-    function checkTodayPunch() {
-        let today = new Date().getDate();
-        if(db.attendance[activeUser.name] && db.attendance[activeUser.name][today] === 'P') {
-            document.getElementById('punch-status').innerHTML = "<b style='color:green;'>✅ आपकी आज की हाजिरी (Present) लग चुकी है!</b>";
-            document.getElementById('btn-punch').style.display = 'none';
+            // 3. Today's Punch
+            let today = new Date().toLocaleDateString().split('/').join('-');
+            db.ref('attendance/'+today).on('value', s => {
+                let h=""; s.forEach(a => { let v=a.val(); h+=`<div class="item"><div><b>${v.name}</b><br>${v.time}</div><img src="${v.photo}" style="width:50px;height:50px;border-radius:50%;border:2px solid green;"></div>`; });
+                document.getElementById('att_list_adm').innerHTML = h || "No punches.";
+            });
+
+            // 4. Chat List
+            db.ref('chats').on('value', s => {
+                let h = "";
+                s.forEach(u => {
+                    let msgs = Object.values(u.val());
+                    let last = msgs[msgs.length-1];
+                    h += `<div class="item" onclick="openAdminChat('${u.key}', '${last.senderName}')" style="cursor:pointer; background:#fff;">
+                        <div><b>${last.senderName}</b><br><small>${last.text.substring(0,20)}...</small></div>
+                        <div style="font-size:10px;">New</div>
+                    </div>`;
+                });
+                document.getElementById('chat_users_list').innerHTML = h;
+            });
+
+            // 5. EMPLOYEES LIST (ADVANCED)
+            db.ref('employees').on('value', s => {
+                let h="";
+                s.forEach(e => {
+                    let v = e.val();
+                    let statusColor = v.blocked ? 'red' : 'green';
+                    let statusText = v.blocked ? (v.status === 'Resigned' ? 'Resigned' : 'Blocked') : 'Active';
+                    
+                    h += `<div class="item" style="flex-direction:column; align-items:flex-start; background:#fff; margin-bottom:10px; padding:10px; border-radius:5px; border-left:5px solid ${statusColor};">
+                        <div style="display:flex; width:100%; align-items:center;">
+                            <img src="${v.ref_photo || ''}" style="width:50px;height:50px;border-radius:50%; object-fit:cover; margin-right:10px;">
+                            <div style="flex-grow:1">
+                                <b>${v.name}</b> <span style="font-size:11px; background:${statusColor}; color:white; padding:2px 5px; border-radius:3px;">${statusText}</span><br>
+                                <small>${v.phone} | ${v.role}</small><br>
+                                <small>Sal: Rs.${v.salary || 0}</small>
+                            </div>
+                        </div>
+                        <div class="actions-grid" style="width:100%;">
+                            <a href="tel:${v.phone}" class="btn-xs btn-s">📞 Call</a>
+                            <button class="btn-xs btn-p" onclick="openAdminChat('${v.phone}','${v.name}')">💬 Chat</button>
+                            <button class="btn-xs btn-grey" onclick="toggleBlock('${v.phone}', ${v.blocked})">${v.blocked ? 'Unblock' : 'Block'}</button>
+                            <button class="btn-xs btn-red" onclick="markResigned('${v.phone}')">Resign</button>
+                            <button class="btn-xs btn-red" onclick="deleteEmp('${v.phone}')">Del</button>
+                            <button class="btn-xs btn-p" onclick="genSalarySlip('${v.phone}','${v.name}',${v.salary||0})">📄 Slip</button>
+                        </div>
+                    </div>`;
+                });
+                document.getElementById('emp_list').innerHTML = h;
+            });
         }
-    }
-    function markPunch() {
-        let today = new Date().getDate();
-        if(!db.attendance[activeUser.name]) db.attendance[activeUser.name] = {};
-        db.attendance[activeUser.name][today] = 'P';
-        saveData(); checkTodayPunch(); alert("हाजिरी लग गई!");
-    }
 
-    // --- 3. ADMIN: ATTENDANCE VIEW ---
-    function renderAttendance() {
-        let emp = document.getElementById('attEmpSelect').value;
-        let grid = document.getElementById('month-grid');
-        grid.innerHTML = ""; if(!emp) return;
-        if(!db.attendance[emp]) db.attendance[emp] = {};
+        // --- EMPLOYEE MANAGEMENT ACTIONS ---
+        function toggleBlock(ph, st) { db.ref('employees/'+ph).update({blocked: !st, status: !st?'Blocked':'Active'}); }
+        function deleteEmp(ph) { if(confirm("Permanently Delete?")) db.ref('employees/'+ph).remove(); }
+        function markResigned(ph) { if(confirm("Mark as Resigned? User will be blocked.")) db.ref('employees/'+ph).update({blocked:true, status:'Resigned'}); }
         
-        for(let i=1; i<=30; i++) {
-            let status = db.attendance[emp][i] || '-';
-            let cls = status === 'P' ? 'P' : (status === 'A' ? 'A' : '');
-            grid.innerHTML += `<div class="day-box ${cls}" onclick="adminMarkAtt('${emp}', ${i})">Date ${i}<br><b>${status}</b></div>`;
+        // --- SALARY SLIP GENERATOR ---
+        function genSalarySlip(ph, name, sal) {
+            let days = empWorkDays[ph] || 0;
+            let perDay = sal / 30;
+            let total = Math.floor(perDay * days);
+            let date = new Date().toLocaleDateString();
+
+            let html = `
+                <div style="text-align:center; border-bottom:2px solid #000; padding-bottom:10px; margin-bottom:10px;">
+                    <h3>Mithila Super ERP</h3>
+                    <p>Salary Slip / Payment Receipt</p>
+                </div>
+                <div class="slip-row"><span>Date:</span> <span>${date}</span></div>
+                <div class="slip-row"><span>Name:</span> <span>${name}</span></div>
+                <div class="slip-row"><span>ID:</span> <span>${ph}</span></div>
+                <div class="slip-row"><span>Monthly Salary:</span> <span>Rs. ${sal}</span></div>
+                <div class="slip-row"><span>Days Worked:</span> <span>${days}</span></div>
+                <div class="slip-row" style="font-weight:bold; font-size:16px; border-top:1px solid #000;">
+                    <span>NET PAYABLE:</span> <span>Rs. ${total}</span>
+                </div>
+                <p style="text-align:center; margin-top:20px; font-size:12px;">Computer Generated Slip</p>
+            `;
+            document.getElementById('slip_content').innerHTML = html;
+            document.getElementById('slip_modal').style.display = 'flex';
         }
-    }
-    function adminMarkAtt(emp, day) {
-        let current = db.attendance[emp][day];
-        db.attendance[emp][day] = current === 'P' ? 'A' : 'P';
-        saveData(); renderAttendance();
-    }
-
-    // --- 4. ADMIN: AUTO SALARY ---
-    function fixBaseSalary() {
-        let emp = document.getElementById('fixSalEmp').value;
-        let amt = document.getElementById('fixSalAmt').value;
-        if(!emp || !amt) return alert("कर्मचारी और राशि चुनें!");
-        db.baseSalaries[emp] = Number(amt);
-        saveData(); alert(emp + " की बेसिक सैलरी ₹" + amt + " फिक्स कर दी गई है!");
-    }
-
-    function generateAutoSalary() {
-        let emp = document.getElementById('salEmpSelect').value;
-        if(!emp) return alert("कर्मचारी चुनें!");
-        
-        let baseSal = db.baseSalaries[emp];
-        if(!baseSal) return alert("पहले इस कर्मचारी की 'फिक्स सैलरी' सेट करें!");
-
-        // Count Presents
-        let pCount = 0;
-        if(db.attendance[emp]) {
-            for(let i=1; i<=30; i++) { if(db.attendance[emp][i] === 'P') pCount++; }
+        function printSlip() {
+            let c = document.getElementById('slip_content').innerHTML;
+            let w = window.open('', '', 'width=400,height=600');
+            w.document.write('<html><body >' + c + '</body></html>');
+            w.print();
+            w.close();
         }
 
-        // Formula: (Base Salary / 30) * Present Days
-        let finalSalary = Math.round((baseSal / 30) * pCount);
+        // Product & Stock Logic
+        function addProduct() {
+            let n = document.getElementById('np_name').value;
+            let img = document.getElementById('np_img').value;
+            let unit = document.getElementById('np_unit').value;
+            if(!n || !img) return alert("Details Missing");
+            db.ref('products').push({
+                name: n, rate: document.getElementById('np_rate').value, unit: unit,
+                qty: document.getElementById('np_qty').value, img: img
+            });
+            alert("Added");
+        }
+        function editStock(key, oldQty) {
+            let nq = prompt("New Qty:", oldQty);
+            if(nq !== null) db.ref('products/'+key).update({qty: nq});
+        }
 
-        document.getElementById('s-name').innerText = emp;
-        document.getElementById('s-base').innerText = baseSal;
-        document.getElementById('s-present').innerText = pCount;
-        document.getElementById('s-amt').innerText = finalSalary;
-        document.getElementById('salary-slip').style.display = 'block';
-    }
+        // --- CAMERA & REGISTRATION ---
+        let regStream = null;
+        function startRegCam() {
+            document.getElementById('reg_cam_div').style.display = 'block';
+            navigator.mediaDevices.getUserMedia({video:true}).then(s => { regStream = s; document.getElementById('reg_video').srcObject = s; });
+        }
+        function captureRegPhoto() {
+            if(!regStream) return;
+            let v = document.getElementById('reg_video'); let c = document.getElementById('canvas');
+            c.width = v.videoWidth; c.height = v.videoHeight;
+            c.getContext('2d').drawImage(v,0,0);
+            let url = c.toDataURL('image/jpeg', 0.5);
+            document.getElementById('ne_ref_photo').value = url;
+            document.getElementById('ref_img_show').src = url;
+            document.getElementById('ref_preview').style.display = 'block';
+            document.getElementById('reg_cam_div').style.display = 'none';
+            regStream.getTracks().forEach(t=>t.stop());
+        }
+        function addEmployee() {
+            let p = document.getElementById('ne_phone').value;
+            let ref = document.getElementById('ne_ref_photo').value;
+            if(!p || !ref) return alert("Photo & Phone Required!");
+            
+            let perms = [];
+            if(document.getElementById('p_stock').checked) perms.push('manage_stock');
 
-    // --- 5. STOCK & DPR ---
-    function addProduct() {
-        let name = document.getElementById('pName').value;
-        let unit = document.getElementById('pUnit').value;
-        let qty = document.getElementById('pQty').value;
-        if(!name || !qty) return alert("डिटेल्स भरें!");
-        db.products.push({name, unit, qty}); saveData(); loadProducts();
-    }
-    function loadProducts() {
-        let table = "<tr><th>Product</th><th>Quantity</th><th>Unit</th></tr>";
-        db.products.forEach(p => { table += `<tr><td>${p.name}</td><td>${p.qty}</td><td>${p.unit}</td></tr>`; });
-        document.getElementById('stock-table').innerHTML = table;
-    }
+            db.ref('employees/'+p).set({
+                name: document.getElementById('ne_name').value, phone: p, pass: document.getElementById('ne_pass').value,
+                role: document.getElementById('ne_role').value, salary: document.getElementById('ne_sal').value,
+                perms: perms, ref_photo: ref, blocked: false
+            }, e => { if(!e) alert("Registered"); });
+        }
 
-    function submitDPR() {
-        let txt = document.getElementById('dprText').value; if(!txt) return;
-        db.dprs.push({id: Date.now(), worker: activeUser.name, text: txt, date: new Date().toLocaleString(), reply: ""});
-        saveData(); loadDPRs(); document.getElementById('dprText').value = ""; alert("DPR सबमिट हो गई!");
-    }
-    function loadDPRs() {
-        let html = ""; let reports = db.dprs;
-        if(activeUser.role === 'Worker') reports = reports.filter(r => r.worker === activeUser.name);
-        
-        [...reports].reverse().forEach(r => {
-            html += `<div class="dpr-card"><small>${r.date} | <b>${r.worker}</b></small><p>${r.text}</p>`;
-            if(r.reply) html += `<div class="reply-box"><b>Reply:</b> ${r.reply}</div>`;
-            else if (activeUser.role !== 'Worker') html += `<input type="text" id="reply-${r.id}" placeholder="Reply..."><button class="btn-admin" onclick="sendReply(${r.id})">Send Reply</button>`;
-            html += `</div>`;
-        });
-        document.getElementById('dpr-list').innerHTML = html;
-    }
-    function sendReply(id) {
-        let txt = document.getElementById('reply-' + id).value; if(!txt) return;
-        let dpr = db.dprs.find(r => r.id === id);
-        if(dpr) { dpr.reply = txt; saveData(); loadDPRs(); }
-    }
-</script>
+        // --- EMPLOYEE PANEL ---
+        function loadEmpDash() {
+            showView('v_emp');
+            document.getElementById('emp_welcome').innerText = "Hi, " + curUser.name;
+            document.getElementById('e_role_disp').innerText = curUser.role;
+            document.getElementById('e_sal_disp').innerText = curUser.salary || 0;
+            
+            if(curUser.perms && curUser.perms.includes('manage_stock')) {
+                document.getElementById('tab_stock_perm').style.display = 'block';
+                db.ref('products').on('value', s => {
+                    let h = ""; s.forEach(p => { let v=p.val(); h+=`<div class="item"><b>${v.name}</b> (${v.qty} ${v.unit}) <button class="btn-sm btn-s" onclick="editStock('${p.key}',${v.qty})">Upd</button></div>`; });
+                    document.getElementById('prod_list_emp').innerHTML = h;
+                });
+            }
+            let today = new Date().toLocaleDateString().split('/').join('-');
+            db.ref('attendance/'+today+'/'+curUser.phone).once('value', s => {
+                if(s.exists()) { document.getElementById('att_status').innerHTML = "✅ Present"; document.getElementById('btn_start_punch').style.display='none'; }
+            });
+            loadChat('emp');
+        }
+
+        function startPunchCam() {
+            let d = new Date();
+            let day = d.getDay(); let h = d.getHours();
+            if(day === 0) return alert("Sunday Holiday");
+            let isM = (h >= 7 && h < 10); let isE = (h >= 19 && h < 22);
+            if(!isM && !isE) return alert("Time: 7-10 AM/PM Only");
+            
+            document.getElementById('punch_cam_div').style.display='block'; document.getElementById('btn_start_punch').style.display='none';
+            navigator.mediaDevices.getUserMedia({video:true}).then(s => document.getElementById('punch_video').srcObject=s);
+        }
+        function takePunchSelfie() {
+            let v=document.getElementById('punch_video'); let c=document.getElementById('canvas');
+            c.width=v.videoWidth; c.height=v.videoHeight; c.getContext('2d').drawImage(v,0,0);
+            let img = c.toDataURL('image/jpeg',0.5);
+            let today = new Date().toLocaleDateString().split('/').join('-');
+            db.ref('attendance/'+today+'/'+curUser.phone).set({name:curUser.name, time:new Date().toLocaleTimeString(), photo:img}, e=>{
+                 if(!e) { alert("Punched!"); v.srcObject.getTracks().forEach(t=>t.stop()); document.getElementById('punch_cam_div').style.display='none'; document.getElementById('att_status').innerHTML="✅ Present"; }
+            });
+        }
+
+        // --- USER & CHAT (UNCHANGED) ---
+        function loadUserDash() {
+            showView('v_user');
+            document.getElementById('u_welcome').innerText = "Shop - " + curUser.name;
+            db.ref('products').on('value', s => {
+                let h = ""; s.forEach(p => { let v=p.val(); h+=`<div class="item"><img src="${v.img}" style="width:50px;height:50px;border-radius:5px;margin-right:10px;"><div style="flex-grow:1"><b>${v.name}</b><br>Rs.${v.rate}/${v.unit}</div><button class="btn-sm btn-p" onclick="buyModal('${v.name}',${v.rate})">Buy</button></div>`; });
+                document.getElementById('u_shop').innerHTML = h;
+            });
+            loadChat('user');
+        }
+        function buyModal(n,r) {
+            let q=prompt("Qty?"); if(q) {
+                document.getElementById('qr_modal').style.display='flex'; document.getElementById('qrcode').innerHTML="";
+                new QRCode(document.getElementById("qrcode"),{text:"upi://pay?pa=7033578145@sbi&pn=Mithila&am="+(q*r),width:128,height:128});
+            }
+        }
+        function loadChat(r) {
+            let div = r==='emp'?'emp_msgs':'user_msgs';
+            db.ref('chats/'+curUser.phone).on('value', s=>{ let h=""; s.forEach(m=>{ let c=m.val().sender==='admin'?'other':'me'; h+=`<div class="msg ${c}">${m.val().text}</div>`; }); document.getElementById(div).innerHTML=h; });
+        }
+        function sendChat(r) {
+            let inp = r==='emp'?'emp_msg_in':'user_msg_in'; let txt=document.getElementById(inp).value;
+            if(txt) { db.ref('chats/'+curUser.phone).push({text:txt, sender:'user', senderName:curUser.name, time:Date.now()}); document.getElementById(inp).value=""; }
+        }
+        function openAdminChat(uid,name) {
+            activeChatID=uid; document.getElementById('chat_target_name').innerText=name; document.getElementById('admin_chat_window').style.display='block';
+            db.ref('chats/'+uid).on('value',s=>{ let h=""; s.forEach(m=>{ let c=m.val().sender==='admin'?'me':'other'; h+=`<div class="msg ${c}">${m.val().text}</div>`; }); document.getElementById('admin_msgs').innerHTML=h; });
+        }
+        function adminSendMsg() {
+            let t=document.getElementById('admin_msg_in').value; if(t && activeChatID) { db.ref('chats/'+activeChatID).push({text:t, sender:'admin', senderName:'Admin', time:Date.now()}); document.getElementById('admin_msg_in').value=""; }
+        }
+        function closeAdminChat() { document.getElementById('admin_chat_window').style.display='none'; if(activeChatID) db.ref('chats/'+activeChatID).off(); activeChatID=null; }
+    </script>
 </body>
 </html>
