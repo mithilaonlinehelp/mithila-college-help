@@ -3,14 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mithila ERP - Smart Admin Control</title>
+    <title>Mithila ERP - Advanced Control</title>
     <style>
-        :root { --admin: #673ab7; --hr: #ff9800; --worker: #4caf50; --bg: #f0f2f5; }
+        :root { --admin: #673ab7; --hr: #ff9800; --worker: #4caf50; --bg: #eceff1; }
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 0; }
         .box { max-width: 900px; margin: 20px auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         
-        /* Login Screen */
-        #login-screen { text-align: center; max-width: 400px; margin: 100px auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-top: 5px solid var(--admin); }
+        /* Separate Login Screen */
+        #login-screen { text-align: center; max-width: 400px; margin: 100px auto; background: white; padding: 0; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); overflow: hidden; }
+        .login-tabs { display: flex; }
+        .log-tab { flex: 1; padding: 15px; cursor: pointer; font-weight: bold; background: #eee; color: #555; }
+        .log-tab.active.admin { background: var(--admin); color: white; }
+        .log-tab.active.worker { background: var(--worker); color: white; }
+        .login-body { padding: 30px; }
+        
         input, select, textarea { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
         button { padding: 10px 15px; border: none; border-radius: 5px; color: white; cursor: pointer; font-weight: bold; width: 100%; font-size: 16px; margin-top: 10px; }
         .btn-admin { background: var(--admin); } .btn-hr { background: var(--hr); } .btn-worker { background: var(--worker); } .btn-danger { background: #f44336; }
@@ -26,44 +32,51 @@
         .panel { display: none; padding: 15px; border: 1px solid #ddd; border-radius: 8px; background: #fafafa; }
         .panel.active { display: block; }
         
-        /* Tables & Lists */
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
         th { background: #eee; }
-        .dpr-card { border-left: 4px solid var(--worker); background: #fff; padding: 10px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        
+        .dpr-card { border-left: 4px solid var(--hr); background: #fff; padding: 10px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .reply-box { margin-top: 10px; padding: 10px; background: #e8eaf6; border-radius: 5px; font-size: 14px; }
         
         /* Attendance Grid */
         .att-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-top: 10px; }
-        .day-box { padding: 10px; text-align: center; border: 1px solid #ccc; background: white; cursor: pointer; }
+        .day-box { padding: 10px; text-align: center; border: 1px solid #ccc; background: white; cursor: pointer; font-size:12px; }
         .day-box.P { background: #c8e6c9; color: green; font-weight: bold; }
         .day-box.A { background: #ffcdd2; color: red; font-weight: bold; }
+        
+        .punch-box { background: #e8f5e9; border: 2px dashed var(--worker); padding: 20px; text-align: center; border-radius: 10px; margin-bottom: 20px; }
+        .punch-btn { font-size: 20px; padding: 15px; background: var(--worker); border-radius: 50px; width: 60%; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
     </style>
 </head>
 <body>
 
 <div id="login-screen">
-    <h2>Mithila ERP Login</h2>
-    <input type="text" id="loginU" placeholder="Username (उदा: shreyasingh)">
-    <input type="password" id="loginP" placeholder="Password">
-    <button class="btn-admin" onclick="doLogin()">लॉगिन करें</button>
-    <p style="font-size:12px; color:gray; margin-top:15px;">(Admin Username: <b>shreyasingh</b> | Pass: <b>shreyarani@#</b>)</p>
+    <div class="login-tabs">
+        <div class="log-tab active admin" onclick="switchLogin('admin')" id="tab-admin">Admin / HR</div>
+        <div class="log-tab worker" onclick="switchLogin('worker')" id="tab-worker">Staff / Worker</div>
+    </div>
+    <div class="login-body">
+        <h3 id="login-title" style="margin-top:0;">Management Login</h3>
+        <input type="text" id="loginU" placeholder="Username">
+        <input type="password" id="loginP" placeholder="Password">
+        <button id="loginBtn" class="btn-admin" onclick="doLogin()">लॉगिन करें</button>
+    </div>
 </div>
 
 <div id="dashboard" class="box">
     <div class="header">
-        <h2 id="welcome-text" style="margin:0; color:var(--admin);">Welcome, Admin</h2>
+        <h2 id="welcome-text" style="margin:0; color:var(--admin);">Welcome</h2>
         <button class="btn-danger" style="width:auto; padding:5px 15px;" onclick="logout()">Logout</button>
     </div>
 
-    <div class="nav-menu" id="menu-bar">
-        </div>
+    <div class="nav-menu" id="menu-bar"></div>
 
     <div id="panel-users" class="panel">
-        <h3>नया कर्मचारी (HR / Worker) जोड़ें</h3>
+        <h3>नया कर्मचारी जोड़ें</h3>
         <select id="newRole">
             <option value="HR">HR Officer</option>
-            <option value="Worker">Worker (DPR Staff)</option>
+            <option value="Worker">Worker / Staff</option>
         </select>
         <input type="text" id="newName" placeholder="Full Name">
         <input type="text" id="newU" placeholder="Set Username">
@@ -74,35 +87,55 @@
         <div id="user-list"></div>
     </div>
 
+    <div id="panel-punch" class="panel">
+        <div class="punch-box">
+            <h3>आज की हाजिरी (Live Punch-In)</h3>
+            <p id="punch-status">आपने आज की हाजिरी नहीं लगाई है।</p>
+            <button class="punch-btn" id="btn-punch" onclick="markPunch()">👆 Punch In (Present)</button>
+        </div>
+    </div>
+
     <div id="panel-att" class="panel">
-        <h3>पूरे महीने की हाजिरी (Monthly Attendance)</h3>
+        <h3>पूरे महीने की हाजिरी रिपोर्ट</h3>
         <select id="attEmpSelect" onchange="renderAttendance()">
             <option value="">-- कर्मचारी चुनें --</option>
         </select>
-        <p style="font-size:12px;">(तारीख पर क्लिक करके P या A लगाएं)</p>
+        <p style="font-size:12px;">(मैनुअल हाजिरी: तारीख पर क्लिक करके P या A लगाएं)</p>
         <div class="att-grid" id="month-grid"></div>
     </div>
 
     <div id="panel-salary" class="panel">
-        <h3>सैलरी बनाएं (Salary Generation)</h3>
-        <select id="salEmpSelect">
-            <option value="">-- कर्मचारी चुनें --</option>
-        </select>
-        <input type="number" id="salAmount" placeholder="तय सैलरी राशि (₹) दर्ज करें">
-        <button class="btn-admin" onclick="generateSalary()">सैलरी स्लिप जेनरेट करें</button>
-        <div id="salary-slip" style="display:none; margin-top:20px; padding:20px; border:2px dashed #333; background:#fff;">
-            <h2 style="text-align:center;">MITHILA ERP - SALARY SLIP</h2>
+        <h3>सैलरी फिक्स करें और ऑटो-कैलकुलेट करें</h3>
+        
+        <div style="background: #e3f2fd; padding:15px; border-radius:5px; margin-bottom:15px;">
+            <h4>1. फिक्स सैलरी तय करें (Fix Base Salary)</h4>
+            <select id="fixSalEmp"></select>
+            <input type="number" id="fixSalAmt" placeholder="महीने की पूरी सैलरी (उदा: 15000)">
+            <button class="btn-admin" onclick="fixBaseSalary()">सैलरी सेट करें</button>
+        </div>
+
+        <div style="background: #f1f8e9; padding:15px; border-radius:5px;">
+            <h4>2. ऑटो सैलरी स्लिप बनाएं (Auto Calculate)</h4>
+            <select id="salEmpSelect"></select>
+            <button class="btn-worker" onclick="generateAutoSalary()">अटेंडेंस के हिसाब से स्लिप बनाएं</button>
+        </div>
+
+        <div id="salary-slip" style="display:none; margin-top:20px; padding:20px; border:2px solid #333; background:#fff;">
+            <h2 style="text-align:center; margin-top:0;">MITHILA ERP - SALARY SLIP</h2>
             <hr>
-            <p><b>नाम:</b> <span id="s-name"></span></p>
-            <p><b>महीना:</b> April 2026</p>
-            <p><b>कुल देय राशि:</b> ₹<span id="s-amt" style="font-size:20px; color:green; font-weight:bold;"></span></p>
+            <p><b>कर्मचारी का नाम:</b> <span id="s-name"></span></p>
+            <p><b>तय की गई सैलरी (Base):</b> ₹<span id="s-base"></span></p>
+            <p><b>कुल दिन (महीना):</b> 30</p>
+            <p><b>उपस्थित दिन (Present):</b> <span id="s-present" style="color:green; font-weight:bold;"></span> दिन</p>
+            <hr>
+            <p style="font-size:18px;"><b>इस महीने की कुल देय सैलरी:</b> ₹<span id="s-amt" style="font-size:24px; color:green; font-weight:bold;"></span></p>
             <p><b>जारीकर्ता:</b> Admin (Shreya Singh)</p>
-            <button onclick="window.print()" class="btn-admin">प्रिंट करें</button>
+            <button onclick="window.print()" class="btn-admin">प्रिंट (Print Slip)</button>
         </div>
     </div>
 
     <div id="panel-stock" class="panel">
-        <h3>नया प्रोडक्ट जोड़ें</h3>
+        <h3>नया प्रोडक्ट (Stock) जोड़ें</h3>
         <input type="text" id="pName" placeholder="प्रोडक्ट का नाम (उदा: Cement)">
         <select id="pUnit">
             <option value="Piece (Pcs)">Piece (Pcs) - पीस</option>
@@ -139,36 +172,51 @@
             <hr>
         </div>
 
-        <h4>हाल की रिपोर्ट (Recent DPRs)</h4>
+        <h4>DPR रिपोर्ट्स</h4>
         <div id="dpr-list"></div>
     </div>
 
 </div>
 
 <script>
-    // --- DATABASE (Local Storage for 0% Crash) ---
+    // --- DATABASE (Local Storage) ---
     let db = {
         users: JSON.parse(localStorage.getItem('erp_users')) || [{role: 'Admin', name: 'Shreya Singh', u: 'shreyasingh', p: 'shreyarani@#'}],
         products: JSON.parse(localStorage.getItem('erp_products')) || [],
         dprs: JSON.parse(localStorage.getItem('erp_dprs')) || [],
-        attendance: JSON.parse(localStorage.getItem('erp_att')) || {}
+        attendance: JSON.parse(localStorage.getItem('erp_att')) || {},
+        baseSalaries: JSON.parse(localStorage.getItem('erp_salaries')) || {}
     };
     function saveData() {
         localStorage.setItem('erp_users', JSON.stringify(db.users));
         localStorage.setItem('erp_products', JSON.stringify(db.products));
         localStorage.setItem('erp_dprs', JSON.stringify(db.dprs));
         localStorage.setItem('erp_att', JSON.stringify(db.attendance));
+        localStorage.setItem('erp_salaries', JSON.stringify(db.baseSalaries));
     }
 
     let activeUser = null;
+    let loginType = 'admin';
 
     // --- LOGIN SYSTEM ---
+    function switchLogin(type) {
+        loginType = type;
+        document.getElementById('tab-admin').className = `log-tab ${type === 'admin' ? 'active admin' : ''}`;
+        document.getElementById('tab-worker').className = `log-tab ${type === 'worker' ? 'active worker' : ''}`;
+        document.getElementById('login-title').innerText = type === 'admin' ? "Admin / HR Login" : "Staff / Worker Login";
+        document.getElementById('loginBtn').className = type === 'admin' ? "btn-admin" : "btn-worker";
+    }
+
     function doLogin() {
         let u = document.getElementById('loginU').value;
         let p = document.getElementById('loginP').value;
-        
         let found = db.users.find(x => x.u === u && x.p === p);
+        
         if(found) {
+            // Check if correct panel used
+            if((loginType === 'admin' && found.role === 'Worker') || (loginType === 'worker' && found.role !== 'Worker')) {
+                return alert("कृपया सही लॉगिन पैनल का इस्तेमाल करें!");
+            }
             activeUser = found;
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('dashboard').style.display = 'block';
@@ -180,34 +228,34 @@
     }
     function logout() { location.reload(); }
 
-    // --- MENU SETUP BASED ON ROLE ---
+    // --- MENU SETUP ---
     function setupMenu() {
         let menu = document.getElementById('menu-bar');
         menu.innerHTML = "";
         let role = activeUser.role;
 
         if(role === 'Admin') {
-            menu.innerHTML += `<button class="nav-btn active" onclick="showPanel('panel-users', this)">👥 Add Staff</button>`;
-            menu.innerHTML += `<button class="nav-btn" onclick="showPanel('panel-att', this)">📅 Attendance</button>`;
-            menu.innerHTML += `<button class="nav-btn" onclick="showPanel('panel-salary', this)">💸 Salary</button>`;
+            menu.innerHTML += `<button class="nav-btn active" onclick="showPanel('panel-users', this)">👥 Staff</button>`;
+            menu.innerHTML += `<button class="nav-btn" onclick="showPanel('panel-att', this)">📅 Attendance View</button>`;
+            menu.innerHTML += `<button class="nav-btn" onclick="showPanel('panel-salary', this)">💸 Salary Gen</button>`;
             menu.innerHTML += `<button class="nav-btn" onclick="showPanel('panel-stock', this)">📦 Stock</button>`;
-            menu.innerHTML += `<button class="nav-btn" onclick="showPanel('panel-dpr', this)">📋 View DPR</button>`;
+            menu.innerHTML += `<button class="nav-btn" onclick="showPanel('panel-dpr', this)">📋 DPRs</button>`;
             showPanel('panel-users', menu.children[0]);
             loadUserDropdowns();
         } 
         else if(role === 'HR') {
             menu.innerHTML += `<button class="nav-btn active" onclick="showPanel('panel-stock', this)">📦 Stock</button>`;
-            menu.innerHTML += `<button class="nav-btn" onclick="showPanel('panel-dpr', this)">📋 Check DPR</button>`;
+            menu.innerHTML += `<button class="nav-btn" onclick="showPanel('panel-dpr', this)">📋 DPRs</button>`;
             showPanel('panel-stock', menu.children[0]);
         } 
         else if(role === 'Worker') {
-            menu.innerHTML += `<button class="nav-btn active" onclick="showPanel('panel-dpr', this)">📝 My DPR</button>`;
+            menu.innerHTML += `<button class="nav-btn active" onclick="showPanel('panel-punch', this)">👆 Punch In</button>`;
+            menu.innerHTML += `<button class="nav-btn" onclick="showPanel('panel-dpr', this)">📝 My DPR</button>`;
             document.getElementById('dpr-submit-box').style.display = 'block';
-            showPanel('panel-dpr', menu.children[0]);
+            showPanel('panel-punch', menu.children[0]);
+            checkTodayPunch();
         }
-        
-        loadProducts();
-        loadDPRs();
+        loadProducts(); loadDPRs();
     }
 
     function showPanel(id, btn) {
@@ -224,119 +272,123 @@
         let u = document.getElementById('newU').value;
         let p = document.getElementById('newP').value;
         if(!n || !u || !p) return alert("सारी जानकारी भरें!");
-        
         db.users.push({role: r, name: n, u: u, p: p});
         saveData(); alert("कर्मचारी जुड़ गया!");
-        document.getElementById('newName').value = ""; document.getElementById('newU').value = ""; document.getElementById('newP').value = "";
         loadUserDropdowns();
     }
-
     function loadUserDropdowns() {
-        let listHTML = "<ul>";
-        let sel1 = `<option value="">-- कर्मचारी चुनें --</option>`;
-        
+        let list = "<ul>"; let sel = `<option value="">-- चुनें --</option>`;
         db.users.forEach(u => {
-            listHTML += `<li><b>${u.name}</b> (${u.role}) - User: ${u.u}</li>`;
-            if(u.role !== 'Admin') { sel1 += `<option value="${u.name}">${u.name} (${u.role})</option>`; }
+            list += `<li><b>${u.name}</b> (${u.role}) - ID: ${u.u}</li>`;
+            if(u.role === 'Worker') sel += `<option value="${u.name}">${u.name}</option>`;
         });
-        document.getElementById('user-list').innerHTML = listHTML + "</ul>";
-        document.getElementById('attEmpSelect').innerHTML = sel1;
-        document.getElementById('salEmpSelect').innerHTML = sel1;
+        document.getElementById('user-list').innerHTML = list + "</ul>";
+        document.getElementById('attEmpSelect').innerHTML = sel;
+        document.getElementById('salEmpSelect').innerHTML = sel;
+        document.getElementById('fixSalEmp').innerHTML = sel;
     }
 
-    // --- 2. ADMIN: ATTENDANCE ---
+    // --- 2. WORKER: PUNCH IN ---
+    function checkTodayPunch() {
+        let today = new Date().getDate();
+        if(db.attendance[activeUser.name] && db.attendance[activeUser.name][today] === 'P') {
+            document.getElementById('punch-status').innerHTML = "<b style='color:green;'>✅ आपकी आज की हाजिरी (Present) लग चुकी है!</b>";
+            document.getElementById('btn-punch').style.display = 'none';
+        }
+    }
+    function markPunch() {
+        let today = new Date().getDate();
+        if(!db.attendance[activeUser.name]) db.attendance[activeUser.name] = {};
+        db.attendance[activeUser.name][today] = 'P';
+        saveData(); checkTodayPunch(); alert("हाजिरी लग गई!");
+    }
+
+    // --- 3. ADMIN: ATTENDANCE VIEW ---
     function renderAttendance() {
         let emp = document.getElementById('attEmpSelect').value;
         let grid = document.getElementById('month-grid');
-        grid.innerHTML = "";
-        if(!emp) return;
-        
+        grid.innerHTML = ""; if(!emp) return;
         if(!db.attendance[emp]) db.attendance[emp] = {};
         
-        // 30 days logic
         for(let i=1; i<=30; i++) {
             let status = db.attendance[emp][i] || '-';
             let cls = status === 'P' ? 'P' : (status === 'A' ? 'A' : '');
-            grid.innerHTML += `<div class="day-box ${cls}" onclick="markAtt('${emp}', ${i})">Date ${i}<br><b>${status}</b></div>`;
+            grid.innerHTML += `<div class="day-box ${cls}" onclick="adminMarkAtt('${emp}', ${i})">Date ${i}<br><b>${status}</b></div>`;
         }
     }
-    function markAtt(emp, day) {
+    function adminMarkAtt(emp, day) {
         let current = db.attendance[emp][day];
-        let next = current === 'P' ? 'A' : 'P'; // Toggle P -> A -> P
-        db.attendance[emp][day] = next;
+        db.attendance[emp][day] = current === 'P' ? 'A' : 'P';
         saveData(); renderAttendance();
     }
 
-    // --- 3. ADMIN: SALARY ---
-    function generateSalary() {
+    // --- 4. ADMIN: AUTO SALARY ---
+    function fixBaseSalary() {
+        let emp = document.getElementById('fixSalEmp').value;
+        let amt = document.getElementById('fixSalAmt').value;
+        if(!emp || !amt) return alert("कर्मचारी और राशि चुनें!");
+        db.baseSalaries[emp] = Number(amt);
+        saveData(); alert(emp + " की बेसिक सैलरी ₹" + amt + " फिक्स कर दी गई है!");
+    }
+
+    function generateAutoSalary() {
         let emp = document.getElementById('salEmpSelect').value;
-        let amt = document.getElementById('salAmount').value;
-        if(!emp || !amt) return alert("कर्मचारी और सैलरी राशि दर्ज करें!");
+        if(!emp) return alert("कर्मचारी चुनें!");
         
+        let baseSal = db.baseSalaries[emp];
+        if(!baseSal) return alert("पहले इस कर्मचारी की 'फिक्स सैलरी' सेट करें!");
+
+        // Count Presents
+        let pCount = 0;
+        if(db.attendance[emp]) {
+            for(let i=1; i<=30; i++) { if(db.attendance[emp][i] === 'P') pCount++; }
+        }
+
+        // Formula: (Base Salary / 30) * Present Days
+        let finalSalary = Math.round((baseSal / 30) * pCount);
+
         document.getElementById('s-name').innerText = emp;
-        document.getElementById('s-amt').innerText = amt;
+        document.getElementById('s-base').innerText = baseSal;
+        document.getElementById('s-present').innerText = pCount;
+        document.getElementById('s-amt').innerText = finalSalary;
         document.getElementById('salary-slip').style.display = 'block';
     }
 
-    // --- 4. ADMIN/HR: STOCK ---
+    // --- 5. STOCK & DPR ---
     function addProduct() {
         let name = document.getElementById('pName').value;
         let unit = document.getElementById('pUnit').value;
         let qty = document.getElementById('pQty').value;
         if(!name || !qty) return alert("डिटेल्स भरें!");
-        
-        db.products.push({name, unit, qty});
-        saveData(); loadProducts();
-        document.getElementById('pName').value = ""; document.getElementById('pQty').value = "";
+        db.products.push({name, unit, qty}); saveData(); loadProducts();
     }
     function loadProducts() {
-        let table = "<tr><th>Product Name</th><th>Quantity</th><th>Unit</th></tr>";
+        let table = "<tr><th>Product</th><th>Quantity</th><th>Unit</th></tr>";
         db.products.forEach(p => { table += `<tr><td>${p.name}</td><td>${p.qty}</td><td>${p.unit}</td></tr>`; });
         document.getElementById('stock-table').innerHTML = table;
     }
 
-    // --- 5. DPR (Daily Progress Report) ---
     function submitDPR() {
-        let txt = document.getElementById('dprText').value;
-        if(!txt) return;
-        let date = new Date().toLocaleString();
-        db.dprs.push({id: Date.now(), worker: activeUser.name, text: txt, date: date, reply: ""});
-        saveData(); loadDPRs();
-        document.getElementById('dprText').value = ""; alert("DPR सबमिट हो गई!");
+        let txt = document.getElementById('dprText').value; if(!txt) return;
+        db.dprs.push({id: Date.now(), worker: activeUser.name, text: txt, date: new Date().toLocaleString(), reply: ""});
+        saveData(); loadDPRs(); document.getElementById('dprText').value = ""; alert("DPR सबमिट हो गई!");
     }
-    
     function loadDPRs() {
-        let html = "";
-        // Show all to Admin/HR, show only own to Worker
-        let reports = db.dprs;
-        if(activeUser.role === 'Worker') {
-            reports = reports.filter(r => r.worker === activeUser.name);
-        }
+        let html = ""; let reports = db.dprs;
+        if(activeUser.role === 'Worker') reports = reports.filter(r => r.worker === activeUser.name);
         
-        reports.reverse().forEach(r => {
-            html += `<div class="dpr-card">
-                <small style="color:gray;">${r.date} | Worker: <b>${r.worker}</b></small>
-                <p style="margin:5px 0;">${r.text}</p>`;
-            
-            if(r.reply) {
-                html += `<div class="reply-box"><b>Reply (Officer/Admin):</b> ${r.reply}</div>`;
-            } else if (activeUser.role === 'Admin' || activeUser.role === 'HR') {
-                html += `<input type="text" id="reply-${r.id}" placeholder="Type reply here..." style="width:70%; display:inline-block;"> 
-                         <button onclick="sendReply(${r.id})" style="width:25%; padding:10px; background:var(--admin); color:white; border:none; border-radius:5px;">Reply</button>`;
-            }
+        [...reports].reverse().forEach(r => {
+            html += `<div class="dpr-card"><small>${r.date} | <b>${r.worker}</b></small><p>${r.text}</p>`;
+            if(r.reply) html += `<div class="reply-box"><b>Reply:</b> ${r.reply}</div>`;
+            else if (activeUser.role !== 'Worker') html += `<input type="text" id="reply-${r.id}" placeholder="Reply..."><button class="btn-admin" onclick="sendReply(${r.id})">Send Reply</button>`;
             html += `</div>`;
         });
         document.getElementById('dpr-list').innerHTML = html;
     }
-
     function sendReply(id) {
-        let repText = document.getElementById('reply-' + id).value;
-        if(!repText) return;
+        let txt = document.getElementById('reply-' + id).value; if(!txt) return;
         let dpr = db.dprs.find(r => r.id === id);
-        if(dpr) {
-            dpr.reply = repText;
-            saveData(); loadDPRs();
-        }
+        if(dpr) { dpr.reply = txt; saveData(); loadDPRs(); }
     }
 </script>
 </body>
