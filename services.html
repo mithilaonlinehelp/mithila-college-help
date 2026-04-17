@@ -3,228 +3,340 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mithila ERP 14.0 | Smart Management</title>
-    
-    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-database-compat.js"></script>
-
+    <title>Mithila ERP - Smart Admin Control</title>
     <style>
-        :root { --p: #004d40; --s: #ff9800; --bg: #f4f6f9; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; padding: 10px; }
-        .container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .header { text-align: center; border-bottom: 3px solid var(--p); padding-bottom: 10px; margin-bottom: 20px; color: var(--p); }
+        :root { --admin: #673ab7; --hr: #ff9800; --worker: #4caf50; --bg: #f0f2f5; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 0; }
+        .box { max-width: 900px; margin: 20px auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         
-        /* Buttons */
-        .btn-p { background: var(--p); color: white; }
-        .btn-s { background: var(--s); color: white; }
-        .btn-red { background: #d32f2f; color: white; }
-        .btn-grey { background: #607d8b; color: white; }
-        .btn-sm { width: auto; padding: 8px 15px; font-size: 14px; margin-right: 5px; cursor: pointer; border:none; border-radius:4px; }
-        .btn-full { width: 100%; padding: 12px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; font-weight: bold; }
+        /* Login Screen */
+        #login-screen { text-align: center; max-width: 400px; margin: 100px auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-top: 5px solid var(--admin); }
+        input, select, textarea { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        button { padding: 10px 15px; border: none; border-radius: 5px; color: white; cursor: pointer; font-weight: bold; width: 100%; font-size: 16px; margin-top: 10px; }
+        .btn-admin { background: var(--admin); } .btn-hr { background: var(--hr); } .btn-worker { background: var(--worker); } .btn-danger { background: #f44336; }
         
-        /* Inputs */
-        label { display: block; font-size: 13px; font-weight: bold; margin-top: 10px; color: #333; }
-        input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; margin-top: 5px; }
+        /* Dashboard Layout */
+        #dashboard { display: none; }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 15px; }
+        .nav-menu { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .nav-btn { flex: 1; padding: 10px; text-align: center; background: #e0e0e0; color: #333; cursor: pointer; border-radius: 5px; font-weight: bold; border:none;}
+        .nav-btn.active { background: var(--admin); color: white; }
         
-        /* Tabs */
-        .tabs { display: flex; gap: 5px; overflow-x: auto; padding-bottom: 5px; margin-bottom: 15px; border-bottom: 2px solid #eee; }
-        .tab { padding: 10px 15px; background: #e0e0e0; border-radius: 5px 5px 0 0; white-space: nowrap; cursor: pointer; font-size: 14px; font-weight: bold; }
-        .tab.active { background: var(--p); color: white; }
-        .panel { display: none; }
+        /* Panels */
+        .panel { display: none; padding: 15px; border: 1px solid #ddd; border-radius: 8px; background: #fafafa; }
         .panel.active { display: block; }
         
-        /* Camera & Live Photo */
-        .cam-container { width: 100%; max-width: 300px; margin: 10px auto; background: #000; text-align: center; display: none; border-radius: 8px; overflow: hidden; border: 3px solid var(--s); }
-        video { width: 100%; height: auto; display: block; }
-        #snap-preview { width: 100%; display: none; border-radius: 8px; margin-top: 10px; border: 2px solid var(--p); }
+        /* Tables & Lists */
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background: #eee; }
+        .dpr-card { border-left: 4px solid var(--worker); background: #fff; padding: 10px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .reply-box { margin-top: 10px; padding: 10px; background: #e8eaf6; border-radius: 5px; font-size: 14px; }
         
-        /* Salary Slip Design */
-        #slip_modal { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:none; justify-content:center; align-items:center; z-index:200; }
-        .slip-box { background: white; padding: 20px; border-radius: 10px; width: 350px; }
-        .slip-paper { border: 2px solid #000; padding: 15px; text-align: left; background: #fff; font-family: monospace; margin-bottom: 15px; }
-        .slip-row { display: flex; justify-content: space-between; margin-bottom: 5px; border-bottom: 1px dotted #ccc; padding-bottom: 3px; }
-        
-        /* Grid */
-        .row { display: flex; gap: 15px; flex-wrap: wrap; }
-        .col { flex: 1; min-width: 200px; }
-        .card { border: 1px solid #eee; padding: 15px; border-radius: 8px; margin-bottom: 15px; background: #fafafa; }
+        /* Attendance Grid */
+        .att-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-top: 10px; }
+        .day-box { padding: 10px; text-align: center; border: 1px solid #ccc; background: white; cursor: pointer; }
+        .day-box.P { background: #c8e6c9; color: green; font-weight: bold; }
+        .day-box.A { background: #ffcdd2; color: red; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="header">
-        <h1>Mithila ERP 14.0</h1>
-        <p>Smart Business & HR Management</p>
-    </div>
-
-    <div class="tabs">
-        <div class="tab active" onclick="switchTab('hr')">👥 HR & Staff</div>
-        <div class="tab" onclick="switchTab('attendance')">⏱️ Attendance</div>
-        <div class="tab" onclick="switchTab('stock')">📦 Stock</div>
-    </div>
-
-    <div id="hr" class="panel active">
-        <div class="card">
-            <h3 style="color:var(--p); margin-top:0;">Register New Employee</h3>
-            <div class="row">
-                <div class="col">
-                    <label>Employee Name:</label>
-                    <input type="text" id="empName" placeholder="Enter Full Name">
-                    <label>Role/Position:</label>
-                    <select id="empRole">
-                        <option value="Manager">Manager</option>
-                        <option value="Staff">Staff</option>
-                        <option value="Worker">Worker</option>
-                    </select>
-                </div>
-                
-                <div class="col" style="text-align: center;">
-                    <label>Live Photo Verification:</label>
-                    <button type="button" class="btn-sm btn-p" onclick="openCamera()">📷 Open Camera</button>
-                    
-                    <div id="camBox" class="cam-container">
-                        <video id="video" autoplay playsinline></video>
-                        <button type="button" class="btn-full btn-s" onclick="takeSnapshot()" style="margin:0; border-radius:0;">📸 Capture Photo</button>
-                    </div>
-                    <canvas id="canvas" style="display:none;"></canvas>
-                    <img id="snap-preview" src="">
-                </div>
-            </div>
-            
-            <label>Permissions:</label>
-            <div style="margin-top:5px;">
-                <input type="checkbox" id="permStock" style="width:auto;"> Can Edit Stock/Material
-            </div>
-            
-            <button class="btn-full btn-p" onclick="saveEmployee()">Save Employee Data</button>
-        </div>
-    </div>
-
-    <div id="attendance" class="panel">
-        <div class="card">
-            <h3 style="color:var(--p); margin-top:0;">Today's Punch (Live)</h3>
-            <label>Select Employee:</label>
-            <select id="attEmp">
-                <option>Vivek Kumar - Admin</option>
-                <option>Satish - Staff</option>
-            </select>
-            <button class="btn-full btn-s" onclick="alert('Punch-In Recorded Successfully!')">✅ Mark Attendance</button>
-        </div>
-
-        <div class="card">
-            <h3>Generate Salary Slip</h3>
-            <button class="btn-sm btn-grey" onclick="showSlip()">📄 View Sample Slip</button>
-        </div>
-    </div>
-
-    <div id="stock" class="panel">
-        <div class="card">
-            <h3 style="color:var(--p); margin-top:0;">Add Product</h3>
-            <div class="row">
-                <div class="col">
-                    <label>Product Name:</label>
-                    <input type="text" id="prodName" placeholder="e.g. Cement, Steel">
-                </div>
-                <div class="col">
-                    <label>Unit:</label>
-                    <select id="prodUnit">
-                        <option value="Piece (Pics)">Piece (Pics)</option>
-                        <option value="Kilogram (Kg)">Kilogram (Kg)</option>
-                        <option value="Bag">Bag</option>
-                    </select>
-                </div>
-                <div class="col">
-                    <label>Quantity:</label>
-                    <input type="number" id="prodQty" placeholder="0">
-                </div>
-            </div>
-            <button class="btn-full btn-p" onclick="alert('Product Added to Inventory!')">➕ Add to Stock</button>
-        </div>
-    </div>
+<div id="login-screen">
+    <h2>Mithila ERP Login</h2>
+    <input type="text" id="loginU" placeholder="Username (उदा: shreyasingh)">
+    <input type="password" id="loginP" placeholder="Password">
+    <button class="btn-admin" onclick="doLogin()">लॉगिन करें</button>
+    <p style="font-size:12px; color:gray; margin-top:15px;">(Admin Username: <b>shreyasingh</b> | Pass: <b>shreyarani@#</b>)</p>
 </div>
 
-<div id="slip_modal">
-    <div class="slip-box">
-        <h3 style="text-align:center; color:var(--p);">MITHILA ERP - SLIP</h3>
-        <div class="slip-paper">
-            <div style="text-align:center; margin-bottom:10px; font-weight:bold;">SALARY SLIP - APRIL 2026</div>
-            <div class="slip-row"><span>Emp Name:</span> <b>Vivek Kumar</b></div>
-            <div class="slip-row"><span>Designation:</span> <b>Manager</b></div>
-            <div class="slip-row"><span>Total Days:</span> <b>30</b></div>
-            <div class="slip-row"><span>Present:</span> <b>28</b></div>
-            <br>
-            <div class="slip-row"><span>Basic Pay:</span> <b>₹ 15,000</b></div>
-            <div class="slip-row"><span>Allowances:</span> <b>₹ 2,500</b></div>
-            <div class="slip-row" style="border-top:2px solid #000; padding-top:5px;"><span><b>NET SALARY:</b></span> <b>₹ 17,500</b></div>
-        </div>
-        <button class="btn-sm btn-p" onclick="window.print()" style="width:48%">Print / Save</button>
-        <button class="btn-sm btn-red" onclick="closeSlip()" style="width:48%">Close</button>
+<div id="dashboard" class="box">
+    <div class="header">
+        <h2 id="welcome-text" style="margin:0; color:var(--admin);">Welcome, Admin</h2>
+        <button class="btn-danger" style="width:auto; padding:5px 15px;" onclick="logout()">Logout</button>
     </div>
+
+    <div class="nav-menu" id="menu-bar">
+        </div>
+
+    <div id="panel-users" class="panel">
+        <h3>नया कर्मचारी (HR / Worker) जोड़ें</h3>
+        <select id="newRole">
+            <option value="HR">HR Officer</option>
+            <option value="Worker">Worker (DPR Staff)</option>
+        </select>
+        <input type="text" id="newName" placeholder="Full Name">
+        <input type="text" id="newU" placeholder="Set Username">
+        <input type="text" id="newP" placeholder="Set Password">
+        <button class="btn-admin" onclick="addUser()">कर्मचारी जोड़ें</button>
+        <hr>
+        <h4>सभी कर्मचारी</h4>
+        <div id="user-list"></div>
+    </div>
+
+    <div id="panel-att" class="panel">
+        <h3>पूरे महीने की हाजिरी (Monthly Attendance)</h3>
+        <select id="attEmpSelect" onchange="renderAttendance()">
+            <option value="">-- कर्मचारी चुनें --</option>
+        </select>
+        <p style="font-size:12px;">(तारीख पर क्लिक करके P या A लगाएं)</p>
+        <div class="att-grid" id="month-grid"></div>
+    </div>
+
+    <div id="panel-salary" class="panel">
+        <h3>सैलरी बनाएं (Salary Generation)</h3>
+        <select id="salEmpSelect">
+            <option value="">-- कर्मचारी चुनें --</option>
+        </select>
+        <input type="number" id="salAmount" placeholder="तय सैलरी राशि (₹) दर्ज करें">
+        <button class="btn-admin" onclick="generateSalary()">सैलरी स्लिप जेनरेट करें</button>
+        <div id="salary-slip" style="display:none; margin-top:20px; padding:20px; border:2px dashed #333; background:#fff;">
+            <h2 style="text-align:center;">MITHILA ERP - SALARY SLIP</h2>
+            <hr>
+            <p><b>नाम:</b> <span id="s-name"></span></p>
+            <p><b>महीना:</b> April 2026</p>
+            <p><b>कुल देय राशि:</b> ₹<span id="s-amt" style="font-size:20px; color:green; font-weight:bold;"></span></p>
+            <p><b>जारीकर्ता:</b> Admin (Shreya Singh)</p>
+            <button onclick="window.print()" class="btn-admin">प्रिंट करें</button>
+        </div>
+    </div>
+
+    <div id="panel-stock" class="panel">
+        <h3>नया प्रोडक्ट जोड़ें</h3>
+        <input type="text" id="pName" placeholder="प्रोडक्ट का नाम (उदा: Cement)">
+        <select id="pUnit">
+            <option value="Piece (Pcs)">Piece (Pcs) - पीस</option>
+            <option value="Kilogram (Kg)">Kilogram (Kg) - किलो</option>
+            <option value="Gram (g)">Gram (g) - ग्राम</option>
+            <option value="Liter (L)">Liter (L) - लीटर</option>
+            <option value="Milliliter (ml)">Milliliter (ml) - मिलीलीटर</option>
+            <option value="Meter (m)">Meter (m) - मीटर</option>
+            <option value="Centimeter (cm)">Centimeter (cm) - सेंटीमीटर</option>
+            <option value="Box">Box - बॉक्स</option>
+            <option value="Carton">Carton - कार्टन</option>
+            <option value="Dozen">Dozen - दर्जन</option>
+            <option value="Pack">Pack - पैकेट</option>
+            <option value="Roll">Roll - रोल</option>
+            <option value="Tonne (t)">Tonne (t) - टन</option>
+            <option value="Quintal">Quintal - क्विंटल</option>
+            <option value="Bundle">Bundle - बंडल</option>
+            <option value="Pair">Pair - जोड़ा</option>
+        </select>
+        <input type="number" id="pQty" placeholder="मात्रा (Quantity)">
+        <button class="btn-hr" onclick="addProduct()">स्टॉक में जोड़ें</button>
+        <hr>
+        <table id="stock-table">
+            <tr><th>Product</th><th>Quantity</th><th>Unit</th></tr>
+        </table>
+    </div>
+
+    <div id="panel-dpr" class="panel">
+        <h3 id="dpr-title">Daily Progress Report (DPR)</h3>
+        
+        <div id="dpr-submit-box" style="display:none;">
+            <textarea id="dprText" rows="4" placeholder="आज क्या काम हुआ? यहाँ रिपोर्ट लिखें..."></textarea>
+            <button class="btn-worker" onclick="submitDPR()">रिपोर्ट भेजें</button>
+            <hr>
+        </div>
+
+        <h4>हाल की रिपोर्ट (Recent DPRs)</h4>
+        <div id="dpr-list"></div>
+    </div>
+
 </div>
 
 <script>
-    // --- 1. Tab Switch Logic ---
-    function switchTab(tabId) {
+    // --- DATABASE (Local Storage for 0% Crash) ---
+    let db = {
+        users: JSON.parse(localStorage.getItem('erp_users')) || [{role: 'Admin', name: 'Shreya Singh', u: 'shreyasingh', p: 'shreyarani@#'}],
+        products: JSON.parse(localStorage.getItem('erp_products')) || [],
+        dprs: JSON.parse(localStorage.getItem('erp_dprs')) || [],
+        attendance: JSON.parse(localStorage.getItem('erp_att')) || {}
+    };
+    function saveData() {
+        localStorage.setItem('erp_users', JSON.stringify(db.users));
+        localStorage.setItem('erp_products', JSON.stringify(db.products));
+        localStorage.setItem('erp_dprs', JSON.stringify(db.dprs));
+        localStorage.setItem('erp_att', JSON.stringify(db.attendance));
+    }
+
+    let activeUser = null;
+
+    // --- LOGIN SYSTEM ---
+    function doLogin() {
+        let u = document.getElementById('loginU').value;
+        let p = document.getElementById('loginP').value;
+        
+        let found = db.users.find(x => x.u === u && x.p === p);
+        if(found) {
+            activeUser = found;
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            document.getElementById('welcome-text').innerText = `Welcome, ${found.name} (${found.role})`;
+            setupMenu();
+        } else {
+            alert("गलत Username या Password!");
+        }
+    }
+    function logout() { location.reload(); }
+
+    // --- MENU SETUP BASED ON ROLE ---
+    function setupMenu() {
+        let menu = document.getElementById('menu-bar');
+        menu.innerHTML = "";
+        let role = activeUser.role;
+
+        if(role === 'Admin') {
+            menu.innerHTML += `<button class="nav-btn active" onclick="showPanel('panel-users', this)">👥 Add Staff</button>`;
+            menu.innerHTML += `<button class="nav-btn" onclick="showPanel('panel-att', this)">📅 Attendance</button>`;
+            menu.innerHTML += `<button class="nav-btn" onclick="showPanel('panel-salary', this)">💸 Salary</button>`;
+            menu.innerHTML += `<button class="nav-btn" onclick="showPanel('panel-stock', this)">📦 Stock</button>`;
+            menu.innerHTML += `<button class="nav-btn" onclick="showPanel('panel-dpr', this)">📋 View DPR</button>`;
+            showPanel('panel-users', menu.children[0]);
+            loadUserDropdowns();
+        } 
+        else if(role === 'HR') {
+            menu.innerHTML += `<button class="nav-btn active" onclick="showPanel('panel-stock', this)">📦 Stock</button>`;
+            menu.innerHTML += `<button class="nav-btn" onclick="showPanel('panel-dpr', this)">📋 Check DPR</button>`;
+            showPanel('panel-stock', menu.children[0]);
+        } 
+        else if(role === 'Worker') {
+            menu.innerHTML += `<button class="nav-btn active" onclick="showPanel('panel-dpr', this)">📝 My DPR</button>`;
+            document.getElementById('dpr-submit-box').style.display = 'block';
+            showPanel('panel-dpr', menu.children[0]);
+        }
+        
+        loadProducts();
+        loadDPRs();
+    }
+
+    function showPanel(id, btn) {
         document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        event.target.classList.add('active');
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        if(btn) btn.classList.add('active');
     }
 
-    // --- 2. Live Camera Logic (For Employee Photo) ---
-    const video = document.getElementById('video');
-    const canvas = document.getElementById('canvas');
-    const snapPreview = document.getElementById('snap-preview');
-    let streamRef = null;
-
-    function openCamera() {
-        document.getElementById('camBox').style.display = 'block';
-        snapPreview.style.display = 'none';
+    // --- 1. ADMIN: ADD USER ---
+    function addUser() {
+        let r = document.getElementById('newRole').value;
+        let n = document.getElementById('newName').value;
+        let u = document.getElementById('newU').value;
+        let p = document.getElementById('newP').value;
+        if(!n || !u || !p) return alert("सारी जानकारी भरें!");
         
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then(function(stream) {
-                streamRef = stream;
-                video.srcObject = stream;
-            })
-            .catch(function(err) {
-                alert("Camera Access Denied or Error: " + err.message);
-            });
+        db.users.push({role: r, name: n, u: u, p: p});
+        saveData(); alert("कर्मचारी जुड़ गया!");
+        document.getElementById('newName').value = ""; document.getElementById('newU').value = ""; document.getElementById('newP').value = "";
+        loadUserDropdowns();
     }
 
-    function takeSnapshot() {
-        if(!streamRef) return;
+    function loadUserDropdowns() {
+        let listHTML = "<ul>";
+        let sel1 = `<option value="">-- कर्मचारी चुनें --</option>`;
         
-        const context = canvas.getContext('2d');
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-        
-        // Convert to image data
-        const dataURL = canvas.toDataURL('image/png');
-        snapPreview.src = dataURL;
-        snapPreview.style.display = 'block';
-        
-        // Stop Camera
-        streamRef.getTracks().forEach(track => track.stop());
-        document.getElementById('camBox').style.display = 'none';
+        db.users.forEach(u => {
+            listHTML += `<li><b>${u.name}</b> (${u.role}) - User: ${u.u}</li>`;
+            if(u.role !== 'Admin') { sel1 += `<option value="${u.name}">${u.name} (${u.role})</option>`; }
+        });
+        document.getElementById('user-list').innerHTML = listHTML + "</ul>";
+        document.getElementById('attEmpSelect').innerHTML = sel1;
+        document.getElementById('salEmpSelect').innerHTML = sel1;
     }
 
-    function saveEmployee() {
-        const name = document.getElementById('empName').value;
-        if(!name) { alert("Please enter employee name!"); return; }
-        if(!snapPreview.src || snapPreview.src === window.location.href) { alert("Please capture a live photo!"); return; }
+    // --- 2. ADMIN: ATTENDANCE ---
+    function renderAttendance() {
+        let emp = document.getElementById('attEmpSelect').value;
+        let grid = document.getElementById('month-grid');
+        grid.innerHTML = "";
+        if(!emp) return;
         
-        alert("✅ Employee '" + name + "' saved successfully with Live Photo!");
-        // Here you will push data to Firebase Realtime DB later
+        if(!db.attendance[emp]) db.attendance[emp] = {};
+        
+        // 30 days logic
+        for(let i=1; i<=30; i++) {
+            let status = db.attendance[emp][i] || '-';
+            let cls = status === 'P' ? 'P' : (status === 'A' ? 'A' : '');
+            grid.innerHTML += `<div class="day-box ${cls}" onclick="markAtt('${emp}', ${i})">Date ${i}<br><b>${status}</b></div>`;
+        }
+    }
+    function markAtt(emp, day) {
+        let current = db.attendance[emp][day];
+        let next = current === 'P' ? 'A' : 'P'; // Toggle P -> A -> P
+        db.attendance[emp][day] = next;
+        saveData(); renderAttendance();
     }
 
-    // --- 3. Salary Slip Modal Logic ---
-    function showSlip() {
-        document.getElementById('slip_modal').style.display = 'flex';
+    // --- 3. ADMIN: SALARY ---
+    function generateSalary() {
+        let emp = document.getElementById('salEmpSelect').value;
+        let amt = document.getElementById('salAmount').value;
+        if(!emp || !amt) return alert("कर्मचारी और सैलरी राशि दर्ज करें!");
+        
+        document.getElementById('s-name').innerText = emp;
+        document.getElementById('s-amt').innerText = amt;
+        document.getElementById('salary-slip').style.display = 'block';
     }
-    function closeSlip() {
-        document.getElementById('slip_modal').style.display = 'none';
+
+    // --- 4. ADMIN/HR: STOCK ---
+    function addProduct() {
+        let name = document.getElementById('pName').value;
+        let unit = document.getElementById('pUnit').value;
+        let qty = document.getElementById('pQty').value;
+        if(!name || !qty) return alert("डिटेल्स भरें!");
+        
+        db.products.push({name, unit, qty});
+        saveData(); loadProducts();
+        document.getElementById('pName').value = ""; document.getElementById('pQty').value = "";
+    }
+    function loadProducts() {
+        let table = "<tr><th>Product Name</th><th>Quantity</th><th>Unit</th></tr>";
+        db.products.forEach(p => { table += `<tr><td>${p.name}</td><td>${p.qty}</td><td>${p.unit}</td></tr>`; });
+        document.getElementById('stock-table').innerHTML = table;
+    }
+
+    // --- 5. DPR (Daily Progress Report) ---
+    function submitDPR() {
+        let txt = document.getElementById('dprText').value;
+        if(!txt) return;
+        let date = new Date().toLocaleString();
+        db.dprs.push({id: Date.now(), worker: activeUser.name, text: txt, date: date, reply: ""});
+        saveData(); loadDPRs();
+        document.getElementById('dprText').value = ""; alert("DPR सबमिट हो गई!");
+    }
+    
+    function loadDPRs() {
+        let html = "";
+        // Show all to Admin/HR, show only own to Worker
+        let reports = db.dprs;
+        if(activeUser.role === 'Worker') {
+            reports = reports.filter(r => r.worker === activeUser.name);
+        }
+        
+        reports.reverse().forEach(r => {
+            html += `<div class="dpr-card">
+                <small style="color:gray;">${r.date} | Worker: <b>${r.worker}</b></small>
+                <p style="margin:5px 0;">${r.text}</p>`;
+            
+            if(r.reply) {
+                html += `<div class="reply-box"><b>Reply (Officer/Admin):</b> ${r.reply}</div>`;
+            } else if (activeUser.role === 'Admin' || activeUser.role === 'HR') {
+                html += `<input type="text" id="reply-${r.id}" placeholder="Type reply here..." style="width:70%; display:inline-block;"> 
+                         <button onclick="sendReply(${r.id})" style="width:25%; padding:10px; background:var(--admin); color:white; border:none; border-radius:5px;">Reply</button>`;
+            }
+            html += `</div>`;
+        });
+        document.getElementById('dpr-list').innerHTML = html;
+    }
+
+    function sendReply(id) {
+        let repText = document.getElementById('reply-' + id).value;
+        if(!repText) return;
+        let dpr = db.dprs.find(r => r.id === id);
+        if(dpr) {
+            dpr.reply = repText;
+            saveData(); loadDPRs();
+        }
     }
 </script>
 </body>
