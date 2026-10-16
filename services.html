@@ -375,10 +375,7 @@
       background: #ffffff;
     }
 
-    /* UNCUT FULL WATERMARK:
-       Placed on z-index: 5 with pointer-events: none and multiply blend mode
-       so NO table, NO white background, and NO paragraph can ever cut the Peepal Tree!
-       Starts slightly above "प्रमाणित किया जाता है" down to level of QR Code bottom. */
+    /* UNCUT FULL WATERMARK */
     .cert-watermark-wrap {
       position: absolute;
       top: 195px;
@@ -580,11 +577,13 @@
       background: transparent !important;
     }
 
+    /* Place/Date & Digital Signature shifted UP in all certificates */
     .cert-place-sign-row {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 4px;
+      margin-bottom: 10px;
+      margin-top: -22px;
       background: transparent !important;
     }
 
@@ -592,14 +591,20 @@
       font-size: 13.5px;
       font-weight: 800;
       line-height: 1.55;
+      margin-top: -12px;
       background: transparent !important;
     }
 
     .signature-right-wrap {
       text-align: center;
-      width: 300px;
-      margin-top: 0;
+      width: 390px;
+      margin-top: -18px;
       background: transparent !important;
+    }
+
+    /* Extra upward shift specifically for Income Certificate Digital Signature */
+    .signature-right-wrap.income-sign-up {
+      margin-top: -36px;
     }
 
     .thin-dsc-text {
@@ -609,16 +614,18 @@
       font-size: 11px;
       line-height: 1.28;
       color: #111;
-      margin-bottom: 2px;
+      margin-bottom: 3px;
     }
 
+    /* Larger "(हस्ताक्षर राजस्व अधिकारी / Signature Revenue Officer)" */
     .officer-designation-line {
-      font-size: 12.6px;
+      font-size: 14.5px;
       font-weight: 800;
       color: #000;
+      white-space: nowrap;
     }
 
-    /* Clean QR Code without any underline or border */
+    /* Bigger Clean QR Code (148px) without any line below it */
     .cert-qr-row {
       display: flex;
       justify-content: flex-start;
@@ -629,8 +636,8 @@
     }
 
     .cert-qr {
-      width: 122px;
-      height: 122px;
+      width: 148px;
+      height: 148px;
       border: none !important;
       outline: none !important;
       padding: 0;
@@ -639,20 +646,20 @@
       display: block;
     }
 
-    /* Line above the 2-3 points, and NO extra line below the points */
+    /* NO line below QR code, and smaller letters (10px) for the 2-3 points */
     .cert-bottom-notes {
-      border-top: 1.2px solid #222;
+      border-top: none !important;
       border-bottom: none !important;
-      padding-top: 6px;
+      padding-top: 2px;
       margin-bottom: 0;
-      font-size: 11.6px;
-      line-height: 1.48;
+      font-size: 10px;
+      line-height: 1.38;
       font-weight: 600;
       background: transparent !important;
     }
     .cert-bottom-notes ol {
       margin: 0;
-      padding-left: 18px;
+      padding-left: 15px;
     }
 
     footer {
@@ -1231,7 +1238,7 @@
             <div id="certBodyContent"></div>
           </div>
 
-          <!-- BOTTOM SECTION: Digital Sign on Right, Clean QR on Left, Line + 2-3 Points (No extra line below points) -->
+          <!-- BOTTOM SECTION: Place/Date & Digital Sign shifted up, Larger QR, NO line below QR, Smaller 2-3 Points -->
           <div class="cert-bottom-section">
             <!-- Row 1: Left Place/Date & Right Digital Signature -->
             <div class="cert-place-sign-row">
@@ -1240,7 +1247,7 @@
                 दिनांक : <span id="certBottomDateOut"></span>
               </div>
 
-              <div class="signature-right-wrap">
+              <div class="signature-right-wrap" id="certSignWrap">
                 <div class="thin-dsc-text">
                   Digitally signed by <span id="certOfficerOut"></span><br>
                   Date:<span id="certSignTimestampOut"></span>
@@ -1251,12 +1258,12 @@
               </div>
             </div>
 
-            <!-- Row 2: Clean QR Code (No underline) -->
+            <!-- Row 2: Bigger Clean QR Code (No line below QR) -->
             <div class="cert-qr-row">
               <img id="certQR" class="cert-qr" src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&ecc=H&margin=0&data=https%3A%2F%2Fserviceonline.bihar.gov.in%2Fverify" crossorigin="anonymous" alt="QR Code">
             </div>
 
-            <!-- Row 3: 2-3 Points right at the bottom of the border (No extra line below points) -->
+            <!-- Row 3: 2-3 Points in smaller letters directly below QR without any line -->
             <div class="cert-bottom-notes">
               <ol id="certNotesList">
                 <li>QR Code की जाँच https://serviceonline.bihar.gov.in पोर्टल एवं Play Store पर उपलब्ध ServicePlus Mobile App से करें।</li>
@@ -2016,6 +2023,7 @@
       const locString = `जिला / District : ${app.distHi}, अनुमंडल / Sub-Division : ${app.subDiv}, अंचल / Circle : ${app.block}`;
       const headerBlock = document.getElementById('certDynamicHeaderBlock');
       const noDateRow = document.getElementById('certNoDateRow');
+      const signWrap = document.getElementById('certSignWrap');
 
       if (app.type === 'RESIDENCE') {
         headerBlock.innerHTML = `
@@ -2023,6 +2031,7 @@
           <div class="cert-loc-text">${locString}</div>
         `;
         noDateRow.classList.add('residence-mode');
+        signWrap.classList.remove('income-sign-up');
       } else if (app.type === 'CASTE') {
         const casteTitle = app.casteCatRaw.split('|')[1] || 'जाति प्रमाण-पत्र / Caste Certificate';
         headerBlock.innerHTML = `
@@ -2031,12 +2040,14 @@
           <div class="cert-sub-purpose">(बिहार सरकार के प्रयोजनार्थ)</div>
         `;
         noDateRow.classList.remove('residence-mode');
+        signWrap.classList.remove('income-sign-up');
       } else if (app.type === 'INCOME') {
         headerBlock.innerHTML = `
           <div class="cert-loc-text">${locString}</div>
           <div class="cert-main-title">आय प्रमाण-पत्र / Income Certificate</div>
         `;
         noDateRow.classList.remove('residence-mode');
+        signWrap.classList.add('income-sign-up');
       }
 
       document.getElementById('certNoOut').innerText = app.certNo;
