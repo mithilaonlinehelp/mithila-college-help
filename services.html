@@ -102,7 +102,6 @@
       color: #000;
     }
 
-    /* Official ServicePlus Govt Style Container */
     .gov-container {
       max-width: 980px;
       margin: 25px auto;
@@ -238,7 +237,6 @@
     }
     .radio-group input[type="radio"] { width: auto; padding: 0; }
 
-    /* Live Camera Box */
     .webcam-box {
       border: 1px dashed var(--gov-blue);
       background: #f8fafc;
@@ -259,31 +257,75 @@
       background: var(--gov-blue);
       color: #fff;
       border: none;
-      padding: 9px 18px;
+      padding: 9px 16px;
       border-radius: 4px;
       font-weight: 600;
       cursor: pointer;
-      font-size: 13.5px;
+      font-size: 13px;
     }
     .btn-gov:hover { background: #072847; }
 
     .btn-success { background: var(--tiranga-green); color: #fff; }
     .btn-danger { background: #c53030; color: #fff; }
+    .btn-warning { background: #d97706; color: #fff; }
 
     table { width: 100%; border-collapse: collapse; background: #fff; }
     table, th, td { border: 1px solid #cbd5e1; }
     th { background: var(--gov-blue); color: #fff; padding: 10px; font-size: 13px; }
     td { padding: 9px; font-size: 13px; }
 
+    /* Modal for Document Verification by Officer */
+    .doc-modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.75);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      padding: 15px;
+    }
+    .doc-modal-card {
+      background: #fff;
+      max-width: 820px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 6px;
+      border-top: 5px solid var(--gov-blue);
+      padding: 20px;
+    }
+    .doc-preview-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 15px;
+      margin-top: 15px;
+    }
+    .doc-preview-item {
+      border: 1px solid #cbd5e1;
+      padding: 10px;
+      border-radius: 4px;
+      text-align: center;
+      background: #f8fafc;
+    }
+    .doc-preview-item img {
+      max-width: 100%;
+      height: 180px;
+      object-fit: contain;
+      border: 1px solid #999;
+      background: #fff;
+    }
+
     /* ==========================================================
        EXACT BIHAR GOVT CERTIFICATE DESIGN (SINGLE-PAGE A4)
        ========================================================== */
     #certificate-box {
-      width: 760px;
-      height: 1045px; /* Fits strictly on 1 single A4 page without overflow */
+      width: 790px;
+      height: 1085px; /* Exact Single-Page A4 Ratio */
       margin: 0 auto;
       background: #ffffff;
-      padding: 14px;
+      /* Side border pushed further inside like original A4 margin */
+      padding: 28px 36px;
       box-sizing: border-box;
       font-family: 'Noto Sans Devanagari', 'Mangal', 'Arial', sans-serif;
       color: #000;
@@ -295,12 +337,13 @@
       break-inside: avoid;
     }
 
-    /* Official Outer Frame Border like Bihar Govt Certificate */
+    /* Inner Frame Border pushed inside cleanly */
     .cert-frame-border {
       border: 1.5px solid #222;
       width: 100%;
       height: 100%;
-      padding: 20px 28px 14px 28px;
+      /* Generous top and side gap so it never feels compressed */
+      padding: 34px 38px 18px 38px;
       box-sizing: border-box;
       position: relative;
       display: flex;
@@ -308,14 +351,14 @@
       justify-content: space-between;
     }
 
-    /* Center Bodhi Tree / Bihar Seal Watermark */
+    /* Larger Center Bodhi Tree / Bihar Seal Watermark */
     .cert-watermark {
       position: absolute;
       top: 48%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 310px;
-      opacity: 0.08;
+      width: 430px;
+      opacity: 0.10;
       pointer-events: none;
       z-index: 0;
     }
@@ -330,30 +373,31 @@
       display: grid;
       grid-template-columns: 120px 1fr 120px;
       align-items: start;
-      margin-bottom: 4px;
+      margin-bottom: 14px;
     }
 
     .cert-center-head {
       text-align: center;
-      line-height: 1.35;
+      line-height: 1.45;
+      padding-top: 6px;
     }
 
     .cert-top-emblem {
-      width: 44px;
+      width: 50px;
       height: auto;
-      margin-bottom: 2px;
+      margin-bottom: 4px;
     }
 
     .cert-center-head h3 {
       margin: 0;
-      font-size: 16.5px;
+      font-size: 17px;
       font-weight: bold;
     }
 
     .cert-center-head .form-no-text {
-      font-size: 14.5px;
+      font-size: 15px;
       font-weight: bold;
-      margin-top: 2px;
+      margin-top: 6px;
     }
 
     .cert-right-photo-wrap {
@@ -361,75 +405,81 @@
     }
 
     .cert-App-Photo {
-      width: 92px;
-      height: 112px;
+      width: 96px;
+      height: 118px;
       border: 1px solid #333;
       object-fit: cover;
       display: none;
       margin-left: auto;
     }
 
-    /* Dynamic Header Container (No extra top/bottom lines) */
-    .cert- subhead-block {
-      text-align: center;
-      margin: 4px 0 8px 0;
-    }
-
+    /* Spacious Header Titles & Location Line */
     .cert-loc-text {
       text-align: center;
       font-weight: bold;
-      font-size: 14px;
-      margin: 5px 0;
+      font-size: 14.5px;
+      margin: 12px 0;
     }
 
     .cert-main-title {
       text-align: center;
       font-weight: bold;
-      font-size: 15.5px;
-      margin: 5px 0 2px 0;
+      font-size: 16.5px;
+      margin: 12px 0 6px 0;
     }
 
     .cert-sub-purpose {
       text-align: center;
       font-weight: bold;
-      font-size: 13.5px;
-      margin: 2px 0 6px 0;
+      font-size: 14px;
+      margin: 4px 0 12px 0;
     }
 
     .cert-no-date-row {
       display: flex;
       justify-content: space-between;
       font-weight: bold;
-      font-size: 13.5px;
-      margin: 12px 0 14px 0;
+      font-size: 14px;
+      margin: 22px 0 24px 0;
     }
 
+    /* Uncompressed, natural line spacing like original Bihar Govt PDFs */
     .cert-paragraph {
-      font-size: 13.8px;
+      font-size: 14.2px;
       text-align: justify;
-      line-height: 1.75;
-      margin: 0 0 10px 0;
+      line-height: 2.05;
+      margin: 0 0 16px 0;
     }
 
-    /* Exact 2-Column Income Grid like BICCO Sample */
-    .income-grid-box {
-      margin: 14px 0 10px 0;
-      font-size: 13.8px;
-      font-weight: bold;
-    }
-    .income-row-2col {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 8px;
-    }
-    .income-col {
-      width: 48%;
-    }
-    .income-total-center {
+    /* Dotted / Solid Fill-in-the-blank underline spacing where applicable */
+    .u-gap {
+      display: inline-block;
+      min-width: 45px;
+      border-bottom: 1px dotted #333;
       text-align: center;
-      margin-top: 12px;
-      font-size: 14.5px;
+      padding: 0 6px;
       font-weight: bold;
+    }
+
+    /* Exact Line-by-Line Income Table Layout like BICCO_2026_2889997 */
+    .income-exact-table {
+      width: 100%;
+      border: none !important;
+      margin: 18px 0 14px 0;
+      border-collapse: collapse;
+    }
+    .income-exact-table td {
+      border: none !important;
+      padding: 6px 4px;
+      font-size: 14.2px;
+      font-weight: bold;
+      color: #000;
+    }
+    .income-total-line {
+      text-align: center;
+      font-size: 14.8px;
+      font-weight: bold;
+      margin: 14px 0 10px 0;
     }
 
     /* Bottom Section pushed cleanly to bottom of frame */
@@ -439,31 +489,53 @@
       margin-top: auto;
     }
 
-    /* Place/Date, Bottom-Left 4x4 Hard QR & Right Digital Signature */
-    .cert-sign-row {
+    /* Layout where Digital Sign is on the Right ABOVE the level of the Left QR Code */
+    .cert-place-sign-row {
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 10px;
-    }
-
-    .bottom-left-qr-place {
-      display: flex;
-      flex-direction: column;
       align-items: flex-start;
-      gap: 8px;
+      margin-bottom: 6px;
     }
 
     .place-date-box {
-      font-size: 13.5px;
+      font-size: 14px;
       font-weight: bold;
-      line-height: 1.55;
+      line-height: 1.75;
     }
 
-    /* Standard 4x4 Hard High-Density QR Code in Bottom-Left Corner */
+    .signature-right-wrap {
+      text-align: center;
+      width: 305px;
+      margin-top: 8px;
+    }
+
+    /* Digital Signature Text above Bold Designation */
+    .thin-dsc-text {
+      display: inline-block;
+      text-align: left;
+      font-family: 'Arial', sans-serif;
+      font-size: 11.5px;
+      line-height: 1.35;
+      color: #111;
+      margin-bottom: 4px;
+    }
+
+    .officer-designation-line {
+      font-size: 13px;
+      font-weight: 800; /* Bold as in original certificate */
+      color: #000;
+    }
+
+    /* Bottom-Left 4x4 Standard Hard QR Row */
+    .cert-qr-row {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 12px;
+    }
+
     .cert-qr {
-      width: 135px;
-      height: 135px;
+      width: 140px;
+      height: 140px;
       border: 1px solid #000;
       padding: 3px;
       background: #fff;
@@ -471,38 +543,16 @@
       display: block;
     }
 
-    .signature-right-wrap {
-      text-align: center;
-      width: 285px;
-      padding-bottom: 4px;
-    }
-
-    /* Exact Thin Digital Signature like Sample PDF */
-    .thin-dsc-text {
-      display: inline-block;
-      text-align: left;
-      font-family: 'Arial', sans-serif;
-      font-size: 11px;
-      line-height: 1.3;
-      color: #111;
-      margin-bottom: 4px;
-    }
-
-    .officer-designation-line {
-      font-size: 12.5px;
-      font-weight: bold;
-    }
-
     .cert-bottom-notes {
-      border-top: 1px solid #000;
-      padding-top: 6px;
-      font-size: 11.8px;
-      line-height: 1.5;
+      border-top: 1.5px solid #000;
+      padding-top: 8px;
+      font-size: 12px;
+      line-height: 1.6;
     }
 
     .cert-bottom-notes ol {
       margin: 0;
-      padding-left: 16px;
+      padding-left: 18px;
     }
 
     footer {
@@ -543,13 +593,12 @@
         width: 210mm !important;
         height: 296mm !important;
         margin: 0 auto !important;
-        padding: 8mm !important;
-        border: none !important;
+        padding: 10mm 12mm !important;
       }
     }
 
     @media (max-width: 850px) {
-      .form-grid, .form-grid-3, .form-grid-4 { grid-template-columns: 1fr; }
+      .form-grid, .form-grid-3, .form-grid-4, .doc-preview-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -562,51 +611,115 @@
   </header>
 
   <nav>
-    <a id="tab-apply" class="active-tab" onclick="switchSection('apply')">1. आवेदक पंजीकरण एवं फॉर्म (Applicant Portal)</a>
+    <a id="tab-apply" class="active-tab" onclick="switchSection('apply')">1. आवेदक पंजीकरण / लॉगिन एवं फॉर्म (Applicant Portal)</a>
     <a id="tab-admin" onclick="switchSection('admin')">2. अधिकारी लॉगिन (Officer Login)</a>
-    <a id="tab-preview" onclick="switchSection('preview')">3. प्रमाण-पत्र डाउनलोड (Certificate View)</a>
+    <a id="tab-preview" style="display:none;" onclick="switchSection('preview')">3. प्रमाण-पत्र डाउनलोड (Certificate View)</a>
   </nav>
+
+  <!-- ==================== DOCUMENT PREVIEW MODAL FOR OFFICER ==================== -->
+  <div class="doc-modal-overlay" id="officerDocModal">
+    <div class="doc-modal-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid var(--gov-blue); padding-bottom:10px;">
+        <h3 style="margin:0; color:var(--gov-blue);" id="modalAppTitle">आवेदक द्वारा अपलोड किए गए दस्तावेज</h3>
+        <button type="button" class="btn-gov btn-danger" onclick="closeDocModal()">✕ बंद करें</button>
+      </div>
+      <div class="doc-preview-grid" id="modalDocGrid"></div>
+      <div style="margin-top:18px; text-align:right; border-top:1px solid #cbd5e1; padding-top:12px;">
+        <button type="button" class="btn-gov btn-success" id="modalMarkInspectedBtn">✔ मैंने सभी दस्तावेज देख लिए हैं (Approve Documents)</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ==================== 1. APPLICANT SECTION ==================== -->
   <div class="gov-container" id="sec-apply">
     <div class="gov-title-bar">
-      <span>ऑनलाइन प्रमाण-पत्र आवेदन पोर्टल (ServicePlus Bihar Format)</span>
+      <span>ऑनलाइन प्रमाण-पत्र आवेदन एवं आवेदक लॉगिन पोर्टल</span>
       <span id="applicantStatusBadge" style="font-size:12.5px; background:#d93025; padding:4px 10px; border-radius:12px;">लॉगिन आवश्यक (Locked)</span>
     </div>
 
     <div class="gov-body">
-      <!-- STEP 1: APPLICANT REGISTRATION & LOGIN -->
+      <!-- STEP 1: APPLICANT REGISTRATION, LOGIN & FORGOT PASSWORD -->
       <div class="gov-fieldset" id="applicantAuthBox">
-        <div class="gov-legend">चरण 1: आवेदक मोबाइल एवं ईमेल पंजीकरण / लॉगिन (Mandatory)</div>
-        <p style="font-size:12.5px; color:#444; margin-top:0;">
-          नोट: मोबाइल नंबर एवं ईमेल आईडी केवल आपके लॉगिन व सूचना के लिए हैं, ये आपके प्रमाण-पत्र (Certificate) पर प्रिंट नहीं होंगे।
-        </p>
-        <div class="form-grid-4">
-          <div>
-            <label>मोबाइल नंबर (Mobile No.) <span class="req">*</span></label>
-            <div class="input-wrapper">
-              <input type="tel" id="userMob" maxlength="10" placeholder="10 अंकों का मोबाइल नंबर">
-              <span class="clear-symbol" onclick="clearInput('userMob')">✕</span>
+        <div class="gov-legend">चरण 1: आवेदक पंजीकरण / लॉगिन (पुराना सर्टिफिकेट देखने के लिए उसी मोबाइल नंबर व पासवर्ड से लॉगिन करें)</div>
+        
+        <div style="display:flex; gap:10px; margin-bottom:15px;">
+          <button type="button" class="btn-gov" id="btnModeLogin" onclick="toggleAuthMode('LOGIN')">🔑 आवेदक लॉगिन / नया पंजीकरण</button>
+          <button type="button" class="btn-gov btn-warning" id="btnModeForgot" onclick="toggleAuthMode('FORGOT')">❓ पासवर्ड भूल गए (Forgot Password)</button>
+          <button type="button" class="btn-gov btn-danger" id="btnApplicantLogout" style="display:none; margin-left:auto;" onclick="logoutApplicant()">लॉगआउट (Logout)</button>
+        </div>
+
+        <!-- Login / Register Box -->
+        <div id="authLoginArea">
+          <p style="font-size:12.5px; color:#444; margin-top:0;">
+            नोट: पहली बार आने पर मोबाइल, ईमेल और पासवर्ड डालकर पंजीकरण करें। पहले से पंजीकृत हैं तो मोबाइल नंबर और पासवर्ड डालकर लॉगिन करें (आपके पुराने सर्टिफिकेट स्वतः दिख जाएंगे)।
+          </p>
+          <div class="form-grid-4">
+            <div>
+              <label>मोबाइल नंबर (Mobile No.) <span class="req">*</span></label>
+              <div class="input-wrapper">
+                <input type="tel" id="userMob" maxlength="10" placeholder="10 अंकों का मोबाइल नंबर">
+                <span class="clear-symbol" onclick="clearInput('userMob')">✕</span>
+              </div>
             </div>
-          </div>
-          <div>
-            <label>ईमेल आईडी (Email ID) <span class="req">*</span></label>
-            <div class="input-wrapper">
-              <input type="email" id="userEmail" placeholder="अपना ईमेल लिखें">
-              <span class="clear-symbol" onclick="clearInput('userEmail')">✕</span>
+            <div>
+              <label>पासवर्ड (Password) <span class="req">*</span></label>
+              <div class="input-wrapper">
+                <input type="password" id="userPass" placeholder="कम से कम 4 अक्षर">
+                <span class="clear-symbol" onclick="clearInput('userPass')">✕</span>
+              </div>
             </div>
-          </div>
-          <div>
-            <label>पासवर्ड बनाएँ (Create Password) <span class="req">*</span></label>
-            <div class="input-wrapper">
-              <input type="password" id="userPass" placeholder="कम से कम 4 अक्षर">
-              <span class="clear-symbol" onclick="clearInput('userPass')">✕</span>
+            <div>
+              <label>ईमेल आईडी (पंजीकरण व रिकवरी हेतु अनिवार्य) <span class="req">*</span></label>
+              <div class="input-wrapper">
+                <input type="email" id="userEmail" placeholder="अपना ईमेल लिखें">
+                <span class="clear-symbol" onclick="clearInput('userEmail')">✕</span>
+              </div>
             </div>
-          </div>
-          <div style="display:flex; align-items:flex-end;">
-            <button type="button" class="btn-gov btn-success" style="width:100%;" onclick="registerAndUnlockForm()">✔ पंजीकरण व लॉगिन करें</button>
+            <div style="display:flex; align-items:flex-end;">
+              <button type="button" class="btn-gov btn-success" style="width:100%;" onclick="registerOrLoginApplicant()">✔ लॉगिन / पंजीकरण करें</button>
+            </div>
           </div>
         </div>
+
+        <!-- Forgot Password Box (Email Compulsory) -->
+        <div id="authForgotArea" style="display:none; background:#fffbeb; padding:15px; border:1px solid #f59e0b; border-radius:4px;">
+          <h4 style="margin:0 0 10px 0; color:#b45309;">पासवर्ड रीसेट करें (पंजीकृत मोबाइल नंबर एवं ईमेल आईडी अनिवार्य है)</h4>
+          <div class="form-grid-4">
+            <div>
+              <label>पंजीकृत मोबाइल नंबर <span class="req">*</span></label>
+              <input type="tel" id="forgotMob" maxlength="10" placeholder="10 अंकों का मोबाइल नंबर">
+            </div>
+            <div>
+              <label>पंजीकृत ईमेल आईडी (Compulsory) <span class="req">*</span></label>
+              <input type="email" id="forgotEmail" placeholder="पंजीकृत ईमेल दर्ज करें">
+            </div>
+            <div>
+              <label>नया पासवर्ड बनाएँ <span class="req">*</span></label>
+              <input type="password" id="forgotNewPass" placeholder="नया पासवर्ड (कम से कम 4 अक्षर)">
+            </div>
+            <div style="display:flex; align-items:flex-end;">
+              <button type="button" class="btn-gov btn-warning" style="width:100%;" onclick="resetApplicantPassword()">🔄 पासवर्ड बदलें</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- APPLICANT'S PREVIOUS APPLICATIONS & VERIFIED CERTIFICATES -->
+      <div class="gov-fieldset" id="applicantHistoryBox" style="display:none;">
+        <div class="gov-legend">मेरे द्वारा किए गए आवेदन एवं जारी प्रमाण-पत्र (My Applications & Certificates)</div>
+        <table>
+          <thead>
+            <tr>
+              <th>प्रमाण-पत्र संख्या</th>
+              <th>प्रमाण-पत्र का प्रकार</th>
+              <th>आवेदक का नाम</th>
+              <th>दिनांक</th>
+              <th>स्थिति (Status)</th>
+              <th>प्रमाण-पत्र (Action)</th>
+            </tr>
+          </thead>
+          <tbody id="applicantHistoryBody"></tbody>
+        </table>
       </div>
 
       <!-- STEP 2: MAIN RTPS FORM (Locked until login) -->
@@ -614,7 +727,7 @@
         
         <!-- A. CERTIFICATE TYPE & PERSONAL DETAILS -->
         <div class="gov-fieldset">
-          <div class="gov-legend">A. प्रमाण-पत्र का चयन एवं आवेदक का विवरण (English लिखें ➔ Space दबाने पर Auto हिंदी)</div>
+          <div class="gov-legend">A. नया प्रमाण-पत्र आवेदन फॉर्म (English लिखें ➔ Space दबाने पर Auto हिंदी)</div>
           
           <div class="form-grid">
             <div>
@@ -692,7 +805,7 @@
           </div>
         </div>
 
-        <!-- B. COMPLETE ADDRESS DETAILS (ALL 38 DISTRICTS, SUB-DIVISION, BLOCK, PANCHAYAT, THANA) -->
+        <!-- B. COMPLETE ADDRESS DETAILS -->
         <div class="gov-fieldset">
           <div class="gov-legend">B. स्थायी पता का विवरण (बिहार के सभी 38 जिले, प्रखंड एवं पंचायत)</div>
 
@@ -722,7 +835,6 @@
             </div>
           </div>
 
-          <!-- Local Body Type Radio -->
           <div style="margin: 12px 0;">
             <label>स्थानीय निकाय का प्रकार (Type of Local Body) <span class="req">*</span></label>
             <div class="radio-group">
@@ -761,7 +873,7 @@
             <div>
               <label>ग्राम (Village) / मोहल्ला (Town) <span class="req">*</span></label>
               <div class="input-wrapper">
-                <input type="text" id="villageEn" placeholder="Type in English (या हिंदी के लिए नीचे लिखें)"
+                <input type="text" id="villageEn" placeholder="Type in English (या नीचे सीधे लिखें)"
                        onkeyup="handleSpaceTransliterate(event,'villageEn','villageHi')"
                        onblur="transliterateText('villageEn','villageHi')">
                 <span class="clear-symbol" onclick="clearPair('villageEn','villageHi')">✕</span>
@@ -777,7 +889,7 @@
                        onblur="transliterateText('postEn','postHi')">
                 <span class="clear-symbol" onclick="clearPair('postEn','postHi')">✕</span>
               </div>
-              <input type="text" id="postHi" placeholder="डाकघर (हिंदी या पिनकोड)" style="margin-top:6px;" required>
+              <input type="text" id="postHi" placeholder="डाकघर (हिंदी या अंग्रेजी)" style="margin-top:6px;" required>
             </div>
 
             <div>
@@ -793,7 +905,7 @@
           </div>
         </div>
 
-        <!-- C. CERTIFICATE SPECIFIC FIELDS (CASTE WITH GENERAL / INCOME DETAILS) -->
+        <!-- C. CERTIFICATE SPECIFIC FIELDS -->
         <div class="gov-fieldset" id="casteFieldsBox" style="display:none;">
           <div class="gov-legend">C. जाति प्रमाण-पत्र हेतु विशेष विवरण (Form-IV के अनुसार)</div>
           <div class="form-grid-3">
@@ -850,15 +962,14 @@
           </div>
         </div>
 
-        <!-- D. LIVE CAMERA PHOTO & RESIDENCE CERTIFICATE PHOTO + MANDATORY DOCUMENTS -->
+        <!-- D. LIVE CAMERA PHOTO & MANDATORY DOCUMENTS -->
         <div class="gov-fieldset">
-          <div class="gov-legend">D. लाइव फोटो सत्यापन एवं अनिवार्य दस्तावेज अपलोड (Mandatory Documents)</div>
+          <div class="gov-legend">D. लाइव फोटो सत्यापन एवं अनिवार्य दस्तावेज अपलोड (अधिकारी द्वारा जाँच के बाद ही प्रमाण-पत्र बनेगा)</div>
           
           <div class="form-grid">
-            <!-- 1. Live Webcam Photo (Mandatory for All, Not Printed on Certificate) -->
             <div class="webcam-box">
               <label>1. आवेदक का लाइव फोटो (Live Camera Capture - अनिवार्य) <span class="req">*</span></label>
-              <p style="font-size:11.5px; color:#555; margin:2px 0 8px 0;">(यह लाइव फोटो केवल अधिकारी सत्यापन के लिए है, सर्टिफिकेट पर नहीं छपेगा)</p>
+              <p style="font-size:11.5px; color:#555; margin:2px 0 8px 0;">(यह लाइव फोटो अधिकारी सत्यापन के लिए है, सर्टिफिकेट पर नहीं छपेगा)</p>
               <div style="display:flex; justify-content:center; gap:10px; align-items:center;">
                 <video id="webcamVideo" autoplay playsinline></video>
                 <canvas id="liveCanvasPreview" width="160" height="130" style="display:none;"></canvas>
@@ -871,21 +982,18 @@
               <div id="livePhotoStatus" style="font-size:12px; color:#d93025; margin-top:5px; font-weight:bold;">स्थिति: लाइव फोटो अभी नहीं खींचा गया है</div>
             </div>
 
-            <!-- 2. Separate Photo Upload ONLY for Residence Certificate -->
             <div>
               <div id="residenceUploadBox" style="background:#eef6ff; border:1px solid #90cdf4; padding:12px; border-radius:6px; margin-bottom:12px;">
                 <label>2. निवास प्रमाण-पत्र पर छपने के लिए पासपोर्ट फोटो अपलोड करें <span class="req">*</span></label>
-                <p style="font-size:11.5px; color:#333; margin:2px 0 8px 0;">(यह अपलोड किया गया फोटो आपके निवास प्रमाण-पत्र के दाएँ कोने पर छपेगा)</p>
+                <p style="font-size:11.5px; color:#333; margin:2px 0 8px 0;">(यह फोटो निवास प्रमाण-पत्र के दाएँ कोने पर छपेगा)</p>
                 <input type="file" id="resCertPhotoInput" accept="image/*">
               </div>
 
-              <!-- 3. Mandatory Identity Document -->
               <div style="margin-bottom:12px;">
-                <label>3. पहचान प्रमाण-पत्र अपलोड करें (Identity Proof - Mandatory) <span class="req">*</span></label>
-                <input type="file" id="docIdentity" accept=".pdf,image/*" required>
+                <label>3. पहचान प्रमाण-पत्र अपलोड करें (Identity Card Image/PDF) <span class="req">*</span></label>
+                <input type="file" id="docIdentity" accept="image/*,.pdf" required>
               </div>
 
-              <!-- 4. Additional Supporting Document -->
               <div>
                 <label>4. अतिरिक्त दस्तावेज चुनें एवं अपलोड करें (Mandatory) <span class="req">*</span></label>
                 <select id="extraDocType" required style="margin-bottom:6px;">
@@ -897,14 +1005,14 @@
                   <option value="Driving Licence">ड्राइविंग लाइसेंस (Driving Licence)</option>
                   <option value="Land Receipt / Khatian">जमीन की रसीद / खतियान (Land Document)</option>
                 </select>
-                <input type="file" id="docExtraFile" accept=".pdf,image/*" required>
+                <input type="file" id="docExtraFile" accept="image/*,.pdf" required>
               </div>
             </div>
           </div>
         </div>
 
         <button type="submit" class="btn-gov btn-success" style="width:100%; padding:13px; font-size:16px;">
-          ✔ फाइनल आवेदन सबमिट करें (Submit Application)
+          ✔ फाइनल आवेदन सबमिट करें (Submit Application Permanently)
         </button>
       </form>
     </div>
@@ -942,28 +1050,29 @@
       <!-- Officer Dashboard -->
       <div id="officerDashboard" style="display:none;">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:15px;">
-          <h3 style="margin:0; color:var(--gov-blue);">प्राप्त आवेदनों की सूची (Applications Queue)</h3>
+          <h3 style="margin:0; color:var(--gov-blue);">सभी प्राप्त आवेदनों की स्थायी सूची (Permanent Applications Queue)</h3>
           <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
             <label style="margin:0; font-size:13px; color:#0b3c68;">डिजिटल हस्ताक्षर अधिकारी का नाम (Officer Name):</label>
-            <input type="text" id="activeOfficerSignName" placeholder="ENTER OFFICER NAME" style="width:230px; font-weight:bold; text-transform:uppercase; padding:6px 10px;">
+            <input type="text" id="activeOfficerSignName" placeholder="ENTER OFFICER NAME" style="width:220px; font-weight:bold; text-transform:uppercase; padding:6px 10px;">
             <button type="button" class="btn-gov btn-danger" onclick="logoutOfficer()">लॉगआउट (Logout)</button>
           </div>
         </div>
+        <p style="font-size:12.5px; color:#b45309; background:#fffbeb; padding:8px 12px; border-left:4px solid #f59e0b; margin-top:0;">
+          नियम: किसी भी आवेदन को Verify करने से पहले <b>"👁️ दस्तावेज देखें (View Docs)"</b> बटन पर क्लिक करके आवेदक के अपलोड किए गए दस्तावेज देखना अनिवार्य है।
+        </p>
         <table>
           <thead>
             <tr>
               <th>प्रमाण-पत्र संख्या</th>
               <th>प्रकार</th>
-              <th>आवेदक का नाम</th>
+              <th>आवेदक का नाम व मोबाइल</th>
               <th>अंचल एवं जिला</th>
-              <th>लाइव फोटो</th>
+              <th>दस्तावेज जाँच (Mandatory)</th>
               <th>स्थिति</th>
               <th>अधिकारी कार्रवाई</th>
             </tr>
           </thead>
-          <tbody id="adminQueueBody">
-            <tr><td colspan="7" style="text-align:center;">अभी कोई आवेदन प्राप्त नहीं हुआ है।</td></tr>
-          </tbody>
+          <tbody id="adminQueueBody"></tbody>
         </table>
       </div>
     </div>
@@ -972,7 +1081,7 @@
   <!-- ==================== 3. EXACT BIHAR GOVT CERTIFICATE PREVIEW ==================== -->
   <div class="gov-container" id="sec-preview" style="display:none;">
     <div class="gov-title-bar">
-      <span>जनरेटेड प्रमाण-पत्र (100% Single-Page Bihar Govt Format)</span>
+      <span>जनरेटेड प्रमाण-पत्र (100% Single-Page Original Bihar Govt Format)</span>
       <div style="display:flex; gap:10px;">
         <button type="button" class="btn-gov btn-success" onclick="window.print()">🖨️ Print (1 Page)</button>
         <button type="button" class="btn-gov btn-danger" onclick="downloadOfficialPDF()">⬇ Download Single-Page PDF</button>
@@ -983,7 +1092,7 @@
       <!-- EXACT SINGLE-PAGE A4 CERTIFICATE BOX -->
       <div id="certificate-box">
         <div class="cert-frame-border">
-          <!-- Center Watermark -->
+          <!-- Larger Center Watermark -->
           <img class="cert-watermark" src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Seal_of_Bihar.svg" crossorigin="anonymous" alt="Bihar Seal">
 
           <!-- TOP & MIDDLE CONTENT -->
@@ -995,7 +1104,7 @@
                 <img class="cert-top-emblem" src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Seal_of_Bihar.svg" crossorigin="anonymous" alt="Emblem">
                 <h3>बिहार सरकार</h3>
                 <h3>Government of Bihar</h3>
-                <div class="form-no-text" id="certFormNo">फॉर्म / Form-IV</div>
+                <div class="form-no-text" id="certFormNo">फॉर्म / Form - XVI</div>
               </div>
 
               <div class="cert-right-photo-wrap">
@@ -1004,11 +1113,8 @@
               </div>
             </div>
 
-            <!-- Dynamic Header Block (No extra lines; Residence puts Title above District, Caste/Income puts District above Title) -->
-            <div id="certDynamicHeaderBlock">
-              <div class="cert-loc-text">जिला / District : , अनुमंडल / Sub-Division : , अंचल / Circle : </div>
-              <div class="cert-main-title">निवास प्रमाण-पत्र / Residence Certificate</div>
-            </div>
+            <!-- Dynamic Header Block -->
+            <div id="certDynamicHeaderBlock"></div>
 
             <!-- Certificate Number & Date -->
             <div class="cert-no-date-row">
@@ -1017,23 +1123,16 @@
             </div>
 
             <!-- Main Certificate Body Content -->
-            <div id="certBodyContent">
-              <p class="cert-paragraph" style="text-align:center; color:#666;">
-                (प्रमाण-पत्र देखने के लिए पहले फॉर्म सबमिट करें और अधिकारी पैनल से Verify करें)
-              </p>
-            </div>
+            <div id="certBodyContent"></div>
           </div>
 
-          <!-- BOTTOM SECTION: Left Place/Date + 4x4 Hard QR & Right Digital Signature + Footer Notes (NO Reference/Token line) -->
+          <!-- BOTTOM SECTION: Digital Sign on Right ABOVE QR Code level, QR Code on Bottom-Left -->
           <div class="cert-bottom-section">
-            <div class="cert-sign-row">
-              <div class="bottom-left-qr-place">
-                <div class="place-date-box">
-                  स्थान : <span id="certPlaceOut"></span><br>
-                  दिनांक : <span id="certBottomDateOut"></span>
-                </div>
-                <!-- Standard 4x4 Hard High-Density QR Code in Bottom-Left Corner -->
-                <img id="certQR" class="cert-qr" src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&ecc=H&margin=0&data=https%3A%2F%2Fserviceonline.bihar.gov.in%2Fverify%3Fstatus%3DVERIFIED" crossorigin="anonymous" alt="QR Code">
+            <!-- Row 1: Left Place/Date & Right Digital Signature (Above QR level) -->
+            <div class="cert-place-sign-row">
+              <div class="place-date-box">
+                स्थान : <span id="certPlaceOut"></span><br>
+                दिनांक : <span id="certBottomDateOut"></span>
               </div>
 
               <div class="signature-right-wrap">
@@ -1047,7 +1146,12 @@
               </div>
             </div>
 
-            <!-- Bottom Instructions & Validity -->
+            <!-- Row 2: Bottom-Left 4x4 Standard Hard QR Code -->
+            <div class="cert-qr-row">
+              <img id="certQR" class="cert-qr" src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&ecc=H&margin=0&data=https%3A%2F%2Fserviceonline.bihar.gov.in%2Fverify" crossorigin="anonymous" alt="QR Code">
+            </div>
+
+            <!-- Row 3: Bottom Instructions & Validity (No Reference/Token line) -->
             <div class="cert-bottom-notes">
               <ol id="certNotesList">
                 <li>QR Code की जाँच https://serviceonline.bihar.gov.in पोर्टल एवं Play Store पर उपलब्ध ServicePlus Mobile App से करें।</li>
@@ -1066,7 +1170,7 @@
 
   <!-- ==================== JAVASCRIPT MASTER ENGINE ==================== -->
   <script>
-    // बिहार के सभी 38 जिले और उनके सभी प्रखंड (Complete 38 Districts of Bihar)
+    // बिहार के सभी 38 जिले और उनके प्रखंड
     const biharAll38Districts = {
       "अररिया (Araria)": { sub: "अररिया", blocks: ["अररिया", "फारबिसगंज", "जोकीहाट", "रानीगंज", "नरपतगंज", "कुर्साकांटा", "पलासी", "सिकटी", "भरगामा"] },
       "अरवल (Arwal)": { sub: "अरवल", blocks: ["अरवल", "कलेर", "करपी", "कुर्था", "सोनभद्र वंशी सूर्यपुर"] },
@@ -1108,9 +1212,22 @@
       "पश्चिमी चंपारण (West Champaran)": { sub: "बेतिया", blocks: ["बेतिया", "बगहा-1", "बगहा-2", "नरकटियागंज", "लौरिया", "चनपटिया", "मझौलिया", "नौतन", "बैरिया", "योगापट्टी", "सिकटा", "मैनाटांड", "गौनाहा", "रामनगर", "मधुबनी", "ठकराहा", "भितहा", "पिपरासी"] }
     };
 
-    let applications = [];
-    let cameraStream = null;
+    // Load Permanent Data from Browser LocalStorage
+    let usersDB = JSON.parse(localStorage.getItem('rtps_bihar_users_v2') || '{}');
+    let applications = JSON.parse(localStorage.getItem('rtps_bihar_apps_v2') || '[]');
+    let currentLoggedInMob = null;
     let isOfficerLoggedIn = false;
+    let cameraStream = null;
+    let canViewCertificate = false;
+
+    function savePermanentData() {
+      try {
+        localStorage.setItem('rtps_bihar_users_v2', JSON.stringify(usersDB));
+        localStorage.setItem('rtps_bihar_apps_v2', JSON.stringify(applications));
+      } catch (err) {
+        console.warn("Storage quota notice:", err);
+      }
+    }
 
     window.addEventListener('DOMContentLoaded', function() {
       const distSelect = document.getElementById('district');
@@ -1126,7 +1243,7 @@
         let num = i < 10 ? '0' + i : i;
         let opt = document.createElement('option');
         opt.value = num;
-        opt.innerText = `वार्ड संख्या - ${num}`;
+        opt.innerText = num;
         wardSelect.appendChild(opt);
       }
     });
@@ -1140,6 +1257,10 @@
     }
 
     function switchSection(sec) {
+      if (sec === 'preview' && !canViewCertificate) {
+        alert("प्रमाण-पत्र केवल अधिकारी सत्यापन के बाद या आवेदक लॉगिन से देखा जा सकता है!");
+        return;
+      }
       document.getElementById('sec-apply').style.display = sec === 'apply' ? 'block' : 'none';
       document.getElementById('sec-admin').style.display = sec === 'admin' ? 'block' : 'none';
       document.getElementById('sec-preview').style.display = sec === 'preview' ? 'block' : 'none';
@@ -1149,27 +1270,141 @@
       document.getElementById('tab-preview').classList.toggle('active-tab', sec === 'preview');
     }
 
-    function registerAndUnlockForm() {
+    function toggleAuthMode(mode) {
+      document.getElementById('authLoginArea').style.display = mode === 'LOGIN' ? 'block' : 'none';
+      document.getElementById('authForgotArea').style.display = mode === 'FORGOT' ? 'block' : 'none';
+    }
+
+    // Applicant Registration & Returning Login (Shows their past certificates)
+    function registerOrLoginApplicant() {
       const mob = document.getElementById('userMob').value.trim();
-      const email = document.getElementById('userEmail').value.trim();
       const pass = document.getElementById('userPass').value.trim();
+      const email = document.getElementById('userEmail').value.trim().toLowerCase();
 
       if (!/^[0-9]{10}$/.test(mob)) {
         alert("कृपया 10 अंकों का सही मोबाइल नंबर दर्ज करें!");
         return;
       }
-      if (!email.includes('@') || pass.length < 4) {
-        alert("कृपया वैध ईमेल आईडी और कम से कम 4 अक्षरों का पासवर्ड दर्ज करें!");
+      if (pass.length < 4) {
+        alert("कृपया कम से कम 4 अक्षरों का पासवर्ड दर्ज करें!");
         return;
       }
 
+      if (usersDB[mob]) {
+        // Existing User Login
+        if (usersDB[mob].pass !== pass) {
+          alert("गलत पासवर्ड! यदि पासवर्ड भूल गए हैं तो 'पासवर्ड भूल गए (Forgot Password)' बटन पर क्लिक करें।");
+          return;
+        }
+      } else {
+        // New User Registration (Email Compulsory)
+        if (!email || !email.includes('@')) {
+          alert("नए पंजीकरण के लिए वैध ईमेल आईडी दर्ज करना अनिवार्य है!");
+          return;
+        }
+        usersDB[mob] = { pass: pass, email: email };
+        savePermanentData();
+      }
+
+      currentLoggedInMob = mob;
+      document.getElementById('userEmail').value = usersDB[mob].email;
       const form = document.getElementById('rtpsMainForm');
       form.style.opacity = "1";
       form.style.pointerEvents = "auto";
+
       const badge = document.getElementById('applicantStatusBadge');
       badge.innerText = `लॉगिन सक्रिय: ${mob}`;
       badge.style.background = "#138808";
-      alert("आवेदक लॉगिन सफल! अब आप नीचे अपना प्रमाण-पत्र आवेदन फॉर्म भर सकते हैं।");
+      document.getElementById('btnApplicantLogout').style.display = "inline-block";
+
+      renderApplicantHistory();
+      alert("लॉगिन सफल! आपके पुराने आवेदन/सर्टिफिकेट नीचे सूची में दिख रहे हैं और आप नया आवेदन भी कर सकते हैं।");
+    }
+
+    // Forgot Password with Compulsory Mobile + Email Verification
+    function resetApplicantPassword() {
+      const mob = document.getElementById('forgotMob').value.trim();
+      const email = document.getElementById('forgotEmail').value.trim().toLowerCase();
+      const newPass = document.getElementById('forgotNewPass').value.trim();
+
+      if (!mob || !email) {
+        alert("कृपया पंजीकृत मोबाइल नंबर और ईमेल आईडी दोनों अनिवार्य रूप से दर्ज करें!");
+        return;
+      }
+      if (!usersDB[mob]) {
+        alert("इस मोबाइल नंबर से कोई खाता पंजीकृत नहीं मिला!");
+        return;
+      }
+      if (usersDB[mob].email.toLowerCase() !== email) {
+        alert("दर्ज की गई ईमेल आईडी आपके पंजीकृत ईमेल से मेल नहीं खाती!");
+        return;
+      }
+      if (newPass.length < 4) {
+        alert("नया पासवर्ड कम से कम 4 अक्षरों का होना चाहिए!");
+        return;
+      }
+
+      usersDB[mob].pass = newPass;
+      savePermanentData();
+      alert("आपका पासवर्ड सफलतापूर्वक बदल दिया गया है! अब नए पासवर्ड से लॉगिन करें।");
+      toggleAuthMode('LOGIN');
+      document.getElementById('userMob').value = mob;
+      document.getElementById('userPass').value = newPass;
+    }
+
+    function logoutApplicant() {
+      currentLoggedInMob = null;
+      const form = document.getElementById('rtpsMainForm');
+      form.style.opacity = "0.45";
+      form.style.pointerEvents = "none";
+      const badge = document.getElementById('applicantStatusBadge');
+      badge.innerText = "लॉगिन आवश्यक (Locked)";
+      badge.style.background = "#d93025";
+      document.getElementById('btnApplicantLogout').style.display = "none";
+      document.getElementById('applicantHistoryBox').style.display = "none";
+      if (!isOfficerLoggedIn) {
+        canViewCertificate = false;
+        document.getElementById('tab-preview').style.display = "none";
+      }
+    }
+
+    function renderApplicantHistory() {
+      const box = document.getElementById('applicantHistoryBox');
+      const tbody = document.getElementById('applicantHistoryBody');
+      if (!currentLoggedInMob) {
+        box.style.display = 'none';
+        return;
+      }
+
+      const myApps = applications
+        .map((app, index) => ({ app, index }))
+        .filter(item => item.app.applicantMob === currentLoggedInMob);
+
+      box.style.display = 'block';
+      if (myApps.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">आपने अभी तक कोई आवेदन नहीं किया है।</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = "";
+      myApps.forEach(({ app, index }) => {
+        const isVerified = app.status === 'Verified';
+        let tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><b>${app.certNo}</b></td>
+          <td>${app.type}</td>
+          <td>${app.nameHi} (${app.nameEn})</td>
+          <td>${app.issueDate}</td>
+          <td><span style="color:${isVerified?'#138808':'#d97706'};font-weight:bold;">${isVerified ? '✔ जारी (Verified by Officer)' : '⏳ अधिकारी सत्यापन लंबित (Pending)'}</span></td>
+          <td>
+            ${isVerified
+              ? `<button type="button" class="btn-gov btn-success" onclick="openVerifiedCertificate(${index})">📄 प्रमाण-पत्र देखें / डाउनलोड करें</button>`
+              : `<span style="font-size:12px; color:#666;">अधिकारी द्वारा सत्यापन के बाद उपलब्ध होगा</span>`
+            }
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
     }
 
     function populateBlocksAndSubDiv() {
@@ -1208,11 +1443,7 @@
     function handleCategorySerialToggle() {
       const catVal = document.getElementById('casteCategory').value;
       const serialWrap = document.getElementById('casteSerialWrap');
-      if (catVal.startsWith("सामान्य वर्ग")) {
-        serialWrap.style.display = "none";
-      } else {
-        serialWrap.style.display = "block";
-      }
+      serialWrap.style.display = catVal.startsWith("सामान्य वर्ग") ? "none" : "block";
     }
 
     function handleCertTypeChange() {
@@ -1264,7 +1495,7 @@
         cameraStream = null;
         video.style.display = 'none';
         canvas.style.display = 'block';
-        document.getElementById('livePhotoData').value = canvas.toDataURL('image/jpeg');
+        document.getElementById('livePhotoData').value = canvas.toDataURL('image/jpeg', 0.6);
         const st = document.getElementById('livePhotoStatus');
         st.innerText = "✔ लाइव फोटो सफलतापूर्वक कैप्चर हो गया!";
         st.style.color = "#138808";
@@ -1283,7 +1514,7 @@
       ctx.fillText("LIVE CAPTURED", 30, 65);
       document.getElementById('webcamVideo').style.display = 'none';
       canvas.style.display = 'block';
-      document.getElementById('livePhotoData').value = canvas.toDataURL('image/jpeg');
+      document.getElementById('livePhotoData').value = canvas.toDataURL('image/jpeg', 0.6);
       const st = document.getElementById('livePhotoStatus');
       st.innerText = "✔ लाइव फोटो सत्यापित!";
       st.style.color = "#138808";
@@ -1291,10 +1522,7 @@
 
     function clearInput(id) {
       const el = document.getElementById(id);
-      if (el) {
-        el.value = "";
-        el.focus();
-      }
+      if (el) { el.value = ""; el.focus(); }
     }
 
     function clearPair(enId, hiId) {
@@ -1312,7 +1540,7 @@
     async function transliterateText(srcId, destId) {
       const text = document.getElementById(srcId).value.trim();
       const dest = document.getElementById(destId);
-      if (!text) { return; }
+      if (!text) return;
       try {
         const res = await fetch(`https://inputtools.google.com/request?text=${encodeURIComponent(text)}&itc=hi-t-i0-und&num=1&cp=0&cs=1&ie=utf-8&oe=utf-8`);
         const data = await res.json();
@@ -1324,17 +1552,39 @@
       }
     }
 
-    function readFileAsDataURL(file) {
+    // Compress image files so they can be stored permanently in localStorage without exceeding quota
+    function readAndCompressFile(file) {
       return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = (e) => resolve(e.target.result);
-        reader.readAsDataURL(file);
+        if (!file) { resolve(""); return; }
+        if (file.type.startsWith("image/")) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+              const canvas = document.createElement('canvas');
+              const maxW = 450;
+              const scale = img.width > maxW ? maxW / img.width : 1;
+              canvas.width = img.width * scale;
+              canvas.height = img.height * scale;
+              const ctx = canvas.getContext('2d');
+              ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+              resolve(canvas.toDataURL('image/jpeg', 0.65));
+            };
+            img.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        } else {
+          resolve("PDF_DOCUMENT:" + file.name);
+        }
       });
     }
 
     async function handleFormSubmit(e) {
       e.preventDefault();
-
+      if (!currentLoggedInMob) {
+        alert("कृपया पहले मोबाइल नंबर और पासवर्ड से लॉगिन करें!");
+        return;
+      }
       if (!document.getElementById('livePhotoData').value) {
         alert("कृपया पहले 'कैमरा चालू करें' और 'लाइव फोटो खींचें' पर क्लिक करके अपना लाइव फोटो दें!");
         return;
@@ -1349,17 +1599,20 @@
       const now = new Date();
       const dateStr = `${String(now.getDate()).padStart(2,'0')}/${String(now.getMonth()+1).padStart(2,'0')}/${year}`;
 
-      let residenceCertPhotoURL = "";
       const resFile = document.getElementById('resCertPhotoInput').files[0];
-      if (type === 'RESIDENCE' && resFile) {
-        residenceCertPhotoURL = await readFileAsDataURL(resFile);
-      }
+      const idFile = document.getElementById('docIdentity').files[0];
+      const extraFile = document.getElementById('docExtraFile').files[0];
+
+      const residenceCertPhotoURL = (type === 'RESIDENCE' && resFile) ? await readAndCompressFile(resFile) : "";
+      const idDocData = await readAndCompressFile(idFile);
+      const extraDocData = await readAndCompressFile(extraFile);
 
       const distRaw = document.getElementById('district').value;
       const distHi = distRaw.split('(')[0].trim();
 
       const appObj = {
         certNo: certNo,
+        applicantMob: currentLoggedInMob,
         type: type,
         salutation: document.getElementById('salutation').value,
         nameEn: document.getElementById('appNameEn').value.trim(),
@@ -1377,19 +1630,20 @@
         villageHi: document.getElementById('villageHi').value.trim() || document.getElementById('villageEn').value.trim(),
         postHi: document.getElementById('postHi').value.trim() || document.getElementById('postEn').value.trim(),
         thanaHi: document.getElementById('thanaHi').value.trim() || document.getElementById('thanaEn').value.trim(),
-        // Caste details
         casteCatRaw: document.getElementById('casteCategory').value,
         casteNameHi: document.getElementById('casteNameHi').value.trim(),
         casteSerial: document.getElementById('casteSerialNo').value.trim() || "4",
-        // Income details
         incGovt: document.getElementById('incGovt').value || "0",
         incBiz: document.getElementById('incBiz').value || "0",
         incAgri: document.getElementById('incAgri').value || "0",
         incOther: document.getElementById('incOther').value || "0",
         incTotal: document.getElementById('incTotal').value || "0",
-        // Photos & Officer
         livePhoto: document.getElementById('livePhotoData').value,
         resPhoto: residenceCertPhotoURL,
+        idDocData: idDocData,
+        extraDocType: document.getElementById('extraDocType').value,
+        extraDocData: extraDocData,
+        docsInspected: false,
         officerName: "",
         issueDate: dateStr,
         signTimestamp: "",
@@ -1397,13 +1651,15 @@
       };
 
       applications.push(appObj);
+      savePermanentData();
+      renderApplicantHistory();
       if (isOfficerLoggedIn) renderOfficerQueue();
 
-      alert(`आवेदन सफलतापूर्वक सबमिट हो गया!\nआपका प्रमाण-पत्र संख्या: ${certNo}\nअब अधिकारी लॉगिन पैनल से इसे सत्यापित (Verify) करें।`);
+      alert(`आवेदन सफलतापूर्वक स्थायी रूप से सबमिट हो गया!\nआपका प्रमाण-पत्र संख्या: ${certNo}\nअधिकारी द्वारा दस्तावेज देखकर Verify करने के बाद आप अपने लॉगिन से प्रमाण-पत्र डाउनलोड कर सकेंगे।`);
       document.getElementById('rtpsMainForm').reset();
-      switchSection('admin');
     }
 
+    // Officer Authentication
     function loginOfficer() {
       const u = document.getElementById('offUser').value.trim();
       const p = document.getElementById('offPass').value.trim();
@@ -1436,6 +1692,10 @@
       const b = document.getElementById('officerBadge');
       b.innerText = "Officer Auth Required";
       b.style.background = "#f59e0b";
+      if (!currentLoggedInMob) {
+        canViewCertificate = false;
+        document.getElementById('tab-preview').style.display = "none";
+      }
     }
 
     function renderOfficerQueue() {
@@ -1446,14 +1706,19 @@
       }
       tbody.innerHTML = "";
       applications.forEach((app, idx) => {
+        const docsChecked = app.docsInspected;
         let tr = document.createElement('tr');
         tr.innerHTML = `
           <td><b>${app.certNo}</b></td>
           <td>${app.type}</td>
-          <td>${app.nameHi} (${app.nameEn})</td>
+          <td>${app.nameHi} (${app.nameEn})<br><small style="color:#555;">Mob: ${app.applicantMob || 'N/A'}</small></td>
           <td>${app.block}, ${app.distHi}</td>
-          <td><img src="${app.livePhoto}" style="width:40px;height:40px;object-fit:cover;border-radius:3px;"></td>
-          <td><span style="color:${app.status==='Verified'?'green':'orange'};font-weight:bold;">${app.status}</span></td>
+          <td>
+            <button type="button" class="btn-gov ${docsChecked ? 'btn-success' : 'btn-warning'}" onclick="inspectApplicantDocs(${idx})">
+              ${docsChecked ? '✔ दस्तावेज देखे गए (View Again)' : '👁️ दस्तावेज देखें (View Docs)'}
+            </button>
+          </td>
+          <td><span style="color:${app.status==='Verified'?'#138808':'#d97706'};font-weight:bold;">${app.status}</span></td>
           <td>
             <button type="button" class="btn-gov" onclick="verifyAndGenerate(${idx})">✔ Verify & Generate</button>
           </td>
@@ -1462,7 +1727,50 @@
       });
     }
 
+    // Officer Document Inspection Modal
+    function inspectApplicantDocs(idx) {
+      const app = applications[idx];
+      document.getElementById('modalAppTitle').innerText = `आवेदक के दस्तावेज: ${app.nameHi} (${app.certNo})`;
+      const grid = document.getElementById('modalDocGrid');
+
+      const renderDocBox = (title, dataUrl) => {
+        if (!dataUrl) return `<div class="doc-preview-item"><b>${title}</b><p>कोई फ़ाइल नहीं</p></div>`;
+        if (dataUrl.startsWith("PDF_DOCUMENT:")) {
+          return `<div class="doc-preview-item"><b>${title}</b><div style="padding:40px 10px;background:#e2e8f0;margin-top:8px;font-weight:bold;">📄 ${dataUrl.replace("PDF_DOCUMENT:", "")}</div></div>`;
+        }
+        return `<div class="doc-preview-item"><b>${title}</b><br><img src="${dataUrl}" alt="${title}"></div>`;
+      };
+
+      grid.innerHTML = `
+        ${renderDocBox("1. लाइव कैमरा फोटो (Live Photo)", app.livePhoto)}
+        ${renderDocBox("2. पहचान प्रमाण-पत्र (Identity Proof)", app.idDocData)}
+        ${renderDocBox("3. अतिरिक्त दस्तावेज (" + (app.extraDocType || "Supporting Doc") + ")", app.extraDocData)}
+      `;
+
+      const approveBtn = document.getElementById('modalMarkInspectedBtn');
+      approveBtn.onclick = function() {
+        applications[idx].docsInspected = true;
+        savePermanentData();
+        closeDocModal();
+        renderOfficerQueue();
+      };
+
+      document.getElementById('officerDocModal').style.display = 'flex';
+    }
+
+    function closeDocModal() {
+      document.getElementById('officerDocModal').style.display = 'none';
+    }
+
     function verifyAndGenerate(idx) {
+      let app = applications[idx];
+
+      if (!app.docsInspected) {
+        alert("अनिवार्य नियम: Verify करने से पहले कृपया '👁️ दस्तावेज देखें (View Docs)' बटन पर क्लिक करके आवेदक के अपलोड किए गए दस्तावेज देखें और Approve करें!");
+        inspectApplicantDocs(idx);
+        return;
+      }
+
       const currentOffName = document.getElementById('activeOfficerSignName').value.trim().toUpperCase();
       if (!currentOffName) {
         alert("कृपया पहले ऊपर 'डिजिटल हस्ताक्षर अधिकारी का नाम (Officer Name)' बॉक्स में अपना नाम दर्ज करें!");
@@ -1470,27 +1778,51 @@
         return;
       }
 
-      let app = applications[idx];
       app.officerName = currentOffName;
       app.status = "Verified";
 
-      // Auto Official Date & Time Format for Digital Signature (YYYY.MM.DD HH:MM:SS +05:30)
-      const now = new Date();
-      const yyyy = now.getFullYear();
-      const mm = String(now.getMonth() + 1).padStart(2, '0');
-      const dd = String(now.getDate()).padStart(2, '0');
-      const hh = String(now.getHours()).padStart(2, '0');
-      const min = String(now.getMinutes()).padStart(2, '0');
-      const ss = String(now.getSeconds()).padStart(2, '0');
-      app.signTimestamp = `${yyyy}.${mm}.${dd} ${hh}:${min}:${ss} +05:30`;
+      if (!app.signTimestamp) {
+        const now = new Date();
+        const yyyy = now.getFullYear();
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const dd = String(now.getDate()).padStart(2, '0');
+        const hh = String(now.getHours()).padStart(2, '0');
+        const min = String(now.getMinutes()).padStart(2, '0');
+        const ss = String(now.getSeconds()).padStart(2, '0');
+        app.signTimestamp = `${yyyy}.${mm}.${dd} ${hh}:${min}:${ss} +05:30`;
+      }
 
-      // Form Number Exact Match
+      savePermanentData();
+      renderOfficerQueue();
+      if (currentLoggedInMob) renderApplicantHistory();
+
+      populateCertificateDOM(app);
+      canViewCertificate = true;
+      document.getElementById('tab-preview').style.display = 'inline-block';
+      alert("सत्यापन सफल! ओरिजिनल बिहार सरकार फॉर्मेट में प्रमाण-पत्र जनरेट कर दिया गया है।");
+      switchSection('preview');
+    }
+
+    // Allows logged-in applicant (or officer) to view an already verified certificate
+    function openVerifiedCertificate(idx) {
+      const app = applications[idx];
+      if (!app || app.status !== 'Verified') {
+        alert("यह प्रमाण-पत्र अभी अधिकारी द्वारा सत्यापित नहीं किया गया है!");
+        return;
+      }
+      populateCertificateDOM(app);
+      canViewCertificate = true;
+      document.getElementById('tab-preview').style.display = 'inline-block';
+      switchSection('preview');
+    }
+
+    // Populate the Exact Bihar Govt Certificate DOM
+    function populateCertificateDOM(app) {
       document.getElementById('certFormNo').innerText = app.type === 'CASTE' ? 'फॉर्म / Form-IV' : (app.type === 'INCOME' ? 'फॉर्म / Form - XVI' : 'फॉर्म / Form - XIII');
 
       const locString = `जिला / District : ${app.distHi}, अनुमंडल / Sub-Division : ${app.subDiv}, अंचल / Circle : ${app.block}`;
       const headerBlock = document.getElementById('certDynamicHeaderBlock');
 
-      // Exact Header Order & Purpose Line per Sample PDFs
       if (app.type === 'RESIDENCE') {
         headerBlock.innerHTML = `
           <div class="cert-main-title">निवास प्रमाण-पत्र / Residence Certificate</div>
@@ -1512,13 +1844,11 @@
 
       document.getElementById('certNoOut').innerText = app.certNo;
       document.getElementById('certDateOut').innerText = app.issueDate;
-      // Place (स्थान) is automatically set to the applicant's Block (प्रखंड / अंचल)
       document.getElementById('certPlaceOut').innerText = app.block;
       document.getElementById('certBottomDateOut').innerText = app.issueDate;
       document.getElementById('certOfficerOut').innerText = app.officerName;
       document.getElementById('certSignTimestampOut').innerText = app.signTimestamp;
 
-      // Handle Residence Photo on Certificate Top-Right Corner
       let resPhotoEl = document.getElementById('certResPhoto');
       if (app.type === 'RESIDENCE' && app.resPhoto) {
         resPhotoEl.src = app.resPhoto;
@@ -1527,50 +1857,30 @@
         resPhotoEl.style.display = 'none';
       }
 
-      // Generate Standard 4x4 Hard High-Density QR Code in Bottom-Left Corner
       const qrPayload = `https://serviceonline.bihar.gov.in/verify?certNo=${app.certNo}&name=${app.nameEn}&father=${app.fatherEn}&block=${app.block}&dist=${app.distHi}&date=${app.issueDate}&officer=${app.officerName}`;
       document.getElementById('certQR').src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&ecc=H&margin=0&data=${encodeURIComponent(qrPayload)}`;
 
-      // Exact Word-for-Word Body Content & Footer Notes per Bihar Govt Sample PDFs
       let bodyHTML = "";
       let notesHTML = "";
 
-      if (app.type === 'CASTE') {
-        const catName = app.casteCatRaw.split('|')[0];
-        const actClause = catName.startsWith("सामान्य वर्ग")
-          ? `बिहार राज्य की <b>${catName}</b> श्रेणी के अंतर्गत अंकित हैं।`
-          : `बिहार पदों एवं सेवाओं की रिक्तियों में आरक्षण (अनुसूचित जातियों, अनुसूचित जनजातियों एवं अन्य पिछड़े वर्गों के लिए) अधिनियम, 1991 समय-समय पर यथासंशोधित अधिनियम के अंतर्गत बिहार राज्य की <b>${catName}</b> में अनुक्रमांक <b>${app.casteSerial}</b> पर अंकित हैं।`;
-
+      if (app.type === 'INCOME') {
+        // Exact Line-by-Line Format matching BICCO_2026_2889997.pdf
         bodyHTML = `
           <p class="cert-paragraph">
-            प्रमाणित किया जाता है कि <b>${app.salutation}${app.nameHi} (${app.nameEn})</b>, पिता (Father) <b>${app.fatherHi} (${app.fatherEn})</b>, माता (Mother) <b>${app.motherHi} (${app.motherEn})</b>, ग्राम / मोहल्ला - <b>${app.villageHi}</b>, डाकघर - <b>${app.postHi}</b>, थाना - <b>${app.thanaHi}</b>, प्रखंड - <b>${app.block}</b>, अनुमंडल - <b>${app.subDiv}</b>, जिला - <b>${app.distHi}</b>, राज्य - <b>बिहार</b> के <b>${app.casteNameHi}</b> समुदाय के सदस्य हैं, जो ${actClause} अतः <b>${app.salutation}${app.nameHi} (${app.nameEn})</b>, पिता (Father) <b>${app.fatherHi} (${app.fatherEn})</b>, <b>${catName}</b> के हैं।
+            प्रमाणित किया जाता है कि <b>${app.salutation}${app.nameHi} (${app.nameEn})</b>, पिता (Father) <b>${app.fatherHi} (${app.fatherEn})</b>, माता (Mother) <b>${app.motherHi} (${app.motherEn})</b>, ग्राम / नगर - <span class="u-gap">${app.villageHi}</span>, डाकघर - <span class="u-gap">${app.postHi}</span>, थाना - <span class="u-gap">${app.thanaHi}</span>, प्रखंड - <span class="u-gap">${app.block}</span>, अनुमंडल - <span class="u-gap">${app.subDiv}</span>, जिला - <span class="u-gap">${app.distHi}</span>, राज्य - <b>बिहार</b> एवं उनके परिवार की कुल वार्षिक आय निम्नांकित है : -
           </p>
-          <p class="cert-paragraph">
-            <b>${app.salutation}${app.nameHi} (${app.nameEn})</b> एवं उनका परिवार वर्तमान में ग्राम / मोहल्ला - <b>${app.villageHi}</b>, डाकघर - <b>${app.postHi}</b>, थाना - <b>${app.thanaHi}</b>, प्रखंड - <b>${app.block}</b>, अनुमंडल - <b>${app.subDiv}</b>, जिला - <b>${app.distHi}</b>, राज्य - <b>BIHAR</b> में निवास करता हैं।
-          </p>
-        `;
-        notesHTML = `
-          <li>QR Code की जाँच https://serviceonline.bihar.gov.in पोर्टल एवं Play Store पर उपलब्ध ServicePlus Mobile App से करें।</li>
-          <li>वैधता: कोई समय सीमा नहीं।</li>
-          <li>नोट: यह दस्तावेज DigiLocker पर भी उपलब्ध है।</li>
-        `;
-      } else if (app.type === 'INCOME') {
-        bodyHTML = `
-          <p class="cert-paragraph">
-            प्रमाणित किया जाता है कि <b>${app.salutation}${app.nameHi} (${app.nameEn})</b>, पिता (Father) <b>${app.fatherHi} (${app.fatherEn})</b>, माता (Mother) <b>${app.motherHi} (${app.motherEn})</b>, ग्राम / नगर - <b>${app.villageHi}</b>, डाकघर - <b>${app.postHi}</b>, थाना - <b>${app.thanaHi}</b>, प्रखंड - <b>${app.block}</b>, अनुमंडल - <b>${app.subDiv}</b>, जिला - <b>${app.distHi}</b>, राज्य - <b>बिहार</b> एवं उनके परिवार की कुल वार्षिक आय निम्नांकित है :
-          </p>
-          <div class="income-grid-box">
-            <div class="income-row-2col">
-              <div class="income-col">सरकारी सेवा से आय : ₹ ${app.incGovt}/-</div>
-              <div class="income-col">व्यवसाय से आय : ₹ ${app.incBiz}/-</div>
-            </div>
-            <div class="income-row-2col">
-              <div class="income-col">कृषि से आय : ₹ ${app.incAgri}/-</div>
-              <div class="income-col">अन्य स्रोतों से आय : ₹ ${app.incOther}/-</div>
-            </div>
-            <div class="income-total-center">
-              कुल आय (वार्षिक) : ₹ ${app.incTotal}/-
-            </div>
+          <table class="income-exact-table">
+            <tr>
+              <td style="width:52%;">सरकारी सेवा से आय : ${app.incGovt}/-</td>
+              <td style="width:48%;">व्यवसाय से आय : ${app.incBiz}/-</td>
+            </tr>
+            <tr>
+              <td>कृषि से आय : ${app.incAgri}/-</td>
+              <td>अन्य स्रोतों से आय : ${app.incOther}/-</td>
+            </tr>
+          </table>
+          <div class="income-total-line">
+            कुल आय (वार्षिक) : ${app.incTotal}/-
           </div>
         `;
         notesHTML = `
@@ -1579,29 +1889,46 @@
           <li>नोट: यह दस्तावेज DigiLocker पर भी उपलब्ध है।</li>
         `;
       } else if (app.type === 'RESIDENCE') {
+        // Exact Line-by-Line Format matching BRCCO_2023_12197765.pdf
         bodyHTML = `
           <p class="cert-paragraph">
-            प्रमाणित किया जाता है कि <b>${app.salutation}${app.nameHi} (${app.nameEn})</b>, पिता (Father) <b>${app.fatherHi} (${app.fatherEn})</b>, माता (Mother) <b>${app.motherHi} (${app.motherEn})</b>, ग्राम / मोहल्ला - <b>${app.villageHi}</b>, वार्ड संख्या - <b>${app.wardNo}</b>, डाकघर - <b>${app.postHi}</b>, पिनकोड - <b>${app.pincode}</b>, थाना - <b>${app.thanaHi}</b>, प्रखंड - <b>${app.block}</b>, अनुमंडल - <b>${app.subDiv}</b>, जिला - <b>${app.distHi}</b>, राज्य - <b>बिहार</b> के स्थायी निवासी हैं।
+            प्रमाणित किया जाता है कि <b>${app.salutation}${app.nameHi} (${app.nameEn})</b>, पिता (Father) <b>${app.fatherHi} (${app.fatherEn})</b>, माता (Mother) <b>${app.motherHi} (${app.motherEn})</b>, ग्राम / मोहल्ला - <span class="u-gap">${app.villageHi}</span>, वार्ड संख्या - <span class="u-gap">${app.wardNo}</span>, डाकघर - <span class="u-gap">${app.postHi}</span>, पिनकोड - <span class="u-gap">${app.pincode}</span>, थाना - <span class="u-gap">${app.thanaHi}</span>, प्रखंड - <b>${app.block}</b>, अनुमंडल - <b>${app.subDiv}</b>, जिला - <b>${app.distHi}</b>, राज्य - <b>बिहार</b> के स्थायी निवासी हैं।
           </p>
         `;
         notesHTML = `
           <li>QR Code की जाँच https://serviceonline.bihar.gov.in पोर्टल एवं Play Store पर उपलब्ध ServicePlus Mobile App से करें।</li>
           <li>नोट: यह दस्तावेज DigiLocker पर भी उपलब्ध है।</li>
         `;
+      } else if (app.type === 'CASTE') {
+        // Exact Line-by-Line Format matching BCCCO_2026_9414238.pdf
+        const catName = app.casteCatRaw.split('|')[0];
+        const actClause = catName.startsWith("सामान्य वर्ग")
+          ? `बिहार राज्य की <b>${catName}</b> श्रेणी के अंतर्गत अंकित हैं।`
+          : `बिहार पदों एवं सेवाओं की रिक्तियों में आरक्षण (अनुसूचित जातियों, अनुसूचित जनजातियों एवं अन्य पिछड़े वर्गों के लिए) अधिनियम, 1991 समय-समय पर यथासंशोधित अधिनियम के अंतर्गत बिहार राज्य की <b>${catName}</b> में अनुक्रमांक <b>${app.casteSerial}</b> पर अंकित हैं।`;
+
+        bodyHTML = `
+          <p class="cert-paragraph">
+            प्रमाणित किया जाता है कि <b>${app.salutation}${app.nameHi} (${app.nameEn})</b>, पिता (Father) <b>${app.fatherHi} (${app.fatherEn})</b>, माता (Mother) <b>${app.motherHi} (${app.motherEn})</b>, ग्राम / मोहल्ला - <span class="u-gap">${app.villageHi}</span>, डाकघर - <span class="u-gap">${app.postHi}</span>, थाना - <span class="u-gap">${app.thanaHi}</span>, प्रखंड - <b>${app.block}</b>, अनुमंडल - <b>${app.subDiv}</b>, जिला - <b>${app.distHi}</b>, राज्य - <b>बिहार</b> के <b>${app.casteNameHi}</b> समुदाय के सदस्य हैं, जो ${actClause} अतः <b>${app.salutation}${app.nameHi} (${app.nameEn})</b>, पिता (Father) <b>${app.fatherHi} (${app.fatherEn})</b>, <b>${catName}</b> के हैं।
+          </p>
+          <p class="cert-paragraph">
+            <b>${app.salutation}${app.nameHi} (${app.nameEn})</b> एवं उनका परिवार वर्तमान में ग्राम / मोहल्ला - <span class="u-gap">${app.villageHi}</span>, डाकघर - <span class="u-gap">${app.postHi}</span>, थाना - <span class="u-gap">${app.thanaHi}</span>, प्रखंड - <b>${app.block}</b>, अनुमंडल - <b>${app.subDiv}</b>, जिला - <b>${app.distHi}</b>, राज्य - <b>BIHAR</b> में निवास करता हैं।
+          </p>
+        `;
+        notesHTML = `
+          <li>QR Code की जाँच https://serviceonline.bihar.gov.in पोर्टल एवं Play Store पर उपलब्ध ServicePlus Mobile App से करें।</li>
+          <li>वैधता: कोई समय सीमा नहीं।</li>
+          <li>नोट: यह दस्तावेज DigiLocker पर भी उपलब्ध है।</li>
+        `;
       }
 
       document.getElementById('certBodyContent').innerHTML = bodyHTML;
       document.getElementById('certNotesList').innerHTML = notesHTML;
-      renderOfficerQueue();
-
-      alert("सत्यापन सफल! ओरिजिनल बिहार सरकार फॉर्मेट में सिंगल-पेज प्रमाण-पत्र जनरेट कर दिया गया है।");
-      switchSection('preview');
     }
 
     function downloadOfficialPDF() {
       const element = document.getElementById('certificate-box');
       const opt = {
-        margin:       [4, 5, 4, 5],
+        margin:       [2, 3, 2, 3],
         filename:     'Bihar_RTPS_Certificate.pdf',
         image:        { type: 'jpeg', quality: 0.98 },
         html2canvas:  { scale: 2, useCORS: true, scrollY: 0 },
