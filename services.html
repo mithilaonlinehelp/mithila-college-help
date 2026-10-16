@@ -341,13 +341,15 @@
 
     /* ==========================================================
        EXACT BIHAR GOVT CERTIFICATE DESIGN (SINGLE-PAGE A4)
+       1.5 INCH (145px) BLANK SPACE BELOW THE OUTER BORDER
        ========================================================== */
     #certificate-box {
       width: 790px;
-      height: 1085px; /* Exact Single-Page A4 Ratio */
+      height: 1115px; /* Full A4 Height */
       margin: 0 auto;
       background: #ffffff;
-      padding: 26px 34px;
+      /* Top: 24px, Left/Right: 34px, Bottom: 145px (1.5 INCH BLANK SPACE BELOW BORDER) */
+      padding: 24px 34px 145px 34px;
       box-sizing: border-box;
       font-family: 'Noto Sans Devanagari', 'Mangal', 'Arial', sans-serif;
       color: #000;
@@ -359,57 +361,64 @@
       break-inside: avoid;
     }
 
-    /* Inner Frame Border */
+    /* 4-Side Border that ends 1.5 inches before the bottom of the page */
     .cert-frame-border {
-      border: 1.5px solid #222;
+      border: 1.5px solid #111;
       width: 100%;
       height: 100%;
-      padding: 28px 34px 16px 34px;
+      padding: 20px 32px 10px 32px;
       box-sizing: border-box;
       position: relative;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      overflow: hidden;
+      background: #ffffff;
     }
 
-    /* Center Peepal Tree + "बिहार सरकार" Uncut Watermark */
+    /* UNCUT FULL WATERMARK:
+       Placed on z-index: 5 with pointer-events: none and multiply blend mode
+       so NO table, NO white background, and NO paragraph can ever cut the Peepal Tree!
+       Starts slightly above "प्रमाणित किया जाता है" down to level of QR Code bottom. */
     .cert-watermark-wrap {
       position: absolute;
-      top: 47%;
+      top: 195px;
       left: 50%;
-      transform: translate(-50%, -50%);
-      width: 340px;
+      transform: translateX(-50%);
+      width: 470px;
+      height: 560px;
       text-align: center;
-      opacity: 0.11;
+      opacity: 0.13;
       pointer-events: none;
-      z-index: 0;
+      z-index: 5;
+      mix-blend-mode: multiply;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 10px;
-      box-sizing: border-box;
+      overflow: visible !important;
     }
     .cert-watermark-wrap img {
-      width: 250px;
-      height: auto;
-      object-fit: contain;
-      display: block;
+      width: 440px !important;
+      height: 490px !important;
+      max-width: none !important;
+      object-fit: contain !important;
+      display: block !important;
+      background: transparent !important;
     }
     .cert-watermark-text {
-      font-size: 30px;
+      font-size: 38px;
       font-weight: 900;
       color: #000;
-      margin-top: 6px;
+      margin-top: -8px;
       letter-spacing: 2px;
-      line-height: 1.2;
+      line-height: 1.1;
       white-space: nowrap;
     }
 
     .cert-top-section {
       position: relative;
-      z-index: 1;
+      z-index: 2;
+      background: transparent !important;
     }
 
     /* Top Header Center Bihar Govt */
@@ -417,53 +426,57 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
+      background: transparent !important;
     }
 
     .cert-center-head {
       text-align: center;
-      line-height: 1.4;
-      padding-top: 2px;
+      line-height: 1.32;
+      background: transparent !important;
     }
 
     .cert-top-emblem {
-      width: 48px;
+      width: 44px;
       height: auto;
-      margin-bottom: 3px;
+      margin-bottom: 2px;
     }
 
     .cert-center-head h3 {
       margin: 0;
-      font-size: 16.5px;
-      font-weight: bold;
+      font-size: 16px;
+      font-weight: 800;
     }
 
     .cert-center-head .form-no-text {
-      font-size: 14.5px;
-      font-weight: bold;
-      margin-top: 4px;
+      font-size: 14px;
+      font-weight: 800;
+      margin-top: 3px;
     }
 
     /* Header Titles & Location Line */
     .cert-loc-text {
       text-align: center;
-      font-weight: bold;
-      font-size: 14px;
-      margin: 8px 0;
+      font-weight: 800;
+      font-size: 13.8px;
+      margin: 6px 0;
+      background: transparent !important;
     }
 
     .cert-main-title {
       text-align: center;
-      font-weight: bold;
-      font-size: 16px;
-      margin: 8px 0 4px 0;
+      font-weight: 800;
+      font-size: 15.8px;
+      margin: 6px 0 3px 0;
+      background: transparent !important;
     }
 
     .cert-sub-purpose {
       text-align: center;
-      font-weight: bold;
-      font-size: 13.5px;
-      margin: 2px 0 8px 0;
+      font-weight: 800;
+      font-size: 13.2px;
+      margin: 2px 0 6px 0;
+      background: transparent !important;
     }
 
     /* Certificate No & Date Row */
@@ -471,15 +484,16 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      font-weight: bold;
-      font-size: 13.8px;
-      margin: 14px 0 16px 0;
+      font-weight: 800;
+      font-size: 13.6px;
+      margin: 12px 0 12px 0;
+      background: transparent !important;
     }
 
-    /* Extra Top Margin for Residence Certificate No & Date + Photo below Date */
+    /* Residence Mode: Certificate No & Date pushed lower + Photo directly below Date */
     .cert-no-date-row.residence-mode {
-      margin-top: 34px;
-      margin-bottom: 14px;
+      margin-top: 26px;
+      margin-bottom: 10px;
     }
 
     .date-and-photo-col {
@@ -489,70 +503,81 @@
     }
 
     .cert-App-Photo {
-      width: 92px;
-      height: 112px;
+      width: 88px;
+      height: 106px;
       border: 1px solid #222;
       object-fit: cover;
       display: none;
-      margin-top: 10px;
+      margin-top: 8px;
       background: #fff;
     }
 
-    /* Standard Certificate Paragraph (No underlines anywhere) */
+    /* Outside words slightly less bold (500), Bracket & Value words Extra Bold (800) */
     .cert-paragraph {
-      font-size: 14px;
+      font-size: 13.8px;
+      font-weight: 500;
       text-align: justify;
-      line-height: 1.85;
-      margin: 0 0 12px 0;
+      line-height: 1.72;
+      margin: 0 0 10px 0;
       text-decoration: none !important;
+      color: #111;
+      background: transparent !important;
     }
 
-    /* Caste Certificate 6-Line Main Paragraph + 2-Line Second Paragraph */
+    /* Caste Certificate: 6-Line Main Paragraph + 2-Line Second Paragraph */
     .cert-paragraph-caste-main {
-      font-size: 13.6px;
-      font-weight: 600;
+      font-size: 13.5px;
+      font-weight: 500;
       text-align: justify;
-      line-height: 1.52;
-      margin: 0 0 10px 0;
+      line-height: 1.48;
+      margin: 0 0 8px 0;
       letter-spacing: -0.1px;
+      color: #111;
+      background: transparent !important;
     }
     .cert-paragraph-caste-sub {
-      font-size: 13.6px;
-      font-weight: 600;
+      font-size: 13.5px;
+      font-weight: 500;
       text-align: justify;
-      line-height: 1.52;
-      margin: 0 0 8px 0;
+      line-height: 1.48;
+      margin: 0 0 6px 0;
+      color: #111;
+      background: transparent !important;
     }
 
-    /* Clean Bold Text without any underline */
-    .u-gap {
-      display: inline;
-      border: none !important;
+    /* Extra Bold for Bracket Words (Father), (Mother), (English Name) & Filled Values */
+    .b-val, .bk-bold {
+      font-weight: 800 !important;
+      color: #000;
       text-decoration: none !important;
-      font-weight: bold;
-      padding: 0 2px;
+      border: none !important;
+      background: transparent !important;
     }
 
-    /* Income Table: Total Annual Income directly under Agriculture Income */
+    /* Income Table: Transparent background so it NEVER cuts the watermark */
     .income-exact-table {
       width: 100%;
       border: none !important;
-      margin: 14px 0 10px 0;
+      margin: 10px 0 6px 0;
       border-collapse: collapse;
+      background: transparent !important;
     }
+    .income-exact-table tr,
     .income-exact-table td {
       border: none !important;
-      padding: 6px 4px;
-      font-size: 14px;
-      font-weight: bold;
+      padding: 5px 4px;
+      font-size: 13.8px;
+      font-weight: 800;
       color: #000;
+      background: transparent !important;
     }
 
-    /* Bottom Section shifted up so space below horizontal line remains completely free */
+    /* Bottom Section */
     .cert-bottom-section {
       position: relative;
-      z-index: 1;
+      z-index: 2;
       margin-top: auto;
+      background: transparent !important;
     }
 
     .cert-place-sign-row {
@@ -560,18 +585,21 @@
       justify-content: space-between;
       align-items: flex-start;
       margin-bottom: 4px;
+      background: transparent !important;
     }
 
     .place-date-box {
       font-size: 13.5px;
-      font-weight: bold;
-      line-height: 1.65;
+      font-weight: 800;
+      line-height: 1.55;
+      background: transparent !important;
     }
 
     .signature-right-wrap {
       text-align: center;
       width: 300px;
-      margin-top: 2px;
+      margin-top: 0;
+      background: transparent !important;
     }
 
     .thin-dsc-text {
@@ -579,51 +607,52 @@
       text-align: left;
       font-family: 'Arial', sans-serif;
       font-size: 11px;
-      line-height: 1.3;
+      line-height: 1.28;
       color: #111;
-      margin-bottom: 3px;
+      margin-bottom: 2px;
     }
 
     .officer-designation-line {
-      font-size: 12.8px;
+      font-size: 12.6px;
       font-weight: 800;
       color: #000;
     }
 
-    /* QR Code Row */
+    /* Clean QR Code without any underline or border */
     .cert-qr-row {
       display: flex;
       justify-content: flex-start;
       margin-bottom: 8px;
+      border: none !important;
+      text-decoration: none !important;
+      background: transparent !important;
     }
 
     .cert-qr {
-      width: 125px;
-      height: 125px;
-      border: 1px solid #000;
-      padding: 3px;
+      width: 122px;
+      height: 122px;
+      border: none !important;
+      outline: none !important;
+      padding: 0;
       background: #fff;
       image-rendering: pixelated;
       display: block;
     }
 
-    /* 3 Points directly under QR code, above the horizontal line */
-    .cert-notes-above-line {
-      font-size: 11.8px;
-      line-height: 1.5;
-      margin-bottom: 8px;
-      font-weight: 500;
+    /* Line above the 2-3 points, and NO extra line below the points */
+    .cert-bottom-notes {
+      border-top: 1.2px solid #222;
+      border-bottom: none !important;
+      padding-top: 6px;
+      margin-bottom: 0;
+      font-size: 11.6px;
+      line-height: 1.48;
+      font-weight: 600;
+      background: transparent !important;
     }
-    .cert-notes-above-line ol {
+    .cert-bottom-notes ol {
       margin: 0;
       padding-left: 18px;
-    }
-
-    /* Horizontal Line with Blank Free Space Below it for Border */
-    .cert-bottom-free-space {
-      border-top: 1.5px solid #000;
-      height: 55px; /* Reserved blank space between line and bottom border */
-      width: 100%;
     }
 
     footer {
@@ -635,7 +664,7 @@
       margin-top: 30px;
     }
 
-    /* Print Media Query for Direct 1-Page Printing */
+    /* Print Media Query for Direct 1-Page Printing with 1.5 inch bottom blank margin */
     @media print {
       @page {
         size: A4 portrait;
@@ -664,7 +693,8 @@
         width: 210mm !important;
         height: 296mm !important;
         margin: 0 auto !important;
-        padding: 10mm 12mm !important;
+        /* Bottom 38.1mm = Exact 1.5 Inches blank space below the border */
+        padding: 8mm 10mm 38.1mm 10mm !important;
       }
     }
 
@@ -1056,7 +1086,7 @@
             <div>
               <div id="residenceUploadBox" style="background:#eef6ff; border:1px solid #90cdf4; padding:12px; border-radius:6px; margin-bottom:12px;">
                 <label>2. निवास प्रमाण-पत्र पर छपने के लिए आवेदक का फोटो अपलोड करें <span class="req">*</span></label>
-                <p style="font-size:11.5px; color:#333; margin:2px 0 6px 0;">(यह फोटो निवास प्रमाण-पत्र पर दिनांक के ठीक नीचे छपेगा, और यदि कैमरा न हो तो लाइव फोटो से भी ले लिया जाएगा)</p>
+                <p style="font-size:11.5px; color:#333; margin:2px 0 6px 0;">(यह फोटो निवास प्रमाण-पत्र पर दिनांक के ठीक नीचे छपेगा)</p>
                 <input type="file" id="resCertPhotoInput" accept="image/*" onchange="previewApplicantUpload(this, 'previewResPhotoBox')">
                 <div id="previewResPhotoBox" class="mini-upload-preview"></div>
               </div>
@@ -1164,11 +1194,11 @@
     </div>
 
     <div class="gov-body" style="overflow-x:auto;">
-      <!-- EXACT SINGLE-PAGE A4 CERTIFICATE BOX -->
+      <!-- EXACT SINGLE-PAGE A4 CERTIFICATE BOX (Bottom 1.5 inch blank outside border) -->
       <div id="certificate-box">
         <div class="cert-frame-border">
           
-          <!-- Center Peepal Tree + "बिहार सरकार" Watermark (Never Cut) -->
+          <!-- UNCUT WATERMARK: Starts slightly above "प्रमाणित" line down to QR Code bottom level -->
           <div class="cert-watermark-wrap">
             <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Seal_of_Bihar.svg" crossorigin="anonymous" alt="Bihar Seal">
             <div class="cert-watermark-text">बिहार सरकार</div>
@@ -1201,7 +1231,7 @@
             <div id="certBodyContent"></div>
           </div>
 
-          <!-- BOTTOM SECTION: Digital Sign on Right, QR Code on Left, 3 Notes below QR, then Line + Free Space -->
+          <!-- BOTTOM SECTION: Digital Sign on Right, Clean QR on Left, Line + 2-3 Points (No extra line below points) -->
           <div class="cert-bottom-section">
             <!-- Row 1: Left Place/Date & Right Digital Signature -->
             <div class="cert-place-sign-row">
@@ -1221,21 +1251,18 @@
               </div>
             </div>
 
-            <!-- Row 2: Bottom-Left QR Code -->
+            <!-- Row 2: Clean QR Code (No underline) -->
             <div class="cert-qr-row">
               <img id="certQR" class="cert-qr" src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&ecc=H&margin=0&data=https%3A%2F%2Fserviceonline.bihar.gov.in%2Fverify" crossorigin="anonymous" alt="QR Code">
             </div>
 
-            <!-- Row 3: Instructions directly below QR code and ABOVE the horizontal line -->
-            <div class="cert-notes-above-line">
+            <!-- Row 3: 2-3 Points right at the bottom of the border (No extra line below points) -->
+            <div class="cert-bottom-notes">
               <ol id="certNotesList">
                 <li>QR Code की जाँच https://serviceonline.bihar.gov.in पोर्टल एवं Play Store पर उपलब्ध ServicePlus Mobile App से करें।</li>
                 <li>नोट: यह दस्तावेज DigiLocker पर भी उपलब्ध है।</li>
               </ol>
             </div>
-
-            <!-- Row 4: Horizontal Line + Completely Free Space below line for border -->
-            <div class="cert-bottom-free-space"></div>
           </div>
 
         </div>
@@ -1669,7 +1696,7 @@
       }
     }
 
-    // Read & Compress Image or Read PDF DataURL so Officer can view every uploaded file
+    // Read & Compress Image or Read PDF DataURL
     function readAndCompressFile(file) {
       return new Promise((resolve) => {
         if (!file) { resolve(""); return; }
@@ -2036,10 +2063,10 @@
       let notesHTML = "";
 
       if (app.type === 'INCOME') {
-        // Total Annual Income placed directly below Agriculture Income (Left Column), No Underlines
+        // Outside words normal-medium (500), Bracket words & Filled values Extra Bold (800)
         bodyHTML = `
           <p class="cert-paragraph">
-            प्रमाणित किया जाता है कि <b>${app.salutation}${app.nameHi} (${app.nameEn})</b>, पिता (Father) <b>${app.fatherHi} (${app.fatherEn})</b>, माता (Mother) <b>${app.motherHi} (${app.motherEn})</b>, ग्राम / नगर - <span class="u-gap">${app.villageHi}</span>, डाकघर - <span class="u-gap">${app.postHi}</span>, थाना - <span class="u-gap">${app.thanaHi}</span>, प्रखंड - <span class="u-gap">${app.block}</span>, अनुमंडल - <span class="u-gap">${app.subDiv}</span>, जिला - <span class="u-gap">${app.distHi}</span>, राज्य - <b>बिहार</b> एवं उनके परिवार की कुल वार्षिक आय निम्नांकित है : -
+            प्रमाणित किया जाता है कि <span class="b-val">${app.salutation}${app.nameHi}</span> <span class="bk-bold">(${app.nameEn})</span>, पिता <span class="bk-bold">(Father)</span> <span class="b-val">${app.fatherHi}</span> <span class="bk-bold">(${app.fatherEn})</span>, माता <span class="bk-bold">(Mother)</span> <span class="b-val">${app.motherHi}</span> <span class="bk-bold">(${app.motherEn})</span>, ग्राम / नगर - <span class="b-val">${app.villageHi}</span>, डाकघर - <span class="b-val">${app.postHi}</span>, थाना - <span class="b-val">${app.thanaHi}</span>, प्रखंड - <span class="b-val">${app.block}</span>, अनुमंडल - <span class="b-val">${app.subDiv}</span>, जिला - <span class="b-val">${app.distHi}</span>, राज्य - <span class="b-val">बिहार</span> एवं उनके परिवार की कुल वार्षिक आय निम्नांकित है : -
           </p>
           <table class="income-exact-table">
             <tr>
@@ -2051,7 +2078,7 @@
               <td>अन्य स्रोतों से आय : ${app.incOther}/-</td>
             </tr>
             <tr>
-              <td colspan="2" style="padding-top:10px;">कुल वार्षिक आय : ${app.incTotal}/-</td>
+              <td colspan="2" style="padding-top:8px;">कुल वार्षिक आय : ${app.incTotal}/-</td>
             </tr>
           </table>
         `;
@@ -2061,10 +2088,10 @@
           <li>नोट: यह दस्तावेज DigiLocker पर भी उपलब्ध है।</li>
         `;
       } else if (app.type === 'RESIDENCE') {
-        // Residence Certificate: No Underlines, No Validity Line
+        // Residence Certificate: Outside words lighter bold (500), Bracket & Filled values Extra Bold (800), No Validity Line
         bodyHTML = `
           <p class="cert-paragraph">
-            प्रमाणित किया जाता है कि <b>${app.salutation}${app.nameHi} (${app.nameEn})</b>, पिता (Father) <b>${app.fatherHi} (${app.fatherEn})</b>, माता (Mother) <b>${app.motherHi} (${app.motherEn})</b>, ग्राम / मोहल्ला - <span class="u-gap">${app.villageHi}</span>, वार्ड संख्या - <span class="u-gap">${app.wardNo}</span>, डाकघर - <span class="u-gap">${app.postHi}</span>, पिनकोड - <span class="u-gap">${app.pincode}</span>, थाना - <span class="u-gap">${app.thanaHi}</span>, प्रखंड - <b>${app.block}</b>, अनुमंडल - <b>${app.subDiv}</b>, जिला - <b>${app.distHi}</b>, राज्य - <b>बिहार</b> के स्थायी निवासी हैं।
+            प्रमाणित किया जाता है कि <span class="b-val">${app.salutation}${app.nameHi}</span> <span class="bk-bold">(${app.nameEn})</span>, पिता <span class="bk-bold">(Father)</span> <span class="b-val">${app.fatherHi}</span> <span class="bk-bold">(${app.fatherEn})</span>, माता <span class="bk-bold">(Mother)</span> <span class="b-val">${app.motherHi}</span> <span class="bk-bold">(${app.motherEn})</span>, ग्राम / मोहल्ला - <span class="b-val">${app.villageHi}</span>, वार्ड संख्या - <span class="b-val">${app.wardNo}</span>, डाकघर - <span class="b-val">${app.postHi}</span>, पिनकोड - <span class="b-val">${app.pincode}</span>, थाना - <span class="b-val">${app.thanaHi}</span>, प्रखंड - <span class="b-val">${app.block}</span>, अनुमंडल - <span class="b-val">${app.subDiv}</span>, जिला - <span class="b-val">${app.distHi}</span>, राज्य - <span class="b-val">बिहार</span> के स्थायी निवासी हैं।
           </p>
         `;
         notesHTML = `
@@ -2072,18 +2099,18 @@
           <li>नोट: यह दस्तावेज DigiLocker पर भी उपलब्ध है।</li>
         `;
       } else if (app.type === 'CASTE') {
-        // Caste Certificate: Semi-bold compact 6-line main paragraph + 2-line bottom paragraph, No Underlines
+        // Caste Certificate: Outside text weight 500, Bracket words & Values Extra Bold (800), 6-line main para + 2-line sub para
         const catName = app.casteCatRaw.split('|')[0];
         const actClause = catName.startsWith("सामान्य वर्ग")
-          ? `बिहार राज्य की <b>${catName}</b> श्रेणी के अंतर्गत अंकित हैं।`
-          : `बिहार पदों एवं सेवाओं की रिक्तियों में आरक्षण (अनुसूचित जातियों, अनुसूचित जनजातियों एवं अन्य पिछड़े वर्गों के लिए) अधिनियम, 1991 समय-समय पर यथासंशोधित अधिनियम के अंतर्गत बिहार राज्य की <b>${catName}</b> में अनुक्रमांक <b>${app.casteSerial}</b> पर अंकित हैं।`;
+          ? `बिहार राज्य की <span class="b-val">${catName}</span> श्रेणी के अंतर्गत अंकित हैं।`
+          : `बिहार पदों एवं सेवाओं की रिक्तियों में आरक्षण <span class="bk-bold">(अनुसूचित जातियों, अनुसूचित जनजातियों एवं अन्य पिछड़े वर्गों के लिए)</span> अधिनियम, 1991 समय-समय पर यथासंशोधित अधिनियम के अंतर्गत बिहार राज्य की <span class="b-val">${catName}</span> में अनुक्रमांक <span class="b-val">${app.casteSerial}</span> पर अंकित हैं।`;
 
         bodyHTML = `
           <p class="cert-paragraph-caste-main">
-            प्रमाणित किया जाता है कि <b>${app.salutation}${app.nameHi} (${app.nameEn})</b>, पिता (Father) <b>${app.fatherHi} (${app.fatherEn})</b>, माता (Mother) <b>${app.motherHi} (${app.motherEn})</b>, ग्राम / मोहल्ला - <span class="u-gap">${app.villageHi}</span>, डाकघर - <span class="u-gap">${app.postHi}</span>, थाना - <span class="u-gap">${app.thanaHi}</span>, प्रखंड - <b>${app.block}</b>, अनुमंडल - <b>${app.subDiv}</b>, जिला - <b>${app.distHi}</b>, राज्य - <b>बिहार</b> के <b>${app.casteNameHi}</b> समुदाय के सदस्य हैं, जो ${actClause} अतः <b>${app.salutation}${app.nameHi} (${app.nameEn})</b>, पिता (Father) <b>${app.fatherHi} (${app.fatherEn})</b>, <b>${catName}</b> के हैं।
+            प्रमाणित किया जाता है कि <span class="b-val">${app.salutation}${app.nameHi}</span> <span class="bk-bold">(${app.nameEn})</span>, पिता <span class="bk-bold">(Father)</span> <span class="b-val">${app.fatherHi}</span> <span class="bk-bold">(${app.fatherEn})</span>, माता <span class="bk-bold">(Mother)</span> <span class="b-val">${app.motherHi}</span> <span class="bk-bold">(${app.motherEn})</span>, ग्राम / मोहल्ला - <span class="b-val">${app.villageHi}</span>, डाकघर - <span class="b-val">${app.postHi}</span>, थाना - <span class="b-val">${app.thanaHi}</span>, प्रखंड - <span class="b-val">${app.block}</span>, अनुमंडल - <span class="b-val">${app.subDiv}</span>, जिला - <span class="b-val">${app.distHi}</span>, राज्य - <span class="b-val">बिहार</span> के <span class="b-val">${app.casteNameHi}</span> समुदाय के सदस्य हैं, जो ${actClause} अतः <span class="b-val">${app.salutation}${app.nameHi}</span> <span class="bk-bold">(${app.nameEn})</span>, पिता <span class="bk-bold">(Father)</span> <span class="b-val">${app.fatherHi}</span> <span class="bk-bold">(${app.fatherEn})</span>, <span class="b-val">${catName}</span> के हैं।
           </p>
           <p class="cert-paragraph-caste-sub">
-            <b>${app.salutation}${app.nameHi} (${app.nameEn})</b> एवं उनका परिवार वर्तमान में ग्राम / मोहल्ला - <span class="u-gap">${app.villageHi}</span>, डाकघर - <span class="u-gap">${app.postHi}</span>, थाना - <span class="u-gap">${app.thanaHi}</span>, प्रखंड - <b>${app.block}</b>, अनुमंडल - <b>${app.subDiv}</b>, जिला - <b>${app.distHi}</b>, राज्य - <b>BIHAR</b> में निवास करता हैं।
+            <span class="b-val">${app.salutation}${app.nameHi}</span> <span class="bk-bold">(${app.nameEn})</span> एवं उनका परिवार वर्तमान में ग्राम / मोहल्ला - <span class="b-val">${app.villageHi}</span>, डाकघर - <span class="b-val">${app.postHi}</span>, थाना - <span class="b-val">${app.thanaHi}</span>, प्रखंड - <span class="b-val">${app.block}</span>, अनुमंडल - <span class="b-val">${app.subDiv}</span>, जिला - <span class="b-val">${app.distHi}</span>, राज्य - <span class="b-val">BIHAR</span> में निवास करता हैं।
           </p>
         `;
         notesHTML = `
@@ -2100,7 +2127,7 @@
     function downloadOfficialPDF() {
       const element = document.getElementById('certificate-box');
       const opt = {
-        margin:       [2, 3, 2, 3],
+        margin:       [0, 0, 0, 0],
         filename:     'Bihar_RTPS_Certificate.pdf',
         image:        { type: 'jpeg', quality: 0.98 },
         html2canvas:  { scale: 2, useCORS: true, scrollY: 0 },
