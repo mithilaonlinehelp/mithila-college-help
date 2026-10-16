@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Official RTPS Bihar Portal</title>
+  <title>Mithila College Help - Official RTPS Bihar Portal</title>
   
   <!-- PDF Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -276,88 +276,84 @@
     td { padding: 9px; font-size: 13px; }
 
     /* ==========================================================
-       EXACT BIHAR GOVT CERTIFICATE DESIGN (NON-EDITABLE A4)
+       EXACT BIHAR GOVT CERTIFICATE DESIGN (SINGLE-PAGE A4)
        ========================================================== */
     #certificate-box {
-      width: 794px; /* Exact A4 Width */
-      min-height: 1085px;
-      margin: 15px auto;
+      width: 760px;
+      height: 1045px; /* Fits strictly on 1 single A4 page without overflow */
+      margin: 0 auto;
       background: #ffffff;
-      padding: 32px 42px;
-      border: 1px solid #222;
-      position: relative;
+      padding: 14px;
       box-sizing: border-box;
       font-family: 'Noto Sans Devanagari', 'Mangal', 'Arial', sans-serif;
       color: #000;
-      line-height: 1.55;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      /* Prevent any editing or copying */
+      position: relative;
       user-select: none;
       -webkit-user-select: none;
       -moz-user-select: none;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    /* Official Outer Frame Border like Bihar Govt Certificate */
+    .cert-frame-border {
+      border: 1.5px solid #222;
+      width: 100%;
+      height: 100%;
+      padding: 20px 28px 14px 28px;
+      box-sizing: border-box;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     /* Center Bodhi Tree / Bihar Seal Watermark */
     .cert-watermark {
       position: absolute;
-      top: 50%;
+      top: 48%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 340px;
+      width: 310px;
       opacity: 0.08;
       pointer-events: none;
       z-index: 0;
     }
 
-    .cert-inner {
+    .cert-top-section {
       position: relative;
       z-index: 1;
-      display: flex;
-      flex-direction: column;
-      min-height: 1015px;
     }
 
     /* Top Header Grid: Left Empty | Center Bihar Govt | Right Photo (Only for Residence) */
     .cert-top-row {
       display: grid;
-      grid-template-columns: 135px 1fr 135px;
+      grid-template-columns: 120px 1fr 120px;
       align-items: start;
-      margin-bottom: 6px;
-    }
-
-    /* Standard 4x4 Hard High-Density QR Code in Bottom-Left Corner */
-    .cert-qr {
-      width: 128px;
-      height: 128px;
-      border: 1.5px solid #000;
-      padding: 3px;
-      background: #fff;
-      image-rendering: pixelated;
-      display: block;
+      margin-bottom: 4px;
     }
 
     .cert-center-head {
       text-align: center;
+      line-height: 1.35;
     }
 
     .cert-top-emblem {
-      width: 48px;
+      width: 44px;
       height: auto;
       margin-bottom: 2px;
     }
 
     .cert-center-head h3 {
-      margin: 1px 0;
-      font-size: 17px;
+      margin: 0;
+      font-size: 16.5px;
       font-weight: bold;
     }
 
     .cert-center-head .form-no-text {
-      font-size: 14px;
+      font-size: 14.5px;
       font-weight: bold;
-      margin: 2px 0;
+      margin-top: 2px;
     }
 
     .cert-right-photo-wrap {
@@ -365,36 +361,39 @@
     }
 
     .cert-App-Photo {
-      width: 95px;
-      height: 115px;
-      border: 1px solid #000;
+      width: 92px;
+      height: 112px;
+      border: 1px solid #333;
       object-fit: cover;
       display: none;
       margin-left: auto;
     }
 
-    .cert-subhead-line {
+    /* Dynamic Header Container (No extra top/bottom lines) */
+    .cert- subhead-block {
+      text-align: center;
+      margin: 4px 0 8px 0;
+    }
+
+    .cert-loc-text {
       text-align: center;
       font-weight: bold;
-      font-size: 13.5px;
-      border-top: 1px solid #000;
-      border-bottom: 1px solid #000;
-      padding: 4px 0;
-      margin: 6px 0 8px 0;
+      font-size: 14px;
+      margin: 5px 0;
     }
 
     .cert-main-title {
       text-align: center;
       font-weight: bold;
-      font-size: 16px;
-      margin: 6px 0 2px 0;
+      font-size: 15.5px;
+      margin: 5px 0 2px 0;
     }
 
     .cert-sub-purpose {
       text-align: center;
       font-weight: bold;
       font-size: 13.5px;
-      margin-bottom: 8px;
+      margin: 2px 0 6px 0;
     }
 
     .cert-no-date-row {
@@ -402,41 +401,50 @@
       justify-content: space-between;
       font-weight: bold;
       font-size: 13.5px;
-      margin: 10px 0 14px 0;
+      margin: 12px 0 14px 0;
     }
 
     .cert-paragraph {
-      font-size: 14px;
+      font-size: 13.8px;
       text-align: justify;
       line-height: 1.75;
-      margin-bottom: 12px;
+      margin: 0 0 10px 0;
     }
 
-    /* Income Breakdown Table inside Certificate */
-    .income-cert-table {
-      width: 65%;
-      margin: 12px 0 18px 0;
-      border: none;
+    /* Exact 2-Column Income Grid like BICCO Sample */
+    .income-grid-box {
+      margin: 14px 0 10px 0;
+      font-size: 13.8px;
+      font-weight: bold;
     }
-    .income-cert-table td {
-      border: none;
-      padding: 3px 6px;
-      font-size: 14px;
+    .income-row-2col {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .income-col {
+      width: 48%;
+    }
+    .income-total-center {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 14.5px;
       font-weight: bold;
     }
 
-    /* Bottom Section pushed to bottom of A4 for exact original look */
+    /* Bottom Section pushed cleanly to bottom of frame */
     .cert-bottom-section {
+      position: relative;
+      z-index: 1;
       margin-top: auto;
     }
 
-    /* Bottom-Left QR + Place/Date & Right Thin Digital Signature Block */
+    /* Place/Date, Bottom-Left 4x4 Hard QR & Right Digital Signature */
     .cert-sign-row {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      margin-top: 30px;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
     }
 
     .bottom-left-qr-place {
@@ -449,21 +457,33 @@
     .place-date-box {
       font-size: 13.5px;
       font-weight: bold;
-      line-height: 1.6;
+      line-height: 1.55;
+    }
+
+    /* Standard 4x4 Hard High-Density QR Code in Bottom-Left Corner */
+    .cert-qr {
+      width: 135px;
+      height: 135px;
+      border: 1px solid #000;
+      padding: 3px;
+      background: #fff;
+      image-rendering: pixelated;
+      display: block;
     }
 
     .signature-right-wrap {
       text-align: center;
-      width: 295px;
+      width: 285px;
+      padding-bottom: 4px;
     }
 
     /* Exact Thin Digital Signature like Sample PDF */
     .thin-dsc-text {
       display: inline-block;
       text-align: left;
-      font-family: 'Courier New', monospace, sans-serif;
-      font-size: 10.5px;
-      line-height: 1.25;
+      font-family: 'Arial', sans-serif;
+      font-size: 11px;
+      line-height: 1.3;
       color: #111;
       margin-bottom: 4px;
     }
@@ -471,30 +491,18 @@
     .officer-designation-line {
       font-size: 12.5px;
       font-weight: bold;
-      border-top: none;
     }
 
     .cert-bottom-notes {
-      border-top: 1.5px solid #000;
-      padding-top: 8px;
-      font-size: 12px;
-      line-height: 1.55;
-    }
-
-    .cert-bottom-notes ul {
-      margin: 0;
-      padding-left: 18px;
-    }
-
-    .cert-ref-footer {
       border-top: 1px solid #000;
-      margin-top: 12px;
       padding-top: 6px;
-      font-size: 11.5px;
-      font-weight: bold;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
+      font-size: 11.8px;
+      line-height: 1.5;
+    }
+
+    .cert-bottom-notes ol {
+      margin: 0;
+      padding-left: 16px;
     }
 
     footer {
@@ -504,6 +512,40 @@
       color: #fff;
       font-size: 13.5px;
       margin-top: 30px;
+    }
+
+    /* Print Media Query for Direct 1-Page Printing */
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+      body {
+        background: #fff !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      header, nav, footer, #sec-apply, #sec-admin, .gov-title-bar {
+        display: none !important;
+      }
+      .gov-container, .gov-body {
+        border: none !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #fff !important;
+        max-width: 100% !important;
+      }
+      #sec-preview {
+        display: block !important;
+      }
+      #certificate-box {
+        width: 210mm !important;
+        height: 296mm !important;
+        margin: 0 auto !important;
+        padding: 8mm !important;
+        border: none !important;
+      }
     }
 
     @media (max-width: 850px) {
@@ -674,7 +716,7 @@
             </div>
             <div>
               <label>प्रखंड / अंचल (Block / Circle) <span class="req">*</span></label>
-              <select id="block" onchange="populateLocalBodies()" required>
+              <select id="block" onchange="updatePanchayatPlace()" required>
                 <option value="">-- पहले जिला चुनें --</option>
               </select>
             </div>
@@ -684,25 +726,20 @@
           <div style="margin: 12px 0;">
             <label>स्थानीय निकाय का प्रकार (Type of Local Body) <span class="req">*</span></label>
             <div class="radio-group">
-              <label><input type="radio" name="localBodyType" value="ग्राम पंचायत" onchange="populateLocalBodies()" required> ग्राम पंचायत (Gram Panchayat)</label>
-              <label><input type="radio" name="localBodyType" value="नगर निगम" onchange="populateLocalBodies()"> नगर निगम (Municipal Corporation)</label>
-              <label><input type="radio" name="localBodyType" value="नगर परिषद" onchange="populateLocalBodies()"> नगर परिषद (Municipality)</label>
-              <label><input type="radio" name="localBodyType" value="नगर पंचायत" onchange="populateLocalBodies()"> नगर पंचायत (Town Panchayat)</label>
+              <label><input type="radio" name="localBodyType" value="ग्राम पंचायत" onchange="updatePanchayatLabel()" checked required> ग्राम पंचायत (Gram Panchayat)</label>
+              <label><input type="radio" name="localBodyType" value="नगर निगम" onchange="updatePanchayatLabel()"> नगर निगम (Municipal Corporation)</label>
+              <label><input type="radio" name="localBodyType" value="नगर परिषद" onchange="updatePanchayatLabel()"> नगर परिषद (Municipality)</label>
+              <label><input type="radio" name="localBodyType" value="नगर पंचायत" onchange="updatePanchayatLabel()"> नगर पंचायत (Town Panchayat)</label>
             </div>
           </div>
 
-          <div class="form-grid-4">
+          <div class="form-grid-3">
             <div>
-              <label id="dynamicLocalBodyLabel">पंचायत / नगर निकाय चुनें <span class="req">*</span></label>
-              <select id="localBodySelect" onchange="checkCustomPanchayat()" required>
-                <option value="">-- पहले प्रखंड व निकाय चुनें --</option>
-              </select>
-            </div>
-            <div id="customPanchayatWrap" style="display:none;">
-              <label>अपनी पंचायत/निकाय का नाम लिखें <span class="req">*</span></label>
+              <label id="dynamicLocalBodyLabel">ग्राम पंचायत का नाम (English ➔ Auto हिंदी) <span class="req">*</span></label>
               <div class="input-wrapper">
-                <input type="text" id="customPanchayatInput" placeholder="पंचायत का नाम लिखें">
-                <span class="clear-symbol" onclick="clearInput('customPanchayatInput')">✕</span>
+                <input type="text" id="panchayatNameInput" placeholder="अपनी पंचायत/निकाय का नाम लिखें"
+                       onkeyup="handleSpaceTransliterate(event,'panchayatNameInput','panchayatNameInput')" required>
+                <span class="clear-symbol" onclick="clearInput('panchayatNameInput')">✕</span>
               </div>
             </div>
             <div>
@@ -722,33 +759,33 @@
 
           <div class="form-grid-3" style="margin-top:12px;">
             <div>
-              <label>ग्राम / नगर / मोहल्ला (English ➔ Auto हिंदी) <span class="req">*</span></label>
+              <label>ग्राम (Village) / मोहल्ला (Town) <span class="req">*</span></label>
               <div class="input-wrapper">
-                <input type="text" id="villageEn" placeholder="Type Village in English & Space"
+                <input type="text" id="villageEn" placeholder="Type in English (या हिंदी के लिए नीचे लिखें)"
                        onkeyup="handleSpaceTransliterate(event,'villageEn','villageHi')"
-                       onblur="transliterateText('villageEn','villageHi')" required>
+                       onblur="transliterateText('villageEn','villageHi')">
                 <span class="clear-symbol" onclick="clearPair('villageEn','villageHi')">✕</span>
               </div>
-              <input type="text" id="villageHi" placeholder="ग्राम / मोहल्ला (हिंदी में)" style="margin-top:6px;" required>
+              <input type="text" id="villageHi" placeholder="ग्राम / मोहल्ला (सर्टिफिकेट पर छपने हेतु)" style="margin-top:6px;" required>
             </div>
 
             <div>
-              <label>डाकघर (Post Office: English ➔ Auto हिंदी) <span class="req">*</span></label>
+              <label>डाकघर (Post Office) <span class="req">*</span></label>
               <div class="input-wrapper">
                 <input type="text" id="postEn" placeholder="Type Post Office in English & Space"
                        onkeyup="handleSpaceTransliterate(event,'postEn','postHi')"
-                       onblur="transliterateText('postEn','postHi')" required>
+                       onblur="transliterateText('postEn','postHi')">
                 <span class="clear-symbol" onclick="clearPair('postEn','postHi')">✕</span>
               </div>
-              <input type="text" id="postHi" placeholder="डाकघर (हिंदी में)" style="margin-top:6px;" required>
+              <input type="text" id="postHi" placeholder="डाकघर (हिंदी या पिनकोड)" style="margin-top:6px;" required>
             </div>
 
             <div>
-              <label>थाना (Police Station: English ➔ Auto हिंदी) <span class="req">*</span></label>
+              <label>थाना (Police Station) <span class="req">*</span></label>
               <div class="input-wrapper">
                 <input type="text" id="thanaEn" placeholder="Type Thana in English & Space"
                        onkeyup="handleSpaceTransliterate(event,'thanaEn','thanaHi')"
-                       onblur="transliterateText('thanaEn','thanaHi')" required>
+                       onblur="transliterateText('thanaEn','thanaHi')">
                 <span class="clear-symbol" onclick="clearPair('thanaEn','thanaHi')">✕</span>
               </div>
               <input type="text" id="thanaHi" placeholder="थाना (हिंदी में)" style="margin-top:6px;" required>
@@ -756,27 +793,28 @@
           </div>
         </div>
 
-        <!-- C. CERTIFICATE SPECIFIC FIELDS (CASTE / INCOME DETAILS) -->
+        <!-- C. CERTIFICATE SPECIFIC FIELDS (CASTE WITH GENERAL / INCOME DETAILS) -->
         <div class="gov-fieldset" id="casteFieldsBox" style="display:none;">
           <div class="gov-legend">C. जाति प्रमाण-पत्र हेतु विशेष विवरण (Form-IV के अनुसार)</div>
           <div class="form-grid-3">
             <div>
-              <label>वर्ग / श्रेणी (Category) <span class="req">*</span></label>
-              <select id="casteCategory">
-                <option value="पिछड़ा वर्ग (अनुसूची-2)|पिछड़ा वर्ग का जाति प्रमाण-पत्र / Caste Certificate of BC">पिछड़ा वर्ग (BC - अनुसूची-2)</option>
-                <option value="अत्यंत पिछड़ा वर्ग (अनुसूची-1)|अत्यंत पिछड़ा वर्ग का जाति प्रमाण-पत्र / Caste Certificate of EBC">अत्यंत पिछड़ा वर्ग (EBC - अनुसूची-1)</option>
+              <label>वर्ग / श्रेणी (Category - General सहित) <span class="req">*</span></label>
+              <select id="casteCategory" onchange="handleCategorySerialToggle()">
+                <option value="पिछड़ा वर्ग (अनुसूची -2)|पिछड़ा वर्ग का जाति प्रमाण-पत्र / Caste Certificate of BC">पिछड़ा वर्ग (BC - अनुसूची-2)</option>
+                <option value="अत्यंत पिछड़ा वर्ग (अनुसूची -1)|अत्यंत पिछड़ा वर्ग का जाति प्रमाण-पत्र / Caste Certificate of EBC">अत्यंत पिछड़ा वर्ग (EBC - अनुसूची-1)</option>
                 <option value="अनुसूचित जाति|अनुसूचित जाति का प्रमाण-पत्र / Caste Certificate of SC">अनुसूचित जाति (SC)</option>
                 <option value="अनुसूचित जनजाति|अनुसूचित जनजाति का प्रमाण-पत्र / Caste Certificate of ST">अनुसूचित जनजाति (ST)</option>
+                <option value="सामान्य वर्ग (आरक्षित नहीं)|सामान्य वर्ग का जाति प्रमाण-पत्र / Caste Certificate of General (Unreserved)">सामान्य वर्ग / अनारक्षित (General)</option>
               </select>
             </div>
             <div>
-              <label>समुदाय / जाति का नाम (हिंदी में) <span class="req">*</span></label>
+              <label>समुदाय / जाति का नाम (जैसे: कुशवाहा (कोईरी), ब्राह्मण) <span class="req">*</span></label>
               <div class="input-wrapper">
-                <input type="text" id="casteNameHi" placeholder="अपनी जाति लिखें">
+                <input type="text" id="casteNameHi" placeholder="अपनी जाति (हिंदी में) लिखें">
                 <span class="clear-symbol" onclick="clearInput('casteNameHi')">✕</span>
               </div>
             </div>
-            <div>
+            <div id="casteSerialWrap">
               <label>जाति अनुक्रमांक संख्या (Serial No.) <span class="req">*</span></label>
               <div class="input-wrapper">
                 <input type="number" id="casteSerialNo" value="4" placeholder="अनुक्रमांक संख्या">
@@ -837,14 +875,14 @@
             <div>
               <div id="residenceUploadBox" style="background:#eef6ff; border:1px solid #90cdf4; padding:12px; border-radius:6px; margin-bottom:12px;">
                 <label>2. निवास प्रमाण-पत्र पर छपने के लिए पासपोर्ट फोटो अपलोड करें <span class="req">*</span></label>
-                <p style="font-size:11.5px; color:#333; margin:2px 0 8px 0;">(यह अपलोड किया गया फोटो आपके निवास प्रमाण-पत्र के कोने पर छपेगा)</p>
+                <p style="font-size:11.5px; color:#333; margin:2px 0 8px 0;">(यह अपलोड किया गया फोटो आपके निवास प्रमाण-पत्र के दाएँ कोने पर छपेगा)</p>
                 <input type="file" id="resCertPhotoInput" accept="image/*">
               </div>
 
-              <!-- 3. Mandatory Aadhaar Card -->
+              <!-- 3. Mandatory Identity Document -->
               <div style="margin-bottom:12px;">
-                <label>3. आधार कार्ड अपलोड करें (Aadhaar Card - Mandatory) <span class="req">*</span></label>
-                <input type="file" id="docAadhaar" accept=".pdf,image/*" required>
+                <label>3. पहचान प्रमाण-पत्र अपलोड करें (Identity Proof - Mandatory) <span class="req">*</span></label>
+                <input type="file" id="docIdentity" accept=".pdf,image/*" required>
               </div>
 
               <!-- 4. Additional Supporting Document -->
@@ -894,7 +932,7 @@
         <div style="margin-bottom:14px;">
           <label>अधिकारी का नाम (Officer Name for Digital Signature) <span class="req">*</span></label>
           <div class="input-wrapper">
-            <input type="text" id="offLoginName" placeholder="अधिकारी अपना नाम लिखें (e.g. ABHISHEK ANAND)" style="text-transform:uppercase;">
+            <input type="text" id="offLoginName" placeholder="अधिकारी अपना नाम अंग्रेजी में लिखें" style="text-transform:uppercase;">
             <span class="clear-symbol" onclick="clearInput('offLoginName')">✕</span>
           </div>
         </div>
@@ -918,7 +956,7 @@
               <th>प्रकार</th>
               <th>आवेदक का नाम</th>
               <th>अंचल एवं जिला</th>
-              <th>लाइव फोटो व दस्तावेज</th>
+              <th>लाइव फोटो</th>
               <th>स्थिति</th>
               <th>अधिकारी कार्रवाई</th>
             </tr>
@@ -934,70 +972,68 @@
   <!-- ==================== 3. EXACT BIHAR GOVT CERTIFICATE PREVIEW ==================== -->
   <div class="gov-container" id="sec-preview" style="display:none;">
     <div class="gov-title-bar">
-      <span>जनरेटेड प्रमाण-पत्र (100% Non-Editable Bihar Govt Format)</span>
-      <button type="button" class="btn-gov btn-danger" onclick="downloadOfficialPDF()">⬇ Download Original Format PDF</button>
+      <span>जनरेटेड प्रमाण-पत्र (100% Single-Page Bihar Govt Format)</span>
+      <div style="display:flex; gap:10px;">
+        <button type="button" class="btn-gov btn-success" onclick="window.print()">🖨️ Print (1 Page)</button>
+        <button type="button" class="btn-gov btn-danger" onclick="downloadOfficialPDF()">⬇ Download Single-Page PDF</button>
+      </div>
     </div>
 
     <div class="gov-body" style="overflow-x:auto;">
-      <!-- EXACT A4 CERTIFICATE BOX -->
+      <!-- EXACT SINGLE-PAGE A4 CERTIFICATE BOX -->
       <div id="certificate-box">
-        <!-- Center Watermark -->
-        <img class="cert-watermark" src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Seal_of_Bihar.svg" crossorigin="anonymous" alt="Bihar Seal">
+        <div class="cert-frame-border">
+          <!-- Center Watermark -->
+          <img class="cert-watermark" src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Seal_of_Bihar.svg" crossorigin="anonymous" alt="Bihar Seal">
 
-        <div class="cert-inner">
-          <!-- Top Header Row (Left blank to balance layout, Center Bihar Govt, Right Photo for Residence) -->
-          <div class="cert-top-row">
-            <div></div>
+          <!-- TOP & MIDDLE CONTENT -->
+          <div class="cert-top-section">
+            <div class="cert-top-row">
+              <div></div>
 
-            <div class="cert-center-head">
-              <img class="cert-top-emblem" src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Seal_of_Bihar.svg" crossorigin="anonymous" alt="Emblem">
-              <h3>बिहार सरकार</h3>
-              <h3>Government of Bihar</h3>
-              <div class="form-no-text" id="certFormNo">फॉर्म / Form - XIII</div>
+              <div class="cert-center-head">
+                <img class="cert-top-emblem" src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Seal_of_Bihar.svg" crossorigin="anonymous" alt="Emblem">
+                <h3>बिहार सरकार</h3>
+                <h3>Government of Bihar</h3>
+                <div class="form-no-text" id="certFormNo">फॉर्म / Form-IV</div>
+              </div>
+
+              <div class="cert-right-photo-wrap">
+                <!-- Appears ONLY on Residence Certificate -->
+                <img id="certResPhoto" class="cert-App-Photo" src="" alt="Applicant Photo">
+              </div>
             </div>
 
-            <div class="cert-right-photo-wrap">
-              <!-- Appears ONLY on Residence Certificate -->
-              <img id="certResPhoto" class="cert-App-Photo" src="" alt="Applicant Photo">
+            <!-- Dynamic Header Block (No extra lines; Residence puts Title above District, Caste/Income puts District above Title) -->
+            <div id="certDynamicHeaderBlock">
+              <div class="cert-loc-text">जिला / District : , अनुमंडल / Sub-Division : , अंचल / Circle : </div>
+              <div class="cert-main-title">निवास प्रमाण-पत्र / Residence Certificate</div>
+            </div>
+
+            <!-- Certificate Number & Date -->
+            <div class="cert-no-date-row">
+              <div>प्रमाण-पत्र संख्या : <span id="certNoOut"></span></div>
+              <div>दिनांक : <span id="certDateOut"></span></div>
+            </div>
+
+            <!-- Main Certificate Body Content -->
+            <div id="certBodyContent">
+              <p class="cert-paragraph" style="text-align:center; color:#666;">
+                (प्रमाण-पत्र देखने के लिए पहले फॉर्म सबमिट करें और अधिकारी पैनल से Verify करें)
+              </p>
             </div>
           </div>
 
-          <!-- District, Sub-Division, Circle Line -->
-          <div class="cert-subhead-line" id="certLocationLine">
-            जिला / District : , अनुमंडल / Sub-Division : , अंचल / Circle : 
-          </div>
-
-          <!-- Certificate Main Heading -->
-          <div class="cert-main-title" id="certHeading">
-            निवास प्रमाण-पत्र / Residence Certificate
-          </div>
-          <div class="cert-sub-purpose" id="certSubHeading">
-            (बिहार सरकार के प्रयोजनार्थ)
-          </div>
-
-          <!-- Certificate Number & Date -->
-          <div class="cert-no-date-row">
-            <div>प्रमाण-पत्र संख्या : <span id="certNoOut"></span></div>
-            <div>दिनांक : <span id="certDateOut"></span></div>
-          </div>
-
-          <!-- Main Certificate Body Content -->
-          <div id="certBodyContent">
-            <p class="cert-paragraph" style="text-align:center; color:#666;">
-              (प्रमाण-पत्र देखने के लिए पहले फॉर्म सबमिट करें और अधिकारी पैनल से Verify करें)
-            </p>
-          </div>
-
-          <!-- Bottom Section: Left 4x4 Standard Hard QR + Place/Date & Right Digital Signature -->
+          <!-- BOTTOM SECTION: Left Place/Date + 4x4 Hard QR & Right Digital Signature + Footer Notes (NO Reference/Token line) -->
           <div class="cert-bottom-section">
             <div class="cert-sign-row">
               <div class="bottom-left-qr-place">
-                <!-- Standard 4x4 Hard High-Density QR Code in Bottom-Left Corner -->
-                <img id="certQR" class="cert-qr" src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&ecc=H&margin=0&data=https%3A%2F%2Fserviceonline.bihar.gov.in%2Fverify%3FcertNo%3DBRCCO%2F2026%2FSAMPLE%26status%3DVERIFIED" crossorigin="anonymous" alt="QR Code">
                 <div class="place-date-box">
                   स्थान : <span id="certPlaceOut"></span><br>
                   दिनांक : <span id="certBottomDateOut"></span>
                 </div>
+                <!-- Standard 4x4 Hard High-Density QR Code in Bottom-Left Corner -->
+                <img id="certQR" class="cert-qr" src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&ecc=H&margin=0&data=https%3A%2F%2Fserviceonline.bihar.gov.in%2Fverify%3Fstatus%3DVERIFIED" crossorigin="anonymous" alt="QR Code">
               </div>
 
               <div class="signature-right-wrap">
@@ -1013,18 +1049,10 @@
 
             <!-- Bottom Instructions & Validity -->
             <div class="cert-bottom-notes">
-              <ul>
+              <ol id="certNotesList">
                 <li>QR Code की जाँच https://serviceonline.bihar.gov.in पोर्टल एवं Play Store पर उपलब्ध ServicePlus Mobile App से करें।</li>
-                <li id="certValidityLine" style="display:none;"></li>
                 <li>नोट: यह दस्तावेज DigiLocker पर भी उपलब्ध है।</li>
-              </ul>
-            </div>
-
-            <!-- Reference & Token Strip -->
-            <div class="cert-ref-footer">
-              <span>Reference No: <span id="certRefOut"></span></span>
-              <span>To View: <span id="certUrlOut">https://serviceonline.bihar.gov.in</span></span>
-              <span>Token No: <span id="certTokenOut"></span></span>
+              </ol>
             </div>
           </div>
         </div>
@@ -1038,7 +1066,7 @@
 
   <!-- ==================== JAVASCRIPT MASTER ENGINE ==================== -->
   <script>
-    // 1. बिहार के सभी 38 जिले और उनके सभी प्रमुख प्रखंड (Complete 38 Districts of Bihar)
+    // बिहार के सभी 38 जिले और उनके सभी प्रखंड (Complete 38 Districts of Bihar)
     const biharAll38Districts = {
       "अररिया (Araria)": { sub: "अररिया", blocks: ["अररिया", "फारबिसगंज", "जोकीहाट", "रानीगंज", "नरपतगंज", "कुर्साकांटा", "पलासी", "सिकटी", "भरगामा"] },
       "अरवल (Arwal)": { sub: "अरवल", blocks: ["अरवल", "कलेर", "करपी", "कुर्था", "सोनभद्र वंशी सूर्यपुर"] },
@@ -1060,7 +1088,7 @@
       "किशनगंज (Kishanganj)": { sub: "किशनगंज", blocks: ["किशनगंज", "बहादुरगंज", "ठाकुरगंज", "कोचाधामन", "पोठिया", "दिघलबैंक", "टेढ़ागाछ"] },
       "लखीसराय (Lakhisarai)": { sub: "लखीसराय", blocks: ["लखीसराय", "सूर्यगढ़ा", "बड़हिया", "हलसी", "रामगढ़ चौक", "पिपरिया", "चानन"] },
       "मधेपुरा (Madhepura)": { sub: "मधेपुरा", blocks: ["मधेपुरा", "उदाकिशुनगंज", "सिंहेश्वर", "बिहारीगंज", "मुरलीगंज", "आलमनगर", "चौसा", "पुरैनी", "ग्वालपाड़ा", "कुमारखंड", "शंकरपुर", "गम्हरिया", "घैलाढ़"] },
-      "मधुबनी (Madhubani)": { sub: "मधुबनी", blocks: ["मधुबनी (रहिका)", "झंझारपुर", "बेनीपट्टी", "जयनगर", "फुलपरास", "पंडौल", "राजनगर", "खजौली", "कलुआही", "बाबूबरही", "अंधराठाढ़ी", "लौकही", "लौकहा (खुutauna)", "लदनिया", "बासोपट्टी", "हरलाखी", "मधवापुर", "बिस्फी", "मधेपुर", "लखनौर", "घोघरडीहा"] },
+      "मधुबनी (Madhubani)": { sub: "मधुबनी", blocks: ["मधुबनी (रहिका)", "झंझारपुर", "बेनीपट्टी", "जयनगर", "फुलपरास", "पंडौल", "राजनगर", "खजौली", "कलुआही", "बाबूबरही", "अंधराठाढ़ी", "लौकही", "लौकहा (खुटौना)", "लदनिया", "बासोपट्टी", "हरलाखी", "मधवापुर", "बिस्फी", "मधेपुर", "लखनौर", "घोघरडीहा"] },
       "मुंगेर (Munger)": { sub: "मुंगेर सदर", blocks: ["मुंगेर सदर", "जमालपुर", "खड़गपुर", "तारापुर", "असरगंज", "संग्रामपुर", "धरहरा", "बरियारपुर", "टेटिया बंबर"] },
       "मुजफ्फरपुर (Muzaffarpur)": { sub: "मुजफ्फरपुर पूर्वी", blocks: ["मुशहरी", "काँटी", "कुढ़नी", "बोचहाँ", "सकरा", "मोतीपुर", "मीनापुर", "पारू", "साहेबगंज", "सरैया", "मड़वन", "गायघाट", "बंदरा", "औराई", "कटरा", "मुरौल"] },
       "नालंदा (Nalanda)": { sub: "बिहारशरीफ", blocks: ["बिहारशरीफ", "राजगीर", "हिलसा", "अस्थावां", "इस्लामपुर", "चंडी", "हरनौत", "सिलाव", "गिरियक", "राहुई", "नूरसराय", "सरमेरा", "बिंद", "वेना", "एकंगरसराय", "परबलपुर", "थरथरी", "करायपरसुराय", "नगरनौसा", "कतरीसराय"] },
@@ -1103,7 +1131,6 @@
       }
     });
 
-    // Disable right click or keyboard edit on certificate
     function disableCertEdit(e) {
       if (e.target && e.target.closest('#certificate-box')) {
         e.preventDefault();
@@ -1122,7 +1149,6 @@
       document.getElementById('tab-preview').classList.toggle('active-tab', sec === 'preview');
     }
 
-    // Applicant Registration / Login
     function registerAndUnlockForm() {
       const mob = document.getElementById('userMob').value.trim();
       const email = document.getElementById('userEmail').value.trim();
@@ -1146,7 +1172,6 @@
       alert("आवेदक लॉगिन सफल! अब आप नीचे अपना प्रमाण-पत्र आवेदन फॉर्म भर सकते हैं।");
     }
 
-    // Populate Blocks & Sub-division on District Change
     function populateBlocksAndSubDiv() {
       const distKey = document.getElementById('district').value;
       const blockSelect = document.getElementById('block');
@@ -1162,61 +1187,34 @@
           blockSelect.appendChild(opt);
         });
       }
-      populateLocalBodies();
     }
 
-    // Populate Panchayats / Local Bodies + Option to enter any Panchayat
-    function populateLocalBodies() {
-      const block = document.getElementById('block').value;
+    function updatePanchayatLabel() {
       const radio = document.querySelector('input[name="localBodyType"]:checked');
-      const select = document.getElementById('localBodySelect');
       const label = document.getElementById('dynamicLocalBodyLabel');
-
-      select.innerHTML = '<option value="">-- विकल्प चुनें --</option>';
-      document.getElementById('customPanchayatWrap').style.display = 'none';
-
-      if (!block || !radio) return;
-
-      const type = radio.value;
-      label.innerHTML = `${type} का नाम चुनें <span class="req">*</span>`;
-
-      const list = [
-        `${block} सदर / मुख्य ${type}`,
-        `${block} उत्तरी ${type}`,
-        `${block} दक्षिणी ${type}`,
-        `${block} पूर्वी ${type}`,
-        `${block} पश्चिमी ${type}`,
-        `मुरौल ${type}`,
-        `OTHER_CUSTOM`
-      ];
-
-      list.forEach(item => {
-        let opt = document.createElement('option');
-        if (item === 'OTHER_CUSTOM') {
-          opt.value = 'OTHER_CUSTOM';
-          opt.innerText = '➕ अन्य (अपनी पंचायत/निकाय का नाम स्वयं लिखें)';
-        } else {
-          opt.value = item;
-          opt.innerText = item;
-        }
-        select.appendChild(opt);
-      });
-    }
-
-    function checkCustomPanchayat() {
-      const val = document.getElementById('localBodySelect').value;
-      const wrap = document.getElementById('customPanchayatWrap');
-      const inp = document.getElementById('customPanchayatInput');
-      if (val === 'OTHER_CUSTOM') {
-        wrap.style.display = 'block';
-        inp.required = true;
-      } else {
-        wrap.style.display = 'none';
-        inp.required = false;
+      if (radio) {
+        label.innerHTML = `${radio.value} का नाम (English ➔ Auto हिंदी) <span class="req">*</span>`;
       }
     }
 
-    // Toggle Caste / Income / Residence Specific Fields
+    function updatePanchayatPlace() {
+      const blockVal = document.getElementById('block').value;
+      const pInput = document.getElementById('panchayatNameInput');
+      if (blockVal && !pInput.value) {
+        pInput.placeholder = `${blockVal} क्षेत्र की पंचायत/निकाय का नाम लिखें`;
+      }
+    }
+
+    function handleCategorySerialToggle() {
+      const catVal = document.getElementById('casteCategory').value;
+      const serialWrap = document.getElementById('casteSerialWrap');
+      if (catVal.startsWith("सामान्य वर्ग")) {
+        serialWrap.style.display = "none";
+      } else {
+        serialWrap.style.display = "block";
+      }
+    }
+
     function handleCertTypeChange() {
       const type = document.getElementById('certType').value;
       document.getElementById('casteFieldsBox').style.display = type === 'CASTE' ? 'block' : 'none';
@@ -1241,7 +1239,6 @@
       document.getElementById('incTotal').value = g + b + a + o;
     }
 
-    // Live Webcam Functions
     async function startLiveCamera() {
       const video = document.getElementById('webcamVideo');
       const canvas = document.getElementById('liveCanvasPreview');
@@ -1251,7 +1248,7 @@
         cameraStream = await navigator.mediaDevices.getUserMedia({ video: true });
         video.srcObject = cameraStream;
       } catch (err) {
-        alert("कैमरा एक्सेस नहीं मिला! डेमो के लिए सिस्टम लाइव वेरिफिकेशन टैग जनरेट कर रहा है।");
+        alert("कैमरा एक्सेस नहीं मिला! सिस्टम लाइव वेरिफिकेशन टैग जनरेट कर रहा है।");
         markFallbackLiveCapture();
       }
     }
@@ -1292,7 +1289,6 @@
       st.style.color = "#138808";
     }
 
-    // Clear Symbols (✕)
     function clearInput(id) {
       const el = document.getElementById(id);
       if (el) {
@@ -1307,7 +1303,6 @@
       document.getElementById(enId).focus();
     }
 
-    // Auto English to Hindi Transliteration
     function handleSpaceTransliterate(event, srcId, destId) {
       if (event.keyCode === 32 || event.key === " ") {
         transliterateText(srcId, destId);
@@ -1317,7 +1312,7 @@
     async function transliterateText(srcId, destId) {
       const text = document.getElementById(srcId).value.trim();
       const dest = document.getElementById(destId);
-      if (!text) { dest.value = ""; return; }
+      if (!text) { return; }
       try {
         const res = await fetch(`https://inputtools.google.com/request?text=${encodeURIComponent(text)}&itc=hi-t-i0-und&num=1&cp=0&cs=1&ie=utf-8&oe=utf-8`);
         const data = await res.json();
@@ -1329,7 +1324,6 @@
       }
     }
 
-    // Helper to convert File to DataURL for PDF rendering
     function readFileAsDataURL(file) {
       return new Promise((resolve) => {
         const reader = new FileReader();
@@ -1338,7 +1332,6 @@
       });
     }
 
-    // Form Submit Handler
     async function handleFormSubmit(e) {
       e.preventDefault();
 
@@ -1365,11 +1358,6 @@
       const distRaw = document.getElementById('district').value;
       const distHi = distRaw.split('(')[0].trim();
 
-      const localSelectVal = document.getElementById('localBodySelect').value;
-      const finalLocalBody = localSelectVal === 'OTHER_CUSTOM'
-        ? document.getElementById('customPanchayatInput').value.trim()
-        : localSelectVal;
-
       const appObj = {
         certNo: certNo,
         type: type,
@@ -1382,13 +1370,13 @@
         motherHi: document.getElementById('motherNameHi').value.trim(),
         distHi: distHi,
         subDiv: document.getElementById('subDivision').value.trim(),
-        block: document.getElementById('block').value, // Auto used for Place (स्थान)
-        localBody: finalLocalBody,
+        block: document.getElementById('block').value,
+        localBody: document.getElementById('panchayatNameInput').value.trim(),
         wardNo: document.getElementById('wardNo').value,
         pincode: document.getElementById('pincode').value.trim(),
-        villageHi: document.getElementById('villageHi').value.trim(),
-        postHi: document.getElementById('postHi').value.trim(),
-        thanaHi: document.getElementById('thanaHi').value.trim(),
+        villageHi: document.getElementById('villageHi').value.trim() || document.getElementById('villageEn').value.trim(),
+        postHi: document.getElementById('postHi').value.trim() || document.getElementById('postEn').value.trim(),
+        thanaHi: document.getElementById('thanaHi').value.trim() || document.getElementById('thanaEn').value.trim(),
         // Caste details
         casteCatRaw: document.getElementById('casteCategory').value,
         casteNameHi: document.getElementById('casteNameHi').value.trim(),
@@ -1402,12 +1390,9 @@
         // Photos & Officer
         livePhoto: document.getElementById('livePhotoData').value,
         resPhoto: residenceCertPhotoURL,
-        extraDocType: document.getElementById('extraDocType').value,
         officerName: "",
         issueDate: dateStr,
         signTimestamp: "",
-        tokenNo: Math.random().toString(16).substring(2, 10).toUpperCase(),
-        shortCode: Math.random().toString(36).substring(2, 7),
         status: "Pending"
       };
 
@@ -1419,7 +1404,6 @@
       switchSection('admin');
     }
 
-    // Officer Authentication (shreyajha / shreyajha821337 + Officer Name Input)
     function loginOfficer() {
       const u = document.getElementById('offUser').value.trim();
       const p = document.getElementById('offPass').value.trim();
@@ -1490,7 +1474,7 @@
       app.officerName = currentOffName;
       app.status = "Verified";
 
-      // Auto Official Date & Time Format for Digital Signature (YYYY.MM.DD HH:MM:SS +05'30')
+      // Auto Official Date & Time Format for Digital Signature (YYYY.MM.DD HH:MM:SS +05:30)
       const now = new Date();
       const yyyy = now.getFullYear();
       const mm = String(now.getMonth() + 1).padStart(2, '0');
@@ -1498,12 +1482,34 @@
       const hh = String(now.getHours()).padStart(2, '0');
       const min = String(now.getMinutes()).padStart(2, '0');
       const ss = String(now.getSeconds()).padStart(2, '0');
-      app.signTimestamp = `${yyyy}.${mm}.${dd} ${hh}:${min}:${ss} +05'30'`;
+      app.signTimestamp = `${yyyy}.${mm}.${dd} ${hh}:${min}:${ss} +05:30`;
 
-      // Fill Certificate Preview Data
-      document.getElementById('certFormNo').innerText = app.type === 'CASTE' ? 'फॉर्म / Form - IV' : (app.type === 'INCOME' ? 'फॉर्म / Form - XVI' : 'फॉर्म / Form - XIII');
-      document.getElementById('certHeading').innerText = app.type === 'CASTE' ? 'जाति प्रमाण-पत्र / Caste Certificate' : (app.type === 'INCOME' ? 'आय प्रमाण-पत्र / Income Certificate' : 'निवास प्रमाण-पत्र / Residence Certificate');
-      
+      // Form Number Exact Match
+      document.getElementById('certFormNo').innerText = app.type === 'CASTE' ? 'फॉर्म / Form-IV' : (app.type === 'INCOME' ? 'फॉर्म / Form - XVI' : 'फॉर्म / Form - XIII');
+
+      const locString = `जिला / District : ${app.distHi}, अनुमंडल / Sub-Division : ${app.subDiv}, अंचल / Circle : ${app.block}`;
+      const headerBlock = document.getElementById('certDynamicHeaderBlock');
+
+      // Exact Header Order & Purpose Line per Sample PDFs
+      if (app.type === 'RESIDENCE') {
+        headerBlock.innerHTML = `
+          <div class="cert-main-title">निवास प्रमाण-पत्र / Residence Certificate</div>
+          <div class="cert-loc-text">${locString}</div>
+        `;
+      } else if (app.type === 'CASTE') {
+        const casteTitle = app.casteCatRaw.split('|')[1] || 'जाति प्रमाण-पत्र / Caste Certificate';
+        headerBlock.innerHTML = `
+          <div class="cert-loc-text">${locString}</div>
+          <div class="cert-main-title">${casteTitle}</div>
+          <div class="cert-sub-purpose">(बिहार सरकार के प्रयोजनार्थ)</div>
+        `;
+      } else if (app.type === 'INCOME') {
+        headerBlock.innerHTML = `
+          <div class="cert-loc-text">${locString}</div>
+          <div class="cert-main-title">आय प्रमाण-पत्र / Income Certificate</div>
+        `;
+      }
+
       document.getElementById('certNoOut').innerText = app.certNo;
       document.getElementById('certDateOut').innerText = app.issueDate;
       // Place (स्थान) is automatically set to the applicant's Block (प्रखंड / अंचल)
@@ -1511,11 +1517,6 @@
       document.getElementById('certBottomDateOut').innerText = app.issueDate;
       document.getElementById('certOfficerOut').innerText = app.officerName;
       document.getElementById('certSignTimestampOut').innerText = app.signTimestamp;
-      document.getElementById('certRefOut').innerText = app.tokenNo;
-      document.getElementById('certUrlOut').innerText = "https://serviceonline.bihar.gov.in";
-      document.getElementById('certTokenOut').innerText = app.shortCode;
-
-      document.getElementById('certLocationLine').innerText = `जिला / District : ${app.distHi}, अनुमंडल / Sub-Division : ${app.subDiv}, अंचल / Circle : ${app.block}`;
 
       // Handle Residence Photo on Certificate Top-Right Corner
       let resPhotoEl = document.getElementById('certResPhoto');
@@ -1527,41 +1528,85 @@
       }
 
       // Generate Standard 4x4 Hard High-Density QR Code in Bottom-Left Corner
-      const qrPayload = `https://serviceonline.bihar.gov.in/verify?certNo=${app.certNo}&name=${app.nameEn}&father=${app.fatherEn}&block=${app.block}&dist=${app.distHi}&date=${app.issueDate}&officer=${app.officerName}&ref=${app.tokenNo}&token=${app.shortCode}`;
+      const qrPayload = `https://serviceonline.bihar.gov.in/verify?certNo=${app.certNo}&name=${app.nameEn}&father=${app.fatherEn}&block=${app.block}&dist=${app.distHi}&date=${app.issueDate}&officer=${app.officerName}`;
       document.getElementById('certQR').src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&ecc=H&margin=0&data=${encodeURIComponent(qrPayload)}`;
 
-      // Build Dynamic Body Content based on Certificate Type
+      // Exact Word-for-Word Body Content & Footer Notes per Bihar Govt Sample PDFs
       let bodyHTML = "";
-      if (app.type === 'RESIDENCE') {
-        bodyHTML = `<p class="cert-paragraph">प्रमाणित किया जाता है कि <b>${app.salutation}${app.nameHi}</b> / <b>${app.salutation}${app.nameEn}</b>, पिता का नाम - <b>${app.fatherHi}</b>, माता का नाम - <b>${app.motherHi}</b> ग्राम/मोहल्ला - <b>${app.villageHi}</b>, डाकघर - <b>${app.postHi}</b>, थाना - <b>${app.thanaHi}</b>, अंचल - <b>${app.block}</b>, अनुमंडल - <b>${app.subDiv}</b>, जिला - <b>${app.distHi}</b> बिहार राज्य के स्थायी निवासी हैं।</p>`;
-      } else if (app.type === 'CASTE') {
-        bodyHTML = `<p class="cert-paragraph">प्रमाणित किया जाता है कि <b>${app.salutation}${app.nameHi}</b>, पिता - <b>${app.fatherHi}</b>, माता - <b>${app.motherHi}</b> ग्राम - <b>${app.villageHi}</b>, पोस्ट - <b>${app.postHi}</b>, थाना - <b>${app.thanaHi}</b>, अंचल - <b>${app.block}</b>, जिला - <b>${app.distHi}</b> के निवासी हैं। इनके समुदाय/जाति <b>${app.casteNameHi}</b> है जो बिहार राज्य के अंतर्गत <b>${app.casteCatRaw.split('|')[0]}</b> के क्रमरूप अनुक्रमांक <b>${app.casteSerial}</b> के अंतर्गत मान्‍य है।</p>`;
+      let notesHTML = "";
+
+      if (app.type === 'CASTE') {
+        const catName = app.casteCatRaw.split('|')[0];
+        const actClause = catName.startsWith("सामान्य वर्ग")
+          ? `बिहार राज्य की <b>${catName}</b> श्रेणी के अंतर्गत अंकित हैं।`
+          : `बिहार पदों एवं सेवाओं की रिक्तियों में आरक्षण (अनुसूचित जातियों, अनुसूचित जनजातियों एवं अन्य पिछड़े वर्गों के लिए) अधिनियम, 1991 समय-समय पर यथासंशोधित अधिनियम के अंतर्गत बिहार राज्य की <b>${catName}</b> में अनुक्रमांक <b>${app.casteSerial}</b> पर अंकित हैं।`;
+
+        bodyHTML = `
+          <p class="cert-paragraph">
+            प्रमाणित किया जाता है कि <b>${app.salutation}${app.nameHi} (${app.nameEn})</b>, पिता (Father) <b>${app.fatherHi} (${app.fatherEn})</b>, माता (Mother) <b>${app.motherHi} (${app.motherEn})</b>, ग्राम / मोहल्ला - <b>${app.villageHi}</b>, डाकघर - <b>${app.postHi}</b>, थाना - <b>${app.thanaHi}</b>, प्रखंड - <b>${app.block}</b>, अनुमंडल - <b>${app.subDiv}</b>, जिला - <b>${app.distHi}</b>, राज्य - <b>बिहार</b> के <b>${app.casteNameHi}</b> समुदाय के सदस्य हैं, जो ${actClause} अतः <b>${app.salutation}${app.nameHi} (${app.nameEn})</b>, पिता (Father) <b>${app.fatherHi} (${app.fatherEn})</b>, <b>${catName}</b> के हैं।
+          </p>
+          <p class="cert-paragraph">
+            <b>${app.salutation}${app.nameHi} (${app.nameEn})</b> एवं उनका परिवार वर्तमान में ग्राम / मोहल्ला - <b>${app.villageHi}</b>, डाकघर - <b>${app.postHi}</b>, थाना - <b>${app.thanaHi}</b>, प्रखंड - <b>${app.block}</b>, अनुमंडल - <b>${app.subDiv}</b>, जिला - <b>${app.distHi}</b>, राज्य - <b>BIHAR</b> में निवास करता हैं।
+          </p>
+        `;
+        notesHTML = `
+          <li>QR Code की जाँच https://serviceonline.bihar.gov.in पोर्टल एवं Play Store पर उपलब्ध ServicePlus Mobile App से करें।</li>
+          <li>वैधता: कोई समय सीमा नहीं।</li>
+          <li>नोट: यह दस्तावेज DigiLocker पर भी उपलब्ध है।</li>
+        `;
       } else if (app.type === 'INCOME') {
         bodyHTML = `
-          <p class="cert-paragraph">प्रमाणित किया जाता है कि <b>${app.salutation}${app.nameHi}</b>, पिता - <b>${app.fatherHi}</b>, माता - <b>${app.motherHi}</b> ग्राम - <b>${app.villageHi}</b>, पोस्ट - <b>${app.postHi}</b>, अंचल - <b>${app.block}</b>, जिला - <b>${app.distHi}</b> के निवासी हैं। इनके परिवार की कुल वार्षिक आय निम्नलिखित स्रोतों से है:</p>
-          <table class="income-cert-table">
-            <tr><td>1. सरकारी सेवा से आय:</td><td>₹ ${app.incGovt}</td></tr>
-            <tr><td>2. व्यवसाय से आय:</td><td>₹ ${app.incBiz}</td></tr>
-            <tr><td>3. कृषि से आय:</td><td>₹ ${app.incAgri}</td></tr>
-            <tr><td>4. अन्य स्रोतों से आय:</td><td>₹ ${app.incOther}</td></tr>
-            <tr style="border-top:1px solid #000;"><td>कुल वार्षिक आय:</td><td>₹ ${app.incTotal}</td></tr>
-          </table>`;
+          <p class="cert-paragraph">
+            प्रमाणित किया जाता है कि <b>${app.salutation}${app.nameHi} (${app.nameEn})</b>, पिता (Father) <b>${app.fatherHi} (${app.fatherEn})</b>, माता (Mother) <b>${app.motherHi} (${app.motherEn})</b>, ग्राम / नगर - <b>${app.villageHi}</b>, डाकघर - <b>${app.postHi}</b>, थाना - <b>${app.thanaHi}</b>, प्रखंड - <b>${app.block}</b>, अनुमंडल - <b>${app.subDiv}</b>, जिला - <b>${app.distHi}</b>, राज्य - <b>बिहार</b> एवं उनके परिवार की कुल वार्षिक आय निम्नांकित है :
+          </p>
+          <div class="income-grid-box">
+            <div class="income-row-2col">
+              <div class="income-col">सरकारी सेवा से आय : ₹ ${app.incGovt}/-</div>
+              <div class="income-col">व्यवसाय से आय : ₹ ${app.incBiz}/-</div>
+            </div>
+            <div class="income-row-2col">
+              <div class="income-col">कृषि से आय : ₹ ${app.incAgri}/-</div>
+              <div class="income-col">अन्य स्रोतों से आय : ₹ ${app.incOther}/-</div>
+            </div>
+            <div class="income-total-center">
+              कुल आय (वार्षिक) : ₹ ${app.incTotal}/-
+            </div>
+          </div>
+        `;
+        notesHTML = `
+          <li>QR Code की जाँच https://serviceonline.bihar.gov.in पोर्टल एवं Play Store पर उपलब्ध ServicePlus Mobile App से करें।</li>
+          <li>वैधता: निर्गत होने की तिथि से अगले एक वर्ष की अवधि तक।</li>
+          <li>नोट: यह दस्तावेज DigiLocker पर भी उपलब्ध है।</li>
+        `;
+      } else if (app.type === 'RESIDENCE') {
+        bodyHTML = `
+          <p class="cert-paragraph">
+            प्रमाणित किया जाता है कि <b>${app.salutation}${app.nameHi} (${app.nameEn})</b>, पिता (Father) <b>${app.fatherHi} (${app.fatherEn})</b>, माता (Mother) <b>${app.motherHi} (${app.motherEn})</b>, ग्राम / मोहल्ला - <b>${app.villageHi}</b>, वार्ड संख्या - <b>${app.wardNo}</b>, डाकघर - <b>${app.postHi}</b>, पिनकोड - <b>${app.pincode}</b>, थाना - <b>${app.thanaHi}</b>, प्रखंड - <b>${app.block}</b>, अनुमंडल - <b>${app.subDiv}</b>, जिला - <b>${app.distHi}</b>, राज्य - <b>बिहार</b> के स्थायी निवासी हैं।
+          </p>
+        `;
+        notesHTML = `
+          <li>QR Code की जाँच https://serviceonline.bihar.gov.in पोर्टल एवं Play Store पर उपलब्ध ServicePlus Mobile App से करें।</li>
+          <li>नोट: यह दस्तावेज DigiLocker पर भी उपलब्ध है।</li>
+        `;
       }
+
       document.getElementById('certBodyContent').innerHTML = bodyHTML;
+      document.getElementById('certNotesList').innerHTML = notesHTML;
       renderOfficerQueue();
 
-      alert("सत्यापन सफल! प्रमाण-पत्र जनरेट कर दिया गया है। अब 'प्रमाण-पत्र डाउनलोड' टैब में देखें।");
+      alert("सत्यापन सफल! ओरिजिनल बिहार सरकार फॉर्मेट में सिंगल-पेज प्रमाण-पत्र जनरेट कर दिया गया है।");
       switchSection('preview');
     }
 
     function downloadOfficialPDF() {
       const element = document.getElementById('certificate-box');
       const opt = {
-        margin:       0.2,
-        filename:     'Bihar_Govt_Certificate.pdf',
+        margin:       [4, 5, 4, 5],
+        filename:     'Bihar_RTPS_Certificate.pdf',
         image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true },
-        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+        html2canvas:  { scale: 2, useCORS: true, scrollY: 0 },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak:    { mode: 'avoid-all' }
       };
       html2pdf().from(element).set(opt).save();
     }
