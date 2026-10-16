@@ -1,240 +1,523 @@
-/* ==========================================================
-   ADDED CSS FOR RTPS FORM & BIHAR GOVT CERTIFICATE 
-   (Tiranga Theme Compatibility)
-   ========================================================== */
+/* ==========================================================================
+   STANDARD PRODUCTION CSS - MITHILA COLLEGE HELP (TIRANGA & BIHAR RTPS THEME)
+   ========================================================================== */
 
-/* 1. फॉर्म ग्रिड और लेआउट */
+:root {
+    --tiranga-orange: #FF9933;
+    --tiranga-green: #138808;
+    --blue-highlight: #007BFF;
+    --gov-navy: #0b3c68;
+    --gov-bg: #f4f7fa;
+    --border-color: #cbd5e1;
+    --danger-red: #d93025;
+}
+
+/* ==== 1. UTILITY & TAB CLASSES (For JavaScript Compatibility) ==== */
+.hidden {
+    display: none !important;
+}
+
+.visible {
+    display: block !important;
+    animation: fadeIn 0.35s ease-in-out;
+}
+
+.panel {
+    display: none;
+}
+
+.panel.active {
+    display: block;
+    animation: fadeIn 0.4s ease;
+}
+
+.tab {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+}
+
+.tab.active {
+    background: linear-gradient(to right, var(--tiranga-orange), #ffffff, var(--tiranga-green));
+    color: #000 !important;
+    font-weight: 700;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* ==== 2. OFFICIAL GOVT FORM GRID & LAYOUT ==== */
 .form-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 12px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-bottom: 14px;
 }
 
 .form-grid-3 {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
 }
 
-/* 2. इनपुट बॉक्स और Clear Symbol (✕) */
+.form-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+label {
+    font-weight: 600;
+    font-size: 13.5px;
+    display: block;
+    margin-bottom: 6px;
+    color: #1e293b;
+    letter-spacing: 0.2px;
+}
+
+.req {
+    color: var(--danger-red);
+    font-weight: bold;
+    margin-left: 2px;
+}
+
+/* ==== 3. INPUT BOXES, SELECT & CLEAR SYMBOL (✕) ==== */
 .input-wrapper {
     position: relative;
     display: flex;
     align-items: center;
+    width: 100%;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="file"],
+select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #94a3b8;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #111;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .input-wrapper input {
-    padding-right: 32px;
+    padding-right: 34px; /* Space for ✕ symbol */
+}
+
+input:focus,
+select:focus {
+    border-color: var(--gov-navy);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(11, 60, 104, 0.15);
+}
+
+input[readonly],
+select[disabled] {
+    background-color: #e2e8f0;
+    color: #334155;
+    font-weight: 600;
+    cursor: not-allowed;
 }
 
 .clear-symbol {
     position: absolute;
-    right: 10px;
-    color: #666;
+    right: 8px;
+    color: #64748b;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: bold;
     user-select: none;
-    padding: 2px 5px;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
-    transition: 0.2s;
+    transition: all 0.2s ease;
 }
 
 .clear-symbol:hover {
-    color: #d93025;
-    background: #f1f1f1;
+    color: #ffffff;
+    background-color: var(--danger-red);
 }
 
-/* 3. सेक्शन टाइटल्स (Tiranga Touch) */
-.section-title {
-    background: #f0f4f9;
-    padding: 10px 14px;
-    font-weight: bold;
-    color: var(--tiranga-green);
+/* ==== 4. SECTION TITLES & FIELDSETS (ServicePlus Govt Look) ==== */
+.section-title,
+.gov-legend {
+    background: linear-gradient(90deg, #e8f0fe 0%, #f8fafc 100%);
+    padding: 10px 15px;
+    font-weight: 700;
+    color: var(--gov-navy);
     border-left: 5px solid var(--tiranga-orange);
-    margin: 22px 0 14px 0;
+    border-bottom: 1px solid #dbeafe;
+    margin: 22px 0 15px 0;
     font-size: 15px;
     border-radius: 4px;
 }
 
-.req {
-    color: #d93025;
-    font-weight: bold;
-}
-
-/* 4. रेडियो बटन ग्रुप */
+/* ==== 5. RADIO BUTTONS, CAPTCHA & LIVE CAMERA BOX ==== */
 .radio-group {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    padding: 8px 0;
+    padding: 10px 14px;
+    background: #f8fafc;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
 }
 
 .radio-group label {
-    font-weight: normal;
+    font-weight: 500;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     cursor: pointer;
     margin: 0;
-}
-
-.radio-group input[type="radio"] {
-    width: auto;
-    padding: 0;
-    accent-color: var(--tiranga-green);
-}
-
-/* 5. एडमिन टेबल स्टाइलिंग */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    background: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-table, th, td {
-    border: 1px solid #d0d7de;
-}
-
-th {
-    background: #111;
-    color: white;
-}
-
-th, td {
-    padding: 12px;
-    text-align: left;
     font-size: 14px;
 }
 
-tr:hover {
-    background-color: #f9f9f9;
+.radio-group input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    accent-color: var(--tiranga-green);
+    cursor: pointer;
 }
 
-/* 6. बिहार सरकार सर्टिफिकेट (A4 Paper & Watermark) */
+/* Captcha Styling */
+.captcha-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f1f5f9;
+    padding: 8px 12px;
+    border: 1px dashed var(--gov-navy);
+    border-radius: 6px;
+    margin: 12px 0;
+}
+
+.captcha-text {
+    font-family: 'Courier New', monospace;
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    background: #fff;
+    padding: 6px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    color: var(--gov-navy);
+    user-select: none;
+}
+
+/* Live Webcam Box */
+.webcam-box {
+    border: 1.5px dashed var(--gov-navy);
+    background: #f8fafc;
+    padding: 14px;
+    text-align: center;
+    border-radius: 8px;
+}
+
+.webcam-box video,
+.webcam-box canvas {
+    width: 165px;
+    height: 135px;
+    border: 2px solid #1e293b;
+    background: #000;
+    object-fit: cover;
+    border-radius: 4px;
+    margin: 6px auto;
+}
+
+/* ==== 6. ADMIN & OFFICER TABLE STYLING ==== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+table, th, td {
+    border: 1px solid var(--border-color);
+}
+
+th {
+    background: var(--gov-navy);
+    color: #ffffff;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 12.5px;
+    letter-spacing: 0.5px;
+}
+
+th, td {
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 13.5px;
+    vertical-align: middle;
+}
+
+tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+tr:hover {
+    background-color: #fffbeb;
+}
+
+/* ==========================================================================
+   7. EXACT BIHAR GOVT CERTIFICATE DESIGN (A4 NON-EDITABLE OFFICIAL FORMAT)
+   ========================================================================== */
 #certificate-wrapper {
     display: none;
     margin-top: 30px;
 }
 
 #certificate-box {
-    width: 794px;
-    min-height: 1060px;
-    margin: auto;
-    background: #fff;
-    padding: 35px 45px;
-    border: 3px double #000;
+    width: 794px;          /* Exact A4 Paper Width */
+    min-height: 1085px;    /* Exact A4 Paper Height */
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 34px 44px;
+    border: 2px solid #000000;
     position: relative;
     box-sizing: border-box;
-    font-family: 'Poppins', 'Mangal', Arial, sans-serif;
-    color: #000;
-    line-height: 1.65;
-    box-shadow: 0 0 20px rgba(0,0,0,0.15);
+    font-family: 'Noto Sans Devanagari', 'Mangal', 'Poppins', Arial, sans-serif;
+    color: #000000;
+    line-height: 1.6;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+    /* Lock Certificate from Selection/Editing */
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
-/* वाटरमार्क लोगो */
-.watermark {
+/* बीच में बिहार सरकार का वाटरमार्क लोगो */
+.watermark,
+.cert-watermark {
     position: absolute;
-    top: 52%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 350px;
-    opacity: 0.10;
+    width: 340px;
+    opacity: 0.08;
     pointer-events: none;
     z-index: 0;
 }
 
-.cert-content {
+.cert-content,
+.cert-inner {
     position: relative;
     z-index: 1;
 }
 
+/* सर्टिफिकेट का ऊपरी हिस्सा (Left QR | Center Emblem | Right Residence Photo) */
+.cert-top-row,
 .cert-header {
+    display: grid;
+    grid-template-columns: 135px 1fr 135px;
+    align-items: start;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+.qr-box img,
+.cert-qr {
+    width: 118px;
+    height: 118px;
+    border: 1px solid #000;
+    padding: 2px;
+    background: #fff;
+}
+
+.cert-center-head {
     text-align: center;
-    border-bottom: 2px solid #000;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
 }
 
-.top-logo {
-    width: 65px;
+.top-logo,
+.cert-top-emblem {
+    width: 52px;
     height: auto;
+    margin: 0 auto 3px auto;
+    display: block;
 }
 
-.cert-meta {
+.cert-center-head h3 {
+    margin: 1px 0;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+/* निवास प्रमाण-पत्र के दाएँ कोने पर आवेदक की फोटो */
+.cert-App-Photo,
+.residence-photo-box {
+    width: 95px;
+    height: 115px;
+    border: 1px solid #000;
+    object-fit: cover;
+    margin-left: auto;
+    display: block;
+    background: #f8f8f8;
+}
+
+/* जिला, अनुमंडल और अंचल की लाइन */
+.cert-subhead-line {
+    text-align: center;
+    font-weight: 700;
+    font-size: 13.5px;
+    border-top: 1.5px solid #000;
+    border-bottom: 1.5px solid #000;
+    padding: 5px 0;
+    margin: 6px 0 10px 0;
+}
+
+/* प्रमाण-पत्र संख्या और दिनांक */
+.cert-meta,
+.cert-no-date-row {
     display: flex;
     justify-content: space-between;
-    font-weight: bold;
-    font-size: 14px;
-    margin: 15px 0 25px 0;
+    font-weight: 700;
+    font-size: 13.5px;
+    margin: 12px 0 16px 0;
 }
 
-.cert-body {
-    font-size: 15px;
+/* सर्टिफिकेट का मुख्य पैराग्राफ */
+.cert-body,
+.cert-paragraph {
+    font-size: 14.2px;
     text-align: justify;
-    margin-bottom: 25px;
+    line-height: 1.72;
+    margin-bottom: 14px;
 }
 
-.cert-body span {
-    font-weight: bold;
-    text-decoration: underline;
+.cert-body span,
+.cert-paragraph b {
+    font-weight: 700;
 }
 
-.cert-footer {
+/* आय प्रमाण-पत्र के 4 स्रोतों की टेबल (Form-XVI) */
+.income-cert-table {
+    width: 68%;
+    margin: 10px 0 18px 0;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.income-cert-table tr,
+.income-cert-table td {
+    border: none !important;
+    background: transparent !important;
+    padding: 3px 6px !important;
+    font-size: 14px;
+    font-weight: 700;
+    color: #000;
+}
+
+/* सर्टिफिकेट फुटर एवं अधिकारी का पतला डिजिटल सिग्नेचर */
+.cert-footer,
+.cert-sign-row {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    margin-top: 70px;
+    margin-top: 48px;
+    margin-bottom: 16px;
 }
 
-.qr-box img {
-    width: 115px;
-    height: 115px;
-    border: 1px solid #000;
-    padding: 4px;
-}
-
-/* अधिकारी का डिजिटल सिग्नेचर बॉक्स */
-.signature-box {
+/* सैंपल PDF जैसा पतला डिजिटल सिग्नेचर (Without Box) */
+.thin-dsc-text,
+.thin-digital-signature {
+    display: inline-block;
     text-align: left;
-    font-size: 12.5px;
-    border: 1.5px solid var(--tiranga-green);
-    background: #f4fff4;
-    padding: 12px 16px;
-    width: 290px;
-    line-height: 1.5;
-    border-radius: 6px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 11px;
+    line-height: 1.3;
+    color: #000;
+    margin-bottom: 4px;
 }
 
-.valid-header {
+/* वैधता एवं DigiLocker नोट्स */
+.cert-bottom-notes {
+    border-top: 1.5px solid #000;
+    padding-top: 8px;
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+.cert-bottom-notes ul {
+    display: block;
+    list-style-type: disc;
+    padding-left: 18px;
+    margin: 0;
+}
+
+.cert-bottom-notes li {
+    background: transparent;
+    border: none;
+    padding: 2px 0;
+    font-size: 12px;
+}
+
+.cert-bottom-notes li:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* सबसे नीचे की Reference No, URL और Token No पट्टी */
+.cert-ref-footer,
+.portal-footer-strip {
+    border-top: 1px solid #000;
+    margin-top: 12px;
+    padding-top: 6px;
+    font-size: 11.2px;
+    font-weight: 700;
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    color: var(--tiranga-green);
-    font-weight: bold;
-    font-size: 15px;
-    border-bottom: 1px solid #a5d6a7;
-    padding-bottom: 5px;
-    margin-bottom: 6px;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
-.valid-icon {
-    font-size: 20px;
-    color: var(--tiranga-green);
-}
-
-/* मोबाइल रिस्पॉन्सिवनेस फिक्स */
-@media (max-width: 820px) {
-    .form-grid, .form-grid-3 {
+/* ==== 8. RESPONSIVE & PRINT PROTECTION ==== */
+@media (max-width: 860px) {
+    .form-grid,
+    .form-grid-3,
+    .form-grid-4 {
         grid-template-columns: 1fr;
     }
+
+    /* मोबाइल पर सर्टिफिकेट का A4 अनुपात खराब न हो, इसके लिए स्क्रॉल रैपर */
+    #certificate-wrapper {
+        overflow-x: auto;
+        padding-bottom: 15px;
+    }
+}
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    #certificate-box,
+    #certificate-box * {
+        visibility: visible;
+    }
     #certificate-box {
-        width: 100%;
-        padding: 15px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 210mm;
+        min-height: 297mm;
+        box-shadow: none;
+        margin: 0;
     }
 }
