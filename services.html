@@ -65,6 +65,8 @@
       height: 85px;
       border-radius: 50%;
       box-shadow: 0 0 12px rgba(0,0,0,0.3);
+      background: #fff;
+      padding: 4px;
     }
 
     header h1 {
@@ -122,6 +124,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
     .gov-body {
@@ -488,7 +492,7 @@
 <body oncontextmenu="return disableCertEdit(event)">
 
   <header>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Seal_of_Bihar.svg/200px-Seal_of_Bihar.svg.png" alt="Bihar Emblem">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Seal_of_Bihar.svg" alt="Bihar Emblem">
     <h1>Mithila College Help</h1>
     <p style="margin:4px 0 0 0; font-weight:600; font-size:14px;">लोक सेवाओं का अधिकार एवं ऑनलाइन प्रमाण-पत्र पोर्टल (RTPS Bihar)</p>
   </header>
@@ -531,7 +535,7 @@
           <div>
             <label>पासवर्ड बनाएँ (Create Password) <span class="req">*</span></label>
             <div class="input-wrapper">
-              <input type="password" id="userPass" placeholder="पासवर्ड बनाएं">
+              <input type="password" id="userPass" placeholder="कम से कम 4 अक्षर">
               <span class="clear-symbol" onclick="clearInput('userPass')">✕</span>
             </div>
           </div>
@@ -869,7 +873,7 @@
         <div class="gov-legend">अधिकारी लॉगिन (Authorized Revenue Officer Only)</div>
         <div style="margin-bottom:12px;">
           <label>Officer User ID <span class="req">*</span></label>
-          <input type="text" id="offUser" placeholder="Enter Officer User ID">
+          <input type="text" id="offUser" placeholder="Enter Officer User ID (shreyajha)">
         </div>
         <div style="margin-bottom:14px;">
           <label>Officer Password <span class="req">*</span></label>
@@ -915,17 +919,17 @@
       <!-- EXACT A4 CERTIFICATE BOX -->
       <div id="certificate-box">
         <!-- Center Watermark -->
-        <img class="cert-watermark" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Seal_of_Bihar.svg/500px-Seal_of_Bihar.svg.png" crossorigin="anonymous" alt="Bihar Seal">
+        <img class="cert-watermark" src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Seal_of_Bihar.svg" crossorigin="anonymous" alt="Bihar Seal">
 
         <div class="cert-inner">
           <!-- Top Header Row -->
           <div class="cert-top-row">
             <div>
-              <img id="certQR" class="cert-qr" src="" crossorigin="anonymous" alt="QR Code">
+              <img id="certQR" class="cert-qr" src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=BRCCO/2026/SAMPLE" crossorigin="anonymous" alt="QR Code">
             </div>
 
             <div class="cert-center-head">
-              <img class="cert-top-emblem" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Seal_of_Bihar.svg/200px-Seal_of_Bihar.svg.png" crossorigin="anonymous" alt="Emblem">
+              <img class="cert-top-emblem" src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Seal_of_Bihar.svg" crossorigin="anonymous" alt="Emblem">
               <h3>बिहार सरकार</h3>
               <h3>Government of Bihar</h3>
               <div class="form-no-text" id="certFormNo">फॉर्म / Form - XIII</div>
@@ -957,7 +961,11 @@
           </div>
 
           <!-- Main Certificate Body Content -->
-          <div id="certBodyContent"></div>
+          <div id="certBodyContent">
+            <p class="cert-paragraph" style="text-align:center; color:#666;">
+              (प्रमाण-पत्र देखने के लिए पहले फॉर्म सबमिट करें और अधिकारी पैनल से Verify करें)
+            </p>
+          </div>
 
           <!-- Place, Date & Thin Digital Signature -->
           <div class="cert-sign-row">
@@ -989,7 +997,7 @@
           <!-- Reference & Token Strip -->
           <div class="cert-ref-footer">
             <span>Reference No: <span id="certRefOut"></span></span>
-            <span>To View: <span id="certUrlOut"></span></span>
+            <span>To View: <span id="certUrlOut">https://serviceonline.bihar.gov.in</span></span>
             <span>Token No: <span id="certTokenOut"></span></span>
           </div>
         </div>
@@ -1049,7 +1057,7 @@
     let cameraStream = null;
     let isOfficerLoggedIn = false;
 
-    window.onload = function() {
+    window.addEventListener('DOMContentLoaded', function() {
       const distSelect = document.getElementById('district');
       for (let d in biharAll38Districts) {
         let opt = document.createElement('option');
@@ -1066,14 +1074,15 @@
         opt.innerText = `वार्ड संख्या - ${num}`;
         wardSelect.appendChild(opt);
       }
-    };
+    });
 
     // Disable right click or keyboard edit on certificate
     function disableCertEdit(e) {
-      if (e.target.closest('#certificate-box')) {
+      if (e.target && e.target.closest('#certificate-box')) {
         e.preventDefault();
         return false;
       }
+      return true;
     }
 
     function switchSection(sec) {
@@ -1107,7 +1116,7 @@
       const badge = document.getElementById('applicantStatusBadge');
       badge.innerText = `लॉगिन सक्रिय: ${mob}`;
       badge.style.background = "#138808";
-      alert("आवेदक लॉगिन सफल! अब आप अपना प्रमाण-पत्र आवेदन फॉर्म भर सकते हैं।");
+      alert("आवेदक लॉगिन सफल! अब आप नीचे अपना प्रमाण-पत्र आवेदन फॉर्म भर सकते हैं।");
     }
 
     // Populate Blocks & Sub-division on District Change
@@ -1144,7 +1153,6 @@
       const type = radio.value;
       label.innerHTML = `${type} का नाम चुनें <span class="req">*</span>`;
 
-      // Default Panchayats of that Block + Custom Entry Option so no village/panchayat is missed
       const list = [
         `${block} सदर / मुख्य ${type}`,
         `${block} उत्तरी ${type}`,
@@ -1229,6 +1237,7 @@
       if (cameraStream) {
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream = null;
         video.style.display = 'none';
         canvas.style.display = 'block';
         document.getElementById('livePhotoData').value = canvas.toDataURL('image/jpeg');
@@ -1259,9 +1268,12 @@
     // Clear Symbols (✕)
     function clearInput(id) {
       const el = document.getElementById(id);
-      el.value = "";
-      el.focus();
+      if (el) {
+        el.value = "";
+        el.focus();
+      }
     }
+
     function clearPair(enId, hiId) {
       document.getElementById(enId).value = "";
       document.getElementById(hiId).value = "";
@@ -1382,7 +1394,23 @@
 
     // Officer Authentication (shreyajha / shreyajha821337)
     function loginOfficer() {
-      function logoutOfficer() {
+      const u = document.getElementById('offUser').value.trim();
+      const p = document.getElementById('offPass').value.trim();
+
+      if (u === "shreyajha" && p === "shreyajha821337") {
+        isOfficerLoggedIn = true;
+        document.getElementById('officerLoginBox').style.display = 'none';
+        document.getElementById('officerDashboard').style.display = 'block';
+        const b = document.getElementById('officerBadge');
+        b.innerText = "Logged In: shreyajha (Revenue Officer)";
+        b.style.background = "#138808";
+        renderOfficerQueue();
+      } else {
+        alert("गलत Officer User ID या Password! कृपया सही विवरण डालें।");
+      }
+    }
+
+    function logoutOfficer() {
       isOfficerLoggedIn = false;
       document.getElementById('officerLoginBox').style.display = 'block';
       document.getElementById('officerDashboard').style.display = 'none';
@@ -1408,7 +1436,7 @@
           <td><img src="${app.livePhoto}" style="width:40px;height:40px;object-fit:cover;border-radius:3px;"></td>
           <td><span style="color:${app.status==='Verified'?'green':'orange'};font-weight:bold;">${app.status}</span></td>
           <td>
-            <button class="btn-gov" onclick="verifyAndGenerate(${idx})">✔ Verify & Generate</button>
+            <button type="button" class="btn-gov" onclick="verifyAndGenerate(${idx})">✔ Verify & Generate</button>
           </td>
         `;
         tbody.appendChild(tr);
@@ -1466,6 +1494,7 @@
           </table>`;
       }
       document.getElementById('certBodyContent').innerHTML = bodyHTML;
+      renderOfficerQueue();
 
       alert("सत्यापन सफल! प्रमाण-पत्र जनरेट कर दिया गया है। अब 'प्रमाण-पत्र डाउनलोड' टैब में देखें।");
       switchSection('preview');
@@ -1482,14 +1511,6 @@
       };
       html2pdf().from(element).set(opt).save();
     }
-      const u = document.getElementById('offUser').value.trim();
-      const p = document.getElementById('offPass').value.trim();
-
-      if (u === "shreyajha" && p === "shreyajha821337") {
-        isOfficerLoggedIn = true;
-        document.getElementById('officerLoginBox').style.display = 'none';
-        document.getElementById('officerDashboard').style.display = 'block';
-        const b = document.getElementById('officerBadge');
-        b.innerText = "Logged In: shreyajha (Revenue Officer)";
-        b.style.background = "#138808";
-        renderOfficerQueue();
+  </script>
+</body>
+</html>
