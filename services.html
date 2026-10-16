@@ -1382,6 +1382,106 @@
 
     // Officer Authentication (shreyajha / shreyajha821337)
     function loginOfficer() {
+      function logoutOfficer() {
+      isOfficerLoggedIn = false;
+      document.getElementById('officerLoginBox').style.display = 'block';
+      document.getElementById('officerDashboard').style.display = 'none';
+      const b = document.getElementById('officerBadge');
+      b.innerText = "Officer Auth Required";
+      b.style.background = "#f59e0b";
+    }
+
+    function renderOfficerQueue() {
+      const tbody = document.getElementById('adminQueueBody');
+      if (applications.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">अभी कोई आवेदन प्राप्त नहीं हुआ है।</td></tr>';
+        return;
+      }
+      tbody.innerHTML = "";
+      applications.forEach((app, idx) => {
+        let tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><b>${app.certNo}</b></td>
+          <td>${app.type}</td>
+          <td>${app.nameHi} (${app.nameEn})</td>
+          <td>${app.block}, ${app.distHi}</td>
+          <td><img src="${app.livePhoto}" style="width:40px;height:40px;object-fit:cover;border-radius:3px;"></td>
+          <td><span style="color:${app.status==='Verified'?'green':'orange'};font-weight:bold;">${app.status}</span></td>
+          <td>
+            <button class="btn-gov" onclick="verifyAndGenerate(${idx})">✔ Verify & Generate</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function verifyAndGenerate(idx) {
+      let app = applications[idx];
+      app.status = "Verified";
+      app.signTimestamp = new Date().toLocaleString('en-IN');
+
+      // Fill Certificate Preview Data
+      document.getElementById('certFormNo').innerText = app.type === 'CASTE' ? 'फॉर्म / Form - IV' : (app.type === 'INCOME' ? 'फॉर्म / Form - XVI' : 'फॉर्म / Form - XIII');
+      document.getElementById('certHeading').innerText = app.type === 'CASTE' ? 'जाति प्रमाण-पत्र / Caste Certificate' : (app.type === 'INCOME' ? 'आय प्रमाण-पत्र / Income Certificate' : 'निवास प्रमाण-पत्र / Residence Certificate');
+      
+      document.getElementById('certNoOut').innerText = app.certNo;
+      document.getElementById('certDateOut').innerText = app.issueDate;
+      document.getElementById('certPlaceOut').innerText = app.block;
+      document.getElementById('certBottomDateOut').innerText = app.issueDate;
+      document.getElementById('certOfficerOut').innerText = app.officerName;
+      document.getElementById('certSignTimestampOut').innerText = app.signTimestamp;
+      document.getElementById('certRefOut').innerText = app.tokenNo;
+      document.getElementById('certUrlOut').innerText = "https://serviceonline.bihar.gov.in";
+      document.getElementById('certTokenOut').innerText = app.shortCode;
+
+      document.getElementById('certLocationLine').innerText = `जिला / District : ${app.distHi}, अनुमंडल / Sub-Division : ${app.subDiv}, अंचल / Circle : ${app.block}`;
+
+      // Handle Residence Photo on Certificate Corner
+      let resPhotoEl = document.getElementById('certResPhoto');
+      if (app.type === 'RESIDENCE' && app.resPhoto) {
+        resPhotoEl.src = app.resPhoto;
+        resPhotoEl.style.display = 'block';
+      } else {
+        resPhotoEl.style.display = 'none';
+      }
+
+      // Generate QR Code dynamically
+      document.getElementById('certQR').src = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(app.certNo)}`;
+
+      // Build Dynamic Body Content based on Certificate Type
+      let bodyHTML = "";
+      if (app.type === 'RESIDENCE') {
+        bodyHTML = `<p class="cert-paragraph">प्रमाणित किया जाता है कि <b>${app.salutation}${app.nameHi}</b> / <b>${app.salutation}${app.nameEn}</b>, पिता का नाम - <b>${app.fatherHi}</b>, माता का नाम - <b>${app.motherHi}</b> ग्राम/मोहल्ला - <b>${app.villageHi}</b>, डाकघर - <b>${app.postHi}</b>, थाना - <b>${app.thanaHi}</b>, अंचल - <b>${app.block}</b>, अनुमंडल - <b>${app.subDiv}</b>, जिला - <b>${app.distHi}</b> बिहार राज्य के स्थायी निवासी हैं।</p>`;
+      } else if (app.type === 'CASTE') {
+        bodyHTML = `<p class="cert-paragraph">प्रमाणित किया जाता है कि <b>${app.salutation}${app.nameHi}</b>, पिता - <b>${app.fatherHi}</b>, माता - <b>${app.motherHi}</b> ग्राम - <b>${app.villageHi}</b>, पोस्ट - <b>${app.postHi}</b>, थाना - <b>${app.thanaHi}</b>, अंचल - <b>${app.block}</b>, जिला - <b>${app.distHi}</b> के निवासी हैं। इनके समुदाय/जाति <b>${app.casteNameHi}</b> है जो बिहार राज्य के अंतर्गत <b>${app.casteCatRaw.split('|')[0]}</b> के क्रमरूप अनुक्रमांक <b>${app.casteSerial}</b> के अंतर्गत मान्‍य है।</p>`;
+      } else if (app.type === 'INCOME') {
+        bodyHTML = `
+          <p class="cert-paragraph">प्रमाणित किया जाता है कि <b>${app.salutation}${app.nameHi}</b>, पिता - <b>${app.fatherHi}</b>, माता - <b>${app.motherHi}</b> ग्राम - <b>${app.villageHi}</b>, पोस्ट - <b>${app.postHi}</b>, अंचल - <b>${app.block}</b>, जिला - <b>${app.distHi}</b> के निवासी हैं। इनके परिवार की कुल वार्षिक आय निम्नलिखित स्रोतों से है:</p>
+          <table class="income-cert-table">
+            <tr><td>1. सरकारी सेवा से आय:</td><td>₹ ${app.incGovt}</td></tr>
+            <tr><td>2. व्यवसाय से आय:</td><td>₹ ${app.incBiz}</td></tr>
+            <tr><td>3. कृषि से आय:</td><td>₹ ${app.incAgri}</td></tr>
+            <tr><td>4. अन्य स्रोतों से आय:</td><td>₹ ${app.incOther}</td></tr>
+            <tr style="border-top:1px solid #000;"><td>कुल वार्षिक आय:</td><td>₹ ${app.incTotal}</td></tr>
+          </table>`;
+      }
+      document.getElementById('certBodyContent').innerHTML = bodyHTML;
+
+      alert("सत्यापन सफल! प्रमाण-पत्र जनरेट कर दिया गया है। अब 'प्रमाण-पत्र डाउनलोड' टैब में देखें।");
+      switchSection('preview');
+    }
+
+    function downloadOfficialPDF() {
+      const element = document.getElementById('certificate-box');
+      const opt = {
+        margin:       0.2,
+        filename:     'Bihar_Govt_Certificate.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true },
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+      };
+      html2pdf().from(element).set(opt).save();
+    }
       const u = document.getElementById('offUser').value.trim();
       const p = document.getElementById('offPass').value.trim();
 
