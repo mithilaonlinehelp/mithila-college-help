@@ -3,34 +3,222 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ID Card Template (Front & Back)</title>
+<title>Student ID Card Portal - DSV / Mithila College Help</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700;800&family=Roboto:wght@400;500;700&display=swap');
+
   * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: Arial, 'Noto Sans Devanagari', sans-serif;
+    font-family: 'Roboto', 'Noto Sans Devanagari', Arial, sans-serif;
   }
 
   body {
-    background-color: #f0f2f5;
+    background: #eef2f6;
+    color: #222;
+    padding-bottom: 40px;
+  }
+
+  /* Top Navigation Tabs */
+  .top-nav {
+    background: #1e293b;
+    color: #fff;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .top-nav h1 {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .nav-tabs {
+    display: flex;
+    gap: 10px;
+  }
+
+  .tab-btn {
+    background: #334155;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: 0.2s;
+  }
+
+  .tab-btn.active, .tab-btn:hover {
+    background: #ff9933;
+    color: #000;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 25px auto;
+    padding: 0 15px;
+  }
+
+  .panel {
+    display: none;
+    background: #fff;
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  }
+
+  .panel.active {
+    display: block;
+  }
+
+  .panel-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #ff9933;
+    color: #1e293b;
+  }
+
+  /* Form Grid */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+
+  @media (max-width: 650px) {
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .form-group.full-width {
+    grid-column: 1 / -1;
+  }
+
+  .form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+  }
+
+  .form-group input, .form-group select, .form-group textarea {
+    padding: 9px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+
+  .hint-text {
+    font-size: 11px;
+    color: #16a34a;
+  }
+
+  .btn-submit {
+    margin-top: 18px;
+    background: #138808;
+    color: #fff;
+    border: none;
+    padding: 11px 24px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .btn-submit:hover {
+    background: #0f6b06;
+  }
+
+  .status-alert {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    display: none;
+  }
+
+  .status-alert.warning {
+    display: block;
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #f59e0b;
+  }
+
+  .status-alert.success {
+    display: block;
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #22c55e;
+  }
+
+  /* Officer Verification Box */
+  .officer-card {
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 16px;
+    background: #f8fafc;
+    margin-bottom: 16px;
+  }
+
+  .officer-Preview-row {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    margin-bottom: 15px;
+  }
+
+  .officer-Preview-row img {
+    width: 75px;
+    height: 90px;
+    object-fit: cover;
+    border: 1px solid #64748b;
+    border-radius: 4px;
+  }
+
+  .verify-controls {
+    background: #fff;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #94a3b8;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: flex-end;
+  }
+
+  /* ================= AADHAAR STYLE ID CARD CSS ================= */
+  .cards-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     gap: 30px;
-    min-height: 100vh;
-    padding: 20px;
+    margin-top: 20px;
   }
 
-  /* स्टैंडर्ड ID कार्ड साइज (CR80 रेश्यो) */
   .id-card {
-    width: 360px;
-    height: 225px;
+    width: 390px;
+    height: 245px;
     background-color: #ffffff;
-    border: 1px solid #cccccc;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    border: 1px solid #b0b0b0;
+    border-radius: 7px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -38,254 +226,767 @@
     position: relative;
   }
 
-  /* ऊपर की तिरंगा पट्टी (Header) */
-  .header {
-    width: 100%;
-    padding-top: 4px;
-    border-bottom: 1.5px solid #d32f2f;
+  /* TOP HEADER WITH LOGO + AADHAAR TAPERED TIRANGA PATTI */
+  .card-header {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px 2px 10px;
+    height: 46px;
+    gap: 8px;
   }
 
-  .tiranga-bar {
+  .header-logo-box {
+    width: 36px;
+    height: 38px;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
   }
 
-  .stripe-saffron {
-    background: linear-gradient(90deg, #ff9933 0%, #ffb366 50%, #ff9933 100%);
+  .header-logo-box img, .header-logo-box svg {
+    max-width: 100%;
+    max-height: 32px;
+    object-fit: contain;
+  }
+
+  .satyamev-text {
+    font-size: 5.5px;
+    font-weight: 800;
     color: #000;
-    text-align: center;
-    font-size: 11px;
-    font-weight: bold;
-    padding: 2px 0;
-    letter-spacing: 0.5px;
+    line-height: 1;
+    margin-top: 1px;
   }
 
-  .stripe-white {
-    background-color: #ffffff;
-    color: #000080;
-    text-align: center;
-    font-size: 10px;
-    font-weight: bold;
-    padding: 1px 0;
-  }
-
-  .stripe-green {
-    background: linear-gradient(90deg, #138808 0%, #2eb82e 50%, #138808 100%);
-    height: 5px;
-    width: 100%;
-  }
-
-  /* कार्ड का मुख्य भाग (Body) */
-  .card-body {
+  /* Aadhaar-style Tapered Tiranga Patti */
+  .patti-container {
+    flex: 1;
     display: flex;
-    padding: 10px 12px;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .patti-saffron {
+    background: linear-gradient(90deg, #f47920 0%, #f99f48 65%, #ffffff 100%);
+    clip-path: polygon(0 0, 96% 0, 100% 100%, 0% 100%);
+    color: #111;
+    font-size: 11px;
+    font-weight: 800;
+    text-align: center;
+    padding: 2px 12px 2px 4px;
+    letter-spacing: 0.4px;
+    line-height: 1.2;
+  }
+
+  .patti-green {
+    background: linear-gradient(90deg, #008751 0%, #36a96e 65%, #ffffff 100%);
+    clip-path: polygon(0 0, 100% 0, 96% 100%, 0% 100%);
+    color: #fff;
+    font-size: 9.5px;
+    font-weight: 700;
+    text-align: center;
+    padding: 1.5px 12px 1.5px 4px;
+    letter-spacing: 0.5px;
+    margin-top: 1.5px;
+    line-height: 1.2;
+  }
+
+  /* FRONT BODY */
+  .front-body {
+    display: flex;
+    padding: 6px 12px 4px 12px;
     gap: 10px;
     flex: 1;
     align-items: flex-start;
   }
 
-  /* बाईं तरफ फोटो */
-  .photo-box {
-    width: 72px;
-    height: 88px;
-    border: 1px solid #888;
-    background-color: #e8ecef;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 10px;
-    color: #555;
-    text-align: center;
+  .applicant-photo {
+    width: 76px;
+    height: 92px;
+    border: 1px solid #666;
+    background: #f1f5f9;
     flex-shrink: 0;
     overflow: hidden;
   }
 
-  .photo-box img {
+  .applicant-photo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
 
-  /* बीच में व्यक्तिगत विवरण */
-  .details-box {
+  .front-details {
     flex: 1;
     font-size: 11.5px;
-    line-height: 1.45;
-    color: #111;
+    line-height: 1.42;
+    color: #000;
     padding-top: 2px;
   }
 
-  .details-box .name-hi {
-    font-weight: bold;
+  .front-details .f-name-hi {
+    font-weight: 700;
     font-size: 12px;
   }
 
-  .details-box .name-en {
-    font-weight: bold;
-    margin-bottom: 4px;
+  .front-details .f-name-en {
+    font-weight: 600;
+    font-size: 11.5px;
+    margin-bottom: 3px;
   }
 
-  .details-box .info-row {
+  .front-details .f-row {
     font-size: 11px;
+    font-weight: 500;
   }
 
-  /* दाईं तरफ कॉम्प्लेक्स QR कोड */
-  .qr-box {
-    width: 86px;
-    height: 86px;
-    border: 1px solid #eee;
-    padding: 2px;
+  /* Front QR (Medium Complex) */
+  .front-qr-box {
+    width: 84px;
+    height: 84px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 4px;
+  }
+
+  .front-qr-box canvas {
+    width: 84px;
+    height: 84px;
+  }
+
+  /* BACK BODY */
+  .back-body {
+    display: flex;
+    padding: 4px 12px 4px 12px;
+    gap: 10px;
+    flex: 1;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .back-address {
+    flex: 1;
+    font-size: 10px;
+    line-height: 1.35;
+    color: #000;
+  }
+
+  .back-address .addr-label {
+    font-weight: 700;
+    font-size: 10.5px;
+  }
+
+  .back-address .addr-block-hi {
+    margin-bottom: 5px;
+  }
+
+  /* Back QR (BADA Complex QR as requested) */
+  .back-qr-box {
+    width: 116px;
+    height: 116px;
     flex-shrink: 0;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  .qr-box svg {
-    width: 100%;
-    height: 100%;
+  .back-qr-box canvas {
+    width: 116px;
+    height: 116px;
   }
 
-  /* बैक साइड के पते (Address) का स्टाइल */
-  .address-box {
-    flex: 1;
-    font-size: 10.5px;
-    line-height: 1.38;
-    color: #111;
-  }
-
-  .address-title {
-    font-weight: bold;
-    margin-bottom: 2px;
-  }
-
-  .address-hi {
-    margin-bottom: 6px;
-  }
-
-  /* नीचे का फुटर (ID Placeholder & Tagline) */
+  /* CARD FOOTER & RED LINE */
   .card-footer {
+    width: 100%;
     text-align: center;
+  }
+
+  .unique-id-num {
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #000;
+    padding-bottom: 2px;
+  }
+
+  .red-divider {
+    border-top: 2px solid #e11d48;
     width: 100%;
   }
 
-  .id-number {
-    font-size: 14px;
-    font-weight: bold;
-    letter-spacing: 1.5px;
+  /* Front Bottom Tagline: Mera School, Mera Bhavishya (Large like Aadhaar) */
+  .front-tagline {
+    padding: 3px 0 5px 0;
+    font-size: 15px;
+    font-weight: 800;
     color: #000;
-    padding-bottom: 3px;
+    letter-spacing: 0.6px;
+    line-height: 1.1;
   }
 
-  .bottom-tagline {
-    border-top: 2px solid #d32f2f;
-    padding: 3px 0;
-    font-size: 11px;
-    font-weight: bold;
+  .front-tagline span {
+    color: #e11d48;
+  }
+
+  /* Back Bottom Contact Bar (5241 | help@dsv.com | www.dsv.com) */
+  .back-contact-bar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 3px 8px 4px 8px;
+    font-size: 9.5px;
+    font-weight: 700;
     color: #000;
-    letter-spacing: 0.5px;
   }
 
-  .bottom-tagline span {
-    color: #d32f2f;
+  .contact-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.15;
   }
 
-  /* प्रिंट करने के लिए सेटिंग */
+  .contact-item svg {
+    width: 12px;
+    height: 12px;
+    margin-bottom: 1px;
+    fill: #111;
+  }
+
+  .print-btn-bar {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .btn-print {
+    background: #1e293b;
+    color: #fff;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
   @media print {
-    body {
-      background: none;
+    .top-nav, #applicantPanel, #officerPanel, .print-btn-bar, .panel-title {
+      display: none !important;
+    }
+    body, .panel, .container {
+      background: #fff !important;
+      box-shadow: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    #cardPanel {
+      display: block !important;
     }
     .id-card {
       box-shadow: none;
       border: 1px solid #000;
+      page-break-inside: avoid;
     }
   }
 </style>
 </head>
 <body>
 
-  <!-- ================= FRONT SIDE ================= -->
-  <div class="id-card">
-    <!-- ऊपर तिरंगा पट्टी -->
-    <div class="header">
-      <div class="tiranga-bar">
-        <div class="stripe-saffron">भारत सरकार</div>
-        <div class="stripe-white">GOVERNMENT OF INDIA</div>
-        <div class="stripe-green"></div>
-      </div>
-    </div>
-
-    <!-- बीच का हिस्सा: फोटो + नाम/DOB + कॉम्प्लेक्स QR -->
-    <div class="card-body">
-      <div class="photo-box">
-        <!-- अपनी फोटो लगाने के लिए src में फोटो का नाम डालें -->
-        <img src="https://via.placeholder.com/72x88.png?text=PHOTO" alt="User Photo">
-      </div>
-
-      <div class="details-box">
-        <div class="name-hi">आपका नाम यहाँ</div>
-        <div class="name-en">Your Name Here</div>
-        <div class="info-row"><strong>जन्म तिथि / DOB:</strong> DD/MM/YYYY</div>
-        <div class="info-row"><strong>पुरुष / MALE</strong></div>
-      </div>
-
-      <!-- दाईं तरफ हाई-डेंसिटी (Complex) QR Code -->
-      <div class="qr-box">
-        <svg viewBox="0 0 29 29" shape-rendering="crispEdges">
-          <path fill="#ffffff" d="M0 0h29v29H0z"/>
-          <path stroke="#000000" d="M0 0.5h7m1 0h1m2 0h3m1 0h2m2 0h2m1 0h7M0 1.5h1m5 0h1m2 0h2m1 0h2m1 0h1m2 0h3m1 0h1m5 0h1M0 2.5h1m1 0h3m1 0h1m1 0h1m1 0h3m2 0h2m1 0h2m2 0h1m1 0h3m1 0h1M0 3.5h1m1 0h3m1 0h1m2 0h2m1 0h1m1 0h3m1 0h2m2 0h1m1 0h3m1 0h1M0 4.5h1m1 0h3m1 0h1m1 0h3m1 0h2m2 0h1m1 0h2m1 0h1m1 0h3m1 0h1M0 5.5h1m5 0h1m1 0h2m2 0h1m2 0h3m1 0h1m1 0h1m5 0h1M0 6.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M8 7.5h2m1 0h3m2 0h2m1 0h2M0 8.5h2m1 0h4m1 0h2m1 0h1m2 0h3m1 0h2m1 0h4m2 0h2M1 9.5h2m2 0h1m2 0h3m1 0h2m2 0h1m1 0h3m1 0h2m2 0h2M0 10.5h3m1 0h2m1 0h2m2 0h3m1 0h2m1 0h2m2 0h4m1 0h1M1 11.5h1m2 0h2m2 0h1m1 0h2m2 0h2m1 0h3m1 0h2m1 0h3m1 0h1M0 12.5h2m1 0h2m1 0h3m1 0h2m1 0h3m2 0h2m1 0h2m2 0h3M2 13.5h2m1 0h1m2 0h2m1 0h3m1 0h2m1 0h2m2 0h3m1 0h2M0 14.5h1m2 0h3m1 0h2m1 0h2m2 0h2m1 0h3m1 0h2m1 0h4M1 15.5h2m1 0h2m2 0h2m1 0h1m2 0h3m1 0h2m2 0h3m1 0h2M0 16.5h3m2 0h1m1 0h3m2 0h2m1 0h2m1 0h3m2 0h2m1 0h2M2 17.5h1m2 0h2m1 0h2m1 0h3m1 0h2m2 0h2m1 0h3m2 0h1M0 18.5h2m2 0h2m1 0h2m2 0h2m1 0h2m1 0h3m1 0h2m2 0h3M1 19.5h3m1 0h2m1 0h3m1 0h2m2 0h3m1 0h2m1 0h3m1 0h1M8 20.5h2m1 0h2m2 0h3m1 0h5m1 0h3M0 21.5h7m1 0h2m1 0h2m2 0h2m1 0h3m1 0h2m1 0h3M0 22.5h1m5 0h1m1 0h3m1 0h2m1 0h2m2 0h3m1 0h2m1 0h2M0 23.5h1m1 0h3m1 0h1m2 0h2m1 0h3m1 0h2m1 0h3m2 0h3m1 0h1M0 24.5h1m1 0h3m1 0h1m1 0h2m2 0h2m1 0h5m1 0h3m1 0h3M0 25.5h1m1 0h3m1 0h1m2 0h3m1 0h2m2 0h3m1 0h4m1 0h2M0 26.5h1m5 0h1m1 0h2m1 0h3m2 0h2m1 0h3m1 0h2m2 0h1M0 27.5h7m1 0h1m2 0h2m1 0h3m1 0h2m2 0h3m1 0h2"/>
-        </svg>
-      </div>
-    </div>
-
-    <!-- नीचे का हिस्सा -->
-    <div class="card-footer">
-      <div class="id-number">[Aadhaar Redacted]</div>
-      <div class="bottom-tagline">मेरा <span>पहचान</span>, मेरी शान</div>
+  <!-- Navigation Bar -->
+  <div class="top-nav">
+    <h1>MITHILA COLLEGE HELP / DSV ID PORTAL</h1>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchTab('applicantPanel', this)">1. Applicant Form</button>
+      <button class="tab-btn" onclick="switchTab('officerPanel', this)">2. Officer Verification</button>
+      <button class="tab-btn" onclick="switchTab('cardPanel', this)">3. Generated ID Card</button>
     </div>
   </div>
 
+  <div class="container">
 
-  <!-- ================= BACK SIDE ================= -->
-  <div class="id-card">
-    <!-- ऊपर तिरंगा पट्टी -->
-    <div class="header">
-      <div class="tiranga-bar">
-        <div class="stripe-saffron">भारतीय विशिष्ट पहचान</div>
-        <div class="stripe-white">UNIQUE IDENTIFICATION</div>
-        <div class="stripe-green"></div>
-      </div>
-    </div>
+    <!-- ================= 1. APPLICANT FORM PANEL ================= -->
+    <div id="applicantPanel" class="panel active">
+      <div class="panel-title">स्टेप 1: छात्र / आवेदक पंजीकरण फॉर्म (Applicant Form)</div>
+      <form id="appForm" onsubmit="submitApplication(event)">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>पट्टी पर संस्था का नाम (हिन्दी में)</label>
+            <input type="text" id="orgNameHi" value="मिथिला कॉलेज हेल्प / डी.एस.वी. स्कूल" required>
+          </div>
+          <div class="form-group">
+            <label>Organization / School Name (In English)</label>
+            <input type="text" id="orgNameEn" value="MITHILA COLLEGE HELP / DSV SCHOOL" required>
+          </div>
 
-    <!-- बीच का हिस्सा: हिंदी-इंग्लिश पता + QR Code -->
-    <div class="card-body">
-      <div class="address-box">
-        <div class="address-hi">
-          <div class="address-title">पता:</div>
-          आत्मज: पिता का नाम, मकान संख्या, गली/मोहल्ला, गाँव/शहर, जिला, राज्य - पिनकोड
+          <div class="form-group">
+            <label>Full Name (English में लिखें)</label>
+            <input type="text" id="nameEn" placeholder="Ex: Rahul Kumar" oninput="autoTranslate(this.value, 'nameHi')" required>
+            <span class="hint-text">English में टाइप करने पर हिन्दी नाम अपने आप भरेगा</span>
+          </div>
+          <div class="form-group">
+            <label>पूरा नाम (हिन्दी में - Auto Filled)</label>
+            <input type="text" id="nameHi" placeholder="उदा: राहुल कुमार" required>
+          </div>
+
+          <div class="form-group">
+            <label>Father's Name / S/O (English में)</label>
+            <input type="text" id="fatherEn" placeholder="Ex: Rameshwar Prasad" oninput="autoTranslate(this.value, 'fatherHi')" required>
+          </div>
+          <div class="form-group">
+            <label>पिता का नाम (हिन्दी में - Auto Filled)</label>
+            <input type="text" id="fatherHi" placeholder="उदा: रामेश्वर प्रसाद" required>
+          </div>
+
+          <div class="form-group">
+            <label>Date of Birth (जन्म तिथि)</label>
+            <input type="date" id="dobInput" required>
+          </div>
+          <div class="form-group">
+            <label>Gender (लिंग)</label>
+            <select id="genderInput" required>
+              <option value="महिला / FEMALE">महिला / FEMALE</option>
+              <option value="पुरुष / MALE" selected>पुरुष / MALE</option>
+              <option value="अन्य / OTHER">अन्य / OTHER</option>
+            </select>
+          </div>
+
+          <div class="form-group full-width">
+            <label>Full Address (English में लिखें - Village, Post, District, State, PIN)</label>
+            <textarea id="addrEn" rows="2" placeholder="Ex: Ward 05, Sitamarhi, Bihar - 843302" oninput="autoTranslate(this.value, 'addrHi')" required></textarea>
+            <span class="hint-text">पता English में लिखने पर नीचे हिन्दी में अपने आप अनुवाद हो जाएगा</span>
+          </div>
+
+          <div class="form-group full-width">
+            <label>पूरा पता (हिन्दी में - Auto Filled)</label>
+            <textarea id="addrHi" rows="2" placeholder="उदा: वार्ड 05, सीतामढ़ी, बिहार - 843302" required></textarea>
+          </div>
+
+          <div class="form-group full-width">
+            <label>अपनी पासपोर्ट साइज फोटो अपलोड करें (Upload Photo)</label>
+            <input type="file" id="photoInput" accept="image/*" required>
+          </div>
         </div>
-        <div class="address-en">
-          <div class="address-title">Address:</div>
-          S/O: Father's Name, House No, Street/Locality, Village/City, District, State - PIN Code
+
+        <button type="submit" class="btn-submit">आवेदन सबमिट करें (Submit Application for Officer Verification)</button>
+      </form>
+
+      <div id="applicantAlert" class="status-alert"></div>
+    </div>
+
+    <!-- ================= 2. OFFICER VERIFICATION PANEL ================= -->
+    <div id="officerPanel" class="panel">
+      <div class="panel-title">स्टेप 2: ऑफिसर वेरिफिकेशन पैनल (Officer Verification & Unique ID Setup)</div>
+      <div id="noAppMsg" class="status-alert warning" style="display:block;">
+        अभी कोई आवेदन पेंडिंग नहीं है। कृपया पहले 'Applicant Form' भरकर सबमिट करें।
+      </div>
+
+      <div id="officerReviewBox" class="officer-card" style="display:none;">
+        <div class="officer-Preview-row">
+          <img id="offPhotoPreview" src="" alt="Applicant Photo">
+          <div>
+            <p><strong>नाम (Hindi / English):</strong> <span id="offName"></span></p>
+            <p><strong>पिता का नाम:</strong> <span id="offFather"></span></p>
+            <p><strong>जन्म तिथि एवं लिंग:</strong> <span id="offDobGender"></span></p>
+            <p><strong>पता (Hindi):</strong> <span id="offAddrHi"></span></p>
+            <p><strong>Address (English):</strong> <span id="offAddrEn"></span></p>
+            <p><strong>वर्तमान स्थिति:</strong> <span id="offStatusBadge" style="color:#d97706;font-weight:700;">Pending Officer Verification</span></p>
+          </div>
+        </div>
+
+        <div class="verify-controls">
+          <div class="form-group" style="flex:1; min-width:220px;">
+            <label>ऑफिसर द्वारा कार्ड का Unique ID Number सेट करें:</label>
+            <input type="text" id="officerUniqueId" placeholder="यहाँ कार्ड का Unique ID नंबर दर्ज करें" required>
+          </div>
+          <button type="button" class="btn-submit" style="width:auto; margin:0;" onclick="verifyAndGenerateCard()">
+            Verify & Generate ID Card
+          </button>
         </div>
       </div>
+    </div>
 
-      <!-- बैक साइड QR Code -->
-      <div class="qr-box">
-        <svg viewBox="0 0 29 29" shape-rendering="crispEdges">
-          <path fill="#ffffff" d="M0 0h29v29H0z"/>
-          <path stroke="#000000" d="M0 0.5h7m1 0h1m2 0h3m1 0h2m2 0h2m1 0h7M0 1.5h1m5 0h1m2 0h2m1 0h2m1 0h1m2 0h3m1 0h1m5 0h1M0 2.5h1m1 0h3m1 0h1m1 0h1m1 0h3m2 0h2m1 0h2m2 0h1m1 0h3m1 0h1M0 3.5h1m1 0h3m1 0h1m2 0h2m1 0h1m1 0h3m1 0h2m2 0h1m1 0h3m1 0h1M0 4.5h1m1 0h3m1 0h1m1 0h3m1 0h2m2 0h1m1 0h2m1 0h1m1 0h3m1 0h1M0 5.5h1m5 0h1m1 0h2m2 0h1m2 0h3m1 0h1m1 0h1m5 0h1M0 6.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M8 7.5h2m1 0h3m2 0h2m1 0h2M0 8.5h2m1 0h4m1 0h2m1 0h1m2 0h3m1 0h2m1 0h4m2 0h2M1 9.5h2m2 0h1m2 0h3m1 0h2m2 0h1m1 0h3m1 0h2m2 0h2M0 10.5h3m1 0h2m1 0h2m2 0h3m1 0h2m1 0h2m2 0h4m1 0h1M1 11.5h1m2 0h2m2 0h1m1 0h2m2 0h2m1 0h3m1 0h2m1 0h3m1 0h1M0 12.5h2m1 0h2m1 0h3m1 0h2m1 0h3m2 0h2m1 0h2m2 0h3M2 13.5h2m1 0h1m2 0h2m1 0h3m1 0h2m1 0h2m2 0h3m1 0h2M0 14.5h1m2 0h3m1 0h2m1 0h2m2 0h2m1 0h3m1 0h2m1 0h4M1 15.5h2m1 0h2m2 0h2m1 0h1m2 0h3m1 0h2m2 0h3m1 0h2M0 16.5h3m2 0h1m1 0h3m2 0h2m1 0h2m1 0h3m2 0h2m1 0h2M2 17.5h1m2 0h2m1 0h2m1 0h3m1 0h2m2 0h2m1 0h3m2 0h1M0 18.5h2m2 0h2m1 0h2m2 0h2m1 0h2m1 0h3m1 0h2m2 0h3M1 19.5h3m1 0h2m1 0h3m1 0h2m2 0h3m1 0h2m1 0h3m1 0h1M8 20.5h2m1 0h2m2 0h3m1 0h5m1 0h3M0 21.5h7m1 0h2m1 0h2m2 0h2m1 0h3m1 0h2m1 0h3M0 22.5h1m5 0h1m1 0h3m1 0h2m1 0h2m2 0h3m1 0h2m1 0h2M0 23.5h1m1 0h3m1 0h1m2 0h2m1 0h3m1 0h2m1 0h3m2 0h3m1 0h1M0 24.5h1m1 0h3m1 0h1m1 0h2m2 0h2m1 0h5m1 0h3m1 0h3M0 25.5h1m1 0h3m1 0h1m2 0h3m1 0h2m2 0h3m1 0h4m1 0h2M0 26.5h1m5 0h1m1 0h2m1 0h3m2 0h2m1 0h3m1 0h2m2 0h1M0 27.5h7m1 0h1m2 0h2m1 0h3m1 0h2m2 0h3m1 0h2"/>
-        </svg>
+    <!-- ================= 3. GENERATED ID CARD PANEL ================= -->
+    <div id="cardPanel" class="panel">
+      <div class="panel-title">स्टेप 3: वेरिफाइड आईडी कार्ड (Verified Card Output)</div>
+
+      <div id="lockedCardMsg" class="status-alert warning" style="display:block;">
+        कार्ड अभी जनरेट नहीं हुआ है! जब तक ऑफिसर 'Officer Verification' पैनल में जाकर Unique ID सेट करके Verify नहीं करेंगे, तब तक कार्ड जनरेट नहीं होगा।
+      </div>
+
+      <div id="verifiedCardSection" style="display:none;">
+        <div class="cards-wrapper">
+
+          <!-- ================= FRONT SIDE CARD ================= -->
+          <div class="id-card">
+            <div class="card-header">
+              <!-- Photo ke upar Satyamev Jayate Bharat ka Logo -->
+              <div class="header-logo-box">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg" alt="Satyamev Jayate">
+                <span class="satyamev-text">सत्यमेव जयते</span>
+              </div>
+              <!-- Tiranga Patti with User's Organization Name -->
+              <div class="patti-container">
+                <div class="patti-saffron" id="cardOrgHi">मिथिला कॉलेज हेल्प / डी.एस.वी. स्कूल</div>
+                <div class="patti-green" id="cardOrgEn">MITHILA COLLEGE HELP / DSV SCHOOL</div>
+              </div>
+            </div>
+
+            <div class="front-body">
+              <div class="applicant-photo">
+                <img id="cardPhoto" src="" alt="Photo">
+              </div>
+
+              <div class="front-details">
+                <div class="f-name-hi" id="cardNameHi">नाम</div>
+                <div class="f-name-en" id="cardNameEn">Name</div>
+                <div class="f-row"><strong>जन्म तिथि / DOB:</strong> <span id="cardDob">DD/MM/YYYY</span></div>
+                <div class="f-row" id="cardGender">पुरुष / MALE</div>
+              </div>
+
+              <div class="front-qr-box">
+                <canvas id="frontQrCanvas" width="114" height="114"></canvas>
+              </div>
+            </div>
+
+            <div class="card-footer">
+              <div class="unique-id-num" id="cardUniqueIdFront">[Aadhaar Redacted]</div>
+              <div class="red-divider"></div>
+              <div class="front-tagline">मेरा <span>स्कूल</span>, मेरा <span>भविष्य</span></div>
+            </div>
+          </div>
+
+          <!-- ================= BACK SIDE CARD ================= -->
+          <div class="id-card">
+            <div class="card-header">
+              <!-- Back Side Top-Left Corner Aadhaar Style Logo -->
+              <div class="header-logo-box">
+                <svg viewBox="0 0 100 70" width="36" height="30">
+                  <!-- Stylized Sun & Fingerprint Curves like Aadhaar Logo -->
+                  <path d="M20,50 C20,25 80,25 80,50" fill="none" stroke="#e11d48" stroke-width="5"/>
+                  <path d="M28,52 C28,32 72,32 72,52" fill="none" stroke="#f59e0b" stroke-width="4.5"/>
+                  <path d="M36,54 C36,40 64,40 64,54" fill="none" stroke="#e11d48" stroke-width="4"/>
+                  <circle cx="50" cy="50" r="6" fill="#e11d48"/>
+                  <!-- Sun Rays -->
+                  <line x1="50" y1="6" x2="50" y2="20" stroke="#e11d48" stroke-width="4" stroke-linecap="round"/>
+                  <line x1="28" y1="12" x2="35" y2="24" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+                  <line x1="72" y1="12" x2="65" y2="24" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+                  <line x1="12" y1="26" x2="23" y2="33" stroke="#e11d48" stroke-width="4" stroke-linecap="round"/>
+                  <line x1="88" y1="26" x2="77" y2="33" stroke="#e11d48" stroke-width="4" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="patti-container">
+                <div class="patti-saffron" id="cardBackOrgHi">मिथिला कॉलेज हेल्प / डी.एस.वी. स्कूल</div>
+                <div class="patti-green" id="cardBackOrgEn">MITHILA COLLEGE HELP / DSV SCHOOL</div>
+              </div>
+            </div>
+
+            <div class="back-body">
+              <div class="back-address">
+                <div class="addr-block-hi">
+                  <div class="addr-label">पता:</div>
+                  <div>आत्मज: <span id="cardFatherHi"></span>, <span id="cardAddrHi"></span></div>
+                </div>
+                <div class="addr-block-en">
+                  <div class="addr-label">Address:</div>
+                  <div>S/O: <span id="cardFatherEn"></span>, <span id="cardAddrEn"></span></div>
+                </div>
+              </div>
+
+              <!-- Back Side BADA Complex QR Code -->
+              <div class="back-qr-box">
+                <canvas id="backQrCanvas" width="171" height="171"></canvas>
+              </div>
+            </div>
+
+            <div class="card-footer">
+              <div class="unique-id-num" id="cardUniqueIdBack">[Aadhaar Redacted]</div>
+              <div class="red-divider"></div>
+              <!-- Back Bottom Bar: Phone 5241 | help@dsv.com | www.dsv.com -->
+              <div class="back-contact-bar">
+                <div class="contact-item">
+                  <!-- Telephone Icon -->
+                  <svg viewBox="0 0 24 24">
+                    <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.61 21 3 13.39 3 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01l-2.2 2.2z"/>
+                  </svg>
+                  <span>5241</span>
+                </div>
+
+                <div class="contact-item">
+                  <!-- Envelope/Message Icon -->
+                  <svg viewBox="0 0 24 24">
+                    <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                  </svg>
+                  <span>help@dsv.com</span>
+                </div>
+
+                <div class="contact-item">
+                  <!-- Website Globe Icon -->
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                  </svg>
+                  <span>www.dsv.com</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="print-btn-bar">
+          <button class="btn-print" onclick="window.print()">प्रिंट करें / PDF सेव करें (Print ID Card)</button>
+        </div>
       </div>
     </div>
 
-    <!-- नीचे का हिस्सा -->
-    <div class="card-footer">
-      <div class="id-number">[Aadhaar Redacted]</div>
-      <div class="bottom-tagline">मेरा <span>पहचान</span>, मेरी शान</div>
-    </div>
   </div>
+
+<script>
+  let applicationData = null;
+  let uploadedPhotoDataUrl = "";
+
+  // Tab Switching Function
+  function switchTab(panelId, btnElement) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(panelId).classList.add('active');
+    if (btnElement) btnElement.classList.add('active');
+  }
+
+  // Photo Upload Reader
+  document.getElementById('photoInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        uploadedPhotoDataUrl = evt.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Auto English to Hindi Transliteration (Google Input Tools API + Offline Phonetic Fallback)
+  let debounceTimer;
+  function autoTranslate(text, targetFieldId) {
+    clearTimeout(debounceTimer);
+    const targetEl = document.getElementById(targetFieldId);
+    if (!text.trim()) {
+      targetEl.value = "";
+      return;
+    }
+
+    debounceTimer = setTimeout(async () => {
+      try {
+        const url = `https://inputtools.google.com/request?text=${encodeURIComponent(text)}&itc=hi-t-i0-und&num=1&cp=0&cs=1&ie=utf-8&oe=utf-8`;
+        const response = await fetch(url);
+        const data = await response.json();
+        if (data && data[0] === "SUCCESS" && data[1] && data[1][0] && data[1][0][1]) {
+          targetEl.value = data[1][0][1][0];
+          return;
+        }
+      } catch (err) {
+        // Fallback to offline transliteration if offline
+      }
+      targetEl.value = fallbackPhoneticHindi(text);
+    }, 250);
+  }
+
+  // Offline Fallback Dictionary/Phonetic mapper
+  function fallbackPhoneticHindi(str) {
+    const map = {
+      'a':'अ','b':'ब','c':'क','d':'द','e':'ए','f':'फ','g':'ग','h':'ह',
+      'i':'इ','j':'ज','k':'क','l':'ल','m':'म','n':'न','o':'ओ','p':'प',
+      'q':'क','r':'र','s':'स','t':'त','u':'उ','v':'व','w':'व','x':'क्स',
+      'y':'य','z':'ज़',' ':' ',',':',','-':'-','0':'०','1':'१','2':'२',
+      '3':'३','4':'४','5':'५','6':'६','7':'७','8':'८','9':'९'
+    };
+    return str.toLowerCase().split('').map(ch => map[ch] || ch).join('');
+  }
+
+  // Step 1: Applicant Submits Form (Card NOT generated yet)
+  function submitApplication(e) {
+    e.preventDefault();
+    const rawDob = document.getElementById('dobInput').value;
+    const parts = rawDob.split('-');
+    const formattedDob = parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : rawDob;
+
+    applicationData = {
+      orgHi: document.getElementById('orgNameHi').value,
+      orgEn: document.getElementById('orgNameEn').value,
+      nameEn: document.getElementById('nameEn').value,
+      nameHi: document.getElementById('nameHi').value,
+      fatherEn: document.getElementById('fatherEn').value,
+      fatherHi: document.getElementById('fatherHi').value,
+      dob: formattedDob,
+      gender: document.getElementById('genderInput').value,
+      addrEn: document.getElementById('addrEn').value,
+      addrHi: document.getElementById('addrHi').value,
+      photo: uploadedPhotoDataUrl || "https://via.placeholder.com/76x92.png?text=PHOTO",
+      verified: false,
+      uniqueId: ""
+    };
+
+    // Populate Officer Panel
+    document.getElementById('noAppMsg').style.display = 'none';
+    document.getElementById('officerReviewBox').style.display = 'block';
+    document.getElementById('offPhotoPreview').src = applicationData.photo;
+    document.getElementById('offName').textContent = `${applicationData.nameHi} / ${applicationData.nameEn}`;
+    document.getElementById('offFather').textContent = `${applicationData.fatherHi} / ${applicationData.fatherEn}`;
+    document.getElementById('offDobGender').textContent = `${applicationData.dob} (${applicationData.gender})`;
+    document.getElementById('offAddrHi').textContent = applicationData.addrHi;
+    document.getElementById('offAddrEn').textContent = applicationData.addrEn;
+    document.getElementById('offStatusBadge').textContent = "Pending Officer Verification";
+    document.getElementById('offStatusBadge').style.color = "#d97706";
+
+    // Lock Card Until Officer Verifies
+    document.getElementById('lockedCardMsg').style.display = 'block';
+    document.getElementById('verifiedCardSection').style.display = 'none';
+
+    const alertBox = document.getElementById('applicantAlert');
+    alertBox.className = "status-alert success";
+    alertBox.textContent = "आपका आवेदन सफलतापूर्वक सबमिट हो गया है! अब ऑफिसर द्वारा वेरिफिकेशन और Unique ID सेट करने के बाद ही कार्ड जनरेट होगा।";
+  }
+
+  // Step 2: Officer Verifies & Sets Unique ID -> Generates Card
+  function verifyAndGenerateCard() {
+    if (!applicationData) return;
+    const uniqueIdVal = document.getElementById('officerUniqueId').value.trim();
+    if (!uniqueIdVal) {
+      alert("कृपया कार्ड जनरेट करने से पहले Unique ID Number सेट करें!");
+      return;
+    }
+
+    applicationData.uniqueId = uniqueIdVal;
+    applicationData.verified = true;
+
+    // Update Officer Status
+    document.getElementById('offStatusBadge').textContent = "Verified & Card Generated";
+    document.getElementById('offStatusBadge').style.color = "#16a34a";
+
+    // Populate Card Fields
+    document.getElementById('cardOrgHi').textContent = applicationData.orgHi;
+    document.getElementById('cardOrgEn').textContent = applicationData.orgEn;
+    document.getElementById('cardBackOrgHi').textContent = applicationData.orgHi;
+    document.getElementById('cardBackOrgEn').textContent = applicationData.orgEn;
+
+    document.getElementById('cardPhoto').src = applicationData.photo;
+    document.getElementById('cardNameHi').textContent = applicationData.nameHi;
+    document.getElementById('cardNameEn').textContent = applicationData.nameEn;
+    document.getElementById('cardDob').textContent = applicationData.dob;
+    document.getElementById('cardGender').textContent = applicationData.gender;
+
+    document.getElementById('cardFatherHi').textContent = applicationData.fatherHi;
+    document.getElementById('cardFatherEn').textContent = applicationData.fatherEn;
+    document.getElementById('cardAddrHi').textContent = applicationData.addrHi;
+    document.getElementById('cardAddrEn').textContent = applicationData.addrEn;
+
+    document.getElementById('cardUniqueIdFront').textContent = applicationData.uniqueId;
+    document.getElementById('cardUniqueIdBack').textContent = applicationData.uniqueId;
+
+    // Draw High-Density Complex QR Codes on Front (Smaller) & Back (Larger)
+    const qrPayload = `${applicationData.uniqueId}|${applicationData.nameEn}|${applicationData.dob}|${applicationData.gender}|${applicationData.addrEn}`;
+    drawComplexQR('frontQrCanvas', qrPayload);
+    drawComplexQR('backQrCanvas', qrPayload + "|VERIFIED-BY-OFFICER|5241|help@dsv.com|www.dsv.com");
+
+    // Unlock Card Panel and Switch to It
+    document.getElementById('lockedCardMsg').style.display = 'none';
+    document.getElementById('verifiedCardSection').style.display = 'block';
+
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    switchTab('cardPanel', tabBtns[2]);
+  }
+
+  // High-Density Complex QR Code Renderer (57x57 Version-10 Dense Matrix)
+  function drawComplexQR(canvasId, seedString) {
+    const canvas = document.getElementById(canvasId);
+    const ctx = canvas.getContext('2d');
+    const modules = 57; // High complexity 57x57 grid like Aadhaar secure QR
+    const size = canvas.width;
+    const cell = size / modules;
+
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, size, size);
+    ctx.fillStyle = "#000000";
+
+    const reserved = Array.from({ length: modules }, () => Array(modules).fill(false));
+
+    // Helper for 7x7 Finder Patterns
+    function drawFinder(r0, c0) {
+      for (let r = -1; r <= 7; r++) {
+        for (let c = -1; c <= 7; c++) {
+          const rr = r0 + r, cc = c0 + c;
+          if (rr >= 0 && rr < modules && cc >= 0 && cc < modules) {
+            reserved[rr][cc] = true;
+            if (r >= 0 && r <= 6 && c >= 0 && c <= 6) {
+              if (r === 0 || r === 6 || c === 0 || c === 6 || (r >= 2 && r <= 4 && c >= 2 && c <= 4)) {
+                ctx.fillRect(cc * cell, rr * cell, Math.ceil(cell), Math.ceil(cell));
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Helper for 5x5 Alignment Patterns
+    function drawAlignment(r0, c0) {
+      for (let r = -2; r <= 2; r++) {
+        for (let c = -2; c <= 2; c++) {
+          const rr = r0 + r, cc = c0 + c;
+          if (rr >= 0 && rr < modules && cc >= 0 && cc < modules && !reserved[rr][cc]) {
+            reserved[rr][cc] = true;
+            if (Math.abs(r) === 2 || Math.abs(c) === 2 || (r === 0 && c === 0)) {
+              ctx.fillRect(cc * cell, rr * cell, Math.ceil(cell), Math.ceil(cell));
+            }
+          }
+        }
+      }
+    }
+
+    // 3 Corner Finder Patterns
+    drawFinder(0, 0);
+    drawFinder(0, modules - 7);
+    drawFinder(modules - 7, 0);
+
+    // Multi Alignment Patterns for High-Density Complex Look
+    const alignCoords = [6, 28, 50];
+    for (let ir of alignCoords) {
+      for (let ic of alignCoords) {
+        if (!((ir === 6 && ic === 6) || (ir === 6 && ic === 50) || (ir === 50 && ic === 6))) {
+          drawAlignment(ir, ic);
+        }
+      }
+    }
+
+    // Timing Patterns
+    for (let i = 8; i < modules - 8; i++) {
+      reserved[6][i] = true;
+      reserved[i][6] = true;
+      if (i % 2 === 0) {
+        ctx.fillRect(i * cell, 6 * cell, Math.ceil(cell), Math.ceil(cell));
+        ctx.fillRect(6 * cell, i * cell, Math.ceil(cell), Math.ceil(cell));
+      }
+    }
+
+    // Deterministic Hash Generator from Applicant Data
+    let hash = 2166136261;
+    for (let i = 0; i < seedString.length; i++) {
+      hash ^= seedString.charCodeAt(i);
+      hash = Math.imul(hash, 16777619);
+    }
+
+    for (let r = 0; r < modules; r++) {
+      for (let c = 0; c < modules; c++) {
+        if (!reserved[r][c]) {
+          hash ^= (r * 131 + c * 977) + seedString.charCodeAt((r + c) % seedString.length);
+          hash = Math.imul(hash ^ (hash >>> 15), 2246822507);
+          if ((Math.abs(hash) % 10) < 5) {
+            ctx.fillRect(c * cell, r * cell, Math.ceil(cell), Math.ceil(cell));
+          }
+        }
+      }
+    }
+  }
+</script>
 
 </body>
 </html>
