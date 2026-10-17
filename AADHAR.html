@@ -14,8 +14,9 @@
     font-family: 'Roboto', 'Noto Sans Devanagari', Arial, sans-serif;
   }
 
+  /* चमक कम करने के लिए हल्का सॉफ्ट बैकग्राउंड */
   body {
-    background: #eef2f6;
+    background: #e2e8f0;
     color: #222;
     padding-bottom: 50px;
   }
@@ -67,10 +68,10 @@
 
   .panel {
     display: none;
-    background: #fff;
+    background: #f4f6f9;
     border-radius: 10px;
     padding: 24px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
   }
 
   .panel.active {
@@ -120,6 +121,7 @@
     border: 1px solid #cbd5e1;
     border-radius: 6px;
     font-size: 14px;
+    background: #fbfcfd;
   }
 
   .hint-text {
@@ -181,14 +183,14 @@
     padding: 20px;
     border: 1px solid #cbd5e1;
     border-radius: 8px;
-    background: #f8fafc;
+    background: #eef2f6;
   }
 
   .officer-card {
     border: 1px solid #cbd5e1;
     border-radius: 8px;
     padding: 16px;
-    background: #f8fafc;
+    background: #eef2f6;
     margin-bottom: 16px;
   }
 
@@ -208,7 +210,7 @@
   }
 
   .verify-controls {
-    background: #fff;
+    background: #f8fafc;
     padding: 15px;
     border-radius: 6px;
     border: 1px solid #94a3b8;
@@ -228,13 +230,14 @@
     margin-top: 20px;
   }
 
+  /* कार्ड की ज्यादा चमक कम करने के लिए सॉफ्ट ऑफ-व्हाइट (#f9fafb) */
   .id-card {
     width: 410px;
     height: 258px;
-    background-color: #ffffff;
+    background-color: #f9fafb;
     border: 1px solid #b5b5b5;
     border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.14);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -252,7 +255,7 @@
     gap: 6px;
   }
 
-  /* Ashok Stambh (Only small Satyamev Jayate below) */
+  /* Ashok Stambh */
   .emblem-box {
     width: 32px;
     height: 40px;
@@ -269,16 +272,7 @@
     object-fit: contain;
   }
 
-  .small-satyamev {
-    font-size: 4.8px;
-    font-weight: 700;
-    color: #111;
-    line-height: 1;
-    margin-top: 1px;
-    letter-spacing: -0.1px;
-  }
-
-  /* Brush-Stroke Tiranga Patti (Exact Aadhaar Style) */
+  /* Brush-Stroke Tiranga Patti */
   .brush-patti-box {
     flex: 1;
     position: relative;
@@ -330,7 +324,7 @@
 
   /* Right Corner Original Aadhaar Logo Box */
   .aadhaar-logo-box {
-    width: 48px;
+    width: 52px;
     height: 40px;
     display: flex;
     align-items: center;
@@ -338,25 +332,47 @@
     flex-shrink: 0;
   }
 
-  .aadhaar-logo-box svg {
-    width: 46px;
+  .aadhaar-logo-box img {
+    width: 50px;
     height: 38px;
+    object-fit: contain;
   }
 
   /* FRONT BODY */
   .front-body {
     display: flex;
-    padding: 4px 12px 0 12px;
-    gap: 10px;
+    padding: 4px 12px 0 6px;
+    gap: 6px;
     flex: 1;
     position: relative;
+  }
+
+  /* Vertical Issue Date (Photo के बाएँ ठीक बीच में नीचे से ऊपर की ओर) */
+  .vertical-issue-box {
+    width: 12px;
+    height: 95px;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .vertical-issue-text {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 6.5px;
+    font-weight: 500;
+    color: #111;
+    white-space: nowrap;
+    letter-spacing: 0.2px;
   }
 
   .applicant-photo {
     width: 78px;
     height: 95px;
     border: 1px solid #777;
-    background: #f1f5f9;
+    background: #eef2f6;
     flex-shrink: 0;
     overflow: hidden;
     margin-top: 2px;
@@ -368,22 +384,25 @@
     object-fit: cover;
   }
 
+  /* Name, DOB, Gender सभी बिल्कुल DOB (10/10/2000) के साइज व फॉन्ट-वेट में */
   .front-details {
     flex: 1;
-    font-size: 11.2px;
+    font-size: 10.8px;
+    font-weight: 500;
     line-height: 1.42;
     color: #111;
     padding-top: 3px;
+    padding-left: 4px;
   }
 
   .front-details .f-name-hi {
-    font-weight: 700;
-    font-size: 11.8px;
+    font-size: 10.8px;
+    font-weight: 500;
   }
 
   .front-details .f-name-en {
-    font-weight: 600;
-    font-size: 11.2px;
+    font-size: 10.8px;
+    font-weight: 500;
     margin-bottom: 3px;
   }
 
@@ -404,7 +423,7 @@
   .front-qr-box {
     width: 82px;
     height: 82px;
-    background: #fff;
+    background: #f9fafb;
     padding: 2px;
     display: flex;
     justify-content: center;
@@ -419,10 +438,30 @@
   /* BACK BODY */
   .back-body {
     display: flex;
-    padding: 4px 12px 0 12px;
-    gap: 8px;
+    padding: 4px 12px 0 6px;
+    gap: 6px;
     flex: 1;
     justify-content: space-between;
+  }
+
+  /* Vertical Print Date (Back Side खड़ी लाइन में नीचे से ऊपर) */
+  .vertical-print-box {
+    width: 12px;
+    height: 118px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .vertical-print-text {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 6.5px;
+    font-weight: 500;
+    color: #111;
+    white-space: nowrap;
+    letter-spacing: 0.2px;
   }
 
   .back-address {
@@ -454,7 +493,7 @@
   .back-qr-box {
     width: 118px;
     height: 118px;
-    background: #fff;
+    background: #f9fafb;
     padding: 2px;
     display: flex;
     justify-content: center;
@@ -486,7 +525,7 @@
     width: 100%;
   }
 
-  /* Front Bottom Tagline: मेरा आधार, मेरी पहचान */
+  /* Front Bottom Tagline: मेरा आधार, मेरी पहचान (केवल आधार लाल, पहचान काला) */
   .front-tagline {
     padding: 3px 0 5px 0;
     font-size: 15px;
@@ -500,7 +539,7 @@
     color: #d91b24;
   }
 
-  /* Back Bottom Contact Bar (Horizontal Icon + Text like Aadhaar) */
+  /* Back Bottom Contact Bar */
   .back-contact-bar {
     display: flex;
     justify-content: space-between;
@@ -598,7 +637,7 @@
           </div>
           <div class="form-group">
             <label>पीछे की पट्टी पर नाम (English में)</label>
-            <input type="text" id="backPattiEn" value="Unique Identificatin Authority of India" readonly>
+            <input type="text" id="backPattiEn" value="Unique Identification Authority of India" readonly>
           </div>
 
           <!-- Applicant Details -->
@@ -612,12 +651,24 @@
             <input type="text" id="nameHi" placeholder="उदा: कुमार" required>
           </div>
 
+          <!-- Relation Selection + Father/Husband/Mother/Guardian Name -->
+          <div class="form-group full-width">
+            <label>संबंध चुनें (Select Relation - Son / Wife / Daughter / Mother / Guardian)</label>
+            <select id="relationType" required>
+              <option value="आत्मज|S/O" selected>Son (आत्मज / S/O)</option>
+              <option value="पत्नी|W/O">Wife (पत्नी / W/O)</option>
+              <option value="आत्मजा|D/O">Daughter (आत्मजा / D/O)</option>
+              <option value="माता|M/O">Mother (माता / M/O)</option>
+              <option value="अभिभावक|C/O">Guardian (अभिभावक / C/O)</option>
+            </select>
+          </div>
+
           <div class="form-group">
-            <label>Father's Name / S/O (English में)</label>
+            <label>Father / Husband / Mother / Guardian Name (English में)</label>
             <input type="text" id="fatherEn" placeholder="Ex: Ram Prasad" oninput="autoTranslate(this.value, 'fatherHi')" required>
           </div>
           <div class="form-group">
-            <label>पिता का नाम (हिन्दी में - Auto Filled)</label>
+            <label>पिता / पति / माता / अभिभावक का नाम (हिन्दी में - Auto Filled)</label>
             <input type="text" id="fatherHi" placeholder="उदा: राम प्रसाद" required>
           </div>
 
@@ -687,7 +738,7 @@
             <img id="offPhotoPreview" src="" alt="Applicant Photo">
             <div>
               <p><strong>नाम (Hindi / English):</strong> <span id="offName"></span></p>
-              <p><strong>पिता का नाम:</strong> <span id="offFather"></span></p>
+              <p><strong>संबंध एवं नाम:</strong> <span id="offFather"></span></p>
               <p><strong>जन्म तिथि एवं लिंग:</strong> <span id="offDobGender"></span></p>
               <p><strong>पता (Hindi):</strong> <span id="offAddrHi"></span></p>
               <p><strong>Address (English):</strong> <span id="offAddrEn"></span></p>
@@ -696,9 +747,17 @@
           </div>
 
           <div class="verify-controls">
-            <div class="form-group" style="flex:1; min-width:220px;">
-              <label>ऑफिसर द्वारा कार्ड का Unique ID Number सेट करें:</label>
-              <input type="text" id="officerUniqueId" placeholder="यहाँ कार्ड का Unique ID नंबर लिखें" required>
+            <div class="form-group" style="flex:1; min-width:200px;">
+              <label>कार्ड का Unique ID Number सेट करें:</label>
+              <input type="text" id="officerUniqueId" placeholder="यहाँ Unique ID नंबर लिखें" required>
+            </div>
+            <div class="form-group" style="flex:1; min-width:180px;">
+              <label>Issue Date (खाली छोड़ने पर नहीं दिखेगा):</label>
+              <input type="text" id="officerIssueDate" placeholder="Ex: 01/01/2000">
+            </div>
+            <div class="form-group" style="flex:1; min-width:180px;">
+              <label>Print Date (खाली छोड़ने पर नहीं दिखेगा):</label>
+              <input type="text" id="officerPrintDate" placeholder="Ex: 01/01/2000">
             </div>
             <button type="button" class="btn-submit" style="width:auto; margin:0;" onclick="verifyAndGenerateCard()">
               Verify & Generate ID Card
@@ -722,7 +781,7 @@
           <!-- ================= FRONT SIDE CARD ================= -->
           <div class="id-card">
             <div class="card-header">
-              <!-- Top Left: Ashok Stambh with only small Satyamev Jayate -->
+              <!-- Top Left: Ashok Stambh -->
               <div class="emblem-box">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg" alt="Emblem">
               </div>
@@ -742,7 +801,7 @@
                     </defs>
                     <path d="M10,2 C4,2 1,6 1,11 C1,16 4,20 10,20 L235,19 C255,19 275,16 296,12 C280,11 268,9 292,7 C265,5 240,2 215,2 Z" fill="url(#saffronGradF)"/>
                   </svg>
-                  <span class="patti-text-hi" id="cardFrontPattiHi">मिशन स्कूल</span>
+                  <span class="patti-text-hi" id="cardFrontPattiHi">भारत सरकार</span>
                 </div>
 
                 <!-- Green Brush Strip -->
@@ -758,35 +817,23 @@
                     </defs>
                     <path d="M10,2 C4,2 1,6 1,11 C1,16 4,20 10,20 L245,20 C268,20 285,17 298,13 C278,12 270,10 294,8 C265,5 240,2 220,2 Z" fill="url(#greenGradF)"/>
                   </svg>
-                  <span class="patti-text-en" id="cardFrontPattiEn">Mission School</span>
+                  <span class="patti-text-en" id="cardFrontPattiEn">Government of India</span>
                 </div>
               </div>
 
               <!-- Top Right: Exact Original Aadhaar Logo -->
               <div class="aadhaar-logo-box">
-                <svg viewBox="0 0 120 95" xmlns="http://www.w3.org/2000/svg">
-                  <!-- 7 Yellow-Orange Sun Rays (Teardrop Petals) -->
-                  <path d="M60,4 C64,12 64,19 60,23 C56,19 56,12 60,4 Z" fill="#f5a623"/>
-                  <path d="M38,9 C44,15 46,21 44,26 C39,24 36,18 38,9 Z" fill="#f5a623"/>
-                  <path d="M82,9 C84,18 81,24 76,26 C74,21 76,15 82,9 Z" fill="#f5a623"/>
-                  <path d="M20,22 C28,25 32,30 32,36 C26,36 21,31 20,22 Z" fill="#f5a623"/>
-                  <path d="M100,22 C99,31 94,36 88,36 C88,30 92,25 100,22 Z" fill="#f5a623"/>
-                  <path d="M8,41 C17,41 22,44 24,50 C18,52 12,48 8,41 Z" fill="#f5a623"/>
-                  <path d="M112,41 C108,48 102,52 96,50 C98,44 103,41 112,41 Z" fill="#f5a623"/>
-                  <!-- Red Concentric Fingerprint Arches -->
-                  <path d="M24,62 C24,33 96,33 96,62" fill="none" stroke="#c9151e" stroke-width="4.5" stroke-linecap="round"/>
-                  <path d="M32,62 C32,40 88,40 88,62" fill="none" stroke="#c9151e" stroke-width="4.5" stroke-linecap="round"/>
-                  <path d="M40,62 C40,47 80,47 80,62" fill="none" stroke="#c9151e" stroke-width="4.5" stroke-linecap="round"/>
-                  <path d="M48,62 C48,53 72,53 72,62" fill="none" stroke="#c9151e" stroke-width="4.5" stroke-linecap="round"/>
-                  <path d="M56,62 C56,58 64,58 64,62" fill="none" stroke="#c9151e" stroke-width="4.5" stroke-linecap="round"/>
-                  <!-- Original Red 'आधार' Text -->
-                  <text x="60" y="84" text-anchor="middle" fill="#c9151e" font-size="22" font-weight="900" font-family="'Noto Sans Devanagari', sans-serif">आधार</text>
-                </svg>
+                <img src="https://upload.wikimedia.org/wikipedia/en/c/cf/Aadhaar_Logo.svg" alt="Aadhaar Logo">
               </div>
             </div>
 
             <!-- Front Body -->
             <div class="front-body">
+              <!-- Vertical Issue Date Left of Photo -->
+              <div class="vertical-issue-box">
+                <div class="vertical-issue-text" id="cardIssueDate"></div>
+              </div>
+
               <div class="applicant-photo">
                 <img id="cardPhoto" src="" alt="Photo">
               </div>
@@ -794,7 +841,7 @@
               <div class="front-details">
                 <div class="f-name-hi" id="cardNameHi">नाम</div>
                 <div class="f-name-en" id="cardNameEn">Name</div>
-                <div class="f-row"><strong>जन्म तिथि / DOB:</strong> <span id="cardDob">DD/MM/YYYY</span></div>
+                <div class="f-row">जन्म तिथि / DOB: <span id="cardDob">DD/MM/YYYY</span></div>
                 <div class="f-row" id="cardGender">पुरुष / MALE</div>
               </div>
 
@@ -808,9 +855,9 @@
 
             <!-- Front Footer -->
             <div class="card-footer">
-              <div class="unique-id-num" id="cardUniqueIdFront">[Aadhaar Number]</div>
+              <div class="unique-id-num" id="cardUniqueIdFront">[Aadhaar Redacted]</div>
               <div class="red-divider"></div>
-              <div class="front-tagline">मेरा <span>आधार </span>, मेरी <span>पहचान</span></div>
+              <div class="front-tagline">मेरा <span>आधार</span>, मेरी पहचान</div>
             </div>
           </div>
 
@@ -842,34 +889,25 @@
 
               <!-- Back Top Right: Exact Original Aadhaar Logo -->
               <div class="aadhaar-logo-box">
-                <svg viewBox="0 0 120 95" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M60,4 C64,12 64,19 60,23 C56,19 56,12 60,4 Z" fill="#f5a623"/>
-                  <path d="M38,9 C44,15 46,21 44,26 C39,24 36,18 38,9 Z" fill="#f5a623"/>
-                  <path d="M82,9 C84,18 81,24 76,26 C74,21 76,15 82,9 Z" fill="#f5a623"/>
-                  <path d="M20,22 C28,25 32,30 32,36 C26,36 21,31 20,22 Z" fill="#f5a623"/>
-                  <path d="M100,22 C99,31 94,36 88,36 C88,30 92,25 100,22 Z" fill="#f5a623"/>
-                  <path d="M8,41 C17,41 22,44 24,50 C18,52 12,48 8,41 Z" fill="#f5a623"/>
-                  <path d="M112,41 C108,48 102,52 96,50 C98,44 103,41 112,41 Z" fill="#f5a623"/>
-                  <path d="M24,62 C24,33 96,33 96,62" fill="none" stroke="#c9151e" stroke-width="4.5" stroke-linecap="round"/>
-                  <path d="M32,62 C32,40 88,40 88,62" fill="none" stroke="#c9151e" stroke-width="4.5" stroke-linecap="round"/>
-                  <path d="M40,62 C40,47 80,47 80,62" fill="none" stroke="#c9151e" stroke-width="4.5" stroke-linecap="round"/>
-                  <path d="M48,62 C48,53 72,53 72,62" fill="none" stroke="#c9151e" stroke-width="4.5" stroke-linecap="round"/>
-                  <path d="M56,62 C56,58 64,58 64,62" fill="none" stroke="#c9151e" stroke-width="4.5" stroke-linecap="round"/>
-                  <text x="60" y="84" text-anchor="middle" fill="#c9151e" font-size="17" font-weight="900" font-family="Arial, sans-serif">AADHAAR</text>
-                </svg>
+                <img src="https://upload.wikimedia.org/wikipedia/en/c/cf/Aadhaar_Logo.svg" alt="Aadhaar Logo">
               </div>
             </div>
 
             <!-- Back Body -->
             <div class="back-body">
+              <!-- Vertical Print Date on Back Left -->
+              <div class="vertical-print-box">
+                <div class="vertical-print-text" id="cardPrintDate"></div>
+              </div>
+
               <div class="back-address">
                 <div class="addr-block-hi">
                   <div class="addr-label">पता:</div>
-                  <div>आत्मज: <span id="cardFatherHi"></span>, <span id="cardAddrHi"></span></div>
+                  <div><span id="cardRelHi">आत्मज</span>: <span id="cardFatherHi"></span>, <span id="cardAddrHi"></span></div>
                 </div>
                 <div class="addr-block-en">
                   <div class="addr-label">Address:</div>
-                  <div>S/O: <span id="cardFatherEn"></span>, <span id="cardAddrEn"></span></div>
+                  <div><span id="cardRelEn">S/O</span>: <span id="cardFatherEn"></span>, <span id="cardAddrEn"></span></div>
                 </div>
               </div>
 
@@ -907,7 +945,7 @@
                   <span>help@uidai.gov.in</span>
                 </div>
 
-                <!-- 3. Web Globe with Grid ("Jal Vala Logo") + www.uidai.gov.in -->
+                <!-- 3. Web Globe with Grid + www.uidai.gov.in -->
                 <div class="contact-item">
                   <svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.3">
                     <circle cx="12" cy="12" r="9.5"/>
@@ -1017,6 +1055,10 @@
     const parts = rawDob.split('-');
     const formattedDob = parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : rawDob;
 
+    const relParts = document.getElementById('relationType').value.split('|');
+    const relHi = relParts[0] || "आत्मज";
+    const relEn = relParts[1] || "S/O";
+
     applicationData = {
       frontPattiHi: document.getElementById('frontPattiHi').value,
       frontPattiEn: document.getElementById('frontPattiEn').value,
@@ -1024,6 +1066,8 @@
       backPattiEn: document.getElementById('backPattiEn').value,
       nameEn: document.getElementById('nameEn').value,
       nameHi: document.getElementById('nameHi').value,
+      relHi: relHi,
+      relEn: relEn,
       fatherEn: document.getElementById('fatherEn').value,
       fatherHi: document.getElementById('fatherHi').value,
       dob: formattedDob,
@@ -1032,14 +1076,16 @@
       addrHi: document.getElementById('addrHi').value,
       photo: uploadedPhotoDataUrl || "https://via.placeholder.com/78x95.png?text=PHOTO",
       verified: false,
-      uniqueId: ""
+      uniqueId: "",
+      issueDate: "",
+      printDate: ""
     };
 
     document.getElementById('noAppMsg').style.display = 'none';
     document.getElementById('officerReviewBox').style.display = 'block';
     document.getElementById('offPhotoPreview').src = applicationData.photo;
     document.getElementById('offName').textContent = `${applicationData.nameHi} / ${applicationData.nameEn}`;
-    document.getElementById('offFather').textContent = `${applicationData.fatherHi} / ${applicationData.fatherEn}`;
+    document.getElementById('offFather').textContent = `${applicationData.relHi}: ${applicationData.fatherHi} / ${applicationData.relEn}: ${applicationData.fatherEn}`;
     document.getElementById('offDobGender').textContent = `${applicationData.dob} (${applicationData.gender})`;
     document.getElementById('offAddrHi').textContent = applicationData.addrHi;
     document.getElementById('offAddrEn').textContent = applicationData.addrEn;
@@ -1068,7 +1114,12 @@
       return;
     }
 
+    const issueDateVal = document.getElementById('officerIssueDate').value.trim();
+    const printDateVal = document.getElementById('officerPrintDate').value.trim();
+
     applicationData.uniqueId = uniqueIdVal;
+    applicationData.issueDate = issueDateVal;
+    applicationData.printDate = printDateVal;
     applicationData.verified = true;
 
     document.getElementById('offStatusBadge').textContent = "Verified & Card Generated";
@@ -1087,16 +1138,23 @@
     document.getElementById('cardDob').textContent = applicationData.dob;
     document.getElementById('cardGender').textContent = applicationData.gender;
 
+    // Set Relation & Father/Guardian Info
+    document.getElementById('cardRelHi').textContent = applicationData.relHi;
+    document.getElementById('cardRelEn').textContent = applicationData.relEn;
     document.getElementById('cardFatherHi').textContent = applicationData.fatherHi;
     document.getElementById('cardFatherEn').textContent = applicationData.fatherEn;
     document.getElementById('cardAddrHi').textContent = applicationData.addrHi;
     document.getElementById('cardAddrEn').textContent = applicationData.addrEn;
 
+    // Set Vertical Issue Date & Print Date (यदि ऑफिसर ने दिया है तभी दिखेगा)
+    document.getElementById('cardIssueDate').textContent = applicationData.issueDate ? `Issue Date: ${applicationData.issueDate}` : "";
+    document.getElementById('cardPrintDate').textContent = applicationData.printDate ? `Print Date: ${applicationData.printDate}` : "";
+
     document.getElementById('cardUniqueIdFront').textContent = applicationData.uniqueId;
     document.getElementById('cardUniqueIdBack').textContent = applicationData.uniqueId;
 
     // Generate Dense Complex QR Codes
-    const qrPayload = `${applicationData.uniqueId}|${applicationData.nameEn}|${applicationData.dob}|${applicationData.gender}|${applicationData.addrEn}`;
+    const qrPayload = `${applicationData.uniqueId}|${applicationData.nameEn}|${applicationData.dob}|${applicationData.gender}|${applicationData.relEn}:${applicationData.fatherEn}|${applicationData.addrEn}`;
     drawComplexQR('frontQrCanvas', qrPayload);
     drawComplexQR('backQrCanvas', qrPayload + "|VERIFIED|1947|help@uidai.gov.in|www.uidai.gov.in");
 
@@ -1115,7 +1173,7 @@
     const size = canvas.width;
     const cell = size / modules;
 
-    ctx.fillStyle = "#ffffff";
+    ctx.fillStyle = "#f9fafb";
     ctx.fillRect(0, 0, size, size);
     ctx.fillStyle = "#000000";
 
