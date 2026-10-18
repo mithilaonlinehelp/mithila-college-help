@@ -246,20 +246,20 @@
     flex-shrink: 0;
   }
 
-  /* TOP HEADER: Left Ashok Stambh + Center Brush Patti + Right Original Aadhaar Logo */
+  /* TOP HEADER: Left Ashok Stambh + Center Soft Brush Patti + Right Original Aadhaar Logo */
   .card-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 3px 8px 1px 8px;
-    height: 38px;
+    height: 36px;
     gap: 4px;
   }
 
   /* Ashok Stambh */
   .emblem-box {
     width: 26px;
-    height: 34px;
+    height: 32px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -268,29 +268,30 @@
   }
 
   .emblem-box img {
-    height: 27px;
+    height: 26px;
     width: auto;
     object-fit: contain;
   }
 
-  /* Realistic Brush-Stroke Tiranga Patti (As per uploaded images) */
+  /* Soft Light-Toned Brush Patti with Centered Text */
   .brush-patti-box {
     flex: 1;
     position: relative;
-    height: 34px;
+    height: 32px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-left: 2px;
+    overflow: visible;
   }
 
   .brush-strip {
     position: relative;
     width: 100%;
-    height: 14px;
+    height: 13px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
+    overflow: visible;
   }
 
   .brush-strip svg.brush-bg {
@@ -306,48 +307,47 @@
   .brush-strip .patti-text-hi {
     position: relative;
     z-index: 2;
-    font-size: 9.2px;
+    font-size: 8.8px;
     font-weight: 700;
-    color: #111111;
+    color: #222222;
     letter-spacing: 0.1px;
     line-height: 1;
     white-space: nowrap;
+    text-align: center;
+    width: 100%;
+    display: block;
   }
 
   .brush-strip .patti-text-en {
     position: relative;
     z-index: 2;
-    font-size: 8.2px;
+    font-size: 8px;
     font-weight: 600;
-    color: #111111;
+    color: #222222;
     letter-spacing: 0.1px;
     line-height: 1;
     white-space: nowrap;
+    text-align: center;
+    width: 100%;
+    display: block;
   }
 
-  /* Front card text alignment inside brush */
-  .front-patti-hi {
-    padding-left: 34px;
-  }
-  .front-patti-en {
-    padding-left: 16px;
-  }
-
-  /* Back card text alignment inside brush */
-  .back-patti-hi {
-    padding-left: 12px;
+  /* Front & Back card text centered inside brush (Even if it overflows patti) */
+  .front-patti-hi, .front-patti-en, .back-patti-hi {
+    padding: 0;
+    text-align: center;
   }
   .back-patti-en {
-    padding-left: 5px;
-    font-size: 7.3px !important;
-    font-weight: 700 !important;
-    text-transform: uppercase;
+    padding: 0;
+    text-align: center;
+    font-size: 7.4px !important;
+    font-weight: 600 !important;
   }
 
   /* Right Corner Original Aadhaar Logo Box */
   .aadhaar-logo-box {
-    width: 44px;
-    height: 34px;
+    width: 42px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -355,26 +355,26 @@
   }
 
   .aadhaar-logo-box img {
-    width: 42px;
-    height: 32px;
+    width: 40px;
+    height: 30px;
     object-fit: contain;
   }
 
   /* FRONT BODY */
   .front-body {
     display: flex;
-    padding: 2px 8px 0 5px;
+    padding: 1px 8px 0 5px;
     gap: 5px;
     flex: 1;
     position: relative;
     align-items: flex-start;
   }
 
-  /* Vertical Issue Date (Photo के बाएँ ठीक बीच में नीचे से ऊपर की ओर) */
+  /* Vertical Issue Date */
   .vertical-issue-box {
     width: 10px;
-    height: 90px;
-    margin-top: 2px;
+    height: 86px;
+    margin-top: 1px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -391,16 +391,16 @@
     letter-spacing: 0.2px;
   }
 
-  /* Photo Size in exact 3.5cm × 4.5cm (35mm × 45mm -> 7:9) Aspect Ratio fitted for CR80 Card */
+  /* Photo Size in exact 3.5cm × 4.5cm (35mm × 45mm -> 7:9) Aspect Ratio */
   .applicant-photo {
-    width: 70px;
-    height: 90px;
+    width: 68px;
+    height: 87.4px;
     aspect-ratio: 35 / 45;
     border: 1px solid #777;
     background: #eef2f6;
     flex-shrink: 0;
     overflow: hidden;
-    margin-top: 2px;
+    margin-top: 1px;
   }
 
   .applicant-photo img {
@@ -409,12 +409,12 @@
     object-fit: cover;
   }
 
-  /* Name, DOB, Gender सभी बिल्कुल DOB (10/10/2000) के साइज व फॉन्ट-वेट में */
+  /* Name, DOB, Gender (9px) */
   .front-details {
     flex: 1;
     font-size: 9px;
     font-weight: 500;
-    line-height: 1.38;
+    line-height: 1.35;
     color: #111;
     padding-top: 2px;
     padding-left: 2px;
@@ -443,7 +443,7 @@
     justify-content: flex-end;
     align-items: flex-end;
     height: 100%;
-    padding-bottom: 2px;
+    padding-bottom: 1px;
   }
 
   .front-qr-box {
@@ -459,21 +459,22 @@
   .front-qr-box canvas {
     width: 64px;
     height: 64px;
+    image-rendering: pixelated;
   }
 
   /* BACK BODY */
   .back-body {
     display: flex;
-    padding: 2px 8px 0 5px;
+    padding: 1px 8px 0 5px;
     gap: 4px;
     flex: 1;
     justify-content: space-between;
   }
 
-  /* Vertical Print Date (Back Side खड़ी लाइन में नीचे से ऊपर) */
+  /* Vertical Print Date */
   .vertical-print-box {
     width: 10px;
-    height: 96px;
+    height: 94px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -493,7 +494,7 @@
   .back-address {
     flex: 1;
     font-size: 8px;
-    line-height: 1.32;
+    line-height: 1.3;
     color: #111;
     padding-top: 1px;
   }
@@ -504,10 +505,10 @@
   }
 
   .back-address .addr-block-hi {
-    margin-bottom: 4px;
+    margin-bottom: 3px;
   }
 
-  /* Back QR: Large and pushed down right above Unique ID */
+  /* Back QR: Enlarged to 98x98px for realistic original look */
   .back-qr-col {
     display: flex;
     flex-direction: column;
@@ -517,8 +518,8 @@
   }
 
   .back-qr-box {
-    width: 94px;
-    height: 94px;
+    width: 98px;
+    height: 98px;
     background: #f9fafb;
     padding: 1px;
     display: flex;
@@ -527,38 +528,75 @@
   }
 
   .back-qr-box canvas {
-    width: 92px;
-    height: 92px;
+    width: 96px;
+    height: 96px;
+    image-rendering: pixelated;
   }
 
-  /* CARD FOOTER & BOLD LARGER UNIQUE ID */
+  /* CARD FOOTER: UNIQUE ID + OPTIONAL THIN LINE & VID */
   .card-footer {
     width: 100%;
     text-align: center;
   }
 
+  .uid-vid-block {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0 auto 1px auto;
+  }
+
   .unique-id-num {
-    font-size: 14px;
-    font-weight: 900;
-    letter-spacing: 1.8px;
-    color: #000;
-    padding-bottom: 1px;
-    line-height: 1.1;
+    font-size: 13.5px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    color: #111;
+    line-height: 1.08;
+    white-space: pre;
+  }
+
+  /* पतली लाइन: इसकी लंबाई VID की कुल लंबाई से लगभग 3mm ज्यादा रखी गई है (Optional) */
+  .uid-thin-line {
+    width: calc(100% + 3mm);
+    margin-left: -7.5px;
+    border-top: 0.7px solid #555;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    display: none;
+  }
+
+  /* VID का साइज बिल्कुल DOB (9px) के बराबर और 'I' ठीक Unique ID के पहले अंक के नीचे (Optional) */
+  .vid-num-row {
+    font-size: 9px;
+    font-weight: 500;
+    color: #111;
+    line-height: 1.05;
+    white-space: pre;
+    letter-spacing: 0.15px;
+    margin-left: -5.5px;
+    display: none;
   }
 
   .red-divider {
-    border-top: 1.5px solid #d91b24;
+    border-top: 1.4px solid #d91b24;
     width: 100%;
   }
 
-  /* Front Bottom Tagline: मेरा आधार, मेरी पहचान (केवल आधार लाल, पहचान काला) */
+  /*
+   * Front Bottom Tagline: "मेरा आधार, मेरी पहचान"
+   * Thoda bada (13px) aur spacing is tarah set hai ki:
+   * - "मेरा" thik Unique ID shuru hone ke samne khatam hota hai,
+   * - Unique ID khatam hone ke niche "पहचान" ka "पह" aata hai aur "चान" uske aage nikalta hai.
+   */
   .front-tagline {
-    padding: 2px 0 4px 0;
-    font-size: 12px;
+    padding: 2px 0 3px 0;
+    font-size: 13px;
     font-weight: 800;
     color: #111;
-    letter-spacing: 0.4px;
-    line-height: 1.1;
+    letter-spacing: 0.85px;
+    word-spacing: 3.5px;
+    line-height: 1.05;
+    padding-left: 6px;
   }
 
   .front-tagline span {
@@ -570,8 +608,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 3px 8px 4px 8px;
-    font-size: 8px;
+    padding: 2px 8px 3px 8px;
+    font-size: 7.8px;
     font-weight: 700;
     color: #111;
   }
@@ -584,8 +622,8 @@
   }
 
   .contact-item svg {
-    width: 12px;
-    height: 12px;
+    width: 11px;
+    height: 11px;
     flex-shrink: 0;
   }
 
@@ -691,7 +729,7 @@
           <!-- Applicant Details -->
           <div class="form-group">
             <label>Full Name (English में लिखें)</label>
-            <input type="text" id="nameEn" placeholder="Ex: Kumar" oninput="autoTranslate(this.value, 'nameHi')" required>
+            <input type="text" id="nameEn" placeholder="Ex: Kumar" oninput="autoTranslate(this.value, 'nameHi', false)" required>
             <span class="hint-text">English में लिखने पर हिन्दी नाम अपने आप भरेगा</span>
           </div>
           <div class="form-group">
@@ -713,7 +751,7 @@
 
           <div class="form-group">
             <label>Father / Husband / Mother / Guardian Name (English में)</label>
-            <input type="text" id="fatherEn" placeholder="Ex: Ram Prasad" oninput="autoTranslate(this.value, 'fatherHi')" required>
+            <input type="text" id="fatherEn" placeholder="Ex: Ram Prasad" oninput="autoTranslate(this.value, 'fatherHi', false)" required>
           </div>
           <div class="form-group">
             <label>पिता / पति / माता / अभिभावक का नाम (हिन्दी में - Auto Filled)</label>
@@ -734,14 +772,14 @@
           </div>
 
           <div class="form-group full-width">
-            <label>Full Address (English में लिखें - Village, Post, District, State, PIN)</label>
-            <textarea id="addrEn" rows="2" placeholder="Ex: address full details" oninput="autoTranslate(this.value, 'addrHi')" required></textarea>
+            <label>Full Address (English में लिखें)</label>
+            <textarea id="addrEn" rows="2" placeholder="Enter your address" oninput="autoTranslate(this.value, 'addrHi', true)" required></textarea>
             <span class="hint-text">पता English में लिखने पर नीचे हिन्दी में अपने आप अनुवाद हो जाएगा</span>
           </div>
 
           <div class="form-group full-width">
             <label>पूरा पता (हिन्दी में - Auto Filled)</label>
-            <textarea id="addrHi" rows="2" placeholder="उदा: अपना पूरा पता" required></textarea>
+            <textarea id="addrHi" rows="2" placeholder="अपना पूरा पता लिखें" required></textarea>
           </div>
 
           <div class="form-group full-width">
@@ -795,19 +833,23 @@
           </div>
 
           <div class="verify-controls">
-            <div class="form-group" style="flex:1; min-width:200px;">
-              <label>कार्ड का Unique ID Number सेट करें:</label>
-              <input type="text" id="officerUniqueId" placeholder="यहाँ Unique ID नंबर लिखें" required>
+            <div class="form-group" style="flex:1; min-width:210px;">
+              <label>Unique ID (फिक्स 12 अंक, 4 के बाद 2 स्पेस ऑटो):</label>
+              <input type="text" id="officerUniqueId" placeholder="0000  0000  0000" maxlength="16" oninput="formatUniqueIdInput(this)" required>
             </div>
-            <div class="form-group" style="flex:1; min-width:180px;">
-              <label>Issue Date (खाली छोड़ने पर नहीं दिखेगा):</label>
+            <div class="form-group" style="flex:1; min-width:210px;">
+              <label>VID (Optional - खाली छोड़ने पर VID व लाइन नहीं दिखेगी):</label>
+              <input type="text" id="officerVid" placeholder="0000 0000 0000 0000" maxlength="19" oninput="formatVidInput(this)">
+            </div>
+            <div class="form-group" style="flex:1; min-width:160px;">
+              <label>Issue Date (Optional):</label>
               <input type="text" id="officerIssueDate" placeholder="Ex: 01/01/2000">
             </div>
-            <div class="form-group" style="flex:1; min-width:180px;">
-              <label>Print Date (खाली छोड़ने पर नहीं दिखेगा):</label>
+            <div class="form-group" style="flex:1; min-width:160px;">
+              <label>Print Date (Optional):</label>
               <input type="text" id="officerPrintDate" placeholder="Ex: 01/01/2000">
             </div>
-            <button type="button" class="btn-submit" style="width:auto; margin:0;" onclick="verifyAndGenerateCard()">
+            <button type="button" class="btn-submit" style="width:100%; margin-top:6px;" onclick="verifyAndGenerateCard()">
               Verify & Generate ID Card
             </button>
           </div>
@@ -834,28 +876,38 @@
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg" alt="Emblem">
               </div>
 
-              <!-- Center: Realistic Brush-Stroke Tiranga Patti (Image 2 Style) -->
+              <!-- Center: Soft Light-Toned Brush Patti with Centered Text -->
               <div class="brush-patti-box">
-                <!-- Saffron Brush Strip -->
+                <!-- Soft Light Saffron Brush Strip -->
                 <div class="brush-strip">
-                  <svg class="brush-bg" viewBox="0 0 300 24" preserveAspectRatio="none">
-                    <!-- Main Textured Saffron Brush Stroke -->
-                    <path d="M8,3 C2,3 0,7 1,12 C2,17 6,20 15,20 C45,21 95,19 145,19 C170,19 195,17 215,15 C202,13 196,11 224,10 C198,8 175,4 140,3 C90,2 35,3 8,3 Z" fill="#f48120"/>
-                    <!-- Broken Dry Brush Streaks on Right -->
-                    <path d="M210,16 C222,16 232,15 240,14 C232,13 220,14 210,16 Z" fill="#f48120" opacity="0.85"/>
-                    <path d="M248,6 C253,6 257,6 260,7 C255,8 250,7 248,6 Z" fill="#f48120" opacity="0.75"/>
+                  <svg class="brush-bg" viewBox="0 0 300 22" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="softSaffronF" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#f59342" stop-opacity="0.72"/>
+                        <stop offset="55%" stop-color="#f7a663" stop-opacity="0.65"/>
+                        <stop offset="85%" stop-color="#facea5" stop-opacity="0.4"/>
+                        <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+                      </linearGradient>
+                    </defs>
+                    <path d="M6,4 C2,4 0,8 1,12 C2,16 5,19 14,19 C65,20 135,19 195,17 C218,16 238,14 252,12 C238,11 232,9 258,8 C232,5 195,3 145,3 C85,3 30,4 6,4 Z" fill="url(#softSaffronF)"/>
+                    <path d="M235,15 C248,15 258,14 266,13 C256,12 245,13 235,15 Z" fill="#f59342" opacity="0.45"/>
                   </svg>
                   <span class="patti-text-hi front-patti-hi" id="cardFrontPattiHi">भारत सरकार</span>
                 </div>
 
-                <!-- Green Brush Strip -->
-                <div class="brush-strip" style="margin-top:2px;">
-                  <svg class="brush-bg" viewBox="0 0 300 24" preserveAspectRatio="none">
-                    <!-- Main Textured Green Brush Stroke -->
-                    <path d="M9,3 C3,3 0,8 1,13 C2,18 8,21 20,21 C75,22 145,21 205,19 C232,18 258,16 276,14 C260,12 252,10 282,9 C258,6 225,4 185,3 C115,2 45,3 9,3 Z" fill="#3fa535"/>
-                    <!-- Broken Dry Brush Streaks on Right -->
-                    <path d="M270,17 C278,17 284,16 290,15 C283,14 275,15 270,17 Z" fill="#3fa535" opacity="0.85"/>
-                    <path d="M292,10 C295,10 298,10 300,11 C297,12 294,11 292,10 Z" fill="#3fa535" opacity="0.7"/>
+                <!-- Soft Light Green Brush Strip -->
+                <div class="brush-strip" style="margin-top:1px;">
+                  <svg class="brush-bg" viewBox="0 0 300 22" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="softGreenF" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#68b85d" stop-opacity="0.72"/>
+                        <stop offset="60%" stop-color="#82c678" stop-opacity="0.65"/>
+                        <stop offset="88%" stop-color="#bce2b6" stop-opacity="0.38"/>
+                        <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+                      </linearGradient>
+                    </defs>
+                    <path d="M7,3 C2,3 0,7 1,12 C2,16 6,19 16,19 C75,20 155,19 220,17 C245,16 268,14 282,12 C268,10 262,9 288,7 C262,4 220,3 165,3 C95,2 35,3 7,3 Z" fill="url(#softGreenF)"/>
+                    <path d="M265,15 C276,15 285,14 293,13 C284,12 274,13 265,15 Z" fill="#68b85d" opacity="0.45"/>
                   </svg>
                   <span class="patti-text-en front-patti-en" id="cardFrontPattiEn">Government of India</span>
                 </div>
@@ -881,21 +933,25 @@
               <div class="front-details">
                 <div class="f-name-hi" id="cardNameHi">नाम</div>
                 <div class="f-name-en" id="cardNameEn">Name</div>
-                <div class="f-row">जन्म तिथि / DOB: <span id="cardDob">DD/MM/YYYY</span></div>
-                <div class="f-row" id="cardGender">पुरुष / MALE</div>
+                <div class="f-row">जन्म तिथि/DOB: <span id="cardDob">DD/MM/YYYY</span></div>
+                <div class="f-row" id="cardGender">पुरुष/ MALE</div>
               </div>
 
               <!-- QR Positioned Lower on Right Side just above Unique ID -->
               <div class="front-qr-col">
                 <div class="front-qr-box">
-                  <canvas id="frontQrCanvas" width="114" height="114"></canvas>
+                  <canvas id="frontQrCanvas" width="186" height="186"></canvas>
                 </div>
               </div>
             </div>
 
-            <!-- Front Footer -->
+            <!-- Front Footer: Unique ID + Optional Thin Line & VID -->
             <div class="card-footer">
-              <div class="unique-id-num" id="cardUniqueIdFront">[Aadhaar Redacted]</div>
+              <div class="uid-vid-block">
+                <div class="unique-id-num" id="cardUniqueIdFront">[Aadhaar Redacted]</div>
+                <div class="uid-thin-line" id="cardThinLineFront"></div>
+                <div class="vid-num-row" id="cardVidFront"></div>
+              </div>
               <div class="red-divider"></div>
               <div class="front-tagline">मेरा <span>आधार</span>, मेरी पहचान</div>
             </div>
@@ -910,26 +966,20 @@
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg" alt="Emblem">
               </div>
 
-              <!-- Back Center: Realistic Brush-Stroke Tiranga Patti (Image 1 Style) -->
+              <!-- Back Center: Soft Light-Toned Brush Patti with Centered Text -->
               <div class="brush-patti-box">
                 <div class="brush-strip">
-                  <svg class="brush-bg" viewBox="0 0 300 24" preserveAspectRatio="none">
-                    <!-- Main Textured Saffron Brush Stroke -->
-                    <path d="M8,3 C2,3 0,7 1,12 C2,17 6,20 15,20 C45,21 95,19 145,19 C168,19 188,17 205,15 C195,13 190,11 212,10 C190,8 168,4 135,3 C85,2 35,3 8,3 Z" fill="#f48120"/>
-                    <!-- Broken Dry Brush Streaks on Right -->
-                    <path d="M202,16 C212,16 220,15 228,14 C220,13 210,14 202,16 Z" fill="#f48120" opacity="0.85"/>
-                    <path d="M214,6 C222,6 228,6 234,7 C226,8 218,7 214,6 Z" fill="#f48120" opacity="0.75"/>
+                  <svg class="brush-bg" viewBox="0 0 300 22" preserveAspectRatio="none">
+                    <path d="M6,4 C2,4 0,8 1,12 C2,16 5,19 14,19 C65,20 135,19 195,17 C218,16 238,14 252,12 C238,11 232,9 258,8 C232,5 195,3 145,3 C85,3 30,4 6,4 Z" fill="url(#softSaffronF)"/>
+                    <path d="M235,15 C248,15 258,14 266,13 C256,12 245,13 235,15 Z" fill="#f59342" opacity="0.45"/>
                   </svg>
                   <span class="patti-text-hi back-patti-hi" id="cardBackPattiHi">भारतीय विशिष्ट पहचान प्राधिकरण</span>
                 </div>
 
-                <div class="brush-strip" style="margin-top:2px;">
-                  <svg class="brush-bg" viewBox="0 0 300 24" preserveAspectRatio="none">
-                    <!-- Main Textured Green Brush Stroke -->
-                    <path d="M9,3 C3,3 0,8 1,13 C2,18 8,21 20,21 C75,22 140,21 198,19 C222,18 245,16 262,14 C248,12 242,10 268,9 C245,6 215,4 175,3 C110,2 45,3 9,3 Z" fill="#43a838"/>
-                    <!-- Broken Dry Brush Streaks on Right -->
-                    <path d="M262,16 C272,16 280,15 286,14 C278,13 268,14 262,16 Z" fill="#43a838" opacity="0.85"/>
-                    <path d="M288,8 C293,8 297,8 300,9 C296,10 291,9 288,8 Z" fill="#43a838" opacity="0.8"/>
+                <div class="brush-strip" style="margin-top:1px;">
+                  <svg class="brush-bg" viewBox="0 0 300 22" preserveAspectRatio="none">
+                    <path d="M7,3 C2,3 0,7 1,12 C2,16 6,19 16,19 C75,20 155,19 220,17 C245,16 268,14 282,12 C268,10 262,9 288,7 C262,4 220,3 165,3 C95,2 35,3 7,3 Z" fill="url(#softGreenF)"/>
+                    <path d="M265,15 C276,15 285,14 293,13 C284,12 274,13 265,15 Z" fill="#68b85d" opacity="0.45"/>
                   </svg>
                   <span class="patti-text-en back-patti-en" id="cardBackPattiEn">Unique Identification Authority of India</span>
                 </div>
@@ -959,17 +1009,21 @@
                 </div>
               </div>
 
-              <!-- Back Right: Large Complex QR Pushed Lower near Unique ID -->
+              <!-- Back Right: Enlarged Ultra-Hard Complex QR -->
               <div class="back-qr-col">
                 <div class="back-qr-box">
-                  <canvas id="backQrCanvas" width="171" height="171"></canvas>
+                  <canvas id="backQrCanvas" width="279" height="279"></canvas>
                 </div>
               </div>
             </div>
 
-            <!-- Back Footer -->
+            <!-- Back Footer: Unique ID + Optional Thin Line & VID -->
             <div class="card-footer">
-              <div class="unique-id-num" id="cardUniqueIdBack">[Aadhaar Redacted]</div>
+              <div class="uid-vid-block">
+                <div class="unique-id-num" id="cardUniqueIdBack">[Aadhaar Redacted]</div>
+                <div class="uid-thin-line" id="cardThinLineBack"></div>
+                <div class="vid-num-row" id="cardVidBack"></div>
+              </div>
               <div class="red-divider"></div>
 
               <!-- Back Bottom Bar: Landline Telephone 1947 | Light Message Envelope help@uidai.gov.in | Grid Globe www.uidai.gov.in -->
@@ -1048,6 +1102,26 @@
     }
   }
 
+  // Auto-format Unique ID: Exact 12 digits with TWO spaces after every 4 digits (XXXX  XXXX  XXXX)
+  function formatUniqueIdInput(inputEl) {
+    const digits = inputEl.value.replace(/\D/g, '').slice(0, 12);
+    const parts = [];
+    for (let i = 0; i < digits.length; i += 4) {
+      parts.push(digits.slice(i, i + 4));
+    }
+    inputEl.value = parts.join('  ');
+  }
+
+  // Auto-format VID: 16 digits with 1 space after every 4 digits (0000 0000 0000 0000)
+  function formatVidInput(inputEl) {
+    const digits = inputEl.value.replace(/\D/g, '').slice(0, 16);
+    const parts = [];
+    for (let i = 0; i < digits.length; i += 4) {
+      parts.push(digits.slice(i, i + 4));
+    }
+    inputEl.value = parts.join(' ');
+  }
+
   // Photo Upload Reader
   document.getElementById('photoInput').addEventListener('change', function(e) {
     const file = e.target.files[0];
@@ -1060,9 +1134,9 @@
     }
   });
 
-  // Auto English to Hindi Translation
+  // Address Dictionary Replacement + Number Preservation + Hindi Transliteration
   let debounceTimer;
-  function autoTranslate(text, targetFieldId) {
+  function autoTranslate(text, targetFieldId, isAddress = false) {
     clearTimeout(debounceTimer);
     const targetEl = document.getElementById(targetFieldId);
     if (!text.trim()) {
@@ -1071,18 +1145,61 @@
     }
 
     debounceTimer = setTimeout(async () => {
-      try {
-        const url = `https://inputtools.google.com/request?text=${encodeURIComponent(text)}&itc=hi-t-i0-und&num=1&cp=0&cs=1&ie=utf-8&oe=utf-8`;
-        const response = await fetch(url);
-        const data = await response.json();
-        if (data && data[0] === "SUCCESS" && data[1] && data[1][0] && data[1][0][1]) {
-          targetEl.value = data[1][0][1][0];
-          return;
+      let processedText = text;
+
+      if (isAddress) {
+        // Multi-word and single-word exact Hindi meanings for address terms
+        const addressRules = [
+          { regex: /\bpolice\s+station\b/gi, hi: "थाना" },
+          { regex: /\bp\.?\s*s\.?\b/gi, hi: "थाना" },
+          { regex: /\bpost\s+office\b/gi, hi: "पोस्ट ऑफिस" },
+          { regex: /\bp\.?\s*o\.?\b/gi, hi: "पोस्ट" },
+          { regex: /\bpost\b/gi, hi: "पोस्ट" },
+          { regex: /\bvill(?:age)?\.?\b/gi, hi: "ग्राम" },
+          { regex: /\bdist(?:rict)?\.?\b/gi, hi: "जिला" },
+          { regex: /\bward\s+no\.?\b/gi, hi: "वार्ड संख्या" },
+          { regex: /\bward\b/gi, hi: "वार्ड" },
+          { regex: /\bhouse\s+no\.?\b/gi, hi: "मकान संख्या" },
+          { regex: /\bh\.?\s*no\.?\b/gi, hi: "मकान संख्या" },
+          { regex: /\bblock\b/gi, hi: "प्रखंड" },
+          { regex: /\btehsil\b/gi, hi: "तहसील" },
+          { regex: /\bnear\b/gi, hi: "नजदीक" },
+          { regex: /\broad\b/gi, hi: "रोड" },
+          { regex: /\bnagar\b/gi, hi: "नगर" },
+          { regex: /\bcolony\b/gi, hi: "कॉलोनी" },
+          { regex: /\bstate\b/gi, hi: "राज्य" },
+          { regex: /\bpin\s*code\b/gi, hi: "पिन कोड" },
+          { regex: /\bpin\b/gi, hi: "पिन" }
+        ];
+
+        for (const rule of addressRules) {
+          processedText = processedText.replace(rule.regex, rule.hi);
         }
-      } catch (err) {
-        // Fallback phonetic
       }
-      targetEl.value = fallbackPhoneticHindi(text);
+
+      // Split into tokens so numbers (12345), punctuation, and already-Hindi words stay untouched
+      const tokens = processedText.split(/(\s+|[,.\-\/():]+)/);
+      const translatedTokens = await Promise.all(tokens.map(async (tok) => {
+        if (!tok || /^(\s+|[,.\-\/():]+)$/.test(tok)) return tok;
+        // Keep numbers (like 12345, pin codes, house numbers) exactly as English digits
+        if (/^\d+$/.test(tok)) return tok;
+        // Keep words already converted to Hindi
+        if (/[\u0900-\u097F]/.test(tok)) return tok;
+
+        try {
+          const url = `https://inputtools.google.com/request?text=${encodeURIComponent(tok)}&itc=hi-t-i0-und&num=1&cp=0&cs=1&ie=utf-8&oe=utf-8`;
+          const response = await fetch(url);
+          const data = await response.json();
+          if (data && data[0] === "SUCCESS" && data[1] && data[1][0] && data[1][0][1]) {
+            return data[1][0][1][0];
+          }
+        } catch (err) {
+          // Fallback below
+        }
+        return fallbackPhoneticHindi(tok);
+      }));
+
+      targetEl.value = translatedTokens.join('');
     }, 250);
   }
 
@@ -1125,6 +1242,7 @@
       photo: uploadedPhotoDataUrl || "https://via.placeholder.com/70x90.png?text=PHOTO",
       verified: false,
       uniqueId: "",
+      vid: "",
       issueDate: "",
       printDate: ""
     };
@@ -1145,7 +1263,7 @@
 
     const alertBox = document.getElementById('applicantAlert');
     alertBox.className = "status-alert success";
-    alertBox.textContent = "आवेदन सबमिट हो गया है! अब ऑफिसर पैनल में लॉगिन करके वेरिफिकेशन और Unique ID सेट करने के बाद कार्ड जनरेट होगा।";
+    alertBox.textContent = "आवेदन सबमिट हो गया है! अब ऑफिसर पैनल में लॉगिन करके वेरिफिकेशन और 12 अंकों का Unique ID सेट करने के बाद कार्ड जनरेट होगा।";
   }
 
   // Step 2: Officer Verification & Card Generation
@@ -1156,16 +1274,30 @@
     }
     if (!applicationData) return;
 
-    const uniqueIdVal = document.getElementById('officerUniqueId').value.trim();
-    if (!uniqueIdVal) {
-      alert("कृपया कार्ड जनरेट करने से पहले Unique ID Number दर्ज करें!");
+    const rawUniqueDigits = document.getElementById('officerUniqueId').value.replace(/\D/g, '');
+    if (rawUniqueDigits.length !== 12) {
+      alert("Unique ID ठीक 12 अंकों का होना चाहिए (न 12 से कम, न 12 से ज्यादा)!");
+      return;
+    }
+
+    // Format 12 digits with TWO spaces after every 4 digits
+    const formattedUniqueId = `${rawUniqueDigits.slice(0, 4)}  ${rawUniqueDigits.slice(4, 8)}  ${rawUniqueDigits.slice(8, 12)}`;
+
+    // Optional VID check: If empty -> hide line and VID; if entered -> must be 16 digits
+    const rawVidDigits = document.getElementById('officerVid').value.replace(/\D/g, '');
+    let formattedVid = "";
+    if (rawVidDigits.length === 16) {
+      formattedVid = `${rawVidDigits.slice(0, 4)} ${rawVidDigits.slice(4, 8)} ${rawVidDigits.slice(8, 12)} ${rawVidDigits.slice(12, 16)}`;
+    } else if (rawVidDigits.length > 0 && rawVidDigits.length !== 16) {
+      alert("यदि आप VID नंबर डाल रहे हैं तो वह पूरे 16 अंकों का होना चाहिए, या फिर यदि VID नहीं जोड़ना चाहते तो इसे पूरा खाली छोड़ दें!");
       return;
     }
 
     const issueDateVal = document.getElementById('officerIssueDate').value.trim();
     const printDateVal = document.getElementById('officerPrintDate').value.trim();
 
-    applicationData.uniqueId = uniqueIdVal;
+    applicationData.uniqueId = formattedUniqueId;
+    applicationData.vid = formattedVid;
     applicationData.issueDate = issueDateVal;
     applicationData.printDate = printDateVal;
     applicationData.verified = true;
@@ -1194,17 +1326,40 @@
     document.getElementById('cardAddrHi').textContent = applicationData.addrHi;
     document.getElementById('cardAddrEn').textContent = applicationData.addrEn;
 
-    // Set Vertical Issue Date & Print Date (यदि ऑफिसर ने दिया है तभी दिखेगा)
+    // Set Vertical Issue Date & Print Date
     document.getElementById('cardIssueDate').textContent = applicationData.issueDate ? `Issue Date: ${applicationData.issueDate}` : "";
     document.getElementById('cardPrintDate').textContent = applicationData.printDate ? `Print Date: ${applicationData.printDate}` : "";
 
+    // Set Unique ID on both cards
     document.getElementById('cardUniqueIdFront').textContent = applicationData.uniqueId;
     document.getElementById('cardUniqueIdBack').textContent = applicationData.uniqueId;
 
-    // Generate Dense Complex QR Codes
-    const qrPayload = `${applicationData.uniqueId}|${applicationData.nameEn}|${applicationData.dob}|${applicationData.gender}|${applicationData.relEn}:${applicationData.fatherEn}|${applicationData.addrEn}`;
+    // Show or Hide Thin Line & VID based on whether Officer entered VID
+    const lineFront = document.getElementById('cardThinLineFront');
+    const lineBack = document.getElementById('cardThinLineBack');
+    const vidFront = document.getElementById('cardVidFront');
+    const vidBack = document.getElementById('cardVidBack');
+
+    if (applicationData.vid) {
+      lineFront.style.display = "block";
+      lineBack.style.display = "block";
+      vidFront.style.display = "block";
+      vidBack.style.display = "block";
+      vidFront.textContent = `VID : ${applicationData.vid}`;
+      vidBack.textContent = `VID : ${applicationData.vid}`;
+    } else {
+      lineFront.style.display = "none";
+      lineBack.style.display = "none";
+      vidFront.style.display = "none";
+      vidBack.style.display = "none";
+      vidFront.textContent = "";
+      vidBack.textContent = "";
+    }
+
+    // Generate Ultra-Dense Hard Complex QR Codes
+    const qrPayload = `${applicationData.uniqueId}|${applicationData.vid}|${applicationData.nameEn}|${applicationData.dob}|${applicationData.gender}|${applicationData.relEn}:${applicationData.fatherEn}|${applicationData.addrEn}`;
     drawComplexQR('frontQrCanvas', qrPayload);
-    drawComplexQR('backQrCanvas', qrPayload + "|VERIFIED|1947|help@uidai.gov.in|www.uidai.gov.in");
+    drawComplexQR('backQrCanvas', qrPayload + "|SECURE_XML_2048_BIT_SIGNATURE|VERIFIED|1947|help@uidai.gov.in|www.uidai.gov.in");
 
     document.getElementById('lockedCardMsg').style.display = 'none';
     document.getElementById('verifiedCardSection').style.display = 'block';
@@ -1213,11 +1368,11 @@
     switchTab('cardPanel', tabBtns[2]);
   }
 
-  // High-Density Complex QR Generator
+  // Ultra-High-Density Hard QR Generator (93x93 Modules - Version 19 Official Dense Look)
   function drawComplexQR(canvasId, seedString) {
     const canvas = document.getElementById(canvasId);
     const ctx = canvas.getContext('2d');
-    const modules = 57;
+    const modules = 93; // High-density 93x93 matrix for ultra-hard original look
     const size = canvas.width;
     const cell = size / modules;
 
@@ -1235,7 +1390,7 @@
             reserved[rr][cc] = true;
             if (r >= 0 && r <= 6 && c >= 0 && c <= 6) {
               if (r === 0 || r === 6 || c === 0 || c === 6 || (r >= 2 && r <= 4 && c >= 2 && c <= 4)) {
-                ctx.fillRect(cc * cell, rr * cell, Math.ceil(cell), Math.ceil(cell));
+                ctx.fillRect(Math.floor(cc * cell), Math.floor(rr * cell), Math.ceil(cell), Math.ceil(cell));
               }
             }
           }
@@ -1250,7 +1405,7 @@
           if (rr >= 0 && rr < modules && cc >= 0 && cc < modules && !reserved[rr][cc]) {
             reserved[rr][cc] = true;
             if (Math.abs(r) === 2 || Math.abs(c) === 2 || (r === 0 && c === 0)) {
-              ctx.fillRect(cc * cell, rr * cell, Math.ceil(cell), Math.ceil(cell));
+              ctx.fillRect(Math.floor(cc * cell), Math.floor(rr * cell), Math.ceil(cell), Math.ceil(cell));
             }
           }
         }
@@ -1261,24 +1416,27 @@
     drawFinder(0, modules - 7);
     drawFinder(modules - 7, 0);
 
-    const alignCoords = [6, 28, 50];
+    // Multi-grid alignment patterns (4x4 grid = 13 alignment boxes like real dense QR)
+    const alignCoords = [6, 30, 58, 86];
     for (let ir of alignCoords) {
       for (let ic of alignCoords) {
-        if (!((ir === 6 && ic === 6) || (ir === 6 && ic === 50) || (ir === 50 && ic === 6))) {
+        if (!((ir === 6 && ic === 6) || (ir === 6 && ic === 86) || (ir === 86 && ic === 6))) {
           drawAlignment(ir, ic);
         }
       }
     }
 
+    // Timing patterns
     for (let i = 8; i < modules - 8; i++) {
       reserved[6][i] = true;
       reserved[i][6] = true;
       if (i % 2 === 0) {
-        ctx.fillRect(i * cell, 6 * cell, Math.ceil(cell), Math.ceil(cell));
-        ctx.fillRect(6 * cell, i * cell, Math.ceil(cell), Math.ceil(cell));
+        ctx.fillRect(Math.floor(i * cell), Math.floor(6 * cell), Math.ceil(cell), Math.ceil(cell));
+        ctx.fillRect(Math.floor(6 * cell), Math.floor(i * cell), Math.ceil(cell), Math.ceil(cell));
       }
     }
 
+    // Pseudo-random cryptographic bit distribution for ultra-dense pattern
     let hash = 2166136261;
     for (let i = 0; i < seedString.length; i++) {
       hash ^= seedString.charCodeAt(i);
@@ -1288,10 +1446,11 @@
     for (let r = 0; r < modules; r++) {
       for (let c = 0; c < modules; c++) {
         if (!reserved[r][c]) {
-          hash ^= (r * 131 + c * 977) + seedString.charCodeAt((r + c) % seedString.length);
-          hash = Math.imul(hash ^ (hash >>> 15), 2246822507);
-          if ((Math.abs(hash) % 10) < 5) {
-            ctx.fillRect(c * cell, r * cell, Math.ceil(cell), Math.ceil(cell));
+          hash ^= (r * 193 + c * 1097) + seedString.charCodeAt((r * 7 + c) % seedString.length);
+          hash = Math.imul(hash ^ (hash >>> 16), 2246822507);
+          hash = Math.imul(hash ^ (hash >>> 13), 3266489909);
+          if ((Math.abs(hash) % 100) < 52) {
+            ctx.fillRect(Math.floor(c * cell), Math.floor(r * cell), Math.ceil(cell), Math.ceil(cell));
           }
         }
       }
