@@ -16,7 +16,6 @@
     font-family: 'Roboto', 'Noto Sans Devanagari', Arial, sans-serif;
   }
 
-  /* चमक कम करने के लिए हल्का सॉफ्ट बैकग्राउंड */
   body {
     background: #e2e8f0;
     color: #222;
@@ -222,7 +221,7 @@
     align-items: flex-end;
   }
 
-  /* ================= AADHAAR STYLE ID CARD CSS ================= */
+  /* ================= AADHAAR STYLE ID CARD CSS (OFFLINE VISUAL PERFECTION) ================= */
   .cards-wrapper {
     display: flex;
     justify-content: center;
@@ -237,7 +236,11 @@
     width: 85.60mm;
     height: 53.98mm;
     background-color: #ffffff;
-    border: 1px solid #b5b5b5;
+    /* Subtle security guilloche wave pattern visible on close offline inspection */
+    background-image: 
+      radial-gradient(circle at 50% 45%, rgba(244, 159, 100, 0.035) 0%, transparent 60%),
+      repeating-radial-gradient(circle at 50% 120%, transparent 0, transparent 4px, rgba(110, 192, 113, 0.025) 4.5px, transparent 5px);
+    border: 0.8px solid #b8b8b8;
     border-radius: 3.18mm;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
     display: flex;
@@ -254,38 +257,51 @@
     align-items: center;
     justify-content: space-between;
     padding: 3px 7px 1px 8px;
-    height: 38px;
-    gap: 5px;
+    height: 39px;
+    gap: 4px;
+    position: relative;
+    z-index: 2;
   }
 
-  /* Ashok Stambh with Satyameva Jayate */
+  /* Ashok Stambh + Crisp "सत्यमेव जयते" underneath (Exact match to Screenshots 2 & 3) */
   .emblem-box {
-    width: 25px;
-    height: 34px;
+    width: 26px;
+    height: 35px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex-shrink: 0;
   }
 
   .emblem-box img {
-    height: 31px;
+    height: 26px;
     width: auto;
     object-fit: contain;
+    filter: contrast(1.15);
+  }
+
+  .emblem-motto {
+    font-size: 4.5px;
+    font-weight: 800;
+    color: #111;
+    line-height: 1;
+    margin-top: 1px;
+    letter-spacing: -0.1px;
+    white-space: nowrap;
   }
 
   /* Center Brush Patti Container matching exact reference images */
   .brush-patti-box {
     flex: 1;
     position: relative;
-    height: 32px;
+    height: 33px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 1.5px;
-    margin-left: 6px;
-    margin-right: 2px;
+    margin-left: 7px;
+    margin-right: 3px;
     overflow: visible;
   }
 
@@ -296,6 +312,12 @@
     display: flex;
     align-items: center;
     overflow: visible;
+  }
+
+  /* In Screenshots 2 & 3, the green brush cap starts ~1.5px further left than the saffron brush cap */
+  .brush-strip.green-strip-offset {
+    margin-left: -1.5px;
+    width: calc(100% + 1.5px);
   }
 
   .brush-strip svg.brush-bg {
@@ -311,9 +333,9 @@
   .brush-strip .patti-text-hi {
     position: relative;
     z-index: 2;
-    font-size: 9px;
+    font-size: 9.1px;
     font-weight: 600;
-    color: #1a1a1a;
+    color: #141414;
     letter-spacing: 0.1px;
     line-height: 1;
     white-space: nowrap;
@@ -323,33 +345,33 @@
   .brush-strip .patti-text-en {
     position: relative;
     z-index: 2;
-    font-size: 8.4px;
+    font-size: 8.5px;
     font-weight: 500;
-    color: #1a1a1a;
-    letter-spacing: 0.15px;
+    color: #141414;
+    letter-spacing: 0.12px;
     line-height: 1;
     white-space: nowrap;
     display: block;
   }
 
-  /* FRONT PATTI TEXT POSITIONING (Matches Screenshot 3: shifted slightly left of center) */
+  /* FRONT PATTI TEXT POSITIONING (Matches Screenshot 3) */
   .front-patti-hi {
     width: 100%;
     text-align: left;
-    padding-left: 26%;
+    padding-left: 25.5%;
   }
 
   .front-patti-en {
     width: 100%;
     text-align: left;
-    padding-left: 11%;
+    padding-left: 11.5%;
   }
 
-  /* BACK PATTI TEXT POSITIONING (Matches Screenshot 2: starts near left rounded cap, extends to right tail) */
+  /* BACK PATTI TEXT POSITIONING (Matches Screenshot 2) */
   .back-patti-hi {
     width: 100%;
     text-align: left;
-    padding-left: 3.5%;
+    padding-left: 3.2%;
     font-size: 8.6px !important;
     font-weight: 600 !important;
   }
@@ -357,8 +379,8 @@
   .back-patti-en {
     width: 100%;
     text-align: left;
-    padding-left: 3.5%;
-    font-size: 7.7px !important;
+    padding-left: 3.8%;
+    font-size: 7.75px !important;
     font-weight: 500 !important;
   }
 
@@ -387,11 +409,12 @@
     flex: 1;
     position: relative;
     align-items: flex-start;
+    z-index: 2;
   }
 
   /* Vertical Issue Date */
   .vertical-issue-box {
-    width: 10px;
+    width: 9px;
     height: 86px;
     margin-top: 1px;
     display: flex;
@@ -403,19 +426,19 @@
   .vertical-issue-text {
     writing-mode: vertical-rl;
     transform: rotate(180deg);
-    font-size: 5.8px;
-    font-weight: 500;
+    font-size: 5.6px;
+    font-weight: 600;
     color: #111;
     white-space: nowrap;
-    letter-spacing: 0.2px;
+    letter-spacing: 0.15px;
   }
 
-  /* Photo Size in exact 3.5cm × 4.5cm (35mm × 45mm -> 7:9) Aspect Ratio */
+  /* Photo Size in exact 35mm × 45mm (7:9) Aspect Ratio */
   .applicant-photo {
-    width: 68px;
-    height: 87.4px;
+    width: 67px;
+    height: 86.2px;
     aspect-ratio: 35 / 45;
-    border: 1px solid #777;
+    border: 0.6px solid #888;
     background: #eef2f6;
     flex-shrink: 0;
     overflow: hidden;
@@ -428,31 +451,34 @@
     object-fit: cover;
   }
 
-  /* Name, DOB, Gender (9px) */
+  /* Name, DOB, Gender (Exact 9px, crisp line-height) */
   .front-details {
     flex: 1;
-    font-size: 9px;
+    font-size: 8.8px;
     font-weight: 500;
-    line-height: 1.35;
+    line-height: 1.34;
     color: #111;
     padding-top: 2px;
-    padding-left: 2px;
+    padding-left: 3px;
   }
 
   .front-details .f-name-hi {
     font-size: 9px;
     font-weight: 500;
+    color: #0d0d0d;
   }
 
   .front-details .f-name-en {
-    font-size: 9px;
+    font-size: 8.8px;
     font-weight: 500;
-    margin-bottom: 2px;
+    margin-bottom: 2.5px;
+    color: #0d0d0d;
   }
 
   .front-details .f-row {
-    font-size: 9px;
+    font-size: 8.8px;
     font-weight: 500;
+    margin-bottom: 1px;
   }
 
   /* Front QR pushed down near Unique ID on the right */
@@ -488,11 +514,13 @@
     gap: 4px;
     flex: 1;
     justify-content: space-between;
+    position: relative;
+    z-index: 2;
   }
 
   /* Vertical Print Date */
   .vertical-print-box {
-    width: 10px;
+    width: 9px;
     height: 94px;
     display: flex;
     align-items: center;
@@ -503,28 +531,30 @@
   .vertical-print-text {
     writing-mode: vertical-rl;
     transform: rotate(180deg);
-    font-size: 5.8px;
-    font-weight: 500;
+    font-size: 5.6px;
+    font-weight: 600;
     color: #111;
     white-space: nowrap;
-    letter-spacing: 0.2px;
+    letter-spacing: 0.15px;
   }
 
   .back-address {
     flex: 1;
-    font-size: 8px;
-    line-height: 1.3;
+    font-size: 7.9px;
+    line-height: 1.28;
     color: #111;
     padding-top: 1px;
+    padding-right: 2px;
   }
 
   .back-address .addr-label {
     font-weight: 700;
-    font-size: 8.4px;
+    font-size: 8.3px;
+    margin-bottom: 0.5px;
   }
 
   .back-address .addr-block-hi {
-    margin-bottom: 3px;
+    margin-bottom: 3.5px;
   }
 
   /* Back QR: Enlarged to 100x100px for crisp scanning of 2800-digit numeric payload */
@@ -556,6 +586,8 @@
   .card-footer {
     width: 100%;
     text-align: center;
+    position: relative;
+    z-index: 2;
   }
 
   .uid-vid-block {
@@ -566,9 +598,9 @@
   }
 
   .unique-id-num {
-    font-size: 13.5px;
-    font-weight: 800;
-    letter-spacing: 0.8px;
+    font-size: 13.4px;
+    font-weight: 700;
+    letter-spacing: 0.75px;
     color: #111;
     line-height: 1.08;
     white-space: pre;
@@ -577,14 +609,14 @@
   .uid-thin-line {
     width: calc(100% + 3mm);
     margin-left: -7.5px;
-    border-top: 0.7px solid #555;
+    border-top: 0.65px solid #444;
     margin-top: 1px;
     margin-bottom: 1px;
     display: none;
   }
 
   .vid-num-row {
-    font-size: 9px;
+    font-size: 8.8px;
     font-weight: 500;
     color: #111;
     line-height: 1.05;
@@ -595,17 +627,17 @@
   }
 
   .red-divider {
-    border-top: 1.4px solid #d91b24;
+    border-top: 1.35px solid #d91b24;
     width: 100%;
   }
 
   .front-tagline {
     padding: 2px 0 3px 0;
-    font-size: 13px;
-    font-weight: 800;
+    font-size: 12.8px;
+    font-weight: 700;
     color: #111;
-    letter-spacing: 0.85px;
-    word-spacing: 3.5px;
+    letter-spacing: 0.8px;
+    word-spacing: 3.2px;
     line-height: 1.05;
     padding-left: 6px;
   }
@@ -620,7 +652,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 2px 8px 3px 8px;
-    font-size: 7.8px;
+    font-size: 7.7px;
     font-weight: 700;
     color: #111;
   }
@@ -633,8 +665,8 @@
   }
 
   .contact-item svg {
-    width: 11px;
-    height: 11px;
+    width: 10.5px;
+    height: 10.5px;
     flex-shrink: 0;
   }
 
@@ -718,7 +750,7 @@
       width: 85.60mm !important;
       height: 53.98mm !important;
       box-shadow: none !important;
-      border: 0.6pt solid #888 !important;
+      border: 0.5pt solid #888 !important;
       border-radius: 3.18mm !important;
       page-break-inside: avoid;
       -webkit-print-color-adjust: exact !important;
@@ -729,22 +761,22 @@
 </head>
 <body>
 
-  <!-- Shared SVG Brush Definitions for Exact Header Strips (Screenshots 2 & 3) -->
+  <!-- Shared SVG Brush Definitions for Exact Pastel Header Strips (Screenshots 2 & 3) -->
   <svg width="0" height="0" style="position:absolute; visibility:hidden;">
     <defs>
-      <!-- Front Saffron Brush Gradient -->
+      <!-- Exact Soft Peach-Saffron Brush Gradient (Matches Screenshots 2 & 3) -->
       <linearGradient id="frontSaffronGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stop-color="#f49f64" stop-opacity="0.92"/>
-        <stop offset="55%" stop-color="#f5ab73" stop-opacity="0.88"/>
-        <stop offset="85%" stop-color="#f7bc8e" stop-opacity="0.82"/>
-        <stop offset="100%" stop-color="#fad1b0" stop-opacity="0.70"/>
+        <stop offset="0%" stop-color="#f5a36c" stop-opacity="0.95"/>
+        <stop offset="55%" stop-color="#f6ac79" stop-opacity="0.92"/>
+        <stop offset="85%" stop-color="#f8b98b" stop-opacity="0.88"/>
+        <stop offset="100%" stop-color="#facead" stop-opacity="0.80"/>
       </linearGradient>
-      <!-- Front Green Brush Gradient -->
+      <!-- Exact Soft Mint-Green Brush Gradient (Matches Screenshots 2 & 3) -->
       <linearGradient id="frontGreenGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stop-color="#6ec071" stop-opacity="0.92"/>
-        <stop offset="60%" stop-color="#7bc67d" stop-opacity="0.88"/>
-        <stop offset="88%" stop-color="#90d092" stop-opacity="0.82"/>
-        <stop offset="100%" stop-color="#b2e0b4" stop-opacity="0.72"/>
+        <stop offset="0%" stop-color="#73c376" stop-opacity="0.95"/>
+        <stop offset="60%" stop-color="#7ec880" stop-opacity="0.92"/>
+        <stop offset="88%" stop-color="#91d193" stop-opacity="0.88"/>
+        <stop offset="100%" stop-color="#b0e0b2" stop-opacity="0.80"/>
       </linearGradient>
     </defs>
   </svg>
@@ -931,9 +963,10 @@
           <!-- ================= FRONT SIDE CARD (Matches Screenshot 3) ================= -->
           <div class="id-card">
             <div class="card-header">
-              <!-- Top Left: Ashok Stambh -->
+              <!-- Top Left: Ashok Stambh + Crisp Satyameva Jayate -->
               <div class="emblem-box">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg" alt="Emblem">
+                <span class="emblem-motto">सत्यमेव जयते</span>
               </div>
 
               <!-- Center: Brush Patti with Detached Brush Dots & Left-Center Text (Screenshot 3) -->
@@ -941,24 +974,22 @@
                 <!-- Saffron Brush Strip (Front) -->
                 <div class="brush-strip">
                   <svg class="brush-bg" viewBox="0 0 340 24" preserveAspectRatio="none">
-                    <!-- Main Brush Body -->
                     <path d="M9,2 C3,2 0,6 0,12 C0,18 4,21 12,21 C75,22 145,21 198,19 C205,19 212,17 215,15 C209,14 205,13 205,11 C216,10 228,9 235,7 C230,5 215,4 195,3 C130,2 50,2 9,2 Z" fill="url(#frontSaffronGrad)"/>
                     <!-- Detached Brush Streaks on Right (Exact Screenshot 3 Detail) -->
-                    <path d="M238,5 C242,4 247,4 250,5 C246,7 241,7 238,5 Z" fill="#f49f64" opacity="0.85"/>
-                    <path d="M256,5 C261,4 267,5 270,6 C265,7 259,7 256,5 Z" fill="#f49f64" opacity="0.75"/>
-                    <path d="M218,13 C224,12 232,12 236,14 C230,15 223,15 218,13 Z" fill="#f5ab73" opacity="0.80"/>
+                    <path d="M238,5 C242,4 247,4 250,5 C246,7 241,7 238,5 Z" fill="#f5a36c" opacity="0.90"/>
+                    <path d="M256,5 C261,4 267,5 270,6 C265,7 259,7 256,5 Z" fill="#f5a36c" opacity="0.80"/>
+                    <path d="M218,13 C224,12 232,12 236,14 C230,15 223,15 218,13 Z" fill="#f6ac79" opacity="0.85"/>
                   </svg>
                   <span class="patti-text-hi front-patti-hi" id="cardFrontPattiHi">भारत सरकार</span>
                 </div>
 
-                <!-- Green Brush Strip (Front) -->
-                <div class="brush-strip">
+                <!-- Green Brush Strip (Front - Shifted 1.5px left as in Screenshot 3) -->
+                <div class="brush-strip green-strip-offset">
                   <svg class="brush-bg" viewBox="0 0 340 24" preserveAspectRatio="none">
-                    <!-- Main Green Brush Body -->
                     <path d="M10,2 C3,2 0,6 0,12 C0,18 4,22 13,22 C85,23 175,22 252,20 C268,19 282,17 290,15 C282,14 276,12 284,10 C295,9 306,8 312,6 C302,4 282,3 255,3 C175,2 65,2 10,2 Z" fill="url(#frontGreenGrad)"/>
                     <!-- Detached Green Streak on Right (Exact Screenshot 3 Detail) -->
-                    <path d="M316,10 C322,9 329,9 334,11 C328,12 321,12 316,10 Z" fill="#7bc67d" opacity="0.85"/>
-                    <path d="M292,16 C298,15 305,15 309,17 C303,18 296,18 292,16 Z" fill="#7bc67d" opacity="0.75"/>
+                    <path d="M316,10 C322,9 329,9 334,11 C328,12 321,12 316,10 Z" fill="#7ec880" opacity="0.90"/>
+                    <path d="M292,16 C298,15 305,15 309,17 C303,18 296,18 292,16 Z" fill="#7ec880" opacity="0.80"/>
                   </svg>
                   <span class="patti-text-en front-patti-en" id="cardFrontPattiEn">Government of India</span>
                 </div>
@@ -1012,9 +1043,10 @@
           <!-- ================= BACK SIDE CARD (Matches Screenshot 2) ================= -->
           <div class="id-card">
             <div class="card-header">
-              <!-- Back Top Left: Ashok Stambh -->
+              <!-- Back Top Left: Ashok Stambh + Crisp Satyameva Jayate -->
               <div class="emblem-box">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg" alt="Emblem">
+                <span class="emblem-motto">सत्यमेव जयते</span>
               </div>
 
               <!-- Back Center: Brush Patti with Text Extending to Right Tail (Screenshot 2) -->
@@ -1023,17 +1055,17 @@
                 <div class="brush-strip">
                   <svg class="brush-bg" viewBox="0 0 340 24" preserveAspectRatio="none">
                     <path d="M9,2 C3,2 0,6 0,12 C0,18 4,21 12,21 C75,22 150,21 205,19 C214,18 222,16 226,14 C220,13 215,12 218,10 C228,9 238,8 245,6 C238,4 222,3 200,3 C135,2 50,2 9,2 Z" fill="url(#frontSaffronGrad)"/>
-                    <path d="M248,5 C254,4 261,4 265,6 C259,7 253,7 248,5 Z" fill="#f49f64" opacity="0.85"/>
-                    <path d="M228,13 C234,12 242,12 246,14 C240,15 233,15 228,13 Z" fill="#f5ab73" opacity="0.80"/>
+                    <path d="M248,5 C254,4 261,4 265,6 C259,7 253,7 248,5 Z" fill="#f5a36c" opacity="0.90"/>
+                    <path d="M228,13 C234,12 242,12 246,14 C240,15 233,15 228,13 Z" fill="#f6ac79" opacity="0.85"/>
                   </svg>
                   <span class="patti-text-hi back-patti-hi" id="cardBackPattiHi">भारतीय विशिष्ट पहचान प्राधिकरण</span>
                 </div>
 
-                <!-- Green Brush Strip (Back) -->
-                <div class="brush-strip">
+                <!-- Green Brush Strip (Back - Shifted 1.5px left as in Screenshot 2) -->
+                <div class="brush-strip green-strip-offset">
                   <svg class="brush-bg" viewBox="0 0 340 24" preserveAspectRatio="none">
                     <path d="M10,2 C3,2 0,6 0,12 C0,18 4,22 13,22 C88,23 180,22 258,20 C274,19 286,17 294,15 C286,14 280,12 288,10 C298,9 308,8 315,6 C305,4 286,3 260,3 C180,2 65,2 10,2 Z" fill="url(#frontGreenGrad)"/>
-                    <path d="M318,9 C325,8 333,8 338,10 C332,11 324,11 318,9 Z" fill="#7bc67d" opacity="0.85"/>
+                    <path d="M318,9 C325,8 333,8 338,10 C332,11 324,11 318,9 Z" fill="#7ec880" opacity="0.90"/>
                   </svg>
                   <span class="patti-text-en back-patti-en" id="cardBackPattiEn">Unique Identification Authority of India</span>
                 </div>
@@ -1337,9 +1369,8 @@
     alertBox.textContent = "आवेदन सबमिट हो गया है! अब ऑफिसर पैनल में लॉगिन करके वेरिफिकेशन और 12 अंकों का Unique ID सेट करने के बाद कार्ड जनरेट होगा।";
   }
 
-  // Deterministic 2800-Digit Secure Numeric Payload Generator (Matches Real Aadhaar Big-Int QR Format)
+  // Deterministic 2800-Digit Secure Numeric Payload Generator (Matches Real Big-Int QR Format)
   function generate2800DigitPayload(seedText, targetLength = 2800) {
-    // Convert applicant data into deterministic numeric stream starting with "2846..." like real Aadhaar Secure QR
     let digits = "28464254";
     let h1 = 0x811c9dc5;
     let h2 = 0x9e3779b9;
@@ -1369,13 +1400,12 @@
     const ctx = canvas.getContext('2d');
 
     if (typeof qrcode !== "undefined") {
-      // Version 25 (117x117 matrix with 6x6 alignment patterns) + Error Correction Level 'L' holds up to 3057 numeric digits
       const qr = qrcode(25, 'L');
       qr.addData(numericPayload, 'Numeric');
       qr.make();
 
       const moduleCount = qr.getModuleCount();
-      const quietZone = 2; // Crisp quiet zone so Google Lens & all scanners read immediately
+      const quietZone = 2; // Matches Screenshot 1 white border ratio
       const totalModules = moduleCount + quietZone * 2;
       const cellSize = Math.floor(canvas.width / totalModules);
       const offset = Math.floor((canvas.width - (totalModules * cellSize)) / 2);
