@@ -246,12 +246,12 @@
     flex-shrink: 0;
   }
 
-  /* TOP HEADER: Left Ashok Stambh + Center Soft Brush Patti + Right Original Aadhaar Logo */
+  /* TOP HEADER: Left Ashok Stambh + Center Tedha-Medha Brush Patti + Right Logo */
   .card-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 3px 8px 1px 8px;
+    padding: 2px 8px 1px 8px;
     height: 36px;
     gap: 4px;
   }
@@ -273,11 +273,11 @@
     object-fit: contain;
   }
 
-  /* Soft Light-Toned Realistic Tiranga Brush Patti (As per 3rd real card photo) */
+  /* Tedha-Medha (Irregular Wavy) Light-Toned Brush Patti (Exact match to photo) */
   .brush-patti-box {
     flex: 1;
     position: relative;
-    height: 32px;
+    height: 33px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -287,7 +287,7 @@
   .brush-strip {
     position: relative;
     width: 100%;
-    height: 13px;
+    height: 15px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -295,10 +295,10 @@
 
   .brush-strip svg.brush-bg {
     position: absolute;
-    top: 0;
+    top: -1px;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 17px;
     z-index: 1;
     overflow: visible;
   }
@@ -308,7 +308,7 @@
     z-index: 2;
     font-size: 8.8px;
     font-weight: 700;
-    color: #222222;
+    color: #1f1f1f;
     letter-spacing: 0.1px;
     line-height: 1;
     white-space: nowrap;
@@ -319,27 +319,27 @@
     z-index: 2;
     font-size: 8px;
     font-weight: 600;
-    color: #222222;
+    color: #1f1f1f;
     letter-spacing: 0.1px;
     line-height: 1;
     white-space: nowrap;
   }
 
-  /* Front card text alignment inside brush */
+  /* Front card text alignment inside wavy brush */
   .front-patti-hi {
-    padding-left: 36px;
+    padding-left: 34px;
   }
   .front-patti-en {
-    padding-left: 18px;
+    padding-left: 16px;
   }
 
-  /* Back card text alignment inside brush */
+  /* Back card text alignment inside wavy brush */
   .back-patti-hi {
     padding-left: 10px;
   }
   .back-patti-en {
-    padding-left: 8px;
-    font-size: 7.4px !important;
+    padding-left: 6px;
+    font-size: 7.3px !important;
     font-weight: 600 !important;
   }
 
@@ -369,7 +369,7 @@
     align-items: flex-start;
   }
 
-  /* Vertical Issue Date (Photo के बाएँ ठीक बीच में नीचे से ऊपर की ओर) */
+  /* Vertical Issue Date */
   .vertical-issue-box {
     width: 10px;
     height: 86px;
@@ -408,7 +408,7 @@
     object-fit: cover;
   }
 
-  /* Name, DOB, Gender सभी बिल्कुल DOB (05/12/1996) के साइज (9px) व फॉन्ट-वेट में */
+  /* Name, DOB, Gender (9px) */
   .front-details {
     flex: 1;
     font-size: 9px;
@@ -469,7 +469,7 @@
     justify-content: space-between;
   }
 
-  /* Vertical Print Date (Back Side खड़ी लाइन में नीचे से ऊपर) */
+  /* Vertical Print Date */
   .vertical-print-box {
     width: 10px;
     height: 90px;
@@ -506,7 +506,7 @@
     margin-bottom: 3px;
   }
 
-  /* Back QR: Large and pushed down right above Unique ID */
+  /* Back QR */
   .back-qr-col {
     display: flex;
     flex-direction: column;
@@ -530,7 +530,7 @@
     height: 86px;
   }
 
-  /* CARD FOOTER: UNIQUE ID + THIN LINE + VID (Aligned 'I' under 1st digit, DOB font size 9px) */
+  /* CARD FOOTER: UNIQUE ID + THIN LINE (VID se ~3mm badi) + VID */
   .card-footer {
     width: 100%;
     text-align: center;
@@ -552,11 +552,13 @@
     white-space: pre;
   }
 
-  /* Unique ID के नीचे पतली लाइन */
+  /* पतली लाइन: इसकी लंबाई VID की कुल लंबाई से लगभग 3mm ज्यादा रखी गई है */
   .uid-thin-line {
-    width: 100%;
+    width: calc(100% + 3mm);
+    margin-left: -7.5px;
     border-top: 0.7px solid #555;
-    margin: 1px 0 1px 0;
+    margin-top: 1px;
+    margin-bottom: 1px;
   }
 
   /* VID का साइज बिल्कुल DOB (9px) के बराबर और 'I' ठीक Unique ID के पहले अंक के नीचे */
@@ -567,7 +569,7 @@
     line-height: 1.05;
     white-space: pre;
     letter-spacing: 0.15px;
-    margin-left: -5.5px; /* 'V' थोड़ा बाहर ताकि 'I' ठीक पहले नंबर के नीचे आए */
+    margin-left: -5.5px; /* 'I' को पहले अंक के ठीक सीध में रखने के लिए */
   }
 
   .red-divider {
@@ -575,7 +577,7 @@
     width: 100%;
   }
 
-  /* Front Bottom Tagline: मेरा आधार, मेरी पहचान */
+  /* Front Bottom Tagline */
   .front-tagline {
     padding: 2px 0 3px 0;
     font-size: 11.5px;
@@ -758,14 +760,14 @@
           </div>
 
           <div class="form-group full-width">
-            <label>Full Address (English में लिखें - Village, Post, PS, District, State, PIN)</label>
-            <textarea id="addrEn" rows="2" placeholder="Ex: Village Rampur, Post Sitamarhi, PS Dumra, District Sitamarhi, Bihar - 843302" oninput="autoTranslate(this.value, 'addrHi', true)" required></textarea>
-            <span class="hint-text">Village=ग्राम, Post=पोस्ट, Police Station/PS=थाना, District=जिला और नंबर (12345) अपने आप सही हिन्दी में आएंगे</span>
+            <label>Full Address (English में लिखें)</label>
+            <textarea id="addrEn" rows="2" placeholder="Enter your address" oninput="autoTranslate(this.value, 'addrHi', true)" required></textarea>
+            <span class="hint-text">पता English में लिखने पर नीचे हिन्दी में अपने आप अनुवाद हो जाएगा</span>
           </div>
 
           <div class="form-group full-width">
             <label>पूरा पता (हिन्दी में - Auto Filled)</label>
-            <textarea id="addrHi" rows="2" placeholder="उदा: ग्राम रामपुर, पोस्ट सीतामढ़ी, थाना डुमरा, जिला सीतामढ़ी, बिहार - 843302" required></textarea>
+            <textarea id="addrHi" rows="2" placeholder="अपना पूरा पता लिखें" required></textarea>
           </div>
 
           <div class="form-group full-width">
@@ -862,38 +864,29 @@
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg" alt="Emblem">
               </div>
 
-              <!-- Center: Soft Light-Toned Brush Patti (As per 3rd uploaded photo) -->
+              <!-- Center: Tedha-Medha (Irregular Wavy) Light Brush Patti -->
               <div class="brush-patti-box">
-                <!-- Soft Light Saffron Brush Strip -->
+                <!-- Saffron Wavy Brush Strip -->
                 <div class="brush-strip">
-                  <svg class="brush-bg" viewBox="0 0 300 22" preserveAspectRatio="none">
-                    <defs>
-                      <linearGradient id="softSaffronF" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#f59342" stop-opacity="0.72"/>
-                        <stop offset="55%" stop-color="#f7a663" stop-opacity="0.65"/>
-                        <stop offset="85%" stop-color="#facea5" stop-opacity="0.4"/>
-                        <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-                      </linearGradient>
-                    </defs>
-                    <path d="M6,4 C2,4 0,8 1,12 C2,16 5,19 14,19 C65,20 135,19 195,17 C218,16 238,14 252,12 C238,11 232,9 258,8 C232,5 195,3 145,3 C85,3 30,4 6,4 Z" fill="url(#softSaffronF)"/>
-                    <path d="M235,15 C248,15 258,14 266,13 C256,12 245,13 235,15 Z" fill="#f59342" opacity="0.45"/>
+                  <svg class="brush-bg" viewBox="0 0 320 34" preserveAspectRatio="none">
+                    <!-- Main Uneven/Wavy Light Saffron Brush Stroke (with step-down bulge in middle & jagged right tail) -->
+                    <path d="M12,6 C4,6 1,12 2,18 C3,24 10,26 24,26 C35,26 42,27 48,30 C54,32 82,33 112,32 C135,31 148,27 168,26 C188,25 208,21 224,18 C206,16 196,15 216,13 C200,11 176,10 148,9 C105,8 55,6 12,6 Z" fill="#f3954f" fill-opacity="0.76"/>
+                    <!-- Broken Dry Brush Splatter/Streaks on Right -->
+                    <path d="M210,23 C220,23 230,21 236,19 C226,18 216,20 210,23 Z" fill="#f3954f" fill-opacity="0.72"/>
+                    <path d="M242,8 C248,8 253,8 257,9 C252,11 246,10 242,8 Z" fill="#f3954f" fill-opacity="0.65"/>
+                    <path d="M225,6 C230,6 234,6 237,7 C233,8 228,7 225,6 Z" fill="#f3954f" fill-opacity="0.55"/>
                   </svg>
                   <span class="patti-text-hi front-patti-hi" id="cardFrontPattiHi">भारत सरकार</span>
                 </div>
 
-                <!-- Soft Light Green Brush Strip -->
+                <!-- Green Wavy Brush Strip -->
                 <div class="brush-strip" style="margin-top:1px;">
-                  <svg class="brush-bg" viewBox="0 0 300 22" preserveAspectRatio="none">
-                    <defs>
-                      <linearGradient id="softGreenF" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#68b85d" stop-opacity="0.72"/>
-                        <stop offset="60%" stop-color="#82c678" stop-opacity="0.65"/>
-                        <stop offset="88%" stop-color="#bce2b6" stop-opacity="0.38"/>
-                        <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-                      </linearGradient>
-                    </defs>
-                    <path d="M7,3 C2,3 0,7 1,12 C2,16 6,19 16,19 C75,20 155,19 220,17 C245,16 268,14 282,12 C268,10 262,9 288,7 C262,4 220,3 165,3 C95,2 35,3 7,3 Z" fill="url(#softGreenF)"/>
-                    <path d="M265,15 C276,15 285,14 293,13 C284,12 274,13 265,15 Z" fill="#68b85d" opacity="0.45"/>
+                  <svg class="brush-bg" viewBox="0 0 320 34" preserveAspectRatio="none">
+                    <!-- Main Uneven/Wavy Light Green Brush Stroke (with step-down dip under text & jagged right tail) -->
+                    <path d="M12,6 C4,6 1,12 2,19 C3,25 12,27 32,27 C45,27 52,31 64,32 C98,33 145,32 188,30 C215,29 242,26 266,23 C248,20 242,18 278,16 C255,12 222,9 182,8 C122,7 55,6 12,6 Z" fill="#65b75b" fill-opacity="0.76"/>
+                    <!-- Broken Dry Brush Splatter/Streaks on Right -->
+                    <path d="M254,27 C266,27 278,25 286,23 C275,22 264,24 254,27 Z" fill="#65b75b" fill-opacity="0.72"/>
+                    <path d="M294,17 C301,17 307,17 312,18 C306,20 299,19 294,17 Z" fill="#65b75b" fill-opacity="0.65"/>
                   </svg>
                   <span class="patti-text-en front-patti-en" id="cardFrontPattiEn">Government of India</span>
                 </div>
@@ -931,7 +924,7 @@
               </div>
             </div>
 
-            <!-- Front Footer: Unique ID + Thin Line + VID (Aligned 'I' under 1st digit) -->
+            <!-- Front Footer: Unique ID + Thin Line (VID se ~3mm badi) + VID -->
             <div class="card-footer">
               <div class="uid-vid-block">
                 <div class="unique-id-num" id="cardUniqueIdFront">[Aadhaar Redacted]</div>
@@ -952,20 +945,24 @@
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg" alt="Emblem">
               </div>
 
-              <!-- Back Center: Soft Light-Toned Brush Patti (As per 3rd uploaded photo) -->
+              <!-- Back Center: Tedha-Medha (Irregular Wavy) Light Brush Patti -->
               <div class="brush-patti-box">
                 <div class="brush-strip">
-                  <svg class="brush-bg" viewBox="0 0 300 22" preserveAspectRatio="none">
-                    <path d="M6,4 C2,4 0,8 1,12 C2,16 5,19 14,19 C65,20 135,19 195,17 C218,16 238,14 252,12 C238,11 232,9 258,8 C232,5 195,3 145,3 C85,3 30,4 6,4 Z" fill="url(#softSaffronF)"/>
-                    <path d="M235,15 C248,15 258,14 266,13 C256,12 245,13 235,15 Z" fill="#f59342" opacity="0.45"/>
+                  <svg class="brush-bg" viewBox="0 0 320 34" preserveAspectRatio="none">
+                    <!-- Wavy Light Saffron Brush with Dip & Broken Streaks -->
+                    <path d="M10,6 C3,6 1,12 2,18 C3,24 10,27 26,27 C38,27 46,30 56,31 C88,32 128,31 162,28 C182,26 202,22 218,18 C202,16 194,14 214,12 C196,10 170,9 140,8 C95,7 45,6 10,6 Z" fill="#f3954f" fill-opacity="0.76"/>
+                    <path d="M208,22 C218,22 228,20 235,18 C225,17 215,19 208,22 Z" fill="#f3954f" fill-opacity="0.7"/>
+                    <path d="M222,7 C230,7 238,7 244,8 C236,10 228,9 222,7 Z" fill="#f3954f" fill-opacity="0.6"/>
                   </svg>
                   <span class="patti-text-hi back-patti-hi" id="cardBackPattiHi">भारतीय विशिष्ट पहचान प्राधिकरण</span>
                 </div>
 
                 <div class="brush-strip" style="margin-top:1px;">
-                  <svg class="brush-bg" viewBox="0 0 300 22" preserveAspectRatio="none">
-                    <path d="M7,3 C2,3 0,7 1,12 C2,16 6,19 16,19 C75,20 155,19 220,17 C245,16 268,14 282,12 C268,10 262,9 288,7 C262,4 220,3 165,3 C95,2 35,3 7,3 Z" fill="url(#softGreenF)"/>
-                    <path d="M265,15 C276,15 285,14 293,13 C284,12 274,13 265,15 Z" fill="#68b85d" opacity="0.45"/>
+                  <svg class="brush-bg" viewBox="0 0 320 34" preserveAspectRatio="none">
+                    <!-- Wavy Light Green Brush with Step-Down Dip & Broken Streaks -->
+                    <path d="M10,6 C3,6 1,12 2,19 C3,25 12,27 30,27 C42,27 50,31 62,32 C96,33 148,32 195,29 C222,27 248,24 268,21 C252,18 246,16 276,14 C252,10 218,8 175,7 C115,6 50,6 10,6 Z" fill="#65b75b" fill-opacity="0.76"/>
+                    <path d="M258,25 C270,25 280,23 288,21 C278,20 266,22 258,25 Z" fill="#65b75b" fill-opacity="0.7"/>
+                    <path d="M294,12 C302,12 309,12 315,14 C308,16 300,15 294,12 Z" fill="#65b75b" fill-opacity="0.65"/>
                   </svg>
                   <span class="patti-text-en back-patti-en" id="cardBackPattiEn">Unique Identification Authority of India</span>
                 </div>
@@ -1003,7 +1000,7 @@
               </div>
             </div>
 
-            <!-- Back Footer: Unique ID + Thin Line + VID (Aligned 'I' under 1st digit) -->
+            <!-- Back Footer: Unique ID + Thin Line (VID se ~3mm badi) + VID -->
             <div class="card-footer">
               <div class="uid-vid-block">
                 <div class="unique-id-num" id="cardUniqueIdBack">[Aadhaar Redacted]</div>
