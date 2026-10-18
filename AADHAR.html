@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ONLINE AADHAR CARD GENERATE</title>
+<title>AADHAR CARD</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800;900&family=Roboto:wght@400;500;700;900&display=swap');
 
@@ -226,23 +226,24 @@
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    gap: 30px;
+    gap: 24px;
     margin-top: 20px;
   }
 
-  /* कार्ड की ज्यादा चमक कम करने के लिए सॉफ्ट ऑफ-व्हाइट (#f9fafb) */
+  /* ISO/IEC 7810 CR80 Standard Size (85.60mm × 53.98mm) */
   .id-card {
-    width: 410px;
-    height: 258px;
+    width: 85.60mm;
+    height: 53.98mm;
     background-color: #f9fafb;
     border: 1px solid #b5b5b5;
-    border-radius: 8px;
+    border-radius: 3.18mm;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     overflow: hidden;
     position: relative;
+    flex-shrink: 0;
   }
 
   /* TOP HEADER: Left Ashok Stambh + Center Brush Patti + Right Original Aadhaar Logo */
@@ -250,15 +251,15 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 5px 10px 2px 10px;
-    height: 48px;
-    gap: 6px;
+    padding: 3px 8px 1px 8px;
+    height: 38px;
+    gap: 4px;
   }
 
   /* Ashok Stambh */
   .emblem-box {
-    width: 32px;
-    height: 40px;
+    width: 26px;
+    height: 34px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -267,28 +268,29 @@
   }
 
   .emblem-box img {
-    height: 31px;
+    height: 27px;
     width: auto;
     object-fit: contain;
   }
 
-  /* Brush-Stroke Tiranga Patti */
+  /* Realistic Brush-Stroke Tiranga Patti (As per uploaded images) */
   .brush-patti-box {
     flex: 1;
     position: relative;
-    height: 38px;
+    height: 34px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding-left: 2px;
   }
 
   .brush-strip {
     position: relative;
     width: 100%;
-    height: 16px;
+    height: 14px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .brush-strip svg.brush-bg {
@@ -298,34 +300,54 @@
     width: 100%;
     height: 100%;
     z-index: 1;
+    overflow: visible;
   }
 
   .brush-strip .patti-text-hi {
     position: relative;
     z-index: 2;
-    font-size: 11px;
+    font-size: 9.2px;
     font-weight: 700;
-    color: #1a1a1a;
-    letter-spacing: 0.2px;
-    padding-right: 18px;
+    color: #111111;
+    letter-spacing: 0.1px;
     line-height: 1;
+    white-space: nowrap;
   }
 
   .brush-strip .patti-text-en {
     position: relative;
     z-index: 2;
-    font-size: 9.8px;
+    font-size: 8.2px;
     font-weight: 600;
-    color: #1a1a1a;
-    letter-spacing: 0.2px;
-    padding-right: 18px;
+    color: #111111;
+    letter-spacing: 0.1px;
     line-height: 1;
+    white-space: nowrap;
+  }
+
+  /* Front card text alignment inside brush */
+  .front-patti-hi {
+    padding-left: 34px;
+  }
+  .front-patti-en {
+    padding-left: 16px;
+  }
+
+  /* Back card text alignment inside brush */
+  .back-patti-hi {
+    padding-left: 12px;
+  }
+  .back-patti-en {
+    padding-left: 5px;
+    font-size: 7.3px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
   }
 
   /* Right Corner Original Aadhaar Logo Box */
   .aadhaar-logo-box {
-    width: 52px;
-    height: 40px;
+    width: 44px;
+    height: 34px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -333,24 +355,25 @@
   }
 
   .aadhaar-logo-box img {
-    width: 50px;
-    height: 38px;
+    width: 42px;
+    height: 32px;
     object-fit: contain;
   }
 
   /* FRONT BODY */
   .front-body {
     display: flex;
-    padding: 4px 12px 0 6px;
-    gap: 6px;
+    padding: 2px 8px 0 5px;
+    gap: 5px;
     flex: 1;
     position: relative;
+    align-items: flex-start;
   }
 
   /* Vertical Issue Date (Photo के बाएँ ठीक बीच में नीचे से ऊपर की ओर) */
   .vertical-issue-box {
-    width: 12px;
-    height: 95px;
+    width: 10px;
+    height: 90px;
     margin-top: 2px;
     display: flex;
     align-items: center;
@@ -361,16 +384,18 @@
   .vertical-issue-text {
     writing-mode: vertical-rl;
     transform: rotate(180deg);
-    font-size: 6.5px;
+    font-size: 5.8px;
     font-weight: 500;
     color: #111;
     white-space: nowrap;
     letter-spacing: 0.2px;
   }
 
+  /* Photo Size in exact 3.5cm × 4.5cm (35mm × 45mm -> 7:9) Aspect Ratio fitted for CR80 Card */
   .applicant-photo {
-    width: 78px;
-    height: 95px;
+    width: 70px;
+    height: 90px;
+    aspect-ratio: 35 / 45;
     border: 1px solid #777;
     background: #eef2f6;
     flex-shrink: 0;
@@ -387,27 +412,27 @@
   /* Name, DOB, Gender सभी बिल्कुल DOB (10/10/2000) के साइज व फॉन्ट-वेट में */
   .front-details {
     flex: 1;
-    font-size: 10.8px;
+    font-size: 9px;
     font-weight: 500;
-    line-height: 1.42;
+    line-height: 1.38;
     color: #111;
-    padding-top: 3px;
-    padding-left: 4px;
+    padding-top: 2px;
+    padding-left: 2px;
   }
 
   .front-details .f-name-hi {
-    font-size: 10.8px;
+    font-size: 9px;
     font-weight: 500;
   }
 
   .front-details .f-name-en {
-    font-size: 10.8px;
+    font-size: 9px;
     font-weight: 500;
-    margin-bottom: 3px;
+    margin-bottom: 2px;
   }
 
   .front-details .f-row {
-    font-size: 10.8px;
+    font-size: 9px;
     font-weight: 500;
   }
 
@@ -417,37 +442,38 @@
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-end;
+    height: 100%;
     padding-bottom: 2px;
   }
 
   .front-qr-box {
-    width: 82px;
-    height: 82px;
+    width: 66px;
+    height: 66px;
     background: #f9fafb;
-    padding: 2px;
+    padding: 1px;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
   .front-qr-box canvas {
-    width: 78px;
-    height: 78px;
+    width: 64px;
+    height: 64px;
   }
 
   /* BACK BODY */
   .back-body {
     display: flex;
-    padding: 4px 12px 0 6px;
-    gap: 6px;
+    padding: 2px 8px 0 5px;
+    gap: 4px;
     flex: 1;
     justify-content: space-between;
   }
 
   /* Vertical Print Date (Back Side खड़ी लाइन में नीचे से ऊपर) */
   .vertical-print-box {
-    width: 12px;
-    height: 118px;
+    width: 10px;
+    height: 96px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -457,7 +483,7 @@
   .vertical-print-text {
     writing-mode: vertical-rl;
     transform: rotate(180deg);
-    font-size: 6.5px;
+    font-size: 5.8px;
     font-weight: 500;
     color: #111;
     white-space: nowrap;
@@ -466,19 +492,19 @@
 
   .back-address {
     flex: 1;
-    font-size: 9.8px;
-    line-height: 1.35;
+    font-size: 8px;
+    line-height: 1.32;
     color: #111;
-    padding-top: 2px;
+    padding-top: 1px;
   }
 
   .back-address .addr-label {
     font-weight: 700;
-    font-size: 10.2px;
+    font-size: 8.4px;
   }
 
   .back-address .addr-block-hi {
-    margin-bottom: 5px;
+    margin-bottom: 4px;
   }
 
   /* Back QR: Large and pushed down right above Unique ID */
@@ -491,18 +517,18 @@
   }
 
   .back-qr-box {
-    width: 118px;
-    height: 118px;
+    width: 94px;
+    height: 94px;
     background: #f9fafb;
-    padding: 2px;
+    padding: 1px;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
   .back-qr-box canvas {
-    width: 114px;
-    height: 114px;
+    width: 92px;
+    height: 92px;
   }
 
   /* CARD FOOTER & BOLD LARGER UNIQUE ID */
@@ -512,26 +538,26 @@
   }
 
   .unique-id-num {
-    font-size: 17.5px;
+    font-size: 14px;
     font-weight: 900;
-    letter-spacing: 2.2px;
+    letter-spacing: 1.8px;
     color: #000;
-    padding-bottom: 2px;
+    padding-bottom: 1px;
     line-height: 1.1;
   }
 
   .red-divider {
-    border-top: 1.8px solid #d91b24;
+    border-top: 1.5px solid #d91b24;
     width: 100%;
   }
 
   /* Front Bottom Tagline: मेरा आधार, मेरी पहचान (केवल आधार लाल, पहचान काला) */
   .front-tagline {
-    padding: 3px 0 5px 0;
-    font-size: 15px;
+    padding: 2px 0 4px 0;
+    font-size: 12px;
     font-weight: 800;
     color: #111;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.4px;
     line-height: 1.1;
   }
 
@@ -544,8 +570,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 4px 12px 5px 12px;
-    font-size: 10px;
+    padding: 3px 8px 4px 8px;
+    font-size: 8px;
     font-weight: 700;
     color: #111;
   }
@@ -554,12 +580,12 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 4px;
+    gap: 3px;
   }
 
   .contact-item svg {
-    width: 15px;
-    height: 15px;
+    width: 12px;
+    height: 12px;
     flex-shrink: 0;
   }
 
@@ -578,8 +604,13 @@
     cursor: pointer;
   }
 
+  /* ================= PRINT / PDF MEDIA QUERY (ORIGINAL AADHAAR LAYOUT) ================= */
   @media print {
-    .top-nav, #applicantPanel, #officerPanel, .print-btn-bar, .panel-title {
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+    .top-nav, #applicantPanel, #officerPanel, .print-btn-bar, .panel-title, #lockedCardMsg {
       display: none !important;
     }
     body, .panel, .container {
@@ -587,16 +618,33 @@
       box-shadow: none !important;
       margin: 0 !important;
       padding: 0 !important;
+      max-width: 100% !important;
+      width: 100% !important;
     }
     #cardPanel {
       display: block !important;
     }
+    /* ऊपर और बाएँ-दाएँ से स्पेस छोड़कर बाएँ तरफ Front और दाएँ तरफ Back */
+    .cards-wrapper {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      justify-content: flex-start !important;
+      align-items: flex-start !important;
+      gap: 8mm !important;
+      margin-top: 15mm !important;
+      margin-left: 15mm !important;
+      margin-right: 15mm !important;
+    }
     .id-card {
-      box-shadow: none;
-      border: 1px solid #000;
+      width: 85.60mm !important;
+      height: 53.98mm !important;
+      box-shadow: none !important;
+      border: 0.6pt solid #888 !important;
+      border-radius: 3.18mm !important;
       page-break-inside: avoid;
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
     }
   }
 </style>
@@ -693,7 +741,7 @@
 
           <div class="form-group full-width">
             <label>पूरा पता (हिन्दी में - Auto Filled)</label>
-            <textarea id="addrHi" rows="2" placeholder="उदा: सीतामढ़ी, बिहार - 843302" required></textarea>
+            <textarea id="addrHi" rows="2" placeholder="उदा: अपना पूरा पता" required></textarea>
           </div>
 
           <div class="form-group full-width">
@@ -786,38 +834,30 @@
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg" alt="Emblem">
               </div>
 
-              <!-- Center: Brush-Stroke Tiranga Patti -->
+              <!-- Center: Realistic Brush-Stroke Tiranga Patti (Image 2 Style) -->
               <div class="brush-patti-box">
                 <!-- Saffron Brush Strip -->
                 <div class="brush-strip">
-                  <svg class="brush-bg" viewBox="0 0 300 22" preserveAspectRatio="none">
-                    <defs>
-                      <linearGradient id="saffronGradF" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#f37021" stop-opacity="0.95"/>
-                        <stop offset="65%" stop-color="#f79454" stop-opacity="0.85"/>
-                        <stop offset="92%" stop-color="#fbd2b3" stop-opacity="0.35"/>
-                        <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-                      </linearGradient>
-                    </defs>
-                    <path d="M10,2 C4,2 1,6 1,11 C1,16 4,20 10,20 L235,19 C255,19 275,16 296,12 C280,11 268,9 292,7 C265,5 240,2 215,2 Z" fill="url(#saffronGradF)"/>
+                  <svg class="brush-bg" viewBox="0 0 300 24" preserveAspectRatio="none">
+                    <!-- Main Textured Saffron Brush Stroke -->
+                    <path d="M8,3 C2,3 0,7 1,12 C2,17 6,20 15,20 C45,21 95,19 145,19 C170,19 195,17 215,15 C202,13 196,11 224,10 C198,8 175,4 140,3 C90,2 35,3 8,3 Z" fill="#f48120"/>
+                    <!-- Broken Dry Brush Streaks on Right -->
+                    <path d="M210,16 C222,16 232,15 240,14 C232,13 220,14 210,16 Z" fill="#f48120" opacity="0.85"/>
+                    <path d="M248,6 C253,6 257,6 260,7 C255,8 250,7 248,6 Z" fill="#f48120" opacity="0.75"/>
                   </svg>
-                  <span class="patti-text-hi" id="cardFrontPattiHi">भारत सरकार</span>
+                  <span class="patti-text-hi front-patti-hi" id="cardFrontPattiHi">भारत सरकार</span>
                 </div>
 
                 <!-- Green Brush Strip -->
                 <div class="brush-strip" style="margin-top:2px;">
-                  <svg class="brush-bg" viewBox="0 0 300 22" preserveAspectRatio="none">
-                    <defs>
-                      <linearGradient id="greenGradF" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#138808" stop-opacity="0.9"/>
-                        <stop offset="65%" stop-color="#47a851" stop-opacity="0.8"/>
-                        <stop offset="92%" stop-color="#b4e0b8" stop-opacity="0.35"/>
-                        <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-                      </linearGradient>
-                    </defs>
-                    <path d="M10,2 C4,2 1,6 1,11 C1,16 4,20 10,20 L245,20 C268,20 285,17 298,13 C278,12 270,10 294,8 C265,5 240,2 220,2 Z" fill="url(#greenGradF)"/>
+                  <svg class="brush-bg" viewBox="0 0 300 24" preserveAspectRatio="none">
+                    <!-- Main Textured Green Brush Stroke -->
+                    <path d="M9,3 C3,3 0,8 1,13 C2,18 8,21 20,21 C75,22 145,21 205,19 C232,18 258,16 276,14 C260,12 252,10 282,9 C258,6 225,4 185,3 C115,2 45,3 9,3 Z" fill="#3fa535"/>
+                    <!-- Broken Dry Brush Streaks on Right -->
+                    <path d="M270,17 C278,17 284,16 290,15 C283,14 275,15 270,17 Z" fill="#3fa535" opacity="0.85"/>
+                    <path d="M292,10 C295,10 298,10 300,11 C297,12 294,11 292,10 Z" fill="#3fa535" opacity="0.7"/>
                   </svg>
-                  <span class="patti-text-en" id="cardFrontPattiEn">Government of India</span>
+                  <span class="patti-text-en front-patti-en" id="cardFrontPattiEn">Government of India</span>
                 </div>
               </div>
 
@@ -870,20 +910,28 @@
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg" alt="Emblem">
               </div>
 
-              <!-- Back Center: Brush-Stroke Tiranga Patti -->
+              <!-- Back Center: Realistic Brush-Stroke Tiranga Patti (Image 1 Style) -->
               <div class="brush-patti-box">
                 <div class="brush-strip">
-                  <svg class="brush-bg" viewBox="0 0 300 22" preserveAspectRatio="none">
-                    <path d="M10,2 C4,2 1,6 1,11 C1,16 4,20 10,20 L235,19 C255,19 275,16 296,12 C280,11 268,9 292,7 C265,5 240,2 215,2 Z" fill="url(#saffronGradF)"/>
+                  <svg class="brush-bg" viewBox="0 0 300 24" preserveAspectRatio="none">
+                    <!-- Main Textured Saffron Brush Stroke -->
+                    <path d="M8,3 C2,3 0,7 1,12 C2,17 6,20 15,20 C45,21 95,19 145,19 C168,19 188,17 205,15 C195,13 190,11 212,10 C190,8 168,4 135,3 C85,2 35,3 8,3 Z" fill="#f48120"/>
+                    <!-- Broken Dry Brush Streaks on Right -->
+                    <path d="M202,16 C212,16 220,15 228,14 C220,13 210,14 202,16 Z" fill="#f48120" opacity="0.85"/>
+                    <path d="M214,6 C222,6 228,6 234,7 C226,8 218,7 214,6 Z" fill="#f48120" opacity="0.75"/>
                   </svg>
-                  <span class="patti-text-hi" id="cardBackPattiHi">भारतीय विशिष्ट पहचान प्राधिकरण</span>
+                  <span class="patti-text-hi back-patti-hi" id="cardBackPattiHi">भारतीय विशिष्ट पहचान प्राधिकरण</span>
                 </div>
 
                 <div class="brush-strip" style="margin-top:2px;">
-                  <svg class="brush-bg" viewBox="0 0 300 22" preserveAspectRatio="none">
-                    <path d="M10,2 C4,2 1,6 1,11 C1,16 4,20 10,20 L245,20 C268,20 285,17 298,13 C278,12 270,10 294,8 C265,5 240,2 220,2 Z" fill="url(#greenGradF)"/>
+                  <svg class="brush-bg" viewBox="0 0 300 24" preserveAspectRatio="none">
+                    <!-- Main Textured Green Brush Stroke -->
+                    <path d="M9,3 C3,3 0,8 1,13 C2,18 8,21 20,21 C75,22 140,21 198,19 C222,18 245,16 262,14 C248,12 242,10 268,9 C245,6 215,4 175,3 C110,2 45,3 9,3 Z" fill="#43a838"/>
+                    <!-- Broken Dry Brush Streaks on Right -->
+                    <path d="M262,16 C272,16 280,15 286,14 C278,13 268,14 262,16 Z" fill="#43a838" opacity="0.85"/>
+                    <path d="M288,8 C293,8 297,8 300,9 C296,10 291,9 288,8 Z" fill="#43a838" opacity="0.8"/>
                   </svg>
-                  <span class="patti-text-en" id="cardBackPattiEn">Unique Identification Authority of India</span>
+                  <span class="patti-text-en back-patti-en" id="cardBackPattiEn">Unique Identification Authority of India</span>
                 </div>
               </div>
 
@@ -1074,7 +1122,7 @@
       gender: document.getElementById('genderInput').value,
       addrEn: document.getElementById('addrEn').value,
       addrHi: document.getElementById('addrHi').value,
-      photo: uploadedPhotoDataUrl || "https://via.placeholder.com/78x95.png?text=PHOTO",
+      photo: uploadedPhotoDataUrl || "https://via.placeholder.com/70x90.png?text=PHOTO",
       verified: false,
       uniqueId: "",
       issueDate: "",
