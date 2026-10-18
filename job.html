@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ONLINE AADHAR CARD GENERATE</title>
+<title>AADHAR CARD</title>
+<!-- Real Scannable QR Code Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800;900&family=Roboto:wght@400;500;700;900&display=swap');
 
@@ -273,31 +275,35 @@
     object-fit: contain;
   }
 
-  /* Pahle wali Soft Light-Toned Brush Patti */
+  /* Soft Light-Toned Brush Patti - Shorter and Centered */
   .brush-patti-box {
     flex: 1;
     position: relative;
     height: 32px;
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
-    padding-left: 2px;
+    overflow: visible;
   }
 
   .brush-strip {
     position: relative;
     width: 100%;
-    height: 13px;
+    height: 12px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
+    overflow: visible;
   }
 
+  /* तिरंगा पट्टी को थोड़ा छोटा (78% चौड़ाई) और बिल्कुल सेंटर में किया गया */
   .brush-strip svg.brush-bg {
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 78%;
     height: 100%;
     z-index: 1;
     overflow: visible;
@@ -312,6 +318,9 @@
     letter-spacing: 0.1px;
     line-height: 1;
     white-space: nowrap;
+    text-align: center;
+    width: 100%;
+    display: block;
   }
 
   .brush-strip .patti-text-en {
@@ -323,22 +332,19 @@
     letter-spacing: 0.1px;
     line-height: 1;
     white-space: nowrap;
+    text-align: center;
+    width: 100%;
+    display: block;
   }
 
-  /* Front card text alignment inside brush */
-  .front-patti-hi {
-    padding-left: 36px;
-  }
-  .front-patti-en {
-    padding-left: 18px;
-  }
-
-  /* Back card text alignment inside brush */
-  .back-patti-hi {
-    padding-left: 10px;
+  /* Front & Back card text centered inside brush (Even if it overflows patti) */
+  .front-patti-hi, .front-patti-en, .back-patti-hi {
+    padding: 0;
+    text-align: center;
   }
   .back-patti-en {
-    padding-left: 8px;
+    padding: 0;
+    text-align: center;
     font-size: 7.4px !important;
     font-weight: 600 !important;
   }
@@ -448,7 +454,7 @@
   .front-qr-box {
     width: 66px;
     height: 66px;
-    background: #f9fafb;
+    background: #ffffff;
     padding: 1px;
     display: flex;
     justify-content: center;
@@ -519,7 +525,7 @@
   .back-qr-box {
     width: 98px;
     height: 98px;
-    background: #f9fafb;
+    background: #ffffff;
     padding: 1px;
     display: flex;
     justify-content: center;
@@ -583,9 +589,6 @@
 
   /*
    * Front Bottom Tagline: "मेरा आधार, मेरी पहचान"
-   * Thoda bada (13px) aur spacing is tarah set hai ki:
-   * - "मेरा" thik Unique ID shuru hone ke samne khatam hota hai,
-   * - Unique ID khatam hone ke niche "पहचान" ka "पह" aata hai aur "चान" uske aage nikalta hai.
    */
   .front-tagline {
     padding: 2px 0 3px 0;
@@ -875,21 +878,21 @@
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg" alt="Emblem">
               </div>
 
-              <!-- Center: Pahle wali Soft Light-Toned Brush Patti -->
+              <!-- Center: Shorter & Centered Soft Light-Toned Brush Patti -->
               <div class="brush-patti-box">
                 <!-- Soft Light Saffron Brush Strip -->
                 <div class="brush-strip">
                   <svg class="brush-bg" viewBox="0 0 300 22" preserveAspectRatio="none">
                     <defs>
                       <linearGradient id="softSaffronF" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#f59342" stop-opacity="0.72"/>
-                        <stop offset="55%" stop-color="#f7a663" stop-opacity="0.65"/>
-                        <stop offset="85%" stop-color="#facea5" stop-opacity="0.4"/>
+                        <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+                        <stop offset="12%" stop-color="#f59342" stop-opacity="0.72"/>
+                        <stop offset="50%" stop-color="#f7a663" stop-opacity="0.75"/>
+                        <stop offset="88%" stop-color="#f59342" stop-opacity="0.65"/>
                         <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
                       </linearGradient>
                     </defs>
-                    <path d="M6,4 C2,4 0,8 1,12 C2,16 5,19 14,19 C65,20 135,19 195,17 C218,16 238,14 252,12 C238,11 232,9 258,8 C232,5 195,3 145,3 C85,3 30,4 6,4 Z" fill="url(#softSaffronF)"/>
-                    <path d="M235,15 C248,15 258,14 266,13 C256,12 245,13 235,15 Z" fill="#f59342" opacity="0.45"/>
+                    <path d="M12,4 C5,4 2,8 3,12 C4,16 8,19 18,19 C75,20 145,19 215,17 C248,16 272,14 286,12 C272,11 266,9 290,8 C264,5 225,3 165,3 C95,3 36,4 12,4 Z" fill="url(#softSaffronF)"/>
                   </svg>
                   <span class="patti-text-hi front-patti-hi" id="cardFrontPattiHi">भारत सरकार</span>
                 </div>
@@ -899,14 +902,14 @@
                   <svg class="brush-bg" viewBox="0 0 300 22" preserveAspectRatio="none">
                     <defs>
                       <linearGradient id="softGreenF" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#68b85d" stop-opacity="0.72"/>
-                        <stop offset="60%" stop-color="#82c678" stop-opacity="0.65"/>
-                        <stop offset="88%" stop-color="#bce2b6" stop-opacity="0.38"/>
+                        <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+                        <stop offset="12%" stop-color="#68b85d" stop-opacity="0.72"/>
+                        <stop offset="50%" stop-color="#82c678" stop-opacity="0.75"/>
+                        <stop offset="88%" stop-color="#68b85d" stop-opacity="0.65"/>
                         <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
                       </linearGradient>
                     </defs>
-                    <path d="M7,3 C2,3 0,7 1,12 C2,16 6,19 16,19 C75,20 155,19 220,17 C245,16 268,14 282,12 C268,10 262,9 288,7 C262,4 220,3 165,3 C95,2 35,3 7,3 Z" fill="url(#softGreenF)"/>
-                    <path d="M265,15 C276,15 285,14 293,13 C284,12 274,13 265,15 Z" fill="#68b85d" opacity="0.45"/>
+                    <path d="M12,3 C5,3 2,7 3,12 C4,16 8,19 18,19 C75,20 155,19 220,17 C250,16 272,14 286,12 C272,10 266,9 290,7 C264,4 220,3 165,3 C95,2 36,3 12,3 Z" fill="url(#softGreenF)"/>
                   </svg>
                   <span class="patti-text-en front-patti-en" id="cardFrontPattiEn">Government of India</span>
                 </div>
@@ -965,20 +968,18 @@
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg" alt="Emblem">
               </div>
 
-              <!-- Back Center: Pahle wali Soft Light-Toned Brush Patti -->
+              <!-- Back Center: Shorter & Centered Soft Light-Toned Brush Patti -->
               <div class="brush-patti-box">
                 <div class="brush-strip">
                   <svg class="brush-bg" viewBox="0 0 300 22" preserveAspectRatio="none">
-                    <path d="M6,4 C2,4 0,8 1,12 C2,16 5,19 14,19 C65,20 135,19 195,17 C218,16 238,14 252,12 C238,11 232,9 258,8 C232,5 195,3 145,3 C85,3 30,4 6,4 Z" fill="url(#softSaffronF)"/>
-                    <path d="M235,15 C248,15 258,14 266,13 C256,12 245,13 235,15 Z" fill="#f59342" opacity="0.45"/>
+                    <path d="M12,4 C5,4 2,8 3,12 C4,16 8,19 18,19 C75,20 145,19 215,17 C248,16 272,14 286,12 C272,11 266,9 290,8 C264,5 225,3 165,3 C95,3 36,4 12,4 Z" fill="url(#softSaffronF)"/>
                   </svg>
                   <span class="patti-text-hi back-patti-hi" id="cardBackPattiHi">भारतीय विशिष्ट पहचान प्राधिकरण</span>
                 </div>
 
                 <div class="brush-strip" style="margin-top:1px;">
                   <svg class="brush-bg" viewBox="0 0 300 22" preserveAspectRatio="none">
-                    <path d="M7,3 C2,3 0,7 1,12 C2,16 6,19 16,19 C75,20 155,19 220,17 C245,16 268,14 282,12 C268,10 262,9 288,7 C262,4 220,3 165,3 C95,2 35,3 7,3 Z" fill="url(#softGreenF)"/>
-                    <path d="M265,15 C276,15 285,14 293,13 C284,12 274,13 265,15 Z" fill="#68b85d" opacity="0.45"/>
+                    <path d="M12,3 C5,3 2,7 3,12 C4,16 8,19 18,19 C75,20 155,19 220,17 C250,16 272,14 286,12 C272,10 266,9 290,7 C264,4 220,3 165,3 C95,2 36,3 12,3 Z" fill="url(#softGreenF)"/>
                   </svg>
                   <span class="patti-text-en back-patti-en" id="cardBackPattiEn">Unique Identification Authority of India</span>
                 </div>
@@ -1008,7 +1009,7 @@
                 </div>
               </div>
 
-              <!-- Back Right: Enlarged Ultra-Hard Complex QR -->
+              <!-- Back Right: Enlarged Real Scannable QR -->
               <div class="back-qr-col">
                 <div class="back-qr-box">
                   <canvas id="backQrCanvas" width="279" height="279"></canvas>
@@ -1355,10 +1356,10 @@
       vidBack.textContent = "";
     }
 
-    // Generate Ultra-Dense Hard Complex QR Codes
-    const qrPayload = `${applicationData.uniqueId}|${applicationData.vid}|${applicationData.nameEn}|${applicationData.dob}|${applicationData.gender}|${applicationData.relEn}:${applicationData.fatherEn}|${applicationData.addrEn}`;
-    drawComplexQR('frontQrCanvas', qrPayload);
-    drawComplexQR('backQrCanvas', qrPayload + "|SECURE_XML_2048_BIT_SIGNATURE|VERIFIED|1947|help@uidai.gov.in|www.uidai.gov.in");
+    // Generate Real Scannable QR Code that opens https://www.uidai.gov.in directly when scanned
+    const uidaiUrl = "https://www.uidai.gov.in";
+    drawScannableQR('frontQrCanvas', uidaiUrl);
+    drawScannableQR('backQrCanvas', uidaiUrl);
 
     document.getElementById('lockedCardMsg').style.display = 'none';
     document.getElementById('verifiedCardSection').style.display = 'block';
@@ -1367,89 +1368,35 @@
     switchTab('cardPanel', tabBtns[2]);
   }
 
-  // Ultra-High-Density Hard QR Generator (93x93 Modules - Version 19 Official Dense Look)
-  function drawComplexQR(canvasId, seedString) {
+  // Real Scannable QR Code Generator pointing directly to https://www.uidai.gov.in
+  function drawScannableQR(canvasId, urlText) {
     const canvas = document.getElementById(canvasId);
     const ctx = canvas.getContext('2d');
-    const modules = 93; // High-density 93x93 matrix for ultra-hard original look
     const size = canvas.width;
-    const cell = size / modules;
 
-    ctx.fillStyle = "#f9fafb";
-    ctx.fillRect(0, 0, size, size);
-    ctx.fillStyle = "#000000";
+    if (typeof qrcode !== 'undefined') {
+      // Type 0 auto-detects version, 'H' (High Error Correction) makes it dense & easy to scan
+      const qr = qrcode(0, 'H');
+      qr.addData(urlText);
+      qr.make();
 
-    const reserved = Array.from({ length: modules }, () => Array(modules).fill(false));
+      const moduleCount = qr.getModuleCount();
+      const quietZone = 2; // Standard white margin required by QR scanners
+      const totalModules = moduleCount + quietZone * 2;
+      const cell = size / totalModules;
 
-    function drawFinder(r0, c0) {
-      for (let r = -1; r <= 7; r++) {
-        for (let c = -1; c <= 7; c++) {
-          const rr = r0 + r, cc = c0 + c;
-          if (rr >= 0 && rr < modules && cc >= 0 && cc < modules) {
-            reserved[rr][cc] = true;
-            if (r >= 0 && r <= 6 && c >= 0 && c <= 6) {
-              if (r === 0 || r === 6 || c === 0 || c === 6 || (r >= 2 && r <= 4 && c >= 2 && c <= 4)) {
-                ctx.fillRect(Math.floor(cc * cell), Math.floor(rr * cell), Math.ceil(cell), Math.ceil(cell));
-              }
-            }
-          }
-        }
-      }
-    }
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, size, size);
+      ctx.fillStyle = "#000000";
 
-    function drawAlignment(r0, c0) {
-      for (let r = -2; r <= 2; r++) {
-        for (let c = -2; c <= 2; c++) {
-          const rr = r0 + r, cc = c0 + c;
-          if (rr >= 0 && rr < modules && cc >= 0 && cc < modules && !reserved[rr][cc]) {
-            reserved[rr][cc] = true;
-            if (Math.abs(r) === 2 || Math.abs(c) === 2 || (r === 0 && c === 0)) {
-              ctx.fillRect(Math.floor(cc * cell), Math.floor(rr * cell), Math.ceil(cell), Math.ceil(cell));
-            }
-          }
-        }
-      }
-    }
-
-    drawFinder(0, 0);
-    drawFinder(0, modules - 7);
-    drawFinder(modules - 7, 0);
-
-    // Multi-grid alignment patterns (4x4 grid = 13 alignment boxes like real dense QR)
-    const alignCoords = [6, 30, 58, 86];
-    for (let ir of alignCoords) {
-      for (let ic of alignCoords) {
-        if (!((ir === 6 && ic === 6) || (ir === 6 && ic === 86) || (ir === 86 && ic === 6))) {
-          drawAlignment(ir, ic);
-        }
-      }
-    }
-
-    // Timing patterns
-    for (let i = 8; i < modules - 8; i++) {
-      reserved[6][i] = true;
-      reserved[i][6] = true;
-      if (i % 2 === 0) {
-        ctx.fillRect(Math.floor(i * cell), Math.floor(6 * cell), Math.ceil(cell), Math.ceil(cell));
-        ctx.fillRect(Math.floor(6 * cell), Math.floor(i * cell), Math.ceil(cell), Math.ceil(cell));
-      }
-    }
-
-    // Pseudo-random cryptographic bit distribution for ultra-dense pattern
-    let hash = 2166136261;
-    for (let i = 0; i < seedString.length; i++) {
-      hash ^= seedString.charCodeAt(i);
-      hash = Math.imul(hash, 16777619);
-    }
-
-    for (let r = 0; r < modules; r++) {
-      for (let c = 0; c < modules; c++) {
-        if (!reserved[r][c]) {
-          hash ^= (r * 193 + c * 1097) + seedString.charCodeAt((r * 7 + c) % seedString.length);
-          hash = Math.imul(hash ^ (hash >>> 16), 2246822507);
-          hash = Math.imul(hash ^ (hash >>> 13), 3266489909);
-          if ((Math.abs(hash) % 100) < 52) {
-            ctx.fillRect(Math.floor(c * cell), Math.floor(r * cell), Math.ceil(cell), Math.ceil(cell));
+      for (let r = 0; r < moduleCount; r++) {
+        for (let c = 0; c < moduleCount; c++) {
+          if (qr.isDark(r, c)) {
+            const x = Math.floor((c + quietZone) * cell);
+            const y = Math.floor((r + quietZone) * cell);
+            const w = Math.ceil((c + quietZone + 1) * cell) - x;
+            const h = Math.ceil((r + quietZone + 1) * cell) - y;
+            ctx.fillRect(x, y, w, h);
           }
         }
       }
