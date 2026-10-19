@@ -1,1 +1,1826 @@
-ise  kisi bhi jankari ke liye upyog na kare yah sirf manoranjan ke liye hai
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AADHAR CARD</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800;900&family=Roboto:wght@400;500;700;900&display=swap');
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', 'Noto Sans Devanagari', Arial, sans-serif;
+  }
+
+  /* चमक कम करने के लिए हल्का सॉफ्ट बैकग्राउंड */
+  body {
+    background: #e2e8f0;
+    color: #222;
+    padding-bottom: 50px;
+  }
+
+  /* Navigation Bar */
+  .top-nav {
+    background: #1e293b;
+    color: #fff;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .top-nav h1 {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .nav-tabs {
+    display: flex;
+    gap: 10px;
+  }
+
+  .tab-btn {
+    background: #334155;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: 0.2s;
+  }
+
+  .tab-btn.active, .tab-btn:hover {
+    background: #ff9933;
+    color: #000;
+  }
+
+  .container {
+    max-width: 920px;
+    margin: 25px auto;
+    padding: 0 15px;
+  }
+
+  .panel {
+    display: none;
+    background: #f4f6f9;
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+  }
+
+  .panel.active {
+    display: block;
+  }
+
+  .panel-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #ff9933;
+    color: #1e293b;
+  }
+
+  /* Form Styling */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  @media (max-width: 650px) {
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .form-group.full-width {
+    grid-column: 1 / -1;
+  }
+
+  .form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+  }
+
+  .form-group input, .form-group select, .form-group textarea {
+    padding: 9px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #fbfcfd;
+  }
+
+  .hint-text {
+    font-size: 11px;
+    color: #16a34a;
+  }
+
+  .btn-submit {
+    margin-top: 18px;
+    background: #138808;
+    color: #fff;
+    border: none;
+    padding: 11px 24px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .btn-submit:hover {
+    background: #0f6b06;
+  }
+
+  .status-alert {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    display: none;
+  }
+
+  .status-alert.warning {
+    display: block;
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #f59e0b;
+  }
+
+  .status-alert.success {
+    display: block;
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #22c55e;
+  }
+
+  .status-alert.error {
+    display: block;
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #ef4444;
+  }
+
+  /* Officer Login Box */
+  .login-box {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #eef2f6;
+  }
+
+  .officer-card {
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 16px;
+    background: #eef2f6;
+    margin-bottom: 16px;
+  }
+
+  .officer-preview-row {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    margin-bottom: 15px;
+  }
+
+  .officer-preview-row img {
+    width: 75px;
+    height: 90px;
+    object-fit: cover;
+    border: 1px solid #64748b;
+    border-radius: 4px;
+  }
+
+  .verify-controls {
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #94a3b8;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: flex-end;
+  }
+
+  /* Lists for Pending & Verified Applications in Officer Panel */
+  .app-list-section {
+    margin-bottom: 18px;
+  }
+  .app-list-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .app-list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 10px;
+    max-height: 230px;
+    overflow-y: auto;
+    padding: 4px;
+  }
+  .app-list-item {
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.15s;
+  }
+  .app-list-item:hover, .app-list-item.selected {
+    border-color: #ff9933;
+    background: #fffbeb;
+  }
+  .app-list-item img {
+    width: 42px;
+    height: 52px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #94a3b8;
+    flex-shrink: 0;
+  }
+  .app-list-info {
+    font-size: 12px;
+    line-height: 1.35;
+    overflow: hidden;
+  }
+  .app-list-info strong {
+    display: block;
+    font-size: 13px;
+    color: #0f172a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Mobile Search Box in Tab 3 */
+  .search-card-box {
+    max-width: 460px;
+    margin: 0 auto 18px auto;
+    background: #eef2f6;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+  }
+  .search-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+  }
+  .search-row input {
+    flex: 1;
+    padding: 9px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #fff;
+  }
+  .search-row button {
+    background: #138808;
+    color: #fff;
+    border: none;
+    padding: 0 18px;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  /* ================= AADHAAR STYLE ID CARD CSS ================= */
+  .cards-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-top: 20px;
+  }
+
+  /* ISO/IEC 7810 CR80 Standard Size (85.60mm × 53.98mm) */
+  .id-card {
+    width: 85.60mm;
+    height: 53.98mm;
+    background-color: #f9fafb;
+    border: 1px solid #b5b5b5;
+    border-radius: 3.18mm;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  /* TOP HEADER: Left Ashok Stambh + Center Soft Brush Patti + Right Original Aadhaar Logo */
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3px 8px 1px 8px;
+    height: 36px;
+    gap: 4px;
+  }
+
+  /* Ashok Stambh */
+  .emblem-box {
+    width: 26px;
+    height: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .emblem-box img {
+    height: 26px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  /* Soft Light-Toned Brush Patti with Centered Text */
+  .brush-patti-box {
+    flex: 1;
+    position: relative;
+    height: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: visible;
+  }
+
+  .brush-strip {
+    position: relative;
+    width: 100%;
+    height: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+  }
+
+  .brush-strip svg.brush-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: visible;
+  }
+
+  .brush-strip .patti-text-hi {
+    position: relative;
+    z-index: 2;
+    font-size: 8.8px;
+    font-weight: 700;
+    color: #222222;
+    letter-spacing: 0.1px;
+    line-height: 1;
+    white-space: nowrap;
+    text-align: center;
+    width: 100%;
+    display: block;
+  }
+
+  .brush-strip .patti-text-en {
+    position: relative;
+    z-index: 2;
+    font-size: 8px;
+    font-weight: 600;
+    color: #222222;
+    letter-spacing: 0.1px;
+    line-height: 1;
+    white-space: nowrap;
+    text-align: center;
+    width: 100%;
+    display: block;
+  }
+
+  /* Front & Back card text centered inside brush (Even if it overflows patti) */
+  .front-patti-hi, .front-patti-en, .back-patti-hi {
+    padding: 0;
+    text-align: center;
+  }
+  .back-patti-en {
+    padding: 0;
+    text-align: center;
+    font-size: 7.4px !important;
+    font-weight: 600 !important;
+  }
+
+  /* Right Corner Original Aadhaar Logo Box */
+  .aadhaar-logo-box {
+    width: 42px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .aadhaar-logo-box img {
+    width: 40px;
+    height: 30px;
+    object-fit: contain;
+  }
+
+  /* FRONT BODY */
+  .front-body {
+    display: flex;
+    padding: 1px 8px 0 5px;
+    gap: 5px;
+    flex: 1;
+    position: relative;
+    align-items: flex-start;
+  }
+
+  /* Vertical Issue Date */
+  .vertical-issue-box {
+    width: 10px;
+    height: 86px;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .vertical-issue-text {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 5.8px;
+    font-weight: 500;
+    color: #111;
+    white-space: nowrap;
+    letter-spacing: 0.2px;
+  }
+
+  /* Photo Size in exact 3.5cm × 4.5cm (35mm × 45mm -> 7:9) Aspect Ratio */
+  .applicant-photo {
+    width: 68px;
+    height: 87.4px;
+    aspect-ratio: 35 / 45;
+    border: 1px solid #777;
+    background: #eef2f6;
+    flex-shrink: 0;
+    overflow: hidden;
+    margin-top: 1px;
+  }
+
+  .applicant-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Name, DOB, Gender (9px) */
+  .front-details {
+    flex: 1;
+    font-size: 9px;
+    font-weight: 500;
+    line-height: 1.35;
+    color: #111;
+    padding-top: 2px;
+    padding-left: 2px;
+  }
+
+  .front-details .f-name-hi {
+    font-size: 9px;
+    font-weight: 500;
+  }
+
+  .front-details .f-name-en {
+    font-size: 9px;
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+
+  .front-details .f-row {
+    font-size: 9px;
+    font-weight: 500;
+  }
+
+  /* Front QR pushed down near Unique ID on the right */
+  .front-qr-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    height: 100%;
+    padding-bottom: 1px;
+  }
+
+  .front-qr-box {
+    width: 66px;
+    height: 66px;
+    background: #f9fafb;
+    padding: 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .front-qr-box canvas {
+    width: 64px;
+    height: 64px;
+    image-rendering: pixelated;
+  }
+
+  /* BACK BODY */
+  .back-body {
+    display: flex;
+    padding: 1px 8px 0 5px;
+    gap: 4px;
+    flex: 1;
+    justify-content: space-between;
+  }
+
+  /* Vertical Print Date */
+  .vertical-print-box {
+    width: 10px;
+    height: 94px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .vertical-print-text {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 5.8px;
+    font-weight: 500;
+    color: #111;
+    white-space: nowrap;
+    letter-spacing: 0.2px;
+  }
+
+  .back-address {
+    flex: 1;
+    font-size: 8px;
+    line-height: 1.3;
+    color: #111;
+    padding-top: 1px;
+  }
+
+  .back-address .addr-label {
+    font-weight: 700;
+    font-size: 8.4px;
+  }
+
+  .back-address .addr-block-hi {
+    margin-bottom: 3px;
+  }
+
+  /* Back QR: Enlarged to 98x98px for realistic original look */
+  .back-qr-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-bottom: 1px;
+  }
+
+  .back-qr-box {
+    width: 98px;
+    height: 98px;
+    background: #f9fafb;
+    padding: 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .back-qr-box canvas {
+    width: 96px;
+    height: 96px;
+    image-rendering: pixelated;
+  }
+
+  /* CARD FOOTER: UNIQUE ID + OPTIONAL THIN LINE & VID */
+  .card-footer {
+    width: 100%;
+    text-align: center;
+  }
+
+  .uid-vid-block {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0 auto 1px auto;
+  }
+
+  .unique-id-num {
+    font-size: 13.5px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    color: #111;
+    line-height: 1.08;
+    white-space: pre;
+  }
+
+  /* पतली लाइन: इसकी लंबाई VID की कुल लंबाई से लगभग 3mm ज्यादा रखी गई है (Optional) */
+  .uid-thin-line {
+    width: calc(100% + 3mm);
+    margin-left: -7.5px;
+    border-top: 0.7px solid #555;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    display: none;
+  }
+
+  /* VID का साइज बिल्कुल DOB (9px) के बराबर और 'I' ठीक Unique ID के पहले अंक के नीचे (Optional) */
+  .vid-num-row {
+    font-size: 9px;
+    font-weight: 500;
+    color: #111;
+    line-height: 1.05;
+    white-space: pre;
+    letter-spacing: 0.15px;
+    margin-left: -5.5px;
+    display: none;
+  }
+
+  .red-divider {
+    border-top: 1.4px solid #d91b24;
+    width: 100%;
+  }
+
+  /*
+   * Front Bottom Tagline: "मेरा आधार, मेरी पहचान"
+   */
+  .front-tagline {
+    padding: 2px 0 3px 0;
+    font-size: 13px;
+    font-weight: 800;
+    color: #111;
+    letter-spacing: 0.85px;
+    word-spacing: 3.5px;
+    line-height: 1.05;
+    padding-left: 6px;
+  }
+
+  .front-tagline span {
+    color: #d91b24;
+  }
+
+  /* Back Bottom Contact Bar */
+  .back-contact-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 8px 3px 8px;
+    font-size: 7.8px;
+    font-weight: 700;
+    color: #111;
+  }
+
+  .contact-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .contact-item svg {
+    width: 11px;
+    height: 11px;
+    flex-shrink: 0;
+  }
+
+  .print-btn-bar {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .btn-print {
+    background: #1e293b;
+    color: #fff;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  /* ================= PRINT / PDF MEDIA QUERY (ORIGINAL AADHAAR LAYOUT) ================= */
+  @media print {
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+    .top-nav, #applicantPanel, #officerPanel, .print-btn-bar, .panel-title, #lockedCardMsg, .search-card-box {
+      display: none !important;
+    }
+    body, .panel, .container {
+      background: #fff !important;
+      box-shadow: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      max-width: 100% !important;
+      width: 100% !important;
+    }
+    #cardPanel {
+      display: block !important;
+    }
+    /* ऊपर और बाएँ-दाएँ से स्पेस छोड़कर बाएँ तरफ Front और दाएँ तरफ Back */
+    .cards-wrapper {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      justify-content: flex-start !important;
+      align-items: flex-start !important;
+      gap: 8mm !important;
+      margin-top: 15mm !important;
+      margin-left: 15mm !important;
+      margin-right: 15mm !important;
+    }
+    .id-card {
+      width: 85.60mm !important;
+      height: 53.98mm !important;
+      box-shadow: none !important;
+      border: 0.6pt solid #888 !important;
+      border-radius: 3.18mm !important;
+      page-break-inside: avoid;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <div class="top-nav">
+    <h1>MISSION SCHOOL - ID CARD PORTAL</h1>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchTab('applicantPanel', this)">1. Applicant Form</button>
+      <button class="tab-btn" onclick="switchTab('officerPanel', this)">2. Officer Verification</button>
+      <button class="tab-btn" onclick="switchTab('cardPanel', this)">3. Generated ID Card</button>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- ================= 1. APPLICANT FORM PANEL ================= -->
+    <div id="applicantPanel" class="panel active">
+      <div class="panel-title">स्टेप 1: आवेदक फॉर्म (Applicant Registration Form)</div>
+      <form id="appForm" onsubmit="submitApplication(event)">
+        <div class="form-grid">
+          <!-- Front Patti Custom Text -->
+          <div class="form-group">
+            <label>आगे की पट्टी पर नाम (हिन्दी में)</label>
+            <input type="text" id="frontPattiHi" value="भारत सरकार" readonly>
+          </div>
+          <div class="form-group">
+            <label>आगे की पट्टी पर नाम (English में)</label>
+            <input type="text" id="frontPattiEn" value="Government of India" readonly>
+          </div>
+
+          <!-- Back Patti Custom Text -->
+          <div class="form-group">
+            <label>पीछे की पट्टी पर नाम (हिन्दी में)</label>
+            <input type="text" id="backPattiHi" value="भारतीय विशिष्ट पहचान प्राधिकरण" readonly>
+          </div>
+          <div class="form-group">
+            <label>पीछे की पट्टी पर नाम (English में)</label>
+            <input type="text" id="backPattiEn" value="Unique Identification Authority of India" readonly>
+          </div>
+
+          <!-- Applicant Details -->
+          <div class="form-group">
+            <label>Full Name (English में लिखें)</label>
+            <input type="text" id="nameEn" placeholder="Ex: Kumar" oninput="autoTranslate(this.value, 'nameHi', false)" required>
+            <span class="hint-text">English में लिखने पर हिन्दी नाम अपने आप भरेगा</span>
+          </div>
+          <div class="form-group">
+            <label>पूरा नाम (हिन्दी में - Auto Filled)</label>
+            <input type="text" id="nameHi" placeholder="उदा: कुमार" required>
+          </div>
+
+          <!-- Mandatory Mobile Number for Online Sync & Card Download -->
+          <div class="form-group full-width">
+            <label>मोबाइल नंबर (Mobile Number - 10 Digits Mandatory) *</label>
+            <input type="tel" id="mobileInput" placeholder="Ex: 9876543210" maxlength="10" pattern="[0-9]{10}" oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)" required>
+            <span class="hint-text">ऑफिसर द्वारा वेरिफाई करने के बाद इसी मोबाइल नंबर से आप अपना कार्ड डाउनलोड कर सकेंगे</span>
+          </div>
+
+          <!-- Relation Selection + Father/Husband/Mother/Guardian Name -->
+          <div class="form-group full-width">
+            <label>संबंध चुनें (Select Relation - Son / Wife / Daughter / Mother / Guardian)</label>
+            <select id="relationType" required>
+              <option value="आत्मज|S/O" selected>Son (आत्मज / S/O)</option>
+              <option value="पत्नी|W/O">Wife (पत्नी / W/O)</option>
+              <option value="आत्मजा|D/O">Daughter (आत्मजा / D/O)</option>
+              <option value="माता|M/O">Mother (माता / M/O)</option>
+              <option value="अभिभावक|C/O">Guardian (अभिभावक / C/O)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Father / Husband / Mother / Guardian Name (English में)</label>
+            <input type="text" id="fatherEn" placeholder="Ex: Ram Prasad" oninput="autoTranslate(this.value, 'fatherHi', false)" required>
+          </div>
+          <div class="form-group">
+            <label>पिता / पति / माता / अभिभावक का नाम (हिन्दी में - Auto Filled)</label>
+            <input type="text" id="fatherHi" placeholder="उदा: राम प्रसाद" required>
+          </div>
+
+          <div class="form-group">
+            <label>Date of Birth (जन्म तिथि)</label>
+            <input type="date" id="dobInput" required>
+          </div>
+          <div class="form-group">
+            <label>Gender (लिंग)</label>
+            <select id="genderInput" required>
+              <option value="पुरुष / MALE" selected>पुरुष / MALE</option>
+              <option value="महिला / FEMALE">महिला / FEMALE</option>
+              <option value="अन्य / OTHER">अन्य / OTHER</option>
+            </select>
+          </div>
+
+          <div class="form-group full-width">
+            <label>Full Address (English में लिखें)</label>
+            <textarea id="addrEn" rows="2" placeholder="Enter your address" oninput="autoTranslate(this.value, 'addrHi', true)" required></textarea>
+            <span class="hint-text">पता English में लिखने पर नीचे हिन्दी में अपने आप अनुवाद हो जाएगा</span>
+          </div>
+
+          <div class="form-group full-width">
+            <label>पूरा पता (हिन्दी में - Auto Filled)</label>
+            <textarea id="addrHi" rows="2" placeholder="अपना पूरा पता लिखें" required></textarea>
+          </div>
+
+          <div class="form-group full-width">
+            <label>पासपोर्ट साइज फोटो अपलोड करें (Upload Photo)</label>
+            <input type="file" id="photoInput" accept="image/*" required>
+          </div>
+        </div>
+
+        <button type="submit" id="submitBtn" class="btn-submit">आवेदन सबमिट करें (Submit Application)</button>
+      </form>
+
+      <div id="applicantAlert" class="status-alert"></div>
+    </div>
+
+    <!-- ================= 2. OFFICER LOGIN & VERIFICATION PANEL ================= -->
+    <div id="officerPanel" class="panel">
+      <div class="panel-title">स्टेप 2: ऑफिसर लॉगिन एवं वेरिफिकेशन (Officer Verification)</div>
+
+      <!-- Officer Login Section -->
+      <div id="officerLoginBox" class="login-box">
+        <h3 style="margin-bottom:12px; font-size:16px; color:#1e293b;">Officer Login Required</h3>
+        <div class="form-group" style="margin-bottom:10px;">
+          <label>Officer User ID</label>
+          <input type="text" id="loginUserId" placeholder="Enter Officer User ID">
+        </div>
+        <div class="form-group" style="margin-bottom:12px;">
+          <label>Password</label>
+          <input type="password" id="loginPassword" placeholder="Enter Password">
+        </div>
+        <button type="button" class="btn-submit" style="margin-top:5px;" onclick="officerLogin()">Login to Officer Panel</button>
+        <div id="loginError" class="status-alert error" style="display:none;">गलत User ID या Password!</div>
+      </div>
+
+      <!-- Officer Dashboard (Hidden until login) -->
+      <div id="officerDashboard" style="display:none;">
+
+        <!-- Pending Applications List -->
+        <div class="app-list-section">
+          <div class="app-list-title">
+            <span>⏳ पेंडिंग आवेदन (Pending Applications: <span id="pendingCount">0</span>)</span>
+            <button type="button" onclick="fetchAllApplicationsFromCloud()" style="background:#334155;color:#fff;border:none;padding:4px 10px;border-radius:4px;font-size:12px;cursor:pointer;">🔄 Refresh List</button>
+          </div>
+          <div id="noAppMsg" class="status-alert warning" style="display:block; margin-top:5px;">
+            अभी कोई पेंडिंग आवेदन नहीं है।
+          </div>
+          <div id="pendingListContainer" class="app-list-grid"></div>
+        </div>
+
+        <!-- Selected Application Review & Verify Box -->
+        <div id="officerReviewBox" class="officer-card" style="display:none;">
+          <div class="officer-preview-row">
+            <img id="offPhotoPreview" src="" alt="Applicant Photo">
+            <div>
+              <p><strong>मोबाइल नंबर (Mobile):</strong> <span id="offMobile" style="color:#0f172a;font-weight:700;"></span></p>
+              <p><strong>नाम (Hindi / English):</strong> <span id="offName"></span></p>
+              <p><strong>संबंध एवं नाम:</strong> <span id="offFather"></span></p>
+              <p><strong>जन्म तिथि एवं लिंग:</strong> <span id="offDobGender"></span></p>
+              <p><strong>पता (Hindi):</strong> <span id="offAddrHi"></span></p>
+              <p><strong>Address (English):</strong> <span id="offAddrEn"></span></p>
+              <p><strong>स्थिति:</strong> <span id="offStatusBadge" style="color:#d97706;font-weight:700;">Pending Officer Verification</span></p>
+            </div>
+          </div>
+
+          <div class="verify-controls">
+            <div class="form-group" style="flex:1; min-width:210px;">
+              <label>Unique ID (फिक्स 12 अंक, 4 के बाद 2 स्पेस ऑटो):</label>
+              <input type="text" id="officerUniqueId" placeholder="0000  0000  0000" maxlength="16" oninput="formatUniqueIdInput(this)" required>
+            </div>
+            <div class="form-group" style="flex:1; min-width:210px;">
+              <label>VID (Optional - खाली छोड़ने पर VID व लाइन नहीं दिखेगी):</label>
+              <input type="text" id="officerVid" placeholder="0000 0000 0000 0000" maxlength="19" oninput="formatVidInput(this)">
+            </div>
+            <div class="form-group" style="flex:1; min-width:160px;">
+              <label>Issue Date (Optional):</label>
+              <input type="text" id="officerIssueDate" placeholder="Ex: 01/01/2000">
+            </div>
+            <div class="form-group" style="flex:1; min-width:160px;">
+              <label>Print Date (Optional):</label>
+              <input type="text" id="officerPrintDate" placeholder="Ex: 01/01/2000">
+            </div>
+            <button type="button" id="verifyBtn" class="btn-submit" style="width:100%; margin-top:6px;" onclick="verifyAndGenerateCard()">
+              Verify & Generate ID Card
+            </button>
+          </div>
+        </div>
+
+        <!-- Verified Applications Permanent List -->
+        <div class="app-list-section" style="margin-top:20px;">
+          <div class="app-list-title">
+            <span>✅ वेरिफाइड कार्ड्स (Permanent Verified Cards: <span id="verifiedCount">0</span>)</span>
+          </div>
+          <div id="verifiedListContainer" class="app-list-grid"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ================= 3. GENERATED ID CARD PANEL ================= -->
+    <div id="cardPanel" class="panel">
+      <div class="panel-title">स्टेप 3: वेरिफाइड आईडी कार्ड (Verified ID Card)</div>
+
+      <!-- Applicant Mobile Number Search Box -->
+      <div class="search-card-box">
+        <label style="font-size:13px; font-weight:700; color:#1e293b;">अपना वेरिफाइड कार्ड डाउनलोड करने के लिए मोबाइल नंबर डालें:</label>
+        <div class="search-row">
+          <input type="tel" id="searchMobileInput" placeholder="10 अंकों का मोबाइल नंबर दर्ज करें" maxlength="10" oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)">
+          <button type="button" onclick="searchCardByMobile()">कार्ड खोजें (Search Card)</button>
+        </div>
+      </div>
+
+      <div id="lockedCardMsg" class="status-alert warning" style="display:block;">
+        ऊपर अपना 10 अंकों का मोबाइल नंबर डालकर 'कार्ड खोजें' पर क्लिक करें। (जब तक ऑफिसर वेरिफिकेशन नहीं करेंगे, कार्ड डाउनलोड नहीं होगा)।
+      </div>
+
+      <div id="verifiedCardSection" style="display:none;">
+        <div class="cards-wrapper">
+
+          <!-- ================= FRONT SIDE CARD ================= -->
+          <div class="id-card">
+            <div class="card-header">
+              <!-- Top Left: Ashok Stambh -->
+              <div class="emblem-box">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg" alt="Emblem">
+              </div>
+
+              <!-- Center: Soft Light-Toned Brush Patti with Centered Text -->
+              <div class="brush-patti-box">
+                <!-- Soft Light Saffron Brush Strip -->
+                <div class="brush-strip">
+                  <svg class="brush-bg" viewBox="0 0 300 22" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="softSaffronF" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#f59342" stop-opacity="0.72"/>
+                        <stop offset="55%" stop-color="#f7a663" stop-opacity="0.65"/>
+                        <stop offset="85%" stop-color="#facea5" stop-opacity="0.4"/>
+                        <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+                      </linearGradient>
+                    </defs>
+                    <path d="M6,4 C2,4 0,8 1,12 C2,16 5,19 14,19 C65,20 135,19 195,17 C218,16 238,14 252,12 C238,11 232,9 258,8 C232,5 195,3 145,3 C85,3 30,4 6,4 Z" fill="url(#softSaffronF)"/>
+                    <path d="M235,15 C248,15 258,14 266,13 C256,12 245,13 235,15 Z" fill="#f59342" opacity="0.45"/>
+                  </svg>
+                  <span class="patti-text-hi front-patti-hi" id="cardFrontPattiHi">भारत सरकार</span>
+                </div>
+
+                <!-- Soft Light Green Brush Strip -->
+                <div class="brush-strip" style="margin-top:1px;">
+                  <svg class="brush-bg" viewBox="0 0 300 22" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="softGreenF" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#68b85d" stop-opacity="0.72"/>
+                        <stop offset="60%" stop-color="#82c678" stop-opacity="0.65"/>
+                        <stop offset="88%" stop-color="#bce2b6" stop-opacity="0.38"/>
+                        <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+                      </linearGradient>
+                    </defs>
+                    <path d="M7,3 C2,3 0,7 1,12 C2,16 6,19 16,19 C75,20 155,19 220,17 C245,16 268,14 282,12 C268,10 262,9 288,7 C262,4 220,3 165,3 C95,2 35,3 7,3 Z" fill="url(#softGreenF)"/>
+                    <path d="M265,15 C276,15 285,14 293,13 C284,12 274,13 265,15 Z" fill="#68b85d" opacity="0.45"/>
+                  </svg>
+                  <span class="patti-text-en front-patti-en" id="cardFrontPattiEn">Government of India</span>
+                </div>
+              </div>
+
+              <!-- Top Right: Exact Original Aadhaar Logo -->
+              <div class="aadhaar-logo-box">
+                <img src="https://upload.wikimedia.org/wikipedia/en/c/cf/Aadhaar_Logo.svg" alt="Aadhaar Logo">
+              </div>
+            </div>
+
+            <!-- Front Body -->
+            <div class="front-body">
+              <!-- Vertical Issue Date Left of Photo -->
+              <div class="vertical-issue-box">
+                <div class="vertical-issue-text" id="cardIssueDate"></div>
+              </div>
+
+              <div class="applicant-photo">
+                <img id="cardPhoto" src="" alt="Photo">
+              </div>
+
+              <div class="front-details">
+                <div class="f-name-hi" id="cardNameHi">नाम</div>
+                <div class="f-name-en" id="cardNameEn">Name</div>
+                <div class="f-row">जन्म तिथि/DOB: <span id="cardDob">DD/MM/YYYY</span></div>
+                <div class="f-row" id="cardGender">पुरुष/ MALE</div>
+              </div>
+
+              <!-- QR Positioned Lower on Right Side just above Unique ID -->
+              <div class="front-qr-col">
+                <div class="front-qr-box">
+                  <canvas id="frontQrCanvas" width="186" height="186"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- Front Footer: Unique ID + Optional Thin Line & VID -->
+            <div class="card-footer">
+              <div class="uid-vid-block">
+                <div class="unique-id-num" id="cardUniqueIdFront">[Aadhaar Redacted]</div>
+                <div class="uid-thin-line" id="cardThinLineFront"></div>
+                <div class="vid-num-row" id="cardVidFront"></div>
+              </div>
+              <div class="red-divider"></div>
+              <div class="front-tagline">मेरा <span>आधार</span>, मेरी पहचान</div>
+            </div>
+          </div>
+
+
+          <!-- ================= BACK SIDE CARD ================= -->
+          <div class="id-card">
+            <div class="card-header">
+              <!-- Back Top Left: Ashok Stambh -->
+              <div class="emblem-box">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg" alt="Emblem">
+              </div>
+
+              <!-- Back Center: Soft Light-Toned Brush Patti with Centered Text -->
+              <div class="brush-patti-box">
+                <div class="brush-strip">
+                  <svg class="brush-bg" viewBox="0 0 300 22" preserveAspectRatio="none">
+                    <path d="M6,4 C2,4 0,8 1,12 C2,16 5,19 14,19 C65,20 135,19 195,17 C218,16 238,14 252,12 C238,11 232,9 258,8 C232,5 195,3 145,3 C85,3 30,4 6,4 Z" fill="url(#softSaffronF)"/>
+                    <path d="M235,15 C248,15 258,14 266,13 C256,12 245,13 235,15 Z" fill="#f59342" opacity="0.45"/>
+                  </svg>
+                  <span class="patti-text-hi back-patti-hi" id="cardBackPattiHi">भारतीय विशिष्ट पहचान प्राधिकरण</span>
+                </div>
+
+                <div class="brush-strip" style="margin-top:1px;">
+                  <svg class="brush-bg" viewBox="0 0 300 22" preserveAspectRatio="none">
+                    <path d="M7,3 C2,3 0,7 1,12 C2,16 6,19 16,19 C75,20 155,19 220,17 C245,16 268,14 282,12 C268,10 262,9 288,7 C262,4 220,3 165,3 C95,2 35,3 7,3 Z" fill="url(#softGreenF)"/>
+                    <path d="M265,15 C276,15 285,14 293,13 C284,12 274,13 265,15 Z" fill="#68b85d" opacity="0.45"/>
+                  </svg>
+                  <span class="patti-text-en back-patti-en" id="cardBackPattiEn">Unique Identification Authority of India</span>
+                </div>
+              </div>
+
+              <!-- Back Top Right: Exact Original Aadhaar Logo -->
+              <div class="aadhaar-logo-box">
+                <img src="https://upload.wikimedia.org/wikipedia/en/c/cf/Aadhaar_Logo.svg" alt="Aadhaar Logo">
+              </div>
+            </div>
+
+            <!-- Back Body -->
+            <div class="back-body">
+              <!-- Vertical Print Date on Back Left -->
+              <div class="vertical-print-box">
+                <div class="vertical-print-text" id="cardPrintDate"></div>
+              </div>
+
+              <div class="back-address">
+                <div class="addr-block-hi">
+                  <div class="addr-label">पता:</div>
+                  <div><span id="cardRelHi">आत्मज</span>: <span id="cardFatherHi"></span>, <span id="cardAddrHi"></span></div>
+                </div>
+                <div class="addr-block-en">
+                  <div class="addr-label">Address:</div>
+                  <div><span id="cardRelEn">S/O</span>: <span id="cardFatherEn"></span>, <span id="cardAddrEn"></span></div>
+                </div>
+              </div>
+
+              <!-- Back Right: Enlarged Ultra-Hard Complex QR -->
+              <div class="back-qr-col">
+                <div class="back-qr-box">
+                  <canvas id="backQrCanvas" width="279" height="279"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- Back Footer: Unique ID + Optional Thin Line & VID -->
+            <div class="card-footer">
+              <div class="uid-vid-block">
+                <div class="unique-id-num" id="cardUniqueIdBack">[Aadhaar Redacted]</div>
+                <div class="uid-thin-line" id="cardThinLineBack"></div>
+                <div class="vid-num-row" id="cardVidBack"></div>
+              </div>
+              <div class="red-divider"></div>
+
+              <!-- Back Bottom Bar: Landline Telephone 1947 | Light Message Envelope help@uidai.gov.in | Grid Globe www.uidai.gov.in -->
+              <div class="back-contact-bar">
+                <!-- 1. Classic Landline Telephone Icon + 1947 -->
+                <div class="contact-item">
+                  <svg viewBox="0 0 24 24" fill="#111">
+                    <path d="M4 6c0-1.1 3.6-2 8-2s8 .9 8 2v2c0 .6-.4 1-1 1h-2c-.6 0-1-.4-1-1V6.8c-1.2-.3-2.6-.5-4-.5s-2.8.2-4 .5V8c0 .6-.4 1-1 1H5c-.6 0-1-.4-1-1V6zm3 4h10l3 8v2H4v-2l3-8zm5 2a3 3 0 100 6 3 3 0 000-6z"/>
+                  </svg>
+                  <span>1947</span>
+                </div>
+
+                <!-- 2. Light (Thin Outline) Message Envelope Icon + help@uidai.gov.in -->
+                <div class="contact-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.4">
+                    <rect x="2" y="4" width="20" height="16" rx="1.5"/>
+                    <polyline points="2.5,4.5 12,13 21.5,4.5"/>
+                    <line x1="2.5" y1="19.5" x2="9" y2="12"/>
+                    <line x1="21.5" y1="19.5" x2="15" y2="12"/>
+                  </svg>
+                  <span>help@uidai.gov.in</span>
+                </div>
+
+                <!-- 3. Web Globe with Grid + www.uidai.gov.in -->
+                <div class="contact-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.3">
+                    <circle cx="12" cy="12" r="9.5"/>
+                    <ellipse cx="12" cy="12" rx="4.5" ry="9.5"/>
+                    <line x1="2.5" y1="12" x2="21.5" y2="12"/>
+                    <line x1="4" y1="7.5" x2="20" y2="7.5"/>
+                    <line x1="4" y1="16.5" x2="20" y2="16.5"/>
+                    <line x1="12" y1="2.5" x2="12" y2="21.5"/>
+                  </svg>
+                  <span>www.uidai.gov.in</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="print-btn-bar">
+          <button class="btn-print" onclick="window.print()">प्रिंट करें / PDF सेव करें (Print ID Card)</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+<script>
+  // ================= MULTI-DEVICE CLOUD DATABASE CONFIG =================
+  // Primary Cloud Realtime DB + Secondary Cloud Backup + LocalStorage Fallback
+  const CLOUD_DB_URL = "https://mission-school-id-portal-default-rtdb.firebaseio.com/applications";
+  const BACKUP_CLOUD_API = "https://jsonblob.com/api/jsonBlob/1344348905246261248";
+
+  let allApplicationsMap = {}; // Keyed by 10-digit mobile number
+  let applicationData = null;  // Currently selected application by Officer
+  let uploadedPhotoDataUrl = "";
+  let isOfficerLoggedIn = false;
+
+  // Compress photo automatically so cross-device sync is fast and never exceeds cloud limits
+  document.getElementById('photoInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const MAX_W = 280;
+          const MAX_H = 360;
+          let w = img.width;
+          let h = img.height;
+          if (w > MAX_W || h > MAX_H) {
+            const ratio = Math.min(MAX_W / w, MAX_H / h);
+            w = Math.round(w * ratio);
+            h = Math.round(h * ratio);
+          }
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          uploadedPhotoDataUrl = canvas.toDataURL('image/jpeg', 0.82);
+        };
+        img.src = evt.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Save single application to Cloud + LocalStorage
+  async function saveApplicationToCloud(mobile, appObj) {
+    allApplicationsMap[mobile] = appObj;
+    try {
+      localStorage.setItem('ms_portal_apps_v1', JSON.stringify(allApplicationsMap));
+    } catch (e) {}
+
+    // 1. Try Firebase Realtime REST Endpoint
+    try {
+      const res = await fetch(`${CLOUD_DB_URL}/${mobile}.json`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(appObj)
+      });
+      if (res.ok) return true;
+    } catch (err) {}
+
+    // 2. Fallback to Secondary Cloud JSON Store if needed
+    try {
+      const getRes = await fetch(BACKUP_CLOUD_API);
+      let currentCloud = {};
+      if (getRes.ok) {
+        currentCloud = await getRes.json() || {};
+      }
+      currentCloud[mobile] = appObj;
+      await fetch(BACKUP_CLOUD_API, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(currentCloud)
+      });
+    } catch (err2) {}
+
+    return true;
+  }
+
+  // Fetch all applications from Cloud + LocalStorage
+  async function fetchAllApplicationsFromCloud() {
+    let merged = {};
+
+    // Read local cache first
+    try {
+      const localRaw = localStorage.getItem('ms_portal_apps_v1');
+      if (localRaw) merged = JSON.parse(localRaw) || {};
+    } catch (e) {}
+
+    // 1. Read from Primary Cloud DB
+    let cloudLoaded = false;
+    try {
+      const res = await fetch(`${CLOUD_DB_URL}.json`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && typeof data === 'object') {
+          merged = { ...merged, ...data };
+          cloudLoaded = true;
+        }
+      }
+    } catch (err) {}
+
+    // 2. Read from Secondary Cloud DB if Primary wasn't reachable
+    if (!cloudLoaded) {
+      try {
+        const res2 = await fetch(BACKUP_CLOUD_API);
+        if (res2.ok) {
+          const data2 = await res2.json();
+          if (data2 && typeof data2 === 'object') {
+            merged = { ...merged, ...data2 };
+          }
+        }
+      } catch (err2) {}
+    }
+
+    allApplicationsMap = merged;
+    try {
+      localStorage.setItem('ms_portal_apps_v1', JSON.stringify(allApplicationsMap));
+    } catch (e) {}
+
+    if (isOfficerLoggedIn) {
+      renderOfficerApplicationLists();
+    }
+    return allApplicationsMap;
+  }
+
+  // Tab Switching
+  function switchTab(panelId, btnElement) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(panelId).classList.add('active');
+    if (btnElement) btnElement.classList.add('active');
+
+    if (panelId === 'officerPanel' && isOfficerLoggedIn) {
+      fetchAllApplicationsFromCloud();
+    }
+  }
+
+  // Officer Login Check (User ID: 821337, Password: 913510)
+  function officerLogin() {
+    const uid = document.getElementById('loginUserId').value.trim();
+    const pwd = document.getElementById('loginPassword').value.trim();
+    const errBox = document.getElementById('loginError');
+
+    if (uid === "821337" && pwd === "913510") {
+      isOfficerLoggedIn = true;
+      errBox.style.display = "none";
+      document.getElementById('officerLoginBox').style.display = "none";
+      document.getElementById('officerDashboard').style.display = "block";
+      fetchAllApplicationsFromCloud();
+    } else {
+      errBox.style.display = "block";
+    }
+  }
+
+  // Render Pending & Verified Lists in Officer Panel
+  function renderOfficerApplicationLists() {
+    const pendingContainer = document.getElementById('pendingListContainer');
+    const verifiedContainer = document.getElementById('verifiedListContainer');
+    const noAppMsg = document.getElementById('noAppMsg');
+
+    pendingContainer.innerHTML = "";
+    verifiedContainer.innerHTML = "";
+
+    const apps = Object.values(allApplicationsMap).sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+    const pendingApps = apps.filter(a => !a.verified);
+    const verifiedApps = apps.filter(a => a.verified);
+
+    document.getElementById('pendingCount').textContent = pendingApps.length;
+    document.getElementById('verifiedCount').textContent = verifiedApps.length;
+
+    noAppMsg.style.display = pendingApps.length === 0 ? "block" : "none";
+
+    pendingApps.forEach(app => {
+      const div = document.createElement('div');
+      div.className = "app-list-item" + (applicationData && applicationData.mobile === app.mobile ? " selected" : "");
+      div.onclick = () => selectApplicationForReview(app.mobile);
+      div.innerHTML = `
+        <img src="${app.photo}" alt="Photo">
+        <div class="app-list-info">
+          <strong>${app.nameHi} / ${app.nameEn}</strong>
+          <div>📱 ${app.mobile}</div>
+          <div>जन्म: ${app.dob}</div>
+          <div style="color:#d97706;font-weight:700;">Pending Verify</div>
+        </div>
+      `;
+      pendingContainer.appendChild(div);
+    });
+
+    verifiedApps.forEach(app => {
+      const div = document.createElement('div');
+      div.className = "app-list-item" + (applicationData && applicationData.mobile === app.mobile ? " selected" : "");
+      div.onclick = () => selectApplicationForReview(app.mobile);
+      div.innerHTML = `
+        <img src="${app.photo}" alt="Photo">
+        <div class="app-list-info">
+          <strong>${app.nameHi} / ${app.nameEn}</strong>
+          <div>📱 ${app.mobile}</div>
+          <div>ID: ${app.uniqueId}</div>
+          <div style="color:#16a34a;font-weight:700;">✅ Verified (View/Edit)</div>
+        </div>
+      `;
+      verifiedContainer.appendChild(div);
+    });
+  }
+
+  // When Officer clicks any Pending or Verified item
+  function selectApplicationForReview(mobile) {
+    const app = allApplicationsMap[mobile];
+    if (!app) return;
+    applicationData = app;
+
+    document.getElementById('officerReviewBox').style.display = 'block';
+    document.getElementById('offPhotoPreview').src = app.photo;
+    document.getElementById('offMobile').textContent = app.mobile;
+    document.getElementById('offName').textContent = `${app.nameHi} / ${app.nameEn}`;
+    document.getElementById('offFather').textContent = `${app.relHi}: ${app.fatherHi} / ${app.relEn}: ${app.fatherEn}`;
+    document.getElementById('offDobGender').textContent = `${app.dob} (${app.gender})`;
+    document.getElementById('offAddrHi').textContent = app.addrHi;
+    document.getElementById('offAddrEn').textContent = app.addrEn;
+
+    document.getElementById('officerUniqueId').value = app.uniqueId || "";
+    document.getElementById('officerVid').value = app.vid || "";
+    document.getElementById('officerIssueDate').value = app.issueDate || "";
+    document.getElementById('officerPrintDate').value = app.printDate || "";
+
+    if (app.verified) {
+      document.getElementById('offStatusBadge').textContent = "Verified & Card Generated";
+      document.getElementById('offStatusBadge').style.color = "#16a34a";
+      renderCardToDOM(app);
+    } else {
+      document.getElementById('offStatusBadge').textContent = "Pending Officer Verification";
+      document.getElementById('offStatusBadge').style.color = "#d97706";
+    }
+
+    renderOfficerApplicationLists();
+  }
+
+  // Auto-format Unique ID: Exact 12 digits with TWO spaces after every 4 digits (XXXX  XXXX  XXXX)
+  function formatUniqueIdInput(inputEl) {
+    const digits = inputEl.value.replace(/\D/g, '').slice(0, 12);
+    const parts = [];
+    for (let i = 0; i < digits.length; i += 4) {
+      parts.push(digits.slice(i, i + 4));
+    }
+    inputEl.value = parts.join('  ');
+  }
+
+  // Auto-format VID: 16 digits with 1 space after every 4 digits (0000 0000 0000 0000)
+  function formatVidInput(inputEl) {
+    const digits = inputEl.value.replace(/\D/g, '').slice(0, 16);
+    const parts = [];
+    for (let i = 0; i < digits.length; i += 4) {
+      parts.push(digits.slice(i, i + 4));
+    }
+    inputEl.value = parts.join(' ');
+  }
+
+  // Address Dictionary Replacement + Number Preservation + Hindi Transliteration
+  let debounceTimer;
+  function autoTranslate(text, targetFieldId, isAddress = false) {
+    clearTimeout(debounceTimer);
+    const targetEl = document.getElementById(targetFieldId);
+    if (!text.trim()) {
+      targetEl.value = "";
+      return;
+    }
+
+    debounceTimer = setTimeout(async () => {
+      let processedText = text;
+
+      if (isAddress) {
+        const addressRules = [
+          { regex: /\bpolice\s+station\b/gi, hi: "थाना" },
+          { regex: /\bp\.?\s*s\.?\b/gi, hi: "थाना" },
+          { regex: /\bpost\s+office\b/gi, hi: "पोस्ट ऑफिस" },
+          { regex: /\bp\.?\s*o\.?\b/gi, hi: "पोस्ट" },
+          { regex: /\bpost\b/gi, hi: "पोस्ट" },
+          { regex: /\bvill(?:age)?\.?\b/gi, hi: "ग्राम" },
+          { regex: /\bdist(?:rict)?\.?\b/gi, hi: "जिला" },
+          { regex: /\bward\s+no\.?\b/gi, hi: "वार्ड संख्या" },
+          { regex: /\bward\b/gi, hi: "वार्ड" },
+          { regex: /\bhouse\s+no\.?\b/gi, hi: "मकान संख्या" },
+          { regex: /\bh\.?\s*no\.?\b/gi, hi: "मकान संख्या" },
+          { regex: /\bblock\b/gi, hi: "प्रखंड" },
+          { regex: /\btehsil\b/gi, hi: "तहसील" },
+          { regex: /\bnear\b/gi, hi: "नजदीक" },
+          { regex: /\broad\b/gi, hi: "रोड" },
+          { regex: /\bnagar\b/gi, hi: "नगर" },
+          { regex: /\bcolony\b/gi, hi: "कॉलोनी" },
+          { regex: /\bstate\b/gi, hi: "राज्य" },
+          { regex: /\bpin\s*code\b/gi, hi: "पिन कोड" },
+          { regex: /\bpin\b/gi, hi: "पिन" }
+        ];
+
+        for (const rule of addressRules) {
+          processedText = processedText.replace(rule.regex, rule.hi);
+        }
+      }
+
+      const tokens = processedText.split(/(\s+|[,.\-\/():]+)/);
+      const translatedTokens = await Promise.all(tokens.map(async (tok) => {
+        if (!tok || /^(\s+|[,.\-\/():]+)$/.test(tok)) return tok;
+        if (/^\d+$/.test(tok)) return tok;
+        if (/[\u0900-\u097F]/.test(tok)) return tok;
+
+        try {
+          const url = `https://inputtools.google.com/request?text=${encodeURIComponent(tok)}&itc=hi-t-i0-und&num=1&cp=0&cs=1&ie=utf-8&oe=utf-8`;
+          const response = await fetch(url);
+          const data = await response.json();
+          if (data && data[0] === "SUCCESS" && data[1] && data[1][0] && data[1][0][1]) {
+            return data[1][0][1][0];
+          }
+        } catch (err) {}
+        return fallbackPhoneticHindi(tok);
+      }));
+
+      targetEl.value = translatedTokens.join('');
+    }, 250);
+  }
+
+  function fallbackPhoneticHindi(str) {
+    const map = {
+      'a':'अ','b':'ब','c':'क','d':'द','e':'ए','f':'फ','g':'ग','h':'ह',
+      'i':'इ','j':'ज','k':'क','l':'ल','m':'म','n':'न','o':'ओ','p':'प',
+      'q':'क','r':'र','s':'स','t':'त','u':'उ','v':'व','w':'व','x':'क्स',
+      'y':'य','z':'ज़',' ':' ',',':',','-':'-'
+    };
+    return str.toLowerCase().split('').map(ch => map[ch] || ch).join('');
+  }
+
+  // Step 1: Applicant Form Submit (Saves Online so Officer sees it from ANY device)
+  async function submitApplication(e) {
+    e.preventDefault();
+    const mobileVal = document.getElementById('mobileInput').value.replace(/\D/g, '');
+    if (mobileVal.length !== 10) {
+      alert("कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें!");
+      return;
+    }
+
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = "सबमिट हो रहा है... कृपया प्रतीक्षा करें";
+
+    const rawDob = document.getElementById('dobInput').value;
+    const parts = rawDob.split('-');
+    const formattedDob = parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : rawDob;
+
+    const relParts = document.getElementById('relationType').value.split('|');
+    const relHi = relParts[0] || "आत्मज";
+    const relEn = relParts[1] || "S/O";
+
+    const newApp = {
+      mobile: mobileVal,
+      timestamp: Date.now(),
+      frontPattiHi: document.getElementById('frontPattiHi').value,
+      frontPattiEn: document.getElementById('frontPattiEn').value,
+      backPattiHi: document.getElementById('backPattiHi').value,
+      backPattiEn: document.getElementById('backPattiEn').value,
+      nameEn: document.getElementById('nameEn').value,
+      nameHi: document.getElementById('nameHi').value,
+      relHi: relHi,
+      relEn: relEn,
+      fatherEn: document.getElementById('fatherEn').value,
+      fatherHi: document.getElementById('fatherHi').value,
+      dob: formattedDob,
+      gender: document.getElementById('genderInput').value,
+      addrEn: document.getElementById('addrEn').value,
+      addrHi: document.getElementById('addrHi').value,
+      photo: uploadedPhotoDataUrl || "https://via.placeholder.com/70x90.png?text=PHOTO",
+      verified: false,
+      uniqueId: "",
+      vid: "",
+      issueDate: "",
+      printDate: ""
+    };
+
+    await saveApplicationToCloud(mobileVal, newApp);
+    applicationData = newApp;
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = "आवेदन सबमिट करें (Submit Application)";
+
+    const alertBox = document.getElementById('applicantAlert');
+    alertBox.className = "status-alert success";
+    alertBox.textContent = `आपका आवेदन मोबाइल नंबर (${mobileVal}) के साथ ऑनलाइन सबमिट हो गया है! ऑफिसर द्वारा वेरिफाई करने के बाद आप '3. Generated ID Card' में जाकर अपना मोबाइल नंबर डालकर कार्ड डाउनलोड कर सकते हैं।`;
+  }
+
+  // Step 2: Officer Verification & Card Generation (Updates Cloud Permanently)
+  async function verifyAndGenerateCard() {
+    if (!isOfficerLoggedIn) {
+      alert("कृपया पहले ऑफिसर लॉगिन करें!");
+      return;
+    }
+    if (!applicationData) {
+      alert("कृपया पहले ऊपर पेंडिंग लिस्ट से किसी आवेदन पर क्लिक करके चुनें!");
+      return;
+    }
+
+    const rawUniqueDigits = document.getElementById('officerUniqueId').value.replace(/\D/g, '');
+    if (rawUniqueDigits.length !== 12) {
+      alert("Unique ID ठीक 12 अंकों का होना चाहिए (न 12 से कम, न 12 से ज्यादा)!");
+      return;
+    }
+
+    const formattedUniqueId = `${rawUniqueDigits.slice(0, 4)}  ${rawUniqueDigits.slice(4, 8)}  ${rawUniqueDigits.slice(8, 12)}`;
+
+    const rawVidDigits = document.getElementById('officerVid').value.replace(/\D/g, '');
+    let formattedVid = "";
+    if (rawVidDigits.length === 16) {
+      formattedVid = `${rawVidDigits.slice(0, 4)} ${rawVidDigits.slice(4, 8)} ${rawVidDigits.slice(8, 12)} ${rawVidDigits.slice(12, 16)}`;
+    } else if (rawVidDigits.length > 0 && rawVidDigits.length !== 16) {
+      alert("यदि आप VID नंबर डाल रहे हैं तो वह पूरे 16 अंकों का होना चाहिए, या फिर यदि VID नहीं जोड़ना चाहते तो इसे पूरा खाली छोड़ दें!");
+      return;
+    }
+
+    const issueDateVal = document.getElementById('officerIssueDate').value.trim();
+    const printDateVal = document.getElementById('officerPrintDate').value.trim();
+
+    const verifyBtn = document.getElementById('verifyBtn');
+    verifyBtn.disabled = true;
+    verifyBtn.textContent = "वेरिफाई और सेव हो रहा है...";
+
+    applicationData.uniqueId = formattedUniqueId;
+    applicationData.vid = formattedVid;
+    applicationData.issueDate = issueDateVal;
+    applicationData.printDate = printDateVal;
+    applicationData.verified = true;
+
+    await saveApplicationToCloud(applicationData.mobile, applicationData);
+
+    verifyBtn.disabled = false;
+    verifyBtn.textContent = "Verify & Generate ID Card";
+
+    document.getElementById('offStatusBadge').textContent = "Verified & Card Generated";
+    document.getElementById('offStatusBadge').style.color = "#16a34a";
+
+    renderOfficerApplicationLists();
+    renderCardToDOM(applicationData);
+
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    switchTab('cardPanel', tabBtns[2]);
+  }
+
+  // Step 3: Applicant Searches & Downloads Verified Card by Mobile Number
+  async function searchCardByMobile() {
+    const mob = document.getElementById('searchMobileInput').value.replace(/\D/g, '');
+    const msgBox = document.getElementById('lockedCardMsg');
+    const cardSec = document.getElementById('verifiedCardSection');
+
+    if (mob.length !== 10) {
+      msgBox.className = "status-alert error";
+      msgBox.style.display = "block";
+      msgBox.textContent = "कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें!";
+      cardSec.style.display = "none";
+      return;
+    }
+
+    msgBox.className = "status-alert warning";
+    msgBox.style.display = "block";
+    msgBox.textContent = "आपका कार्ड ऑनलाइन खोजा जा रहा है... कृपया प्रतीक्षा करें।";
+    cardSec.style.display = "none";
+
+    await fetchAllApplicationsFromCloud();
+    const foundApp = allApplicationsMap[mob];
+
+    if (!foundApp) {
+      msgBox.className = "status-alert error";
+      msgBox.style.display = "block";
+      msgBox.textContent = "इस मोबाइल नंबर से कोई आवेदन नहीं मिला! कृपया पहले 'Applicant Form' में जाकर आवेदन करें।";
+      return;
+    }
+
+    if (!foundApp.verified) {
+      msgBox.className = "status-alert warning";
+      msgBox.style.display = "block";
+      msgBox.textContent = "आपका आवेदन प्राप्त हो चुका है, लेकिन अभी ऑफिसर द्वारा वेरिफिकेशन पेंडिंग (Pending) है। ऑफिसर के वेरिफाई करने के बाद यहाँ कार्ड डाउनलोड हो जाएगा।";
+      return;
+    }
+
+    renderCardToDOM(foundApp);
+  }
+
+  // Populate Card DOM Elements without 0% change to design
+  function renderCardToDOM(appData) {
+    document.getElementById('cardFrontPattiHi').textContent = appData.frontPattiHi;
+    document.getElementById('cardFrontPattiEn').textContent = appData.frontPattiEn;
+    document.getElementById('cardBackPattiHi').textContent = appData.backPattiHi;
+    document.getElementById('cardBackPattiEn').textContent = appData.backPattiEn;
+
+    document.getElementById('cardPhoto').src = appData.photo;
+    document.getElementById('cardNameHi').textContent = appData.nameHi;
+    document.getElementById('cardNameEn').textContent = appData.nameEn;
+    document.getElementById('cardDob').textContent = appData.dob;
+    document.getElementById('cardGender').textContent = appData.gender;
+
+    document.getElementById('cardRelHi').textContent = appData.relHi;
+    document.getElementById('cardRelEn').textContent = appData.relEn;
+    document.getElementById('cardFatherHi').textContent = appData.fatherHi;
+    document.getElementById('cardFatherEn').textContent = appData.fatherEn;
+    document.getElementById('cardAddrHi').textContent = appData.addrHi;
+    document.getElementById('cardAddrEn').textContent = appData.addrEn;
+
+    document.getElementById('cardIssueDate').textContent = appData.issueDate ? `Issue Date: ${appData.issueDate}` : "";
+    document.getElementById('cardPrintDate').textContent = appData.printDate ? `Print Date: ${appData.printDate}` : "";
+
+    document.getElementById('cardUniqueIdFront').textContent = appData.uniqueId;
+    document.getElementById('cardUniqueIdBack').textContent = appData.uniqueId;
+
+    const lineFront = document.getElementById('cardThinLineFront');
+    const lineBack = document.getElementById('cardThinLineBack');
+    const vidFront = document.getElementById('cardVidFront');
+    const vidBack = document.getElementById('cardVidBack');
+
+    if (appData.vid) {
+      lineFront.style.display = "block";
+      lineBack.style.display = "block";
+      vidFront.style.display = "block";
+      vidBack.style.display = "block";
+      vidFront.textContent = `VID : ${appData.vid}`;
+      vidBack.textContent = `VID : ${appData.vid}`;
+    } else {
+      lineFront.style.display = "none";
+      lineBack.style.display = "none";
+      vidFront.style.display = "none";
+      vidBack.style.display = "none";
+      vidFront.textContent = "";
+      vidBack.textContent = "";
+    }
+
+    const qrPayload = `${appData.uniqueId}|${appData.vid}|${appData.nameEn}|${appData.dob}|${appData.gender}|${appData.relEn}:${appData.fatherEn}|${appData.addrEn}`;
+    drawComplexQR('frontQrCanvas', qrPayload);
+    drawComplexQR('backQrCanvas', qrPayload + "|SECURE_XML_2048_BIT_SIGNATURE|VERIFIED|1947|help@uidai.gov.in|www.uidai.gov.in");
+
+    document.getElementById('lockedCardMsg').style.display = 'none';
+    document.getElementById('verifiedCardSection').style.display = 'block';
+  }
+
+  // Ultra-High-Density Hard QR Generator (93x93 Modules - Version 19 Official Dense Look)
+  function drawComplexQR(canvasId, seedString) {
+    const canvas = document.getElementById(canvasId);
+    const ctx = canvas.getContext('2d');
+    const modules = 93;
+    const size = canvas.width;
+    const cell = size / modules;
+
+    ctx.fillStyle = "#f9fafb";
+    ctx.fillRect(0, 0, size, size);
+    ctx.fillStyle = "#000000";
+
+    const reserved = Array.from({ length: modules }, () => Array(modules).fill(false));
+
+    function drawFinder(r0, c0) {
+      for (let r = -1; r <= 7; r++) {
+        for (let c = -1; c <= 7; c++) {
+          const rr = r0 + r, cc = c0 + c;
+          if (rr >= 0 && rr < modules && cc >= 0 && cc < modules) {
+            reserved[rr][cc] = true;
+            if (r >= 0 && r <= 6 && c >= 0 && c <= 6) {
+              if (r === 0 || r === 6 || c === 0 || c === 6 || (r >= 2 && r <= 4 && c >= 2 && c <= 4)) {
+                ctx.fillRect(Math.floor(cc * cell), Math.floor(rr * cell), Math.ceil(cell), Math.ceil(cell));
+              }
+            }
+          }
+        }
+      }
+    }
+
+    function drawAlignment(r0, c0) {
+      for (let r = -2; r <= 2; r++) {
+        for (let c = -2; c <= 2; c++) {
+          const rr = r0 + r, cc = c0 + c;
+          if (rr >= 0 && rr < modules && cc >= 0 && cc < modules && !reserved[rr][cc]) {
+            reserved[rr][cc] = true;
+            if (Math.abs(r) === 2 || Math.abs(c) === 2 || (r === 0 && c === 0)) {
+              ctx.fillRect(Math.floor(cc * cell), Math.floor(rr * cell), Math.ceil(cell), Math.ceil(cell));
+            }
+          }
+        }
+      }
+    }
+
+    drawFinder(0, 0);
+    drawFinder(0, modules - 7);
+    drawFinder(modules - 7, 0);
+
+    const alignCoords = [6, 30, 58, 86];
+    for (let ir of alignCoords) {
+      for (let ic of alignCoords) {
+        if (!((ir === 6 && ic === 6) || (ir === 6 && ic === 86) || (ir === 86 && ic === 6))) {
+          drawAlignment(ir, ic);
+        }
+      }
+    }
+
+    for (let i = 8; i < modules - 8; i++) {
+      reserved[6][i] = true;
+      reserved[i][6] = true;
+      if (i % 2 === 0) {
+        ctx.fillRect(Math.floor(i * cell), Math.floor(6 * cell), Math.ceil(cell), Math.ceil(cell));
+        ctx.fillRect(Math.floor(6 * cell), Math.floor(i * cell), Math.ceil(cell), Math.ceil(cell));
+      }
+    }
+
+    let hash = 2166136261;
+    for (let i = 0; i < seedString.length; i++) {
+      hash ^= seedString.charCodeAt(i);
+      hash = Math.imul(hash, 16777619);
+    }
+
+    for (let r = 0; r < modules; r++) {
+      for (let c = 0; c < modules; c++) {
+        if (!reserved[r][c]) {
+          hash ^= (r * 193 + c * 1097) + seedString.charCodeAt((r * 7 + c) % seedString.length);
+          hash = Math.imul(hash ^ (hash >>> 16), 2246822507);
+          hash = Math.imul(hash ^ (hash >>> 13), 3266489909);
+          if ((Math.abs(hash) % 100) < 52) {
+            ctx.fillRect(Math.floor(c * cell), Math.floor(r * cell), Math.ceil(cell), Math.ceil(cell));
+          }
+        }
+      }
+    }
+  }
+
+  // Initial background sync on page load
+  fetchAllApplicationsFromCloud();
+</script>
+
+</body>
+</html>
