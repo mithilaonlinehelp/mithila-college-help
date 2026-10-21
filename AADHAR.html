@@ -375,7 +375,7 @@
   .id-card {
     width: 85.60mm;
     height: 53.98mm;
-    background-color: #f9fafb; /* Card background same as header style */
+    background-color: #ffffff; /* Pure white matching Aadhaar card & header */
     border: 1px solid #b5b5b5;
     border-radius: 3.18mm;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
@@ -394,6 +394,7 @@
     padding: 0;
     height: 36px;
     width: 100%;
+    background-color: #ffffff;
     overflow: hidden;
   }
 
@@ -411,6 +412,7 @@
     flex: 1;
     position: relative;
     align-items: flex-start;
+    background-color: #ffffff;
   }
 
   .vertical-issue-box {
@@ -437,7 +439,7 @@
     width: 20mm;   /* Updated to exactly 20mm width */
     height: 25mm;  /* Updated to exactly 25mm height */
     border: 1px solid #777;
-    background: #f9fafb;
+    background: #ffffff;
     flex-shrink: 0;
     overflow: hidden;
     margin-top: 1px;
@@ -487,7 +489,7 @@
   .front-qr-box {
     width: 66px;
     height: 66px;
-    background: #f9fafb;
+    background: #ffffff;
     padding: 1px;
     display: flex;
     justify-content: center;
@@ -506,6 +508,7 @@
     gap: 4px;
     flex: 1;
     justify-content: space-between;
+    background-color: #ffffff;
   }
 
   .vertical-print-box {
@@ -555,7 +558,7 @@
   .back-qr-box {
     width: 98px;
     height: 98px;
-    background: #f9fafb;
+    background: #ffffff;
     padding: 1px;
     display: flex;
     justify-content: center;
@@ -571,6 +574,7 @@
   .card-footer {
     width: 100%;
     text-align: center;
+    background-color: #ffffff;
   }
 
   .uid-vid-block {
@@ -700,6 +704,7 @@
     .id-card {
       width: 85.60mm !important;
       height: 53.98mm !important;
+      background-color: #ffffff !important;
       box-shadow: none !important;
       border: 0.6pt solid #888 !important;
       border-radius: 3.18mm !important;
@@ -1821,7 +1826,7 @@
     const size = canvas.width;
     const cell = size / modules;
 
-    ctx.fillStyle = "#f9fafb";
+    ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, size, size);
     ctx.fillStyle = "#000000";
 
